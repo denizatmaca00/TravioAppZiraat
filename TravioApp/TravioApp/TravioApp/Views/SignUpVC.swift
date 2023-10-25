@@ -76,7 +76,6 @@ class SignUpVC: UIViewController {
     
     @objc func updateUserInfo() -> Bool
     {
-       print("Update user info in SignUpVC")
        let authenticate:Bool = checkPassMatch()
        
        if authenticate == true
@@ -92,7 +91,6 @@ class SignUpVC: UIViewController {
        
     @objc func signUpUser()
     {
-        print("triga")
         let isAuthenticated = updateUserInfo()
 
         if isAuthenticated
