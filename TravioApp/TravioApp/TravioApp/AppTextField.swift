@@ -52,7 +52,7 @@ class AppTextField: UIView {
             return loginTitleLbl
         }()
 
-        private lazy var loginTextField: UITextField = {
+         lazy var loginTextField: UITextField = {
             let loginTextField = UITextField()
             loginTextField.placeholder = data?.placeholder
             return loginTextField
@@ -69,6 +69,10 @@ class AppTextField: UIView {
             stackView.backgroundColor = UIColor(named: "textColorReversed")
             return stackView
         }()
+    
+    public func getLoginTextFieldText() -> String? {
+           return loginTextField.text
+       }
 
         init(data: UserData) {
             super.init(frame: .zero)
