@@ -6,7 +6,7 @@ import SnapKit
 
 class LoginViewController: UIViewController {
 
-// git için deneme
+
     private lazy var welcomeLabel: UILabel = {
         let wlcLabel = UILabel()
         wlcLabel.text = "Welcome to Travio"
@@ -38,6 +38,8 @@ class LoginViewController: UIViewController {
         loginButton.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 16)
         loginButton.backgroundColor = UIColor(named: "backgroundColor")
         loginButton.layer.cornerRadius = 12
+        loginButton.addTarget(self, action: #selector(btnLoginTapped), for: .touchUpInside)
+
         return loginButton
     }()
     
@@ -76,6 +78,16 @@ class LoginViewController: UIViewController {
         let vc = SignUpVC()
         self.navigationController?.pushViewController(vc, animated: true)
         
+        
+    }
+
+    @objc func btnLoginTapped(){
+        if let emailText = stackViewMain.subviews.compactMap({ $0 as? AppTextField })[0].getLoginTextFieldText() {
+                print(emailText)
+            }
+        if let passwordText = stackViewMain.subviews.compactMap({ $0 as? AppTextField })[1].getLoginTextFieldText() {
+                print(passwordText)
+            }
     }
     
     
