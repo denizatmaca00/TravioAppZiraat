@@ -52,7 +52,7 @@ class AppTextField: UIView {
             return loginTitleLbl
         }()
 
-         lazy var loginTextField: UITextField = {
+        private lazy var loginTextField: UITextField = {
             let loginTextField = UITextField()
             loginTextField.placeholder = data?.placeholder
             return loginTextField
