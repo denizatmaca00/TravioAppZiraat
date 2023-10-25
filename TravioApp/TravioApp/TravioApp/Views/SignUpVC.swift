@@ -13,10 +13,15 @@ class SignUpVC: UIViewController {
     
     //var userDelegator:UserDataDelegator?
     
-    private lazy var txtUsername = AppTextField(data: .username)
-    private lazy var txtEmail = AppTextField(data: .email)
-    private lazy var txtPassword = AppTextField(data: .password)
-    private lazy var txtPasswordConfirm = AppTextField(data: .passwordConfirm)
+    private lazy var viewUsername = AppTextField(data: .username)
+    private lazy var viewMail = AppTextField(data: .email)
+    private lazy var viewPass = AppTextField(data: .password)
+    private lazy var viewPassConfirm = AppTextField(data: .passwordConfirm)
+    
+    private lazy var txtUsername = viewUsername.getTFAsObject()
+    private lazy var txtEmail = viewMail.getTFAsObject()
+    private lazy var txtPassword = viewPass.getTFAsObject()
+    private lazy var txtPasswordConfirm = viewPassConfirm.getTFAsObject()
     
     private lazy var contentViewBig: UIView = {
         let view = UIView()
@@ -34,6 +39,7 @@ class SignUpVC: UIViewController {
         stackViews.spacing = 24
         return stackViews
     }()
+    
     private lazy var signUpButton: UIButton = {
         let signUpButton = AppButton()
         signUpButton.setTitle("Sign Up", for: .normal)
@@ -44,6 +50,7 @@ class SignUpVC: UIViewController {
         signUpButton.isEnabled = false
         return signUpButton
     }()
+    
     private lazy var leftBarButton: UIBarButtonItem = {
         let leftBarButton = UIBarButtonItem()
         leftBarButton.tintColor = .white
@@ -56,9 +63,14 @@ class SignUpVC: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        setupViews()
+
         // Do any additional setup after loading the view.
+        txtUsername.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
+        txtEmail.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
+        txtPassword.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
+        txtPasswordConfirm.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
         
+        setupViews()
     }
 
     
@@ -69,9 +81,9 @@ class SignUpVC: UIViewController {
        
        if authenticate == true
        {
-           self.signUpData.username = txtUsername.getLoginTextFieldText()
-           self.signUpData.mail = txtEmail.getLoginTextFieldText()
-           self.signUpData.password = txtPassword.getLoginTextFieldText()
+           self.signUpData.username = txtUsername.text
+           self.signUpData.mail = txtEmail.text
+           self.signUpData.password = txtPassword.text
            
            signUpButton.isEnabled = authenticate
        }
@@ -85,9 +97,8 @@ class SignUpVC: UIViewController {
 
         if isAuthenticated
         {
-           // buraya signUpData cinsinden kullanıcı verisi gelecek
+           // buraya signUpData cinsinden kullanıcı verisi gelecek, eskiden delegate ile yönetiliyordu şimdi NetworkHelper ile gerçekleştirilecek
            //userDelegator?.getUserData(params: signUpData)
-           print(signUpData)
            backButtonTapped()
         }
     }
@@ -106,9 +117,7 @@ class SignUpVC: UIViewController {
         contentViewBig.addSubview(stackViewMain)
         contentViewBig.addSubview(signUpButton)
         
-        
-        stackViewMain.addArrangedSubviews(txtUsername, txtEmail, txtPassword, txtPasswordConfirm)
-        
+        stackViewMain.addArrangedSubviews(viewUsername, viewMail, viewPass, viewPassConfirm)
         
         setupLayout()
     }
@@ -129,25 +138,20 @@ class SignUpVC: UIViewController {
             stack.trailing.equalToSuperview().offset(-24)
             stack.top.equalTo(contentViewBig.snp.top).offset(72)
         }
+        
         signUpButton.snp.makeConstraints({ btn in
             btn.bottom.equalTo(limits.bottom).offset(-23)
             btn.trailing.equalToSuperview().offset(-24)
             btn.leading.equalToSuperview().offset(24)
             btn.height.equalTo(54)
-            
         })
-        
-        
     }
-    
-    
 }
 
 extension SignUpVC:UITextFieldDelegate{
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String)->Bool
     {
-        // , shouldChangeCharactersIn range: NSRange, replacementString string: String
         if textField == txtEmail && textField.text?.count == 21
         {
             return false
@@ -156,7 +160,6 @@ extension SignUpVC:UITextFieldDelegate{
         {
             return false
         }
-        
         return true
     }
     
@@ -174,30 +177,27 @@ extension SignUpVC:UITextFieldDelegate{
         
         let isEmpty = checkIsEmpty()
         
-        if txtPassword.getLoginTextFieldText() == txtPasswordConfirm.getLoginTextFieldText() && isEmpty != false
+        if txtPassword.text == txtPasswordConfirm.text && isEmpty != false
         {
-            print("butonu aç")
             signUpButton.isEnabled = true
             return true
-            //return true
         }
         else{
-            print("butonu kapa")
             signUpButton.isEnabled = false
             return false}
     }
     
     func checkIsEmpty()->Bool?
     {
-        print("check if empty")
-        if txtUsername.getLoginTextFieldText() == "" || txtEmail.getLoginTextFieldText() == "" || txtPassword.getLoginTextFieldText() == "" || txtPasswordConfirm.getLoginTextFieldText() == ""
+        if txtUsername.text == "" || 
+            txtEmail.text == "" ||
+            txtPassword.text == "" || 
+            txtPasswordConfirm.text == ""
         {
-            print("boş")
             return false
         }
         else
         {
-            print("dolu")
             return true
         }
     }
