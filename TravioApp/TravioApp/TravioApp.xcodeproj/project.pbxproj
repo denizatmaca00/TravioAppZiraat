@@ -20,6 +20,7 @@
 		0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829872AE9123C00B2EBDE /* AppTextField.swift */; };
 		0F78298B2AE912AA00B2EBDE /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */; };
 		0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */; };
+		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		0F7829872AE9123C00B2EBDE /* AppTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextField.swift; sourceTree = "<group>"; };
 		0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReenieBeanie-Regular.ttf"; sourceTree = "<group>"; };
+		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 		0F7829662AE9113D00B2EBDE /* TravioApp */ = {
 			isa = PBXGroup;
 			children = (
+				EC4D832A2AE9279500D4936E /* AppButton.swift */,
 				0F78298D2AE912C100B2EBDE /* Fonts */,
 				0F7829832AE911F400B2EBDE /* LoginViewController.swift */,
 				0F7829842AE911F400B2EBDE /* SignUpVC.swift */,
@@ -181,6 +184,7 @@
 				0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,
 				0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */,
+				EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
