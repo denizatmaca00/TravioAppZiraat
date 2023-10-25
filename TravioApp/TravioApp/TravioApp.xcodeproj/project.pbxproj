@@ -21,6 +21,9 @@
 		0F78298B2AE912AA00B2EBDE /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */; };
 		0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */; };
 		0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A22AE92B0D00B2EBDE /* Router.swift */; };
+		5E388FB92AE93F1C002ABDBD /* NetworkingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FB82AE93F1C002ABDBD /* NetworkingHelper.swift */; };
+		5E388FBB2AE94071002ABDBD /* NetworkVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FBA2AE94071002ABDBD /* NetworkVM.swift */; };
+		5E388FBF2AE9431A002ABDBD /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FBE2AE9431A002ABDBD /* Structs.swift */; };
 		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +42,9 @@
 		0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReenieBeanie-Regular.ttf"; sourceTree = "<group>"; };
 		0F7829A22AE92B0D00B2EBDE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		5E388FB82AE93F1C002ABDBD /* NetworkingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingHelper.swift; sourceTree = "<group>"; };
+		5E388FBA2AE94071002ABDBD /* NetworkVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkVM.swift; sourceTree = "<group>"; };
+		5E388FBE2AE9431A002ABDBD /* Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +92,9 @@
 				0F7829812AE911A500B2EBDE /* Extensions.swift */,
 				0F7829872AE9123C00B2EBDE /* AppTextField.swift */,
 				0F7829A22AE92B0D00B2EBDE /* Router.swift */,
+				5E388FB82AE93F1C002ABDBD /* NetworkingHelper.swift */,
+				5E388FBA2AE94071002ABDBD /* NetworkVM.swift */,
+				5E388FBE2AE9431A002ABDBD /* Structs.swift */,
 			);
 			path = TravioApp;
 			sourceTree = "<group>";
@@ -188,13 +197,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E388FBF2AE9431A002ABDBD /* Structs.swift in Sources */,
 				0F78296C2AE9113D00B2EBDE /* ViewController.swift in Sources */,
 				0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */,
 				0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */,
 				0F7829852AE911F400B2EBDE /* LoginViewController.swift in Sources */,
 				0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */,
+				5E388FB92AE93F1C002ABDBD /* NetworkingHelper.swift in Sources */,
 				0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,
+				5E388FBB2AE94071002ABDBD /* NetworkVM.swift in Sources */,
 				0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */,
 				EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */,
 			);
