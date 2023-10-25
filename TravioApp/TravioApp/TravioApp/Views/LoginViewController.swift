@@ -17,7 +17,7 @@ class LoginViewController: UIViewController {
 
     private lazy var contentViewBig: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "LoginBigViewColor")
+        view.backgroundColor = UIColor(named: "viewBackgroundColor")
         view.clipsToBounds = true
         view.layer.cornerRadius = 80
         view.layer.maskedCorners = [.layerMinXMinYCorner]
@@ -26,17 +26,17 @@ class LoginViewController: UIViewController {
 
     private lazy var stackViewMain: UIStackView = {
         let stackViews = UIStackView()
-        stackViews.backgroundColor = UIColor(named: "LoginBigViewColor")
+        stackViews.backgroundColor = UIColor(named: "viewBackgroundColor")
         stackViews.axis = .vertical
         stackViews.spacing = 24
         return stackViews
     }()
     
     private lazy var loginBtn : UIButton = {
-        let loginButton = UIButton()
+        let loginButton = AppButton()
         loginButton.setTitle("Login", for: .normal)
         loginButton.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 16)
-        loginButton.backgroundColor = UIColor(named: "BackgroundColor")
+        loginButton.backgroundColor = UIColor(named: "backgroundColor")
         loginButton.layer.cornerRadius = 12
         return loginButton
     }()
@@ -59,6 +59,7 @@ class LoginViewController: UIViewController {
         b.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 14)
         b.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         b.setTitleColor(.black, for: .normal)
+        b.addTarget(self, action: #selector(btnSignUpTapped), for: .touchUpInside)
         return b
         
     }()
@@ -68,16 +69,26 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
     }
+    
+    
+    @objc func btnSignUpTapped(){
+        
+        let vc = SignUpVC()
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
+    
     let imageView = UIImageView()
 
     func setupViews() {
         
-        imageView.image = UIImage(named: "TravioLogo")
+        imageView.image = UIImage(named: "AppLogo")
        // imageView.frame = CGRect(x: 120, y: 64, width:149, height: 178)
         self.view.addSubview(imageView)
 
         
-        self.view.backgroundColor = UIColor(named: "BackgroundColor")
+        self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubview(contentViewBig)
         contentViewBig.addSubview(welcomeLabel)
         contentViewBig.addSubview(stackViewMain)
