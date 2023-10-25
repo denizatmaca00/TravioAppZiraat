@@ -66,7 +66,7 @@ class AppTextField: UIView {
             stackView.layer.borderColor = UIColor.black.cgColor
             stackView.layer.shadowRadius = 20
             stackView.layer.shadowOpacity = 0.15
-            stackView.backgroundColor = UIColor(named: "TextFieldsViewColor")
+            stackView.backgroundColor = UIColor(named: "textColorReversed")
             return stackView
         }()
 
