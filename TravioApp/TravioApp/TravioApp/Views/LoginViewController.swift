@@ -108,43 +108,44 @@ class LoginViewController: UIViewController {
         contentViewBig.addSubview(lblNameText)
         contentViewBig.addSubview(btnSignUp)
 
-        stackViewMain.addArrangedSubview(AppTextField(data: .email))
-        stackViewMain.addArrangedSubview(AppTextField(data: .password))
+        stackViewMain.addArrangedSubview(viewMail)
+        stackViewMain.addArrangedSubview(viewPass)
 
         setupLayout()
     }
 
     func setupLayout() {
-        contentViewBig.snp.makeConstraints { view in
+        contentViewBig.snp.makeConstraints ({ view in
             view.height.equalToSuperview().multipliedBy(0.7)
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
             view.bottom.equalToSuperview()
-        }
+        })
 
-        welcomeLabel.snp.makeConstraints { lbl in
+        welcomeLabel.snp.makeConstraints ({ lbl in
             lbl.leading.equalToSuperview().offset(82)
             lbl.trailing.equalToSuperview().offset(-82)
             lbl.top.equalTo(contentViewBig).offset(64)
-        }
+        })
 
-        stackViewMain.snp.makeConstraints { stack in
+        stackViewMain.snp.makeConstraints ({ stack in
             stack.leading.equalToSuperview().offset(24)
             stack.trailing.equalToSuperview().offset(-24)
             stack.top.equalTo(welcomeLabel.snp.bottom).offset(41)
-        }
+        })
         
         loginBtn.snp.makeConstraints({ btn in
             btn.leading.equalToSuperview().offset(24)
             btn.trailing.equalToSuperview().offset(-24)
             btn.bottom.equalTo(contentViewBig).inset(183)
             btn.height.equalTo(54)
-            
         })
+        
         lblNameText.snp.makeConstraints({lbl in
             lbl.bottom.equalTo(contentViewBig).inset(21)
             lbl.leading.equalTo(contentViewBig).inset(74)
         })
+        
         btnSignUp.snp.makeConstraints({btn in
             btn.leading.equalTo(lblNameText.snp.trailing).offset(2)
             btn.centerY.equalTo(lblNameText)
@@ -155,6 +156,46 @@ class LoginViewController: UIViewController {
             img.leading.equalToSuperview().offset(120)
             img.trailing.equalToSuperview().offset(-121)
         })
+    }
+}
 
+extension LoginViewController:UITextFieldDelegate{
+    
+    func validateInfo(_ textField: UITextField)->Bool
+    {
+        if textField == txtEmail && textField.text?.count == 21
+        {
+            return false
+        }
+        
+        else if textField == txtPassword && textField.text?.count == 21
+        {
+            return false
+        }
+        
+        return true
+    }
+    
+    func authenticateUser(_ isLogin:Bool)
+    {
+        switch isLogin {
+        case true:
+            let vc = VisitsVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        
+        case false:
+            self.showAlert(title: "Error", message: "Wrong mail or password.")
+        }
+    }
+    
+    func checkIsEmpty()->Bool
+    {
+        if txtEmail.text == "" || txtPassword.text == "" {
+            self.showAlert(title: "Warning", message: "Please type both Email and Password.")
+            return true
+        }
+        else{
+            return false
+        }
     }
 }
