@@ -198,6 +198,9 @@ extension SignUpVC:UITextFieldDelegate{
         {
             return false
         }
+        else if txtPassword.text!.count < 6 {
+            return false
+        }
         else
         {
             return true

@@ -14,4 +14,7 @@ struct Users:Codable {
     var password: String
     var id:String
 }
-
+struct Tokens: Codable {
+    var accessToken: String?
+    var refreshToken: String?
+}

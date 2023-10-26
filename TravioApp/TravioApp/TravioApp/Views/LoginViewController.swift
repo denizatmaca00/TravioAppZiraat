@@ -4,13 +4,17 @@ import SnapKit
 
 
 
-class LoginViewController: UIViewController {
+
+class LoginViewController: UIViewController, ViewModelDelegate {
 
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var viewPass = AppTextField(data: .password)
     
     private lazy var txtEmail = viewMail.getTFAsObject()
     private lazy var txtPassword = viewPass.getTFAsObject()
+    
+    var viewModel = NetworkVM()
+
 
     private lazy var welcomeLabel: UILabel = {
         let wlcLabel = UILabel()
@@ -75,6 +79,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        viewModel.showAlertClosure = { [weak self] title, message in
+            self?.showAlert(title: title, message: message)
+        }
     }
     
     
@@ -86,9 +93,30 @@ class LoginViewController: UIViewController {
         
     }
 
-    @objc func btnLoginTapped(){
-                        
+    @objc func btnLoginTapped() {
+        guard let email = txtEmail.text  else { return }
+        guard let password = txtPassword.text  else { return }
+        viewModel.getUserData(email: email, password: password) {[self]  result in
+            switch result {
+            case .success:
+                let vc = VisitsVC()
+                navigationController?.pushViewController(vc, animated: true)
+            case .failure(_):
+                if email.isEmpty && password.isEmpty {
+                    viewModel.showAlertClosure?("Hata", "Email ve şifre alanları boş bırakılmaz")
+                }else if email.isEmpty {
+                    viewModel.showAlertClosure?("Hata", "Email alanı boş bırakılmaz")
+                }else if password.isEmpty{
+                    viewModel.showAlertClosure?("Hata", "Şifre alanı boş bırakılmaz")
+                }else{
+                    viewModel.showAlertClosure?("Hata", "Email veya şifre hatalı")
+
+                }
+            }
+        }
     }
+
+    
     
     
     let imageView = UIImageView()
@@ -199,3 +227,4 @@ extension LoginViewController:UITextFieldDelegate{
         }
     }
 }
+

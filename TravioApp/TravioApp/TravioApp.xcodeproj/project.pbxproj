@@ -21,6 +21,7 @@
 		0F78298B2AE912AA00B2EBDE /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */; };
 		0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */; };
 		0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A22AE92B0D00B2EBDE /* Router.swift */; };
+		0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A62AEA7FF600B2EBDE /* Protocol.swift */; };
 		5E388FC22AEA5193002ABDBD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC12AEA5193002ABDBD /* UserModel.swift */; };
 		5E388FC42AEA51BA002ABDBD /* NetworkVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC32AEA51BA002ABDBD /* NetworkVM.swift */; };
 		5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */; };
@@ -44,6 +45,7 @@
 		0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReenieBeanie-Regular.ttf"; sourceTree = "<group>"; };
 		0F7829A22AE92B0D00B2EBDE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		0F7829A62AEA7FF600B2EBDE /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		5E388FC12AEA5193002ABDBD /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		5E388FC32AEA51BA002ABDBD /* NetworkVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkVM.swift; sourceTree = "<group>"; };
 		5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingHelper.swift; sourceTree = "<group>"; };
@@ -84,11 +86,11 @@
 		0F7829662AE9113D00B2EBDE /* TravioApp */ = {
 			isa = PBXGroup;
 			children = (
-				5E388FC02AEA5151002ABDBD /* Neyworking */,
+				0F78298D2AE912C100B2EBDE /* Fonts */,
+				5E388FC02AEA5151002ABDBD /* Networking */,
 				0F7829A12AE92A1D00B2EBDE /* Views */,
 				EC4D832A2AE9279500D4936E /* AppButton.swift */,
 				ECC8C5D12AEA448F001ED067 /* AppAlert.swift */,
-				0F78298D2AE912C100B2EBDE /* Fonts */,
 				0F7829672AE9113D00B2EBDE /* AppDelegate.swift */,
 				0F7829692AE9113D00B2EBDE /* SceneDelegate.swift */,
 				0F78296B2AE9113D00B2EBDE /* ViewController.swift */,
@@ -98,6 +100,7 @@
 				0F7829812AE911A500B2EBDE /* Extensions.swift */,
 				0F7829872AE9123C00B2EBDE /* AppTextField.swift */,
 				0F7829A22AE92B0D00B2EBDE /* Router.swift */,
+				0F7829A62AEA7FF600B2EBDE /* Protocol.swift */,
 			);
 			path = TravioApp;
 			sourceTree = "<group>";
@@ -121,14 +124,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		5E388FC02AEA5151002ABDBD /* Neyworking */ = {
+		5E388FC02AEA5151002ABDBD /* Networking */ = {
 			isa = PBXGroup;
 			children = (
 				5E388FC12AEA5193002ABDBD /* UserModel.swift */,
 				5E388FC32AEA51BA002ABDBD /* NetworkVM.swift */,
 				5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */,
 			);
-			path = Neyworking;
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +228,7 @@
 				5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */,
 				5E388FC22AEA5193002ABDBD /* UserModel.swift in Sources */,
 				EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */,
+				0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
