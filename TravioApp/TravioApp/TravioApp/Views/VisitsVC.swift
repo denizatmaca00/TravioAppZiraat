@@ -14,11 +14,22 @@ class VisitsVC: UIViewController {
     
     //MARK: -- Properties
     
-
+    private var favorites: [Landmark] = [Landmark]()
+    
+    
+    
+    private lazy var lblHeader:UILabel = {
+        let lbl = UILabel()
+        lbl.text = "My Visits"
+        lbl.font = UIFont(name: "Poppins-Bold", size: 36)
+        lbl.textColor = UIColor(named: "textColorReversed")
+        
+        return lbl
+    }()
     
     //MARK: -- Views
     
-    private lazy var contentView : UIView = {
+    private lazy var contentViewBig : UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "viewBackgroundColor")
         view.clipsToBounds = true
@@ -28,6 +39,15 @@ class VisitsVC: UIViewController {
         return view
     }()
     
+    private lazy var tableView:UITableView = {
+        let tv = UITableView()
+        
+        tv.register(UITableViewCell.self, forCellReuseIdentifier: "favoritesCell")
+        tv.delegate = self
+        tv.dataSource = self
+        
+        return tv
+    }()
     
     //MARK: -- Life Cycles
     override func viewDidLoad() {
@@ -46,18 +66,81 @@ class VisitsVC: UIViewController {
     //MARK: -- UI Methods
     func setupViews() {
         // Add here the setup for the UI
-        self.view.addSubviews()
+        self.view.backgroundColor = UIColor(named: "backgroundColor")
         
+        self.view.addSubviews(lblHeader, contentViewBig)
+        
+        contentViewBig.addSubview(tableView)
         setupLayout()
     }
     
     func setupLayout() {
-        // Add here the setup for layout
         
+        let limits = self.view.safeAreaLayoutGuide.snp
+        
+        // Add here the setup for layout
+        lblHeader.snp.makeConstraints({l in
+            //l.top.equalTo(limits.top).offset(0)
+            l.top.equalToSuperview().offset(48)
+            l.leading.equalToSuperview().offset(24)
+            l.trailing.equalToSuperview()
+        })
+        
+        contentViewBig.snp.makeConstraints({ cv in
+
+            cv.leading.equalToSuperview()
+            cv.trailing.equalToSuperview()
+            cv.height.equalToSuperview().multipliedBy(0.8)
+            cv.bottom.equalToSuperview()
+            
+        })
+        
+        tableView.snp.makeConstraints({ tv in
+            tv.top.equalToSuperview()
+            tv.leading.equalToSuperview()
+            tv.width.equalToSuperview()
+        })
     }
     
 }
 
-#Preview {
-    return VisitsVC()
+extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "favoritesCell", for: indexPath)
+        let fav = favorites[indexPath.row]
+        //cell.fillCell(favorite: favorite)
+        return cell
+    }
+    
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
 }
+
+struct Landmark{
+    var title:String?
+    var name:String?
+    var image:UIImageView?
+    var description:String?
+    let date:Date
+    
+}
+
+#if DEBUG
+import SwiftUI
+
+@available(iOS 13, *)
+struct VisitsVC_Preview: PreviewProvider {
+    static var previews: some View{
+        
+        VisitsVC().showPreview()
+    }
+}
+#endif
