@@ -18,7 +18,6 @@ class CustomVisitCellVC: UITableViewCell {
         pn.text = "PlaceName"
         pn.textColor = .white
         pn.numberOfLines = 1
-        //pn.backgroundColor = .systemBlue
         return pn
     }()
     
@@ -29,7 +28,6 @@ class CustomVisitCellVC: UITableViewCell {
         cn.text = "CountryName"
         cn.textColor = .white
         cn.numberOfLines = 1
-        //cn.backgroundColor = .systemBlue
         return cn
     }()
     
@@ -41,11 +39,14 @@ class CustomVisitCellVC: UITableViewCell {
     }()
     
     private lazy var imageLocation:UIImageView = {
-       let img = UIImageView()
-       //img.image = UIImage(named: "")
+        var img = UIImageView()
         img.image = UIImage(named: "deneme")
         img.contentMode = .scaleToFill
-       return img
+     
+        let tappedGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        imageView?.addGestureRecognizer(tappedGesture)
+        imageView?.isUserInteractionEnabled = true
+        return img
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -58,6 +59,9 @@ class CustomVisitCellVC: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func imageTapped(){
+     //detail page opens
+    }
     func setupViews() {
 
         self.contentView.addSubviews(imageLocation,placeName,iconLocation,countryName)
