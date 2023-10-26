@@ -86,9 +86,24 @@ class LoginViewController: UIViewController {
         
     }
 
+<<<<<<< HEAD
     @objc func btnLoginTapped(){
                         
+=======
+    @objc func btnLoginTapped() {
+        stackViewMain.subviews.compactMap({ $0 as? AppTextField }).forEach { textField in
+            if let text = textField.getLoginTextFieldText() {
+                if text ==  "" {
+                    print("boş bırakmazsın")
+
+                }else{
+                    print(text)
+                }
+            }
+        }
+>>>>>>> 420bff05bdf5e24e4255e229ca11544f4fb5cd95
     }
+
     
     
     let imageView = UIImageView()

@@ -46,8 +46,10 @@ class SignUpVC: UIViewController {
         signUpButton.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 16)
         signUpButton.backgroundColor = UIColor(named: "backgroundColor")
         signUpButton.layer.cornerRadius = 12
+        signUpButton.addTarget(self, action: #selector(btnSignUpClick), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(signUpUser), for: .touchUpInside)
         signUpButton.isEnabled = false
+>>>>>>> 84d71f878c32b76220d3205ecacb6bc1282a53c2
         return signUpButton
     }()
     
@@ -104,6 +106,12 @@ class SignUpVC: UIViewController {
     @objc func backButtonTapped(){
         self.navigationController?.popViewController(animated: true)
     }
+    
+        @objc func btnSignUpClick(){
+    
+        
+    }
+    
     
     func setupViews() {
         
