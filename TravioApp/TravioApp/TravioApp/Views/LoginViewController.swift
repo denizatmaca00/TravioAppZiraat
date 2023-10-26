@@ -15,7 +15,12 @@ class LoginViewController: UIViewController, ViewModelDelegate {
     
     var viewModel = NetworkVM()
 
-
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "AppLogo")
+        return imageView
+    }()
+    
     private lazy var welcomeLabel: UILabel = {
         let wlcLabel = UILabel()
         wlcLabel.text = "Welcome to Travio"
@@ -74,7 +79,6 @@ class LoginViewController: UIViewController, ViewModelDelegate {
         return b
         
     }()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,13 +88,9 @@ class LoginViewController: UIViewController, ViewModelDelegate {
         }
     }
     
-    
     @objc func btnSignUpTapped(){
-        
         let vc = SignUpVC()
         self.navigationController?.pushViewController(vc, animated: true)
-        
-        
     }
 
     @objc func btnLoginTapped() {
@@ -110,35 +110,19 @@ class LoginViewController: UIViewController, ViewModelDelegate {
                     viewModel.showAlertClosure?("Hata", "Şifre alanı boş bırakılmaz")
                 }else{
                     viewModel.showAlertClosure?("Hata", "Email veya şifre hatalı")
-
                 }
             }
         }
     }
 
-    
-    
-    
-    let imageView = UIImageView()
-
     func setupViews() {
         
-        imageView.image = UIImage(named: "AppLogo")
-       // imageView.frame = CGRect(x: 120, y: 64, width:149, height: 178)
         self.view.addSubview(imageView)
-
-        
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubview(contentViewBig)
-        contentViewBig.addSubview(welcomeLabel)
-        contentViewBig.addSubview(stackViewMain)
-        contentViewBig.addSubview(loginBtn)
-        contentViewBig.addSubview(lblNameText)
-        contentViewBig.addSubview(btnSignUp)
+        contentViewBig.addSubviews(welcomeLabel, stackViewMain, loginBtn, lblNameText, btnSignUp)
 
-        stackViewMain.addArrangedSubview(viewMail)
-        stackViewMain.addArrangedSubview(viewPass)
-
+        stackViewMain.addArrangedSubviews(viewMail, viewPass)
         setupLayout()
     }
 
@@ -186,45 +170,3 @@ class LoginViewController: UIViewController, ViewModelDelegate {
         })
     }
 }
-
-extension LoginViewController:UITextFieldDelegate{
-    
-    func validateInfo(_ textField: UITextField)->Bool
-    {
-        if textField == txtEmail && textField.text?.count == 21
-        {
-            return false
-        }
-        
-        else if textField == txtPassword && textField.text?.count == 21
-        {
-            return false
-        }
-        
-        return true
-    }
-    
-    func authenticateUser(_ isLogin:Bool)
-    {
-        switch isLogin {
-        case true:
-            let vc = VisitsVC()
-            self.navigationController?.pushViewController(vc, animated: true)
-        
-        case false:
-            self.showAlert(title: "Error", message: "Wrong mail or password.")
-        }
-    }
-    
-    func checkIsEmpty()->Bool
-    {
-        if txtEmail.text == "" || txtPassword.text == "" {
-            self.showAlert(title: "Warning", message: "Please type both Email and Password.")
-            return true
-        }
-        else{
-            return false
-        }
-    }
-}
-
