@@ -11,6 +11,8 @@ class SignUpVC: UIViewController {
     
     var signUpData:User = User()
     
+    var viewModel = NetworkVM()
+    
     //var userDelegator:UserDataDelegator?
     
     private lazy var viewUsername = AppTextField(data: .username)
@@ -98,6 +100,8 @@ class SignUpVC: UIViewController {
            // buraya signUpData cinsinden kullanıcı verisi gelecek, eskiden delegate ile yönetiliyordu şimdi NetworkHelper ile gerçekleştirilecek
            //userDelegator?.getUserData(params: signUpData)
            backButtonTapped()
+            
+            viewModel.postUserData(name: txtUsername.text, email: txtEmail.text, password: txtPassword.text)
         }
     }
     

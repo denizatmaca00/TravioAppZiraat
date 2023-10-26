@@ -46,7 +46,3 @@ class VisitsVC: UIViewController {
     }
   
 }
-
-#Preview {
-    return VisitsVC()
-}
