@@ -24,6 +24,10 @@
 		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
 		ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */; };
+		ECC8C5D82AEA5F92001ED067 /* VisitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D72AEA5F92001ED067 /* VisitsViewModel.swift */; };
+		ECC8C5DA2AEA678C001ED067 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5D92AEA678C001ED067 /* Poppins-Bold.ttf */; };
+		ECC8C5DD2AEA8319001ED067 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */; };
+		ECC8C5DE2AEA8319001ED067 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5DC2AEA8319001ED067 /* Poppins-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +48,10 @@
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
+		ECC8C5D72AEA5F92001ED067 /* VisitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsViewModel.swift; sourceTree = "<group>"; };
+		ECC8C5D92AEA678C001ED067 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		ECC8C5DC2AEA8319001ED067 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +106,11 @@
 		0F78298D2AE912C100B2EBDE /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */,
+				ECC8C5DC2AEA8319001ED067 /* Poppins-SemiBold.ttf */,
 				0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */,
 				0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */,
+				ECC8C5D92AEA678C001ED067 /* Poppins-Bold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -110,6 +121,7 @@
 				0F7829842AE911F400B2EBDE /* SignUpVC.swift */,
 				0F7829832AE911F400B2EBDE /* LoginViewController.swift */,
 				ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */,
+				ECC8C5D72AEA5F92001ED067 /* VisitsViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -181,7 +193,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F78298B2AE912AA00B2EBDE /* Poppins-Regular.ttf in Resources */,
+				ECC8C5DE2AEA8319001ED067 /* Poppins-SemiBold.ttf in Resources */,
 				0F7829742AE9113E00B2EBDE /* LaunchScreen.storyboard in Resources */,
+				ECC8C5DA2AEA678C001ED067 /* Poppins-Bold.ttf in Resources */,
+				ECC8C5DD2AEA8319001ED067 /* Poppins-Medium.ttf in Resources */,
 				0F7829712AE9113E00B2EBDE /* Assets.xcassets in Resources */,
 				0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */,
 			);
@@ -196,6 +211,7 @@
 			files = (
 				0F78296C2AE9113D00B2EBDE /* ViewController.swift in Sources */,
 				ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */,
+				ECC8C5D82AEA5F92001ED067 /* VisitsViewModel.swift in Sources */,
 				0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */,
 				0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */,
 				0F7829852AE911F400B2EBDE /* LoginViewController.swift in Sources */,
