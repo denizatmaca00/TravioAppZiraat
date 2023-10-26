@@ -56,7 +56,7 @@ class SignUpVC: UIViewController {
         leftBarButton.tintColor = .white
         leftBarButton.image = UIImage(named: "leftArrow")
         leftBarButton.target = self
-        leftBarButton.action = #selector(signUpUser)
+        leftBarButton.action = #selector(backButtonTapped)
         return leftBarButton
     }()
     

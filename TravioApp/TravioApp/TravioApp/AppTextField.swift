@@ -44,7 +44,7 @@ class AppTextField: UIView {
     
     private var data: UserData?
 
-    private lazy var loginTitleLbl: UILabel = {
+    private lazy var titleLbl: UILabel = {
         let loginTitleLbl = UILabel()
         loginTitleLbl.text = data?.title
         loginTitleLbl.textColor = .black
@@ -52,7 +52,7 @@ class AppTextField: UIView {
         return loginTitleLbl
     }()
 
-    lazy var loginTextField: UITextField = {
+    lazy var textField: UITextField = {
         let loginTextField = UITextField()
         loginTextField.placeholder = data?.placeholder
         return loginTextField
@@ -70,11 +70,11 @@ class AppTextField: UIView {
         return stackView
     }()
 
-    public func getLoginTextFieldText() -> String? {
-        return loginTextField.text
-   }
+//    public func getLoginTextFieldText() -> String? {
+//        return loginTextField.text
+//   }
     public func getTFAsObject()->UITextField{
-        return loginTextField
+        return textField
     }
 
     init(data: UserData) {
@@ -89,8 +89,8 @@ class AppTextField: UIView {
     
     private func setupViews() {
  
-        stackView.addArrangedSubview(loginTitleLbl)
-        stackView.addArrangedSubview(loginTextField)
+        stackView.addArrangedSubview(titleLbl)
+        stackView.addArrangedSubview(textField)
         
         addSubview(stackView)
         setupLayout()
@@ -102,12 +102,12 @@ class AppTextField: UIView {
             stack.edges.equalToSuperview()
             stack.height.equalTo(74)
         })
-        loginTitleLbl.snp.makeConstraints({ lbl in
+        titleLbl.snp.makeConstraints({ lbl in
             lbl.top.equalTo(stackView).offset(8)
             lbl.leading.equalToSuperview().offset(12)
         })
-        loginTextField.snp.makeConstraints({tf in
-            tf.top.equalTo(loginTitleLbl.snp.bottom).offset(8)
+        textField.snp.makeConstraints({tf in
+            tf.top.equalTo(titleLbl.snp.bottom).offset(8)
         })
     }
 }

@@ -6,6 +6,11 @@ import SnapKit
 
 class LoginViewController: UIViewController {
 
+    private lazy var viewMail = AppTextField(data: .email)
+    private lazy var viewPass = AppTextField(data: .password)
+    
+    private lazy var txtEmail = viewMail.getTFAsObject()
+    private lazy var txtPassword = viewPass.getTFAsObject()
 
     private lazy var welcomeLabel: UILabel = {
         let wlcLabel = UILabel()
@@ -82,12 +87,7 @@ class LoginViewController: UIViewController {
     }
 
     @objc func btnLoginTapped(){
-        if let emailText = stackViewMain.subviews.compactMap({ $0 as? AppTextField })[0].getLoginTextFieldText() {
-                print(emailText)
-            }
-        if let passwordText = stackViewMain.subviews.compactMap({ $0 as? AppTextField })[1].getLoginTextFieldText() {
-                print(passwordText)
-            }
+                        
     }
     
     
