@@ -21,6 +21,8 @@
 		0F78298B2AE912AA00B2EBDE /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */; };
 		0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */; };
 		0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A22AE92B0D00B2EBDE /* Router.swift */; };
+		5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */; };
+		5E388FCD2AEA680C002ABDBD /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 5E388FCC2AEA680C002ABDBD /* TinyConstraints */; };
 		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
 		ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */; };
@@ -44,6 +46,7 @@
 		0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReenieBeanie-Regular.ttf"; sourceTree = "<group>"; };
 		0F7829A22AE92B0D00B2EBDE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisitCellVC.swift; sourceTree = "<group>"; };
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
@@ -59,6 +62,7 @@
 			files = (
 				0F78297D2AE9116800B2EBDE /* SnapKit in Frameworks */,
 				0F7829802AE9117300B2EBDE /* Alamofire in Frameworks */,
+				5E388FCD2AEA680C002ABDBD /* TinyConstraints in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +123,7 @@
 				0F7829842AE911F400B2EBDE /* SignUpVC.swift */,
 				0F7829832AE911F400B2EBDE /* LoginViewController.swift */,
 				ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */,
+				5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -142,6 +147,7 @@
 			packageProductDependencies = (
 				0F78297C2AE9116800B2EBDE /* SnapKit */,
 				0F78297F2AE9117300B2EBDE /* Alamofire */,
+				5E388FCC2AEA680C002ABDBD /* TinyConstraints */,
 			);
 			productName = TravioApp;
 			productReference = 0F7829642AE9113D00B2EBDE /* TravioApp.app */;
@@ -174,6 +180,7 @@
 			packageReferences = (
 				0F78297B2AE9116800B2EBDE /* XCRemoteSwiftPackageReference "SnapKit" */,
 				0F78297E2AE9117300B2EBDE /* XCRemoteSwiftPackageReference "Alamofire" */,
+				5E388FCB2AEA680C002ABDBD /* XCRemoteSwiftPackageReference "TinyConstraints" */,
 			);
 			productRefGroup = 0F7829652AE9113D00B2EBDE /* Products */;
 			projectDirPath = "";
@@ -211,6 +218,7 @@
 				0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */,
 				0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */,
 				0F7829852AE911F400B2EBDE /* LoginViewController.swift in Sources */,
+				5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */,
 				0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */,
 				0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,
@@ -442,6 +450,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		5E388FCB2AEA680C002ABDBD /* XCRemoteSwiftPackageReference "TinyConstraints" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/roberthein/TinyConstraints.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -454,6 +470,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0F78297E2AE9117300B2EBDE /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		5E388FCC2AEA680C002ABDBD /* TinyConstraints */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5E388FCB2AEA680C002ABDBD /* XCRemoteSwiftPackageReference "TinyConstraints" */;
+			productName = TinyConstraints;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
