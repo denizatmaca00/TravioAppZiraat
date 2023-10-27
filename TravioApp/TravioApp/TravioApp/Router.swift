@@ -10,11 +10,18 @@ import Alamofire
 
 enum Router {
     
+    // get/post cases
     case register(params:Parameters)
     case user(params: Parameters)
- //   case deleteUser(id: String)
-   // case putChange(id: String, params: Parameters)
+    case visits(id:String, params:Parameters)
+    case places(params:Parameters)
     
+    // delete and update cases
+    case deleteVisit(id: String)
+    case putVisit(id: String, params: Parameters)
+    
+//    case deletePlace(id: String)
+//    case putPlace(id: String, params: Parameters)
     
     var baseURL:String {
         return "https://api.iosclass.live"
@@ -26,29 +33,34 @@ enum Router {
             return "/v1/auth/register"
         case .user:
             return "/v1/auth/login"
-      //  case .deleteUser(let userId), .putChange(let userId, _):
-     //       return "/user/\(userId)"
+        case .visits:
+            return "/v1/visits"
+        case .places:
+            return "/v1/places"
+            
+        // delete and update cases
+        case .deleteVisit(let visitId):
+            return "/v1/visit/\(visitId)"
+        case .putVisit(let visitId, _):
+            return "/v1/visit/\(visitId)"
         }
     }
     
-    
     var method:HTTPMethod {
         switch self {
-        case .register, .user:
+        case .register, .user, .visits, .places:
             return .post
-
-//        case .deleteUser:
-//            return .delete
-//        case .putChange:
-//            return .put
+        case .deleteVisit:
+            return .delete
+        case .putVisit:
+            return .put
         }
     }
     
     
     var headers:HTTPHeaders {
         switch self {
-        case .register, .user:
-            //, .deleteUser, .putChange:
+        case .register, .user, .visits, .places, .deleteVisit, .putVisit:
             return [:]
         }
     }
@@ -59,8 +71,16 @@ enum Router {
             return params
         case .user (let params):
             return params
-//        case .putChange(_, let params):
-//            return params
+        case .visits (_, let params):
+            return params
+        case .places (let params):
+            return params
+        
+        // delete and update cases
+        case .deleteVisit:
+            return nil
+        case .putVisit(_, let params):
+            return params
         }
     }
     
