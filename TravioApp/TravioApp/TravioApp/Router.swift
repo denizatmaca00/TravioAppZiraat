@@ -13,7 +13,7 @@ enum Router {
     // get/post cases
     case register(params:Parameters)
     case user(params: Parameters)
-    case visits(id:String, params:Parameters)
+    case visits
     case places(params:Parameters)
     
     // delete and update cases
@@ -25,6 +25,10 @@ enum Router {
     
     var baseURL:String {
         return "https://api.iosclass.live"
+    }
+    
+    var token:String{
+        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJKb2huIERvZSIsImlkIjoiYmI0MjM0ZWMtZmJmNy00Y2I1LWFkYzEtZjA2NmM0MjlkYmZjIiwicm9sZSI6InVzZXIiLCJleHAiOjE2OTg0NDU3ODZ9.ZjhVVtdyjg0q7zc_HQVqLjQgdVjq4M5HEx-4TtcUDhE"
     }
     
     var path:String {
@@ -60,8 +64,12 @@ enum Router {
     
     var headers:HTTPHeaders {
         switch self {
-        case .register, .user, .visits, .places, .deleteVisit, .putVisit:
+        case .register, .user:
             return [:]
+        case .visits, .places, .deleteVisit, .putVisit:
+            let config = URLSessionConfiguration.default
+            config.httpAdditionalHeaders = ["Authorization": token ]
+            return config.headers
         }
     }
     
@@ -71,11 +79,10 @@ enum Router {
             return params
         case .user (let params):
             return params
-        case .visits (_, let params):
-            return params
         case .places (let params):
             return params
-        
+        case .visits:
+            return nil
         // delete and update cases
         case .deleteVisit:
             return nil
