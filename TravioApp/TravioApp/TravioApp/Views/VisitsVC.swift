@@ -13,10 +13,13 @@ import SnapKit
 class VisitsVC: UIViewController {
     
     //MARK: -- Properties
+    private var favorites:[Place] = [Place]()
+    //private var favorites: [Landmark] = [Landmark]()
+    //var favorites:[Visits] = [Visits(title: "Istanbul", name: "MyName", image: UIImage(named: "leftArrow"), description: "descr", date: Date.now)]
     
-    private var favorites: [Landmark] = [Landmark]()
-    
-    
+    private lazy var viewModel: VisitsViewModel = {
+        return VisitsViewModel()
+    }()
     
     private lazy var lblHeader:UILabel = {
         let lbl = UILabel()
@@ -110,10 +113,12 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "favoritesCell", for: indexPath) as? CustomVisitCellVC else {
+            fatalError("cell does not exist")
+        }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "favoritesCell", for: indexPath)
-        let fav = favorites[indexPath.row]
-        //cell.fillCell(favorite: favorite)
+        let cellVM = viewModel.getCellViewModel(at: indexPath)
+        cell.visitCellViewModel = cellVM
         return cell
     }
     
@@ -121,16 +126,6 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
-}
-
-struct Landmark{
-    var title:String?
-    var name:String?
-    var image:UIImageView?
-    var description:String?
-    let date:Date
-    
 }
 
 #if DEBUG
