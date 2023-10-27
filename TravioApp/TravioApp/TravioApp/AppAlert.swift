@@ -6,24 +6,25 @@
 //
 
 import UIKit
-
 class AppAlertControl: UIAlertController {
     
-    
+   
 }
 
 extension UIViewController
 {
+
     func showAlert(title:String, message:String)
     {
         DispatchQueue.main.async{
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             
-            let btnCancel = UIAlertAction(title: "Cancel", style: .cancel)
+            let btnCancel = UIAlertAction(title: "Kapat", style: .cancel)
             
             alert.addAction(btnCancel)
             
             self.present(alert, animated: true, completion: nil)
+
         }
     }
 }

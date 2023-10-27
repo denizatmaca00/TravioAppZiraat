@@ -11,6 +11,8 @@ class SignUpVC: UIViewController {
     
     var signUpData:User = User()
     
+    var viewModel = NetworkVM()
+    
     //var userDelegator:UserDataDelegator?
     
     private lazy var viewUsername = AppTextField(data: .username)
@@ -23,7 +25,14 @@ class SignUpVC: UIViewController {
     private lazy var txtPassword = viewPass.getTFAsObject()
     private lazy var txtPasswordConfirm = viewPassConfirm.getTFAsObject()
     
-    private lazy var contentViewBig: UIView = {
+    private lazy var signUpLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "Sign Up"
+        lbl.textColor = .white
+        lbl.font = UIFont(name: "Poppins-Regular", size: 36)
+        return lbl
+    }()
+     private lazy var contentViewBig: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "viewBackgroundColor")
         view.clipsToBounds = true
@@ -63,8 +72,6 @@ class SignUpVC: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         txtUsername.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
         txtEmail.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
         txtPassword.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
@@ -98,6 +105,8 @@ class SignUpVC: UIViewController {
            // buraya signUpData cinsinden kullanıcı verisi gelecek, eskiden delegate ile yönetiliyordu şimdi NetworkHelper ile gerçekleştirilecek
            //userDelegator?.getUserData(params: signUpData)
            backButtonTapped()
+            
+            viewModel.postUserData(name: txtUsername.text, email: txtEmail.text, password: txtPassword.text)
         }
     }
     
@@ -111,9 +120,9 @@ class SignUpVC: UIViewController {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig)
         self.navigationItem.leftBarButtonItem = leftBarButton
+        self.view.addSubview(signUpLabel)
 
-        contentViewBig.addSubview(stackViewMain)
-        contentViewBig.addSubview(signUpButton)
+        contentViewBig.addSubviews(stackViewMain, signUpButton)
         
         stackViewMain.addArrangedSubviews(viewUsername, viewMail, viewPass, viewPassConfirm)
         
@@ -122,7 +131,11 @@ class SignUpVC: UIViewController {
     
     func setupLayout() {
         let limits = self.view.safeAreaLayoutGuide.snp
-        
+         
+        signUpLabel.snp.makeConstraints({ lbl in
+            lbl.centerX.equalToSuperview()
+            lbl.top.equalTo(limits.top).offset(-50)
+        })
         
         contentViewBig.snp.makeConstraints { view in
             view.height.equalToSuperview().multipliedBy(0.8)
@@ -192,6 +205,9 @@ extension SignUpVC:UITextFieldDelegate{
             txtPassword.text == "" || 
             txtPasswordConfirm.text == ""
         {
+            return false
+        }
+        else if txtPassword.text!.count < 6 {
             return false
         }
         else

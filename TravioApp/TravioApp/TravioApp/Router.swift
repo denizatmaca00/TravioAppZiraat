@@ -11,7 +11,7 @@ import Alamofire
 enum Router {
     
     case register(params:Parameters)
-    case user
+    case user(params: Parameters)
  //   case deleteUser(id: String)
    // case putChange(id: String, params: Parameters)
     
@@ -34,10 +34,9 @@ enum Router {
     
     var method:HTTPMethod {
         switch self {
-        case .register:
+        case .register, .user:
             return .post
-        case .user:
-            return .get
+
 //        case .deleteUser:
 //            return .delete
 //        case .putChange:
@@ -58,8 +57,8 @@ enum Router {
         switch self {
         case .register(let params):
             return params
-        case .user:
-            return nil
+        case .user (let params):
+            return params
 //        case .putChange(_, let params):
 //            return params
         }

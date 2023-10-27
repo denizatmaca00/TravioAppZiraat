@@ -4,14 +4,23 @@ import SnapKit
 
 
 
-class LoginViewController: UIViewController {
+
+class LoginViewController: UIViewController, ViewModelDelegate {
 
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var viewPass = AppTextField(data: .password)
     
     private lazy var txtEmail = viewMail.getTFAsObject()
     private lazy var txtPassword = viewPass.getTFAsObject()
+    
+    var viewModel = NetworkVM()
 
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "AppLogo")
+        return imageView
+    }()
+    
     private lazy var welcomeLabel: UILabel = {
         let wlcLabel = UILabel()
         wlcLabel.text = "Welcome to Travio"
@@ -70,47 +79,50 @@ class LoginViewController: UIViewController {
         return b
         
     }()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        viewModel.showAlertClosure = { [weak self] title, message in
+            self?.showAlert(title: title, message: message)
+        }
     }
-    
     
     @objc func btnSignUpTapped(){
-        
         let vc = SignUpVC()
         self.navigationController?.pushViewController(vc, animated: true)
-        
-        
     }
 
-    @objc func btnLoginTapped(){
-                        
+    @objc func btnLoginTapped() {
+        guard let email = txtEmail.text  else { return }
+        guard let password = txtPassword.text  else { return }
+        viewModel.getUserData(email: email, password: password) {[self]  result in
+            switch result {
+            case .success:
+                let vc = VisitsVC()
+                navigationController?.pushViewController(vc, animated: true)
+            case .failure(_):
+                if email.isEmpty && password.isEmpty {
+                    viewModel.showAlertClosure?("Hata", "Email ve şifre alanları boş bırakılmaz")
+                }else if email.isEmpty {
+                    viewModel.showAlertClosure?("Hata", "Email alanı boş bırakılmaz")
+                }else if password.isEmpty{
+                    viewModel.showAlertClosure?("Hata", "Şifre alanı boş bırakılmaz")
+                }else{
+                    viewModel.showAlertClosure?("Hata", "Email veya şifre hatalı")
+                }
+            }
+        }
     }
-    
-    
-    let imageView = UIImageView()
 
     func setupViews() {
         
-        imageView.image = UIImage(named: "AppLogo")
-       // imageView.frame = CGRect(x: 120, y: 64, width:149, height: 178)
         self.view.addSubview(imageView)
-
-        
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubview(contentViewBig)
-        contentViewBig.addSubview(welcomeLabel)
-        contentViewBig.addSubview(stackViewMain)
-        contentViewBig.addSubview(loginBtn)
-        contentViewBig.addSubview(lblNameText)
-        contentViewBig.addSubview(btnSignUp)
+        contentViewBig.addSubviews(welcomeLabel, stackViewMain, loginBtn, lblNameText, btnSignUp)
 
-        stackViewMain.addArrangedSubview(viewMail)
-        stackViewMain.addArrangedSubview(viewPass)
-
+        stackViewMain.addArrangedSubviews(viewMail, viewPass)
         setupLayout()
     }
 
@@ -156,46 +168,5 @@ class LoginViewController: UIViewController {
             img.leading.equalToSuperview().offset(120)
             img.trailing.equalToSuperview().offset(-121)
         })
-    }
-}
-
-extension LoginViewController:UITextFieldDelegate{
-    
-    func validateInfo(_ textField: UITextField)->Bool
-    {
-        if textField == txtEmail && textField.text?.count == 21
-        {
-            return false
-        }
-        
-        else if textField == txtPassword && textField.text?.count == 21
-        {
-            return false
-        }
-        
-        return true
-    }
-    
-    func authenticateUser(_ isLogin:Bool)
-    {
-        switch isLogin {
-        case true:
-            let vc = VisitsVC()
-            self.navigationController?.pushViewController(vc, animated: true)
-        
-        case false:
-            self.showAlert(title: "Error", message: "Wrong mail or password.")
-        }
-    }
-    
-    func checkIsEmpty()->Bool
-    {
-        if txtEmail.text == "" || txtPassword.text == "" {
-            self.showAlert(title: "Warning", message: "Please type both Email and Password.")
-            return true
-        }
-        else{
-            return false
-        }
     }
 }
