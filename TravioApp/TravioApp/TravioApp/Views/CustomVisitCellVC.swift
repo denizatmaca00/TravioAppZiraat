@@ -11,7 +11,14 @@ import TinyConstraints
 
 class CustomVisitCellVC: UITableViewCell {
     
-    private lazy var placeName:UILabel = {
+    var visitCellViewModel : VisitCellViewModel? {
+        didSet{
+            placeName.text = visitCellViewModel?.placeName
+            countryName.text = visitCellViewModel?.city
+        }
+    }
+    
+    lazy var placeName:UILabel = {
        let pn = UILabel()
         pn.textColor = .blue
         pn.font = UIFont(name: "Poppins", size: 30)
@@ -21,7 +28,7 @@ class CustomVisitCellVC: UITableViewCell {
         return pn
     }()
     
-    private lazy var countryName:UILabel = {
+    lazy var countryName:UILabel = {
        let cn = UILabel()
         cn.textColor = .white
         cn.font = UIFont(name: "Poppins", size: 16)
