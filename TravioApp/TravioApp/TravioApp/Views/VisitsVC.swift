@@ -58,13 +58,22 @@ class VisitsVC: UIViewController {
         
         setupViews()
         
+        initVM()
+        
     }
     
     //MARK: -- Component Actions
     
     
     //MARK: -- Private Methods
-    
+    func initVM(){
+       
+        viewModel.reloadTableViewClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
     
     //MARK: -- UI Methods
     func setupViews() {
