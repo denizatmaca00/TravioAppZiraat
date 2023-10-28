@@ -48,14 +48,15 @@ class AppTextField: UIView {
         let loginTitleLbl = UILabel()
         loginTitleLbl.text = data?.title
         loginTitleLbl.textColor = .black
-        loginTitleLbl.font = UIFont(name: "Poppins-Regular", size: 14)
+        loginTitleLbl.font = UIFont(name: "Poppins-Medium", size: 14)
         return loginTitleLbl
     }()
 
     lazy var textField: UITextField = {
-        let loginTextField = UITextField()
-        loginTextField.placeholder = data?.placeholder
-        return loginTextField
+        let textField = UITextField()
+        textField.font = UIFont(name: "Poppins-Regular", size: 12)
+        textField.placeholder = data?.placeholder
+        return textField
     }()
 
     private lazy var stackView: UIStackView = {

@@ -25,7 +25,7 @@ class LoginViewController: UIViewController, ViewModelDelegate {
         let wlcLabel = UILabel()
         wlcLabel.text = "Welcome to Travio"
         wlcLabel.textColor = .black
-        wlcLabel.font = UIFont(name: "Poppins-Regular", size: 24)
+        wlcLabel.font = UIFont(name: "Poppins-SemiBold", size: 24)
         return wlcLabel
     }()
 
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController, ViewModelDelegate {
     private lazy var loginBtn : UIButton = {
         let loginButton = AppButton()
         loginButton.setTitle("Login", for: .normal)
-        loginButton.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 16)
+        loginButton.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
         loginButton.backgroundColor = UIColor(named: "backgroundColor")
         loginButton.layer.cornerRadius = 12
         loginButton.addTarget(self, action: #selector(btnLoginTapped), for: .touchUpInside)
@@ -57,12 +57,12 @@ class LoginViewController: UIViewController, ViewModelDelegate {
         return loginButton
     }()
     
-    private lazy var lblNameText: UILabel = {
+    private lazy var lblSignUp: UILabel = {
         let label = UILabel()
         label.text = "Don't have any account?"
         label.textColor = .black
         label.numberOfLines = 1
-        label.font = UIFont(name: "Poppins-Regular", size: 14)
+        label.font = UIFont(name: "Poppins-Bold", size: 14)
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -72,7 +72,7 @@ class LoginViewController: UIViewController, ViewModelDelegate {
     private lazy var btnSignUp: UIButton = {
         let b = UIButton()
         b.setTitle("Sign Up", for: .normal)
-        b.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 14)
+        b.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 14)
         b.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         b.setTitleColor(.black, for: .normal)
         b.addTarget(self, action: #selector(btnSignUpTapped), for: .touchUpInside)
@@ -94,8 +94,10 @@ class LoginViewController: UIViewController, ViewModelDelegate {
     }
 
     @objc func btnLoginTapped() {
-        guard let email = txtEmail.text  else { return }
-        guard let password = txtPassword.text  else { return }
+        //guard let email = txtEmail.text  else { return }
+        //guard let password = txtPassword.text  else { return }
+        let email = "Deneme@gmail.com"
+        let password = "123456"
         viewModel.getUserData(email: email, password: password) {[self]  result in
             switch result {
             case .success:
@@ -120,7 +122,7 @@ class LoginViewController: UIViewController, ViewModelDelegate {
         self.view.addSubview(imageView)
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubview(contentViewBig)
-        contentViewBig.addSubviews(welcomeLabel, stackViewMain, loginBtn, lblNameText, btnSignUp)
+        contentViewBig.addSubviews(welcomeLabel, stackViewMain, loginBtn, lblSignUp, btnSignUp)
 
         stackViewMain.addArrangedSubviews(viewMail, viewPass)
         setupLayout()
@@ -153,14 +155,14 @@ class LoginViewController: UIViewController, ViewModelDelegate {
             btn.height.equalTo(54)
         })
         
-        lblNameText.snp.makeConstraints({lbl in
+        lblSignUp.snp.makeConstraints({lbl in
             lbl.bottom.equalTo(contentViewBig).inset(21)
             lbl.leading.equalTo(contentViewBig).inset(74)
         })
         
         btnSignUp.snp.makeConstraints({btn in
-            btn.leading.equalTo(lblNameText.snp.trailing).offset(2)
-            btn.centerY.equalTo(lblNameText)
+            btn.leading.equalTo(lblSignUp.snp.trailing).offset(2)
+            btn.centerY.equalTo(lblSignUp)
         })
         
         imageView.snp.makeConstraints({ img in
