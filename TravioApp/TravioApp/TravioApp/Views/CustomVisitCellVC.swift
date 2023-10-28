@@ -21,7 +21,7 @@ class CustomVisitCellVC: UITableViewCell {
     lazy var placeName:UILabel = {
        let pn = UILabel()
         pn.textColor = .blue
-        pn.font = UIFont(name: "Poppins", size: 30)
+        pn.font = UIFont(name: "Poppins-Regular", size: 30)
         pn.text = "PlaceName"
         pn.textColor = .white
         pn.numberOfLines = 1
@@ -31,7 +31,7 @@ class CustomVisitCellVC: UITableViewCell {
     lazy var countryName:UILabel = {
        let cn = UILabel()
         cn.textColor = .white
-        cn.font = UIFont(name: "Poppins", size: 16)
+        cn.font = UIFont(name: "Poppins-Regular", size: 16)
         cn.text = "CountryName"
         cn.textColor = .white
         cn.numberOfLines = 1
