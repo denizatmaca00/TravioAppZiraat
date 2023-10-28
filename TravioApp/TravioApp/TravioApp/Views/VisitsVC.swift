@@ -13,9 +13,6 @@ import SnapKit
 class VisitsVC: UIViewController {
     
     //MARK: -- Properties
-    private var favorites:[Place] = [Place]()
-    //private var favorites: [Landmark] = [Landmark]()
-    //var favorites:[Visits] = [Visits(title: "Istanbul", name: "MyName", image: UIImage(named: "leftArrow"), description: "descr", date: Date.now)]
     
     private lazy var viewModel: VisitsViewModel = {
         return VisitsViewModel()
@@ -45,7 +42,8 @@ class VisitsVC: UIViewController {
     private lazy var tableView:UITableView = {
         let tv = UITableView()
         
-        tv.register(UITableViewCell.self, forCellReuseIdentifier: "favoritesCell")
+        tv.backgroundColor = .systemGray3
+        tv.register(CustomVisitCellVC.self, forCellReuseIdentifier: "favoritesCell")
         tv.delegate = self
         tv.dataSource = self
         
@@ -73,12 +71,14 @@ class VisitsVC: UIViewController {
                 self?.tableView.reloadData()
             }
         }
+        viewModel.initFetch()
     }
     
     //MARK: -- UI Methods
     func setupViews() {
         // Add here the setup for the UI
         self.view.backgroundColor = UIColor(named: "backgroundColor")
+        navigationController?.navigationBar.isHidden = true
         
         self.view.addSubviews(lblHeader, contentViewBig)
         
@@ -88,7 +88,7 @@ class VisitsVC: UIViewController {
     
     func setupLayout() {
         
-        let limits = self.view.safeAreaLayoutGuide.snp
+        //let limits = self.view.safeAreaLayoutGuide.snp
         
         // Add here the setup for layout
         lblHeader.snp.makeConstraints({l in
@@ -117,23 +117,34 @@ class VisitsVC: UIViewController {
 }
 
 extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
+   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("zaaxd")
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "favoritesCell", for: indexPath) as? CustomVisitCellVC else {
             fatalError("cell does not exist")
         }
         
         let cellVM = viewModel.getCellViewModel(at: indexPath)
         cell.visitCellViewModel = cellVM
+        print("getting cell info in tableview extension")
         return cell
     }
     
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfCells
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        // here navigation to placeDetail page will be implemented
+        return indexPath
     }
 }
 
