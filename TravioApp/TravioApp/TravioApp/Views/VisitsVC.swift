@@ -41,8 +41,7 @@ class VisitsVC: UIViewController {
     
     private lazy var tableView:UITableView = {
         let tv = UITableView()
-        
-        tv.backgroundColor = .systemGray3
+        tv.separatorStyle = .none
         tv.register(CustomVisitCellVC.self, forCellReuseIdentifier: "favoritesCell")
         tv.delegate = self
         tv.dataSource = self
@@ -78,8 +77,7 @@ class VisitsVC: UIViewController {
     func setupViews() {
         // Add here the setup for the UI
         self.view.backgroundColor = UIColor(named: "backgroundColor")
-        navigationController?.navigationBar.isHidden = true
-        
+        self.navigationItem.setHidesBackButton(true, animated: false)
         self.view.addSubviews(lblHeader, contentViewBig)
         
         contentViewBig.addSubview(tableView)
@@ -108,9 +106,10 @@ class VisitsVC: UIViewController {
         })
         
         tableView.snp.makeConstraints({ tv in
-            tv.top.equalToSuperview()
+            tv.top.equalToSuperview().offset(45)
             tv.leading.equalToSuperview()
             tv.width.equalToSuperview()
+            tv.height.equalToSuperview()
         })
     }
     
@@ -119,14 +118,13 @@ class VisitsVC: UIViewController {
 extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("zaaxd")
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "favoritesCell", for: indexPath) as? CustomVisitCellVC else {
             fatalError("cell does not exist")
         }
         
         let cellVM = viewModel.getCellViewModel(at: indexPath)
         cell.visitCellViewModel = cellVM
-        print("getting cell info in tableview extension")
         return cell
     }
     
@@ -139,11 +137,13 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return (219+16)
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         // here navigation to placeDetail page will be implemented
+        navigationController?.pushViewController(SignUpVC(), animated: true)
+        print(indexPath.row)
         return indexPath
     }
 }
