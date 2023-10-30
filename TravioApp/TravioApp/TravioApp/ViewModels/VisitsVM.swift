@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class VisitsViewModel{
+class VisitsVM{
     
     // dummy data for tableView
     private var favorites: [Place] = [Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"),
@@ -67,51 +67,3 @@ class VisitsViewModel{
     
 }
 
-struct VisitCellViewModel{
-    let image:UIImage
-    let placeName:String
-    let city:String
-}
-
-struct VisitViewModel:Codable{
-    var id:String
-    var place_id:String
-    var visited_at:String
-    var created_at:String
-    var updated_at:String
-    var place:String
-}
-
-struct Visit:Codable {
-    var id:String
-    var place_id:String
-    var visited_at:String
-    var created_at:String
-    var updated_at:String
-}
-
-struct Visits:Codable {
-    var visits:[Visit]
-}
-
-struct Places:Codable {
-    var places:[Place]
-}
-
-struct Place:Codable {
-    var id:String
-    var creator:String
-    var place:String
-    var title:String
-    var description:String
-    var cover_image_url:String
-    var latitude:Double
-    var longitude:Double
-    var created_at:String
-    var updated_at:String
-}
-
-struct ReturnMessage:Codable {
-    var message:String
-    var status:String
-}

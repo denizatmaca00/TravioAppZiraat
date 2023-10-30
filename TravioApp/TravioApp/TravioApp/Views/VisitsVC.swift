@@ -14,8 +14,8 @@ class VisitsVC: UIViewController {
     
     //MARK: -- Properties
     
-    private lazy var viewModel: VisitsViewModel = {
-        return VisitsViewModel()
+    private lazy var viewModel: VisitsVM = {
+        return VisitsVM()
     }()
     
     private lazy var lblHeader:UILabel = {

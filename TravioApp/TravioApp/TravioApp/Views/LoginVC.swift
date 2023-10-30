@@ -5,7 +5,7 @@ import SnapKit
 
 
 
-class LoginViewController: UIViewController, ViewModelDelegate {
+class LoginVC: UIViewController, ViewModelDelegate {
 
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var viewPass = AppTextField(data: .password)
@@ -25,7 +25,7 @@ class LoginViewController: UIViewController, ViewModelDelegate {
         let wlcLabel = UILabel()
         wlcLabel.text = "Welcome to Travio"
         wlcLabel.textColor = .black
-        wlcLabel.font = UIFont(name: "Poppins-SemiBold", size: 24)
+        wlcLabel.font = UIFont(name: "Poppins-Regular", size: 24)
         return wlcLabel
     }()
 
@@ -99,7 +99,7 @@ class LoginViewController: UIViewController, ViewModelDelegate {
         viewModel.getUserData(email: email, password: password) {[self]  result in
             switch result {
             case .success:
-                let vc = VisitsVC()
+                let vc = TabBarVC()
                 navigationController?.pushViewController(vc, animated: true)
             case .failure(_):
                 if email.isEmpty && password.isEmpty {
@@ -149,7 +149,7 @@ class LoginViewController: UIViewController, ViewModelDelegate {
         loginBtn.snp.makeConstraints({ btn in
             btn.leading.equalToSuperview().offset(24)
             btn.trailing.equalToSuperview().offset(-24)
-            btn.bottom.equalTo(contentViewBig).inset(183)
+            btn.top.equalTo(stackViewMain.snp.bottom).offset(48)
             btn.height.equalTo(54)
         })
         

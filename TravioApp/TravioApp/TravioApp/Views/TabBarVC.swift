@@ -29,12 +29,17 @@ class TabBarVC: UITabBarController {
 
         // transparanlığı yönetiyor
         self.tabBar.isTranslucent = false
+        self.tabBar.backgroundColor = UIColor(named: "textColorReversed")
+
+            
+    
+
     }
     
     // 4 buton olacak: Home, visits, map, menu
     private func setupControllers()->[UIViewController]
     {
-        let homeVC = SignUpVC()
+        let homeVC = LoginVC()
         let homeNC = UINavigationController(rootViewController: homeVC)
         let homeImage = UIImage(named: "home") // image when not selected
         let homeSelectedImage = UIImage(named: "home")?.withRenderingMode(.automatic) // image when active page
@@ -50,6 +55,7 @@ class TabBarVC: UITabBarController {
         let mapNC = UINavigationController(rootViewController: mapVC)
         let mapImage = UIImage(named:"map")
         let mapSelectedImage = UIImage(named: "map")?.withRenderingMode(.automatic)
+
         mapVC.tabBarItem = UITabBarItem(title: "Map", image: mapImage, selectedImage: mapSelectedImage)
         
         let menuVC = SignUpVC()
