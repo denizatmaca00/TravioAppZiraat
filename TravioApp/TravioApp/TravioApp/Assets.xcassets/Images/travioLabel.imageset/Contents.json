@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "travio-logo 2.png",
+      "filename" : "travioHeader.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "travio-logo 1@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "travio-logo 1@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
