@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import CoreLocation
+import UIKit
+import MapKit
 
 struct Users:Codable {
     
@@ -17,4 +20,19 @@ struct Users:Codable {
 struct Tokens: Codable {
     var accessToken: String?
     var refreshToken: String?
+}
+
+class CustomAnnotation: NSObject, MKAnnotation {
+    var title: String?
+    var subtitle: String?
+    var coordinate: CLLocationCoordinate2D
+    var logoImage: UIImage?
+    
+    init(title: String?, subtitle: String?, coordinate: CLLocationCoordinate2D, logoImage: UIImage?) {
+        self.title = title
+        self.subtitle = subtitle
+        self.coordinate = coordinate
+        self.logoImage = logoImage
+        super.init()
+    }
 }
