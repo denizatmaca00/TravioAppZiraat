@@ -12,7 +12,8 @@ class VisitsViewModel{
     
     // dummy data for tableView
     private var favorites: [Place] = [Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"),
-                                      Place(id: "1", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
+                                      Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"),
+                                      Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
     
     private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
@@ -54,7 +55,7 @@ class VisitsViewModel{
         // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell
         
         // here favorite.place_id 's are placeholders, a function should take place_id and convert into placeName and placeCity.
-        let cvm = VisitCellViewModel(image: UIImage(named: "deneme")!, 
+        let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
                                      placeName: favorite.place,
                                      city: favorite.creator)
         return cvm

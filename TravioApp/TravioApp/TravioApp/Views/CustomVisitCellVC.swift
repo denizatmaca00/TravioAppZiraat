@@ -47,7 +47,7 @@ class CustomVisitCellVC: UITableViewCell {
     
     private lazy var imageLocation:UIImageView = {
         var img = UIImageView()
-        img.image = UIImage(named: "deneme")
+        img.image = UIImage(named: "sultanahmet")
         img.contentMode = .scaleToFill
      
         let tappedGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
