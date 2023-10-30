@@ -36,6 +36,13 @@ class NetworkVM{
             case .success(let response):
                 if let accessToken = response.accessToken {
                     completion(.success(response))
+                    KeychainHelper.shared.saveAccessToken(service: "Travio", account: "Deneme@gmail.com", token: response.accessToken!)
+                    if let accessToken = KeychainHelper.shared.getToken(){
+                        print("AccessToken: \(accessToken)")
+                    } else {
+                        print("AccessToken bulunamadı.")
+                    }// okuman gereken yerde bunu alacaksın kontrol ederek
+
                 } else {
                     completion(.failure(NSError(domain: "Login Error", code: 401, userInfo: nil)))
                 }

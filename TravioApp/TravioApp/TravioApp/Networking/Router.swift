@@ -61,17 +61,21 @@ enum Router {
         }
     }
     
-    
-    var headers:HTTPHeaders {
-        switch self {
-        case .register, .user:
-            return [:]
-        case .visits, .places, .deleteVisit, .putVisit:
-            let config = URLSessionConfiguration.default
-            config.httpAdditionalHeaders = ["Authorization": token ]
-            return config.headers
+    var headers: HTTPHeaders {
+            var baseHeaders: HTTPHeaders = [:]
+
+            if let token = KeychainHelper.shared.getToken() {
+                baseHeaders["Authorization"] = "Bearer " + token
+            }
+
+            switch self {
+            case .register, .user:
+                return baseHeaders
+            case .visits, .places, .deleteVisit, .putVisit:
+                return baseHeaders
+            }
         }
-    }
+    
     
     var parameters:Parameters? {
         switch self {

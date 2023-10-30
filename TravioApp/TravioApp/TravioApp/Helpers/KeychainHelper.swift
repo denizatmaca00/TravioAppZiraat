@@ -11,33 +11,53 @@ final class KeychainHelper {
     
     static let shared = KeychainHelper()
     
+    var userToken = Tokens() // logindeki tokenleri tutuyor.
+    
     init(){ }
     
-    func save(_ data:Data, service:String, account:String) {
-        
+// bunu bence post ederken visit kısımlarını konrtol edicez
+//    if let accessToken = KeychainHelper.shared.getToken(service: "YourService", account: "Deneme@gmail.com") {
+//        // accessToken kullanılabilir
+//    } else {
+//        // accessToken bulunamadı
+//    }
+
+    
+    func getToken() -> String? {
+            if let data = read(service: "Travio", account: "Deneme@gmail.com") {
+                return String(data: data, encoding: .utf8)
+            }
+            return nil
+        }
+    
+    
+    func saveAccessToken(service: String, account: String, token: String) {
+        let tokenData = token.data(using: .utf8)
+
         let query = [
-            kSecValueData: data,
+            kSecValueData: tokenData,
             kSecAttrService: service,
             kSecAttrAccount: account,
             kSecClass: kSecClassGenericPassword
         ] as CFDictionary
-        
-        
+
         let status = SecItemAdd(query, nil)
-        
+
         if status == errSecDuplicateItem {
-            
             let query = [
                 kSecAttrService: service,
                 kSecAttrAccount: account,
                 kSecClass: kSecClassGenericPassword,
             ] as CFDictionary
-            
-            let attributesToUpdate = [kSecValueData: data] as CFDictionary
-            
+
+            let attributesToUpdate = [kSecValueData: tokenData] as CFDictionary
+
             SecItemUpdate(query, attributesToUpdate)
         }
+        print(token)
+        getToken()
     }
+
     
     func read(service:String,account:String)->Data? {
         
