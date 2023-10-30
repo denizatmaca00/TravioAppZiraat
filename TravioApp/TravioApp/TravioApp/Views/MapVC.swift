@@ -79,3 +79,4 @@ extension MapVC: CLLocationManagerDelegate{
     }
 
 }
+// deneme
