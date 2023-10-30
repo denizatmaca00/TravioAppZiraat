@@ -37,6 +37,8 @@
 		ECC8C5DE2AEA8319001ED067 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5DC2AEA8319001ED067 /* Poppins-SemiBold.ttf */; };
 		ECFFD1CC2AEBD5CB0066E75C /* VisitsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFFD1CB2AEBD5CB0066E75C /* VisitsVM.swift */; };
 		ECFFD1CE2AEF874B0066E75C /* TabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFFD1CD2AEF874B0066E75C /* TabBarVC.swift */; };
+		ECFFD1D02AEFD3750066E75C /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFFD1CF2AEFD3750066E75C /* HomeVC.swift */; };
+		ECFFD1D22AEFD9380066E75C /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFFD1D12AEFD9380066E75C /* CustomCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +71,8 @@
 		ECC8C5DC2AEA8319001ED067 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		ECFFD1CB2AEBD5CB0066E75C /* VisitsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVM.swift; sourceTree = "<group>"; };
 		ECFFD1CD2AEF874B0066E75C /* TabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVC.swift; sourceTree = "<group>"; };
+		ECFFD1CF2AEFD3750066E75C /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		ECFFD1D12AEFD9380066E75C /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +147,8 @@
 				ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */,
 				5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */,
 				0F15C9232AEBD09C00CE48CD /* MapVC.swift */,
+				ECFFD1CF2AEFD3750066E75C /* HomeVC.swift */,
+				ECFFD1D12AEFD9380066E75C /* CustomCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -300,11 +306,13 @@
 				0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */,
 				0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */,
 				ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */,
+				ECFFD1D02AEFD3750066E75C /* HomeVC.swift in Sources */,
 				5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */,
 				5E388FC22AEA5193002ABDBD /* UserModel.swift in Sources */,
 				EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */,
 				ECFFD1CC2AEBD5CB0066E75C /* VisitsVM.swift in Sources */,
 				0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */,
+				ECFFD1D22AEFD9380066E75C /* CustomCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
