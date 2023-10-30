@@ -31,8 +31,7 @@ class TabBarVC: UITabBarController {
         self.tabBar.isTranslucent = false
         self.tabBar.backgroundColor = UIColor(named: "textColorReversed")
 
-            
-    
+        self.navigationItem.setHidesBackButton(true, animated: false)
 
     }
     
