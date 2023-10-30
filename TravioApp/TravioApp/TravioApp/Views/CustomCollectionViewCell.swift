@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import TinyConstraints
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
@@ -56,8 +55,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
        return img
     }()
     
-
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -70,9 +67,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
     @objc func imageTapped(){
      //detail page opens
     }
+
     func configure(object:Place){
         imgPlace.image = UIImage(named: "sultanahmet")
-        //imgPlace.image = object.image
         lblPlace.text = object.place
         lblCity.text = object.creator
     }
@@ -80,11 +77,12 @@ class CustomCollectionViewCell: UICollectionViewCell {
     func setupViews() {
 
         self.contentView.addSubviews(imgPlace,lblPlace,imgPinIcon,lblCity)
-        //imgPlace.addSubviews()
+
         setupLayout()
     }
     
     func setupLayout() {
+        
         imgPlace.snp.makeConstraints({img in
             img.center.equalToSuperview()
             img.height.equalTo(178)
@@ -95,35 +93,22 @@ class CustomCollectionViewCell: UICollectionViewCell {
         lblPlace.snp.makeConstraints({ lbl in
             lbl.leading.equalTo(imgPlace.snp.leading).offset(16)
             lbl.bottom.equalTo(imgPlace.snp.bottom).offset(-26)
+            
         })
         
         imgPinIcon.snp.makeConstraints({img in
             img.leading.equalTo(lblPlace.snp.leading)
             img.top.equalTo(lblPlace.snp.bottom).offset(3)
             img.bottom.equalTo(imgPlace.snp.bottom).offset(-11)
+            
         })
         
         lblCity.snp.makeConstraints({ lbl in
             lbl.leading.equalTo(imgPlace.snp.leading).offset(31)
             lbl.top.equalTo(lblPlace.snp.bottom)
             lbl.bottom.equalTo(imgPlace.snp.bottom).offset(-5)
+            
         })
-//        placeName.leading(to: imgPlace, offset: 8)
-//        placeName.topToSuperview(offset:142)
-//        placeName.height(45)
-//        
-//        imgPinIcon.topToBottom(of: placeName, offset:2)
-//        imgPinIcon.leading(to: placeName)
-//        imgPinIcon.height(20)
-//        imgPinIcon.width(15)
-//        
-//        cityName.leadingToTrailing(of: imgPinIcon,offset:6)
-//        cityName.centerY(to: imgPinIcon)
-//        cityName.height(24)
-        
-//        imgPlace.centerXToSuperview()
-
-        
     }
 }
 
