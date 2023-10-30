@@ -70,8 +70,6 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        
        setupViews()
     }
     
@@ -99,7 +97,7 @@ class HomeVC: UIViewController {
         // Add here the setup for layout
         imgLogo.snp.makeConstraints({ img in
             img.leading.equalToSuperview().offset(16)
-            img.top.equalToSuperview().offset(28)
+            img.top.equalToSuperview().offset(28+12)
             img.height.equalTo(62)
             img.width.equalTo(66)
             
@@ -128,14 +126,14 @@ class HomeVC: UIViewController {
             
         })
         
-//        collectionView.snp.makeConstraints({ cv in
-//            
-//            cv.top.equalTo(contentViewBig.snp.top)
-//            cv.bottom.equalTo(contentViewBig.snp.bottom)
-//            cv.leading.equalTo(contentViewBig.snp.leading)
-//            cv.width.equalTo(contentViewBig.snp.width)
-//        })
-        collectionView.edgesToSuperview(usingSafeArea: true)
+        collectionView.snp.makeConstraints({ cv in
+            
+            cv.top.equalTo(contentViewBig.snp.top)
+            cv.bottom.equalTo(contentViewBig.snp.bottom)
+            cv.leading.equalTo(contentViewBig.snp.leading)
+            cv.width.equalTo(contentViewBig.snp.width)
+            
+        })
     }
 }
 
@@ -218,8 +216,6 @@ extension HomeVC:UICollectionViewDelegateFlowLayout
 {
     // item büyüklüklerini ayarlamak içni gerekli
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: (collectionView.frame.width - 10) * 1,
-//                      height: (collectionView.frame.height - 10 ) * 1)
         return CGSize(width: (collectionView.frame.width - 10) * 1,
                       height: (collectionView.frame.height - 10 ) * 1)
     }
