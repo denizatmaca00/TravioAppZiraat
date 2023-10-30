@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F15C9232AEBD09C00CE48CD /* MapVC.swift */; };
 		0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829672AE9113D00B2EBDE /* AppDelegate.swift */; };
 		0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829692AE9113D00B2EBDE /* SceneDelegate.swift */; };
 		0F78296C2AE9113D00B2EBDE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F78296B2AE9113D00B2EBDE /* ViewController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F15C9232AEBD09C00CE48CD /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		0F7829642AE9113D00B2EBDE /* TravioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F7829672AE9113D00B2EBDE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F7829692AE9113D00B2EBDE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				0F7829832AE911F400B2EBDE /* LoginViewController.swift */,
 				ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */,
 				5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */,
+				0F15C9232AEBD09C00CE48CD /* MapVC.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 				0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */,
 				5E388FC42AEA51BA002ABDBD /* NetworkVM.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,
+				0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */,
 				0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */,
 				ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */,
 				5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */,

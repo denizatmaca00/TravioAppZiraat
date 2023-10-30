@@ -43,10 +43,8 @@ class AppButton: UIButton {
         switch self.isEnabled
         {
         case false:
-            print("yanlis")
             self.backgroundColor = UIColor(named: "inactiveButtonColor")
         case true:
-            print("dogru")
             self.backgroundColor = UIColor(named: "backgroundColor")
         }
     }
