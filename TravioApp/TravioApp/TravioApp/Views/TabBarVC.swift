@@ -20,25 +20,26 @@ class TabBarVC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.viewControllers = setupControllers()
+        self.viewControllers = setupTabControllers()
+        // tab bar default view
         self.selectedIndex = 1
         // text color of Tab Bar elements
         self.tabBar.tintColor = UIColor(named: "backgroundColor")
         // image color of Tab Bar elements when not selected
         self.tabBar.unselectedItemTintColor = .systemGray
-
-        // transparanlığı yönetiyor
+        // set transparancy
         self.tabBar.isTranslucent = false
+        // set background color for tint
         self.tabBar.backgroundColor = UIColor(named: "textColorReversed")
-
+        // hide backButton
         self.navigationItem.setHidesBackButton(true, animated: false)
 
     }
     
     // 4 buton olacak: Home, visits, map, menu
-    private func setupControllers()->[UIViewController]
+    private func setupTabControllers()->[UIViewController]
     {
-        let homeVC = LoginVC()
+        let homeVC = HomeVC()
         let homeNC = UINavigationController(rootViewController: homeVC)
         let homeImage = UIImage(named: "home") // image when not selected
         let homeSelectedImage = UIImage(named: "home")?.withRenderingMode(.automatic) // image when active page
@@ -65,18 +66,6 @@ class TabBarVC: UITabBarController {
         
         return [homeNC, visitsNC, mapNC, menuNC]
     }
-
-    private func setupView()
-    {
-        //self.view.backgroundColor = UIColor(named: "backgroundColor")
-        setupLayout()
-    }
-    
-    private func setupLayout()
-    {
-        
-    }
-
 }
 
 
