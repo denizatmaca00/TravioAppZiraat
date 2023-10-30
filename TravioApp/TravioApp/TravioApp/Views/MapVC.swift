@@ -63,3 +63,19 @@ extension MapVC: MKMapViewDelegate {
         return annotationView
     }
 }
+extension MapVC: CLLocationManagerDelegate{
+    //MARK:- CLLocationManagerDelegate Methods
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let mUserLocation:CLLocation = locations[0] as CLLocation
+
+        let center = CLLocationCoordinate2D(latitude: mUserLocation.coordinate.latitude, longitude: mUserLocation.coordinate.longitude)
+        let mRegion = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+
+        map.setRegion(mRegion, animated: true)
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error - locationManager: \(error.localizedDescription)")
+    }
+
+}
