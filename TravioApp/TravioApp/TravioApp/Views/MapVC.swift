@@ -2,6 +2,7 @@ import UIKit
 import MapKit
 import SnapKit
 
+
 class MapVC: UIViewController {
     
     let map = MKMapView()
@@ -14,6 +15,8 @@ class MapVC: UIViewController {
         map.delegate = self
         setupViews()
         addCustomPin()
+        addPinLogoToPin()
+
     }
     
     private func addCustomPin() {
@@ -25,20 +28,20 @@ class MapVC: UIViewController {
     func setupViews() {
         self.view.addSubview(map)
         map.addAnnotation(pin)
-
-        map.addSubview(pinLogoImageView)
         setupLayout()
+
     }
     
     func setupLayout() {
         map.frame = view.bounds
         map.setRegion(MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)), animated: false)
-        
-        pinLogoImageView.snp.makeConstraints { img in
-            img.centerX.equalTo(map)
-            img.centerY.equalTo(map).offset(-3.62)
-            img.width.equalTo(25)
-            img.height.equalTo(25)
+    }
+    
+    func addPinLogoToPin() {
+        let pinView = map.view(for: pin)
+        if let pinView = pinView {
+            pinLogoImageView.frame = CGRect(x: 3.64, y: 3.92, width: 23, height: 21)
+            pinView.addSubview(pinLogoImageView)
         }
     }
 }
@@ -63,6 +66,7 @@ extension MapVC: MKMapViewDelegate {
         return annotationView
     }
 }
+
 extension MapVC: CLLocationManagerDelegate{
     //MARK:- CLLocationManagerDelegate Methods
 
@@ -79,4 +83,3 @@ extension MapVC: CLLocationManagerDelegate{
     }
 
 }
-// deneme
