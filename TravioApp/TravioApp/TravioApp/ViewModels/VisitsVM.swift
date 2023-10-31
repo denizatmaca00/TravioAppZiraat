@@ -30,7 +30,7 @@ class VisitsVM{
     
     func initFetch(){
         // here places will be fetch from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
-        //let postParams = ["id": 1]
+//        let postParams = ["id": 1]
 //        NetworkingHelper.shared.dataFromRemote(urlRequest: .visits) { [weak self] (result:Result<Place, Error>) in
 //            print(result)
 //            self?.fetchVisits(favorites: self?.favorites ?? [])

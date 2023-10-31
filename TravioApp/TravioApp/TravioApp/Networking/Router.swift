@@ -14,7 +14,7 @@ enum Router {
     case register(params:Parameters)
     case user(params: Parameters)
     case visits
-    case places(params:Parameters)
+    case places
     
     // delete and update cases
     case deleteVisit(id: String)
@@ -27,10 +27,10 @@ enum Router {
         return "https://api.iosclass.live"
     }
     
-    var token:String{
-        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJKb2huIERvZSIsImlkIjoiYmI0MjM0ZWMtZmJmNy00Y2I1LWFkYzEtZjA2NmM0MjlkYmZjIiwicm9sZSI6InVzZXIiLCJleHAiOjE2OTg0NDU3ODZ9.ZjhVVtdyjg0q7zc_HQVqLjQgdVjq4M5HEx-4TtcUDhE"
-    }
-    
+//    var token:String{
+//        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJKb2huIERvZSIsImlkIjoiYmI0MjM0ZWMtZmJmNy00Y2I1LWFkYzEtZjA2NmM0MjlkYmZjIiwicm9sZSI6InVzZXIiLCJleHAiOjE2OTg0NDU3ODZ9.ZjhVVtdyjg0q7zc_HQVqLjQgdVjq4M5HEx-4TtcUDhE"
+//    }
+//
     var path:String {
         switch self {
         case .register:
@@ -52,8 +52,10 @@ enum Router {
     
     var method:HTTPMethod {
         switch self {
-        case .register, .user, .visits, .places:
+        case .register, .user:
             return .post
+        case .visits, .places:
+            return .get
         case .deleteVisit:
             return .delete
         case .putVisit:
@@ -61,17 +63,20 @@ enum Router {
         }
     }
     
-    
-    var headers:HTTPHeaders {
-        switch self {
-        case .register, .user:
-            return [:]
-        case .visits, .places, .deleteVisit, .putVisit:
-            let config = URLSessionConfiguration.default
-            config.httpAdditionalHeaders = ["Authorization": token ]
-            return config.headers
+    var headers: HTTPHeaders {
+            var baseHeaders: HTTPHeaders = [:]
+
+        if let token = KeychainHelper.shared.getToken(email: "Deneme@gmail.com"){
+        baseHeaders["Authorization"] = "Bearer " + token            
         }
-    }
+            switch self {
+            case .register, .user:
+                return baseHeaders
+            case .visits, .places, .deleteVisit, .putVisit:
+                return baseHeaders
+            }
+        }
+    
     
     var parameters:Parameters? {
         switch self {
@@ -79,8 +84,8 @@ enum Router {
             return params
         case .user (let params):
             return params
-        case .places (let params):
-            return params
+        case .places:
+            return nil
         case .visits:
             return nil
         // delete and update cases
