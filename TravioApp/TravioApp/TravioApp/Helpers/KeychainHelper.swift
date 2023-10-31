@@ -29,15 +29,12 @@ final class KeychainHelper {
         }
         return nil
     }
-    func setToken(email: String, param: Tokens) -> String?{
+    func setToken(email: String, param: Tokens) {
         if let accessToken = KeychainHelper.shared.saveAccessToken(service: "travio", account: email, token: param.accessToken) {
             userToken.accessToken = accessToken
             print("****************")
             print(userToken)
-            return accessToken
         }
-        
-        return nil
     }
     
     

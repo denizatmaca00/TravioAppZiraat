@@ -17,6 +17,12 @@ struct Users:Codable {
     var password: String
     var id:String
 }
+struct User{
+    var username:String?
+    var mail:String?
+    var password:String?
+}
+
 struct Tokens: Codable {
     var accessToken: String
     var refreshToken: String

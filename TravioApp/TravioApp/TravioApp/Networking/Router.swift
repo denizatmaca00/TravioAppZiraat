@@ -14,7 +14,7 @@ enum Router {
     case register(params:Parameters)
     case user(params: Parameters)
     case visits
-    case places(params:Parameters)
+    case places
     
     // delete and update cases
     case deleteVisit(id: String)
@@ -52,9 +52,9 @@ enum Router {
     
     var method:HTTPMethod {
         switch self {
-        case .register, .user, .places:
+        case .register, .user:
             return .post
-        case .visits:
+        case .visits, .places:
             return .get
         case .deleteVisit:
             return .delete
@@ -84,8 +84,8 @@ enum Router {
             return params
         case .user (let params):
             return params
-        case .places (let params):
-            return params
+        case .places:
+            return nil
         case .visits:
             return nil
         // delete and update cases
