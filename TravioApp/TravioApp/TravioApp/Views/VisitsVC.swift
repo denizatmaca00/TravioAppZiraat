@@ -140,11 +140,17 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
         return (219+16)
     }
     
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        // here navigation to placeDetail page will be implemented
-        navigationController?.pushViewController(SignUpVC(), animated: true)
-        print(indexPath.row)
-        return indexPath
+//    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+//        // here navigation to placeDetail page will be implemented
+//        navigationController?.pushViewController(SignUpVC(), animated: true)
+//        print(indexPath.row)
+//        return indexPath
+//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = DetailVC()
+        vc.viewModel.currentPlace = viewModel.favorites[indexPath.row]
+        print("\(viewModel.favorites[indexPath.row]) resim")
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
