@@ -13,7 +13,7 @@ class LoginVC: UIViewController, ViewModelDelegate {
     private lazy var txtEmail = viewMail.getTFAsObject()
     private lazy var txtPassword = viewPass.getTFAsObject()
     
-    var viewModel = NetworkVM()
+    var viewModel = LoginVM()
 
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -97,7 +97,7 @@ class LoginVC: UIViewController, ViewModelDelegate {
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
         
-        viewModel.getUserData(email: email, password: password) {[self]  result in
+        viewModel.loginData(email: email, password: password) {[self]  result in
             switch result {
             case .success:
                 let vc = TabBarVC()

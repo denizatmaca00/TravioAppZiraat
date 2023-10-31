@@ -9,9 +9,9 @@ import UIKit
 
 class SignUpVC: UIViewController {
     
-    var signUpData:User = User()
+    var signUpData: User = User()
     
-    var viewModel = NetworkVM()
+    var viewModel = SignUpVM()
     
     //var userDelegator:UserDataDelegator?
     
@@ -52,7 +52,7 @@ class SignUpVC: UIViewController {
     private lazy var signUpButton: UIButton = {
         let signUpButton = AppButton()
         signUpButton.setTitle("Sign Up", for: .normal)
-        signUpButton.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 16)
+        signUpButton.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
         signUpButton.backgroundColor = UIColor(named: "backgroundColor")
         signUpButton.layer.cornerRadius = 12
         signUpButton.addTarget(self, action: #selector(signUpUser), for: .touchUpInside)
@@ -231,8 +231,3 @@ extension SignUpVC:UITextFieldDelegate{
 }
 
 // geçici User tanımlaması
-struct User{
-    var username:String?
-    var mail:String?
-    var password:String?
-}
