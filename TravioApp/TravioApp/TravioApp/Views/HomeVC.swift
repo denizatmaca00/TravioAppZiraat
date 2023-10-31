@@ -47,14 +47,37 @@ class HomeVC: UIViewController {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
+
+        cv.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "cvCell")
+        cv.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseId)
         cv.dataSource = self
         cv.delegate = self
-        cv.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "cvCell")
-        
         return cv
     }()
     
+    private lazy var lblSectionTitle:UILabel = {
+        let l = UILabel()
+        l.text = "Popular Places"
+        l.font = UIFont(name: "Poppins-Medium", size: 20)
+        return l
+    }()
+    
+    private lazy var btnSeeAll:UIButton = {
+        let b = UIButton()
+        b.setTitle("See All", for: .normal)
+        b.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 14)
+        b.setTitleColor(UIColor(named: "backgroundColor"), for: .normal)
+        //b.addTarget(self, action: #selector(btnSignUpTapped), for: .touchUpInside)
+        return b
+    }()
+    
     //MARK: -- Views
+    
+    private lazy var viewHeader:UICollectionReusableView = {
+        let v = UICollectionReusableView()
+        
+        return v
+    }()
     
     private lazy var contentViewBig : UIView = {
         let view = UIView()
@@ -88,7 +111,7 @@ class HomeVC: UIViewController {
         
         self.view.addSubviews(imgLogo, lblHeader, contentViewBig)
         
-        contentViewBig.addSubview(collectionView)
+        contentViewBig.addSubviews(collectionView, lblSectionTitle, btnSeeAll)
         
         setupLayout()
     }
@@ -102,9 +125,9 @@ class HomeVC: UIViewController {
             img.width.equalTo(66)
             
         })
-        
+
 //        imgHeader.snp.makeConstraints({ lbl in
-//            
+//
 //            lbl.leading.equalTo(imgLogo.snp.trailing)
 //            lbl.centerY.equalTo(imgLogo.snp.centerY)
 //            lbl.height.equalTo(28)
@@ -142,6 +165,14 @@ extension HomeVC {
     
     func makeSliderLayoutSection() -> NSCollectionLayoutSection {
         
+        // header adjustments
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .estimated(2))
+        
+        let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        
+        headerElement.pinToVisibleBounds = false
+        
+        
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -155,24 +186,8 @@ extension HomeVC {
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
         layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
         
-        return layoutSection
-    }
-        
-    func makeListLayoutSection() -> NSCollectionLayoutSection {
-    
-        // fractionalHeight adjusts distance between cells
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.42))
-        
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-       
-        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        
-        let layoutGroup = NSCollectionLayoutGroup.vertical(layoutSize: layoutGroupSize, subitems: [item] )
-        
-        let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
-        // below adjusts the position of cells relative to left and top of the screen
-        layoutSection.contentInsets = NSDirectionalEdgeInsets(top: 87, leading: 24, bottom: 0, trailing: 24)
-        layoutSection.interGroupSpacing = 2
+        // set/show headers
+        layoutSection.boundarySupplementaryItems = [headerElement]
         
         return layoutSection
     }
@@ -181,12 +196,7 @@ extension HomeVC {
         
         UICollectionViewCompositionalLayout {
             [weak self] sectionIndex, environment in
-            
-//            if sectionIndex == 0 {
-//                return self?.makeListLayoutSection()
-//            }else {
-//                return self?.makeSliderLayoutSection()
-//            }
+
             return self?.makeSliderLayoutSection()
         }
     }
@@ -209,6 +219,12 @@ extension HomeVC:UICollectionViewDataSource {
         cell.configure(object:object)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseId, for: indexPath) as! HeaderView
+        header.setTitle(titleText: "Popiler")
+        return header
     }
 }
 
@@ -233,3 +249,6 @@ struct HomeVC_Preview: PreviewProvider {
 }
 #endif
 
+// AutoLayout ile kısıtlamalar tanımıyoruz ve bunlara göre farklı ekranlarda aynı sonuç alıyoruz. Bunu da genelde superview ile yapıyoruz.
+
+// layout'daki genişliği neye göre vereceğiz?
