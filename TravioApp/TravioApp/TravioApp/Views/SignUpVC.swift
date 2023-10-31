@@ -78,6 +78,10 @@ class SignUpVC: UIViewController {
         txtPasswordConfirm.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
         
         setupViews()
+        
+        viewModel.showAlertClosure = { [weak self] title, message in
+            self?.showAlert(title: title, message: message)
+        }
     }
 
     
@@ -96,19 +100,28 @@ class SignUpVC: UIViewController {
        return authenticate
     }
        
-    @objc func signUpUser()
-    {
+    @objc func signUpUser() {
         let isAuthenticated = updateUserInfo()
 
-        if isAuthenticated
-        {
-           // buraya signUpData cinsinden kullanıcı verisi gelecek, eskiden delegate ile yönetiliyordu şimdi NetworkHelper ile gerçekleştirilecek
-           //userDelegator?.getUserData(params: signUpData)
-           backButtonTapped()
-            
-            viewModel.postUserData(name: txtUsername.text, email: txtEmail.text, password: txtPassword.text)
+        if isAuthenticated {
+            viewModel.postUserData(name: txtUsername.text, email: txtEmail.text, password: txtPassword.text) { [weak self] result in
+                switch result {
+                case .success(let response):
+                    if let messages = response.message {
+                        self!.viewModel.showAlertClosure?("Notification", messages)
+                        
+                        
+                    }
+                   // self?.navigationController?.popViewController(animated: true)
+                case .failure(let error):
+                    print("Error: \(error)")
+                    self!.viewModel.showAlertClosure?("Yanlış", error.localizedDescription)
+
+                }
+            }
         }
     }
+
     
     @objc func backButtonTapped(){
         self.navigationController?.popViewController(animated: true)

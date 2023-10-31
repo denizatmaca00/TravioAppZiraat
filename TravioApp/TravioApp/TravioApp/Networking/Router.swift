@@ -27,10 +27,10 @@ enum Router {
         return "https://api.iosclass.live"
     }
     
-    var token:String{
-        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJKb2huIERvZSIsImlkIjoiYmI0MjM0ZWMtZmJmNy00Y2I1LWFkYzEtZjA2NmM0MjlkYmZjIiwicm9sZSI6InVzZXIiLCJleHAiOjE2OTg0NDU3ODZ9.ZjhVVtdyjg0q7zc_HQVqLjQgdVjq4M5HEx-4TtcUDhE"
-    }
-    
+//    var token:String{
+//        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJKb2huIERvZSIsImlkIjoiYmI0MjM0ZWMtZmJmNy00Y2I1LWFkYzEtZjA2NmM0MjlkYmZjIiwicm9sZSI6InVzZXIiLCJleHAiOjE2OTg0NDU3ODZ9.ZjhVVtdyjg0q7zc_HQVqLjQgdVjq4M5HEx-4TtcUDhE"
+//    }
+//
     var path:String {
         switch self {
         case .register:
@@ -52,8 +52,10 @@ enum Router {
     
     var method:HTTPMethod {
         switch self {
-        case .register, .user, .visits, .places:
+        case .register, .user, .places:
             return .post
+        case .visits:
+            return .get
         case .deleteVisit:
             return .delete
         case .putVisit:
@@ -64,10 +66,9 @@ enum Router {
     var headers: HTTPHeaders {
             var baseHeaders: HTTPHeaders = [:]
 
-            if let token = KeychainHelper.shared.getToken() {
-                baseHeaders["Authorization"] = "Bearer " + token
-            }
-
+        if let token = KeychainHelper.shared.getToken(email: "Deneme@gmail.com"){
+        baseHeaders["Authorization"] = "Bearer " + token            
+        }
             switch self {
             case .register, .user:
                 return baseHeaders

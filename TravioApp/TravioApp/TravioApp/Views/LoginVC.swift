@@ -96,6 +96,7 @@ class LoginVC: UIViewController, ViewModelDelegate {
     @objc func btnLoginTapped() {
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
+        
         viewModel.getUserData(email: email, password: password) {[self]  result in
             switch result {
             case .success:

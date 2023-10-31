@@ -18,8 +18,12 @@ struct Users:Codable {
     var id:String
 }
 struct Tokens: Codable {
-    var accessToken: String?
-    var refreshToken: String?
+    var accessToken: String
+    var refreshToken: String
+}
+struct Messages: Codable {
+    var message: String?
+    var status: String?
 }
 
 class CustomAnnotation: NSObject, MKAnnotation {
