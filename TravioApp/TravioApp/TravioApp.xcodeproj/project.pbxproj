@@ -28,6 +28,7 @@
 		0FF6D4632AF1367500AA1339 /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4622AF1367500AA1339 /* SignUpVM.swift */; };
 		0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4642AF1368300AA1339 /* LoginVM.swift */; };
 		0FF6D4672AF2239E00AA1339 /* MapPresentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4662AF2239E00AA1339 /* MapPresentVC.swift */; };
+		0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4682AF247CE00AA1339 /* MapPlacesCellVC.swift */; };
 		5E388FC22AEA5193002ABDBD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC12AEA5193002ABDBD /* UserModel.swift */; };
 		5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */; };
 		5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */; };
@@ -64,6 +65,7 @@
 		0FF6D4622AF1367500AA1339 /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
 		0FF6D4642AF1368300AA1339 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		0FF6D4662AF2239E00AA1339 /* MapPresentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresentVC.swift; sourceTree = "<group>"; };
+		0FF6D4682AF247CE00AA1339 /* MapPlacesCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPlacesCellVC.swift; sourceTree = "<group>"; };
 		5E388FC12AEA5193002ABDBD /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingHelper.swift; sourceTree = "<group>"; };
 		5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisitCellVC.swift; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 				5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */,
 				0F15C9232AEBD09C00CE48CD /* MapVC.swift */,
 				0FF6D4662AF2239E00AA1339 /* MapPresentVC.swift */,
+				0FF6D4682AF247CE00AA1339 /* MapPlacesCellVC.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */,
 				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
 				0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */,
+				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

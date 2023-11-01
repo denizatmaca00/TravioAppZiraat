@@ -1,98 +1,74 @@
 import UIKit
 import MapKit
 
-class MapVC: UIViewController {
-    
-    let map = MKMapView()
-    let viewModel = MapVM()
-    var selectedAnnotation: MKAnnotation?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        map.delegate = self
-        setupViews()
-        setupTapGestureRecognizer()
-        fetchAndShowPlaces()
-//        
-//        
-//        viewModel.fetchPlaces(completion: {
-//            result in
-//            
-//            
-//        })
-        
-    }
     
-    func setupViews() {
-        self.view.addSubview(map)
-        setupLayout()
-    }
-    
-    func setupLayout() {
-        map.frame = view.bounds
-        map.showsUserLocation = true
-    }
-    
-    func setupTapGestureRecognizer() {
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        map.addGestureRecognizer(longPressGesture)
-    }
+    class MapVC: UIViewController {
+        let viewModel = MapVM()
+        var selectedAnnotation: MKAnnotation?
 
-    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        if gestureRecognizer.state == .began {
-            let touchPoint = gestureRecognizer.location(in: map)
-            let coordinate = map.convert(touchPoint, toCoordinateFrom: map)
-            if let existingAnnotation = selectedAnnotation {
-                map.removeAnnotation(existingAnnotation)
-            }
-             
+        private lazy var collectionView: UICollectionView = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.minimumInteritemSpacing = 18
+            
+            let collectionView = UICollectionView(frame: CGRect(x: 0, y: 565, width: view.bounds.size.width, height: 178), collectionViewLayout: layout)
+            collectionView.backgroundColor = .clear
+            collectionView.dataSource = self
+            collectionView.delegate = self
+            collectionView.register(MapPlacesCellVC.self, forCellWithReuseIdentifier: "Cell")
+            layout.itemSize = CGSize(width: collectionView.bounds.size.width - 63, height: 178)
+            
+            return collectionView
+        }()
+
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            viewModel.map.delegate = self
+            setupViews()
+            setupTapGestureRecognizer()
+            viewModel.fetchAndShowPlaces()
+        }
+
+        func setupViews() {
+            self.view.addSubview(viewModel.map)
+            self.view.addSubview(collectionView)
+            setupLayout()
+        }
+
+        func setupLayout() {
+            viewModel.map.frame = view.bounds
+            viewModel.map.showsUserLocation = true
+        }
+
+        func setupTapGestureRecognizer() {
+            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+            viewModel.map.addGestureRecognizer(longPressGesture)
+        }
+
+        @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+            if gestureRecognizer.state == .began {
+                let touchPoint = gestureRecognizer.location(in: viewModel.map)
+                let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
+                if let existingAnnotation = selectedAnnotation {
+                    viewModel.map.removeAnnotation(existingAnnotation)
+                }
+                 
                 let newAnnotation = CustomAnnotation(
                     title: "Yeni Pin",
                     subtitle: "Açıklama",
                     coordinate: coordinate,
                     logoImage: UIImage(named: "pinLogo")
                 )
-                self.map.addAnnotation(newAnnotation)
+                viewModel.map.addAnnotation(newAnnotation)
                 selectedAnnotation = newAnnotation
                 let vc = MapPresentVC()
                 self.present(vc, animated: true, completion: nil)
-            
-
-        }
-    }
-
-
-
-    func fetchAndShowPlaces() {
-        viewModel.fetchPlaces { result in
-            switch result {
-            case .success(let dataPlaces):
-                let places = dataPlaces.data.places
-                print("Toplam yer sayısı: \(places.count)")
-                
-                for place in places {
-                    let title = place.title
-                    let description = place.description
-                    let latitude = place.latitude
-                    let longitude = place.longitude
-
-                    let annotation = CustomAnnotation(
-                        title: title,
-                        subtitle: description,
-                        coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                        logoImage: UIImage(named: "pinLogo")
-                    )
-
-                    self.map.addAnnotation(annotation)
-                }
-                
-            case .failure(let error):
-                print("Hata: \(error)")
             }
         }
     }
-  
-}
+   
+
 
 
 extension MapVC: MKMapViewDelegate {
@@ -125,12 +101,22 @@ extension MapVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation {
             if annotation === selectedAnnotation {
-                map.removeAnnotation(annotation)
+                viewModel.map.removeAnnotation(annotation)
                 selectedAnnotation = nil
             }
         }
     }
 
+}
+extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        return cell
+    }
 }
 
 
@@ -165,3 +151,14 @@ extension MapVC: MKMapViewDelegate {
 //
 //
 //}
+#if DEBUG
+import SwiftUI
+
+@available(iOS 13, *)
+struct MapVC_Preview: PreviewProvider {
+    static var previews: some View{
+
+        MapVC().showPreview()
+    }
+}
+#endif
