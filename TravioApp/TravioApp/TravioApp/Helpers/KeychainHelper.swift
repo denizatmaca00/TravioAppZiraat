@@ -11,33 +11,62 @@ final class KeychainHelper {
     
     static let shared = KeychainHelper()
     
+    var userToken = Tokens(accessToken: "", refreshToken: "") // logindeki tokenleri tutuyor.
+    
     init(){ }
     
-    func save(_ data:Data, service:String, account:String) {
+    // bunu bence post ederken visit kısımlarını konrtol edicez
+    //    if let accessToken = KeychainHelper.shared.getToken(service: "YourService", account: email) {
+    //        // accessToken kullanılabilir
+    //    } else {
+    //        // accessToken bulunamadı
+    //    }
+    
+    
+    func getToken(email: String?) -> String? {
+        if let data = read(service: "Travio", account: email!) {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil
+    }
+    func setToken(email: String, param: Tokens) {
+        if let accessToken = KeychainHelper.shared.saveAccessToken(service: "travio", account: email, token: param.accessToken) {
+            userToken.accessToken = accessToken
+            print("****************")
+            print(userToken)
+        }
+    }
+    
+    
+    
+    func saveAccessToken(service: String, account: String, token: String) -> String? {
+        let tokenData = token.data(using: .utf8)
         
         let query = [
-            kSecValueData: data,
+            kSecValueData: tokenData,
             kSecAttrService: service,
             kSecAttrAccount: account,
             kSecClass: kSecClassGenericPassword
         ] as CFDictionary
         
-        
         let status = SecItemAdd(query, nil)
         
         if status == errSecDuplicateItem {
-            
             let query = [
                 kSecAttrService: service,
                 kSecAttrAccount: account,
                 kSecClass: kSecClassGenericPassword,
             ] as CFDictionary
             
-            let attributesToUpdate = [kSecValueData: data] as CFDictionary
+            let attributesToUpdate = [kSecValueData: tokenData] as CFDictionary
             
             SecItemUpdate(query, attributesToUpdate)
         }
+        //     print(token)
+        return token
     }
+    
+    
     
     func read(service:String,account:String)->Data? {
         
@@ -66,9 +95,9 @@ final class KeychainHelper {
         
         SecItemDelete(query)
     }
- 
+    
     func getAllKeyChainItemsOfClass(_ secClass: String) -> [String:String] {
-
+        
         let query: [String: Any] = [
             kSecClass as String : secClass,
             kSecReturnData as String  : kCFBooleanTrue,
@@ -76,25 +105,25 @@ final class KeychainHelper {
             kSecReturnRef as String : kCFBooleanTrue,
             kSecMatchLimit as String : kSecMatchLimitAll
         ]
-
+        
         var result: AnyObject?
-
+        
         let lastResultCode = withUnsafeMutablePointer(to: &result) {
             SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0))
         }
-
+        
         var values = [String:String]()
         if lastResultCode == noErr {
             let array = result as? Array<Dictionary<String, Any>>
-
+            
             for item in array! {
                 if let key = item[kSecAttrAccount as String] as? String,
-                    let value = item[kSecValueData as String] as? Data {
+                   let value = item[kSecValueData as String] as? Data {
                     values[key] = String(data: value, encoding:.utf8)
                 }
             }
         }
-
+        
         return values
     }
     

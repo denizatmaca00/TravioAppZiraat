@@ -1,41 +1,28 @@
 //
-//  NetworkVM.swift
+//  LoginVM.swift
 //  TravioApp
 //
-//  Created by Ece Poyraz on 26.10.2023.
+//  Created by web3406 on 10/31/23.
 //
 
 import Foundation
 import Alamofire
 
-class NetworkVM{
+class LoginVM{
     
     var usersInfos: [Users] = []
     
     var showAlertClosure: ((String, String) -> Void)?
 
-    
-    func postUserData(name:String?,email:String?,password:String?){
-       
-        let paramsPost = ["full_name":name,
-                          "email":email,
-                          "password":password]
-        
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .register(params: paramsPost), callback: { (result:Result<Users,Error>) in
-            
-            print(result)
-        })
-   
-    }
-    
-    func getUserData(email: String, password: String, completion: @escaping (Result<Tokens, Error>) -> Void) {
+    func loginData(email: String?, password: String, completion: @escaping (Result<Tokens, Error>) -> Void) {
         let paramsPost = ["email": email, "password": password]
 
         NetworkingHelper.shared.dataFromRemote(urlRequest: .user(params: paramsPost)) { [self] (result: Result<Tokens, Error>) in
             switch result {
             case .success(let response):
-                if let accessToken = response.accessToken {
+                if response.accessToken != nil {
                     completion(.success(response))
+                    KeychainHelper.shared.setToken(email: email! ,param: response)
                 } else {
                     completion(.failure(NSError(domain: "Login Error", code: 401, userInfo: nil)))
                 }
@@ -44,9 +31,5 @@ class NetworkVM{
             }
         }
     }
-
-
-    
-    
     
 }
