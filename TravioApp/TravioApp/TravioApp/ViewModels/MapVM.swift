@@ -18,7 +18,14 @@ class MapVM {
     
     var showPinClosure: (() -> Void)?
     var showAlertClosure: ((String, String) -> Void)?
+    var reloadTableViewClosure: (()->())?
 
+    
+    private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
+        didSet {
+            reloadTableViewClosure?()
+        }
+    }
     
     func fetchPlaces(completion: @escaping (Result<DataPlaces, Error>) -> Void) {
         NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { (result: Result<DataPlaces, Error>) in
@@ -29,6 +36,19 @@ class MapVM {
             case .failure(let error):
                 print("Hata oluştu: \(error)")
                 completion(.failure(error))
+            }
+        }
+    }
+    func fetchPlacesForCollectionCell(){
+        // here places will be fetchED from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
+        
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<DataPlaces, Error>) in
+            
+            switch result {
+            case .success(let data):
+                self?.fetchVisits(favorites: data.data.places )
+            case .failure(let failure):
+                print(failure.localizedDescription)
             }
         }
     }
@@ -63,27 +83,32 @@ class MapVM {
         }
     }
     
-    func fetchPlacesCollectionView(completion: @escaping (Result<DataPlaces, Error>) -> Void) {
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { (result: Result<DataPlaces, Error>) in
-            switch result {
-            case .success(let places):
-                self.places = places.data.places
-                completion(.success(places))
-                print("12345")
-                print(self.places)
-                print("123456789")
-                print(places)
-            case .failure(let error):
-                print("Hata oluştu: \(error)")
-                completion(.failure(error))
-            }
+    private func fetchVisits(favorites:[Place]){
+        self.places = favorites
+        
+        var viewModels = [VisitCellViewModel]()
+        
+        for favorite in favorites {
+            viewModels.append(createCellViewModel(favorite: favorite))
         }
+        
+        self.cellViewModels = viewModels
     }
-
     
-   
+    private func createCellViewModel(favorite:Place) -> VisitCellViewModel{
+        // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell to show inside each vistsCell
+        
+        let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
+                                     placeName: favorite.title,
+                                     city: favorite.place)
+        return cvm
+    }
+    
+    func getCellViewModel(at indexPath:IndexPath)->VisitCellViewModel{
+        return cellViewModels[indexPath.row]
+    }
+    
   
-
 
 }
 
