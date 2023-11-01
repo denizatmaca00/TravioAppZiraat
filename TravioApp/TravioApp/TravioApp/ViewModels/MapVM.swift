@@ -14,6 +14,8 @@ class MapVM {
     var places: [Place] = []
     
     var showPinClosure: (() -> Void)?
+    var showAlertClosure: ((String, String) -> Void)?
+
     
     func fetchPlaces(completion: @escaping (Result<DataPlaces, Error>) -> Void) {
         NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { (result: Result<DataPlaces, Error>) in

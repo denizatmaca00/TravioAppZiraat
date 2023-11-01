@@ -14,6 +14,9 @@ class AppTextField: UIView {
         case password
         case username
         case passwordConfirm
+        case presentMapTitle
+        case presentMapDescription
+        case presentMapLocation
         
         var title: String {
             switch self {
@@ -25,6 +28,12 @@ class AppTextField: UIView {
                 return "Username"
             case .passwordConfirm:
                 return "Password Confirm"
+            case .presentMapTitle:
+                return "Place Name"
+            case .presentMapDescription:
+                return "Visit Description"
+            case .presentMapLocation:
+                return "Country, City"
             }
         }
         
@@ -38,6 +47,12 @@ class AppTextField: UIView {
                 return "bilge_adam"
             case .passwordConfirm:
                 return "**************"
+            case .presentMapTitle:
+                return "Plase write a place name"
+            case .presentMapDescription:
+                return "Lorem ipsum..."
+            case .presentMapLocation:
+                return "Location"
             }
         }
     }

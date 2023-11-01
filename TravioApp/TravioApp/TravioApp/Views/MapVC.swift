@@ -5,12 +5,13 @@ class MapVC: UIViewController {
     
     let map = MKMapView()
     let viewModel = MapVM()
-    
+    var selectedAnnotation: MKAnnotation?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         map.delegate = self
         setupViews()
-   //     setupTapGestureRecognizer()
+        setupTapGestureRecognizer()
         fetchAndShowPlaces()
 //        
 //        
@@ -32,25 +33,36 @@ class MapVC: UIViewController {
         map.showsUserLocation = true
     }
     
-//    func setupTapGestureRecognizer() {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleMapTap(_:)))
-//        map.addGestureRecognizer(tapGesture)
-//    }
-    
-//    @objc func handleMapTap(_ sender: UITapGestureRecognizer) {
-//        if sender.state == .ended {
-//            let touchPoint = sender.location(in: map)
-//            let coordinate = map.convert(touchPoint, toCoordinateFrom: map)
-//            let newAnnotation = CustomAnnotation(
-//                title: "Yeni Pin",
-//                subtitle: "Açıklama",
-//                coordinate: coordinate,
-//                logoImage: UIImage(named: "pinLogo")
-//            )
-//            map.addAnnotation(newAnnotation)
-//        }
-//    }
-    
+    func setupTapGestureRecognizer() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        map.addGestureRecognizer(longPressGesture)
+    }
+
+    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let touchPoint = gestureRecognizer.location(in: map)
+            let coordinate = map.convert(touchPoint, toCoordinateFrom: map)
+            if let existingAnnotation = selectedAnnotation {
+                map.removeAnnotation(existingAnnotation)
+            }
+             
+                let newAnnotation = CustomAnnotation(
+                    title: "Yeni Pin",
+                    subtitle: "Açıklama",
+                    coordinate: coordinate,
+                    logoImage: UIImage(named: "pinLogo")
+                )
+                self.map.addAnnotation(newAnnotation)
+                selectedAnnotation = newAnnotation
+                let vc = MapPresentVC()
+                self.present(vc, animated: true, completion: nil)
+            
+
+        }
+    }
+
+
+
     func fetchAndShowPlaces() {
         viewModel.fetchPlaces { result in
             switch result {
@@ -75,7 +87,6 @@ class MapVC: UIViewController {
                 }
                 
             case .failure(let error):
-                // API çağrısında hata oluştu
                 print("Hata: \(error)")
             }
         }
@@ -110,6 +121,16 @@ extension MapVC: MKMapViewDelegate {
         
         return nil
     }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation {
+            if annotation === selectedAnnotation {
+                map.removeAnnotation(annotation)
+                selectedAnnotation = nil
+            }
+        }
+    }
+
 }
 
 

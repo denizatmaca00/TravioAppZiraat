@@ -187,7 +187,6 @@ extension SignUpVC:UITextFieldDelegate{
         return true
     }
     
-    //    func textEdit
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return true
@@ -229,5 +228,3 @@ extension SignUpVC:UITextFieldDelegate{
         }
     }
 }
-
-// geçici User tanımlaması

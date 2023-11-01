@@ -1,8 +1,5 @@
 import UIKit
 import SnapKit
-// Veri modeli oluştur
-
-
 
 
 class LoginVC: UIViewController, ViewModelDelegate {
@@ -85,7 +82,7 @@ class LoginVC: UIViewController, ViewModelDelegate {
         setupViews()
         viewModel.showAlertClosure = { [weak self] title, message in
             self?.showAlert(title: title, message: message)
-        }
+        }//didsete ekelyeeğim
     }
     
     @objc func btnSignUpTapped(){
