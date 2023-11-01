@@ -24,8 +24,10 @@
 		0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A62AEA7FF600B2EBDE /* Protocol.swift */; };
 		0FF6D4582AEFC11900AA1339 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4572AEFC11900AA1339 /* KeychainHelper.swift */; };
 		0FF6D45C2AEFC89D00AA1339 /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D45B2AEFC89D00AA1339 /* PlaceModel.swift */; };
+		0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4602AF114E200AA1339 /* MapVM.swift */; };
+		0FF6D4632AF1367500AA1339 /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4622AF1367500AA1339 /* SignUpVM.swift */; };
+		0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4642AF1368300AA1339 /* LoginVM.swift */; };
 		5E388FC22AEA5193002ABDBD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC12AEA5193002ABDBD /* UserModel.swift */; };
-		5E388FC42AEA51BA002ABDBD /* NetworkVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC32AEA51BA002ABDBD /* NetworkVM.swift */; };
 		5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */; };
 		5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */; };
 		5E388FCD2AEA680C002ABDBD /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 5E388FCC2AEA680C002ABDBD /* TinyConstraints */; };
@@ -60,8 +62,10 @@
 		0F7829A62AEA7FF600B2EBDE /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		0FF6D4572AEFC11900AA1339 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		0FF6D45B2AEFC89D00AA1339 /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
+		0FF6D4602AF114E200AA1339 /* MapVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVM.swift; sourceTree = "<group>"; };
+		0FF6D4622AF1367500AA1339 /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
+		0FF6D4642AF1368300AA1339 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		5E388FC12AEA5193002ABDBD /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		5E388FC32AEA51BA002ABDBD /* NetworkVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkVM.swift; sourceTree = "<group>"; };
 		5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingHelper.swift; sourceTree = "<group>"; };
 		5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisitCellVC.swift; sourceTree = "<group>"; };
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
@@ -188,7 +192,9 @@
 			isa = PBXGroup;
 			children = (
 				ECFFD1CB2AEBD5CB0066E75C /* VisitsVM.swift */,
-				5E388FC32AEA51BA002ABDBD /* NetworkVM.swift */,
+				0FF6D4602AF114E200AA1339 /* MapVM.swift */,
+				0FF6D4622AF1367500AA1339 /* SignUpVM.swift */,
+				0FF6D4642AF1368300AA1339 /* LoginVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -294,6 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0FF6D4632AF1367500AA1339 /* SignUpVM.swift in Sources */,
 				ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */,
 				0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */,
 				0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */,
@@ -303,7 +310,6 @@
 				5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */,
 				0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */,
 				0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */,
-				5E388FC42AEA51BA002ABDBD /* NetworkVM.swift in Sources */,
 				ECFFD1CE2AEF874B0066E75C /* TabBarVC.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,
 				0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */,
@@ -314,6 +320,8 @@
 				5E388FC22AEA5193002ABDBD /* UserModel.swift in Sources */,
 				EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */,
 				ECFFD1CC2AEBD5CB0066E75C /* VisitsVM.swift in Sources */,
+				0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */,
+				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
 				0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */,
 				ECFFD1D42AF11E970066E75C /* HeaderView.swift in Sources */,
 				ECFFD1D22AEFD9380066E75C /* CustomCollectionViewCell.swift in Sources */,
