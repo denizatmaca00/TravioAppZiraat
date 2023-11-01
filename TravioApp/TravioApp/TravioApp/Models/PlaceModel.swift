@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 struct VisitCellViewModel{
-    let image:UIImage
-    let placeName:String
-    let city:String
+    var image:UIImage
+    var placeName:String
+    var city:String
 }
 
 struct VisitViewModel:Codable{
