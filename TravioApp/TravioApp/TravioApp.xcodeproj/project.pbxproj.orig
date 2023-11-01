@@ -157,11 +157,14 @@
 				ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */,
 				5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */,
 				0F15C9232AEBD09C00CE48CD /* MapVC.swift */,
+<<<<<<< HEAD
 				0FF6D4662AF2239E00AA1339 /* MapPresentVC.swift */,
 				0FF6D4682AF247CE00AA1339 /* MapPlacesCellVC.swift */,
+=======
 				ECFFD1CF2AEFD3750066E75C /* HomeVC.swift */,
 				ECFFD1D32AF11E970066E75C /* HeaderView.swift */,
 				ECFFD1D12AEFD9380066E75C /* CustomCollectionViewCell.swift */,
+>>>>>>> sprint2/visitsVMBackend
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -316,7 +319,6 @@
 				0F7829852AE911F400B2EBDE /* LoginVC.swift in Sources */,
 				5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */,
 				0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */,
-				5E388FB92AE93F1C002ABDBD /* NetworkingHelper.swift in Sources */,
 				0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */,
 				ECFFD1CE2AEF874B0066E75C /* TabBarVC.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,
@@ -331,9 +333,12 @@
 				0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */,
 				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
 				0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */,
+<<<<<<< HEAD
 				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
+=======
 				ECFFD1D42AF11E970066E75C /* HeaderView.swift in Sources */,
 				ECFFD1D22AEFD9380066E75C /* CustomCollectionViewCell.swift in Sources */,
+>>>>>>> sprint2/visitsVMBackend
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
