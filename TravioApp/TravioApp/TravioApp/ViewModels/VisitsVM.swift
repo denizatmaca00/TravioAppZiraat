@@ -7,13 +7,11 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class VisitsVM{
     
-    // dummy data for tableView
-    private var favorites: [Place] = [Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"),
-                                      Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"),
-                                      Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
+    private var favorites: [Place] = []
     
     private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
@@ -29,13 +27,17 @@ class VisitsVM{
     var reloadTableViewClosure: (()->())?
     
     func initFetch(){
-        // here places will be fetch from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
-//        let postParams = ["id": 1]
-//        NetworkingHelper.shared.dataFromRemote(urlRequest: .visits) { [weak self] (result:Result<Place, Error>) in
-//            print(result)
-//            self?.fetchVisits(favorites: self?.favorites ?? [])
-//        }
-        fetchVisits(favorites: favorites)
+        // here places will be fetchED from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
+        
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<DataPlaces, Error>) in
+            
+            switch result {
+            case .success(let data):
+                self?.fetchVisits(favorites: data.data.places )
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
     }
     
     // MARK: Create View Model
@@ -46,24 +48,65 @@ class VisitsVM{
         var viewModels = [VisitCellViewModel]()
         
         for favorite in favorites {
-            viewModels.append( createCellViewModel(favorite: favorite))
+            viewModels.append(createCellViewModel(favorite: favorite))
         }
+        
         self.cellViewModels = viewModels
     }
     
     private func createCellViewModel(favorite:Place) -> VisitCellViewModel{
-        // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell
+        // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell to show inside each vistsCell
         
-        // here favorite.place_id 's are placeholders, a function should take place_id and convert into placeName and placeCity.
         let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
-                                     placeName: favorite.place,
-                                     city: favorite.creator)
+                                     placeName: favorite.title,
+                                     city: favorite.place)
         return cvm
     }
     
     func getCellViewModel(at indexPath:IndexPath)->VisitCellViewModel{
         return cellViewModels[indexPath.row]
     }
-    
 }
 
+extension VisitsVM {
+    // This function can be used to create cellView with city data obtained by Lat:Long data in favorites array
+    private func setCellViewByLatLong(favorite:Place){
+        var cityArr:[String] = []
+        var viewModels = [VisitCellViewModel]()
+        
+        let location = CLLocation(latitude: favorite.latitude, longitude: favorite.longitude)
+        var city:String = "nilDefault"
+        
+        CLGeocoder().reverseGeocodeLocation(location) { placemarks , error in
+            
+            if error == nil && placemarks!.count > 0 {
+                guard let placemark = placemarks?.last else {
+                    return
+                }
+                city = placemark.locality ?? " "
+                print("ekledim içeriden \(city)")
+                cityArr.append(city)
+                let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
+                                             placeName: favorite.title,
+                                             city: city)
+                viewModels.append(cvm)
+                self.cellViewModels = viewModels
+            }
+            if city != "nilDefault"{
+                cityArr.append(city)
+            }
+        }
+    }
+}
+
+#if DEBUG
+import SwiftUI
+
+@available(iOS 13, *)
+struct VisitsVM_Preview: PreviewProvider {
+    static var previews: some View{
+        
+        VisitsVC().showPreview()
+    }
+}
+#endif
