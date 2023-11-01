@@ -28,6 +28,16 @@ import MapKit
             setupViews()
             setupTapGestureRecognizer()
             viewModel.fetchAndShowPlaces()
+            initVM()
+        }
+        
+        func initVM(){
+            viewModel.reloadTableViewClosure = { [weak self] () in
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                }
+            }
+            viewModel.fetchPlacesForCollectionCell()
         }
 
         func setupViews() {
@@ -110,12 +120,17 @@ extension MapVC: MKMapViewDelegate {
 }
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return viewModel.places.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? MapPlacesCellVC else {
+            fatalError("cell does not exist")
+        }
+        let cellVM = viewModel.getCellViewModel(at: indexPath)
+        cell.visitCellViewModel = cellVM
         return cell
+    
     }
 }
 
