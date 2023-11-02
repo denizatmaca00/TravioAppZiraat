@@ -13,6 +13,16 @@ import SnapKit
 class DropCell: UITableViewCell {
     
     //MARK: -- Properties
+    
+    var isExpanded:Bool = false
+    
+    var dropCellViewModel:DropCellViewModel? {
+        didSet{
+            lblHeader.text = dropCellViewModel?.title
+            lblDescription.text = dropCellViewModel?.description
+        }
+    }
+    
     private lazy var lblHeader: UILabel = {
         let lbl = UILabel()
         lbl.text = "placeHolderTitle"
@@ -33,10 +43,19 @@ class DropCell: UITableViewCell {
     
     private lazy var dropView:UIView = {
         let view = UIView()
+        view.backgroundColor = UIColor(named: "viewBackgroundColor")
         view.clipsToBounds = true
-        view.layer.cornerRadius = 80
+        view.layer.cornerRadius = 16
         view.layer.maskedCorners = [.layerMinXMinYCorner]
         return view
+    }()
+    
+    private lazy var imgDropButton:UIImageView = {
+        let imgView = UIImageView()
+        let img = UIImage(systemName: "drop")?.withRenderingMode(.alwaysOriginal)
+        imgView.image = img
+        
+        return imgView
     }()
     
     //MARK: -- Life Cycles
@@ -65,7 +84,7 @@ class DropCell: UITableViewCell {
         self.backgroundColor = UIColor(named: "viewBackgroundColor")
         self.backgroundColor = .systemGray3
         self.addSubviews(dropView)
-        dropView.addSubviews(lblHeader, lblDescription)
+        dropView.addSubviews(lblHeader, imgDropButton, lblDescription)
         
         setupLayout()
     }
@@ -73,17 +92,29 @@ class DropCell: UITableViewCell {
     private func setupLayout() {
         // Add here the setup for layout
         dropView.snp.makeConstraints({ dv in
-            dv.width.equalToSuperview()
-            dv.height.equalTo(50)
+            dv.leading.equalToSuperview().offset(24)
+            dv.trailing.equalToSuperview().offset(-24)
+            dv.height.equalTo(73)
             dv.center.equalToSuperview()
             
         })
         
         lblHeader.snp.makeConstraints({lbl in
-            lbl.leading.equalToSuperview()
+            lbl.centerY.equalToSuperview()
+            lbl.leading.equalToSuperview().offset(12)
+            
         })
         
+        lblDescription.snp.makeConstraints({ lbl in
+            lbl.top.equalTo(lblHeader).offset(12)
+            lbl.leading.equalTo(lblHeader)
+            lbl.trailing.equalToSuperview().offset(-15)
+        })
         
+        imgDropButton.snp.makeConstraints({ img in
+            img.trailing.equalToSuperview().offset(-18.37)
+            img.centerY.equalToSuperview()
+        })
     }
   
 }
