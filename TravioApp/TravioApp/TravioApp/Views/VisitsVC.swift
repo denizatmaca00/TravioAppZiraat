@@ -150,7 +150,9 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
         let vc = DetailVC()
         vc.viewModel.currentPlace = viewModel.favorites[indexPath.row]
         print("\(viewModel.favorites[indexPath.row]) resim")
+        let vm = DetailVM()
         navigationController?.pushViewController(vc, animated: true)
+        vm.placeId = viewModel.favorites[indexPath.row].id
     }
 }
 

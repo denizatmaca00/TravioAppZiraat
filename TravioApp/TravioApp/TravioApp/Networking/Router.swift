@@ -18,10 +18,12 @@ enum Router {
     
     // delete and update cases
     case deleteVisit(id: String)
-    case putVisit(id: String, params: Parameters)
+    case postVisit(id: String, params: Parameters)
+
     
 //    case deletePlace(id: String)
 //    case putPlace(id: String, params: Parameters)
+    case getPlaceByID(id:String)
     
     var baseURL:String {
         return "https://api.iosclass.live"
@@ -41,25 +43,30 @@ enum Router {
             return "/v1/visits"
         case .places:
             return "/v1/places"
+        case .postVisit:
+            return "/v1/visits"
+        
             
         // delete and update cases
         case .deleteVisit(let visitId):
             return "/v1/visit/\(visitId)"
-        case .putVisit(let visitId, _):
-            return "/v1/visit/\(visitId)"
+        case .postVisit(let visitId, _):
+            return "/v1/visits/\(visitId)"
+        case .getPlaceByID(let id):
+            return "/v1/visits/visitId\(id)"
         }
     }
     
     var method:HTTPMethod {
         switch self {
-        case .register, .user:
+        case .register, .user, .postVisit, .visits:
             return .post
-        case .visits, .places:
+        case .places, .getPlaceByID:
             return .get
         case .deleteVisit:
             return .delete
-        case .putVisit:
-            return .put
+//        case .postVisit:
+//            return .put
         }
     }
     
@@ -70,9 +77,9 @@ enum Router {
         baseHeaders["Authorization"] = "Bearer " + token            
         }
             switch self {
-            case .register, .user:
+            case .register, .user, .getPlaceByID:
                 return baseHeaders
-            case .visits, .places, .deleteVisit, .putVisit:
+            case .visits, .places, .deleteVisit, .postVisit:
                 return baseHeaders
             }
         }
@@ -91,8 +98,10 @@ enum Router {
         // delete and update cases
         case .deleteVisit:
             return nil
-        case .putVisit(_, let params):
+        case .postVisit(_, let params):
             return params
+        case .getPlaceByID(let params):
+            return nil
         }
     }
     

@@ -11,7 +11,7 @@ import CoreLocation
 
 class VisitsVM{
     
-    private var favorites: [Place] = []
+    var favorites: [Place] = []
     
     private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
@@ -29,7 +29,7 @@ class VisitsVM{
     func initFetch(){
         // here places will be fetchED from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
         
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<DataPlaces, Error>) in
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .visits) { [weak self] (result:Result<DataPlaces, Error>) in
             
             switch result {
             case .success(let data):

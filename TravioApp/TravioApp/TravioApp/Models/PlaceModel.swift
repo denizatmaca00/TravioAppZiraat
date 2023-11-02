@@ -62,6 +62,22 @@ struct Place: Codable {
     }
 }
 
+struct Placetext:Codable{
+    var id:String
+    var creator:String
+    var place:String
+    var description:String
+    var created_at:String
+  
+    
+    init(id: String, creator:String, place: String, description: String, created_at:String) {
+        self.id = id
+        self.creator = creator
+        self.place = place
+        self.description = description
+        self.created_at = created_at
+    }
+}
 
 struct PlacesData: Codable{
    
@@ -76,4 +92,30 @@ struct DataPlaces: Codable{
 struct ReturnMessage:Codable {
     var message:String
     var status:String
+}
+
+//Get All Gallery by Place ID
+
+struct GalleryImage:Codable{
+    var data: DataClass
+    var  status: String
+}
+
+struct DataClass:Codable{
+    var count: Int
+    var images: [Image]
+}
+struct Image:Codable{
+    let id, placeId: String
+    let imageUrl:String
+    let createAt, updateAt: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case placeId = "place_id"
+        case imageUrl = "image_url"
+        case createAt = "create_at"
+        case updateAt = "updated_at"
+    }
+   
 }

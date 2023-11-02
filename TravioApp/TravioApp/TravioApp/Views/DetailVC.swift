@@ -14,6 +14,12 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     var mapView: MKMapView!
     var pinCoordinate: CLLocationCoordinate2D?
     var viewModel = DetailVM()
+//    var placeid:String?{
+//        didSet{
+//            print("saflfşskşfdsklşfdks\(placeid)")
+//        }
+//    }
+//    
 
     private lazy var imageCollection:UICollectionView = {
         let l = UICollectionViewFlowLayout()
@@ -104,7 +110,9 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     
     @objc func back(){
         print("tıklandı back")
-        navigationController?.popViewController(animated: true)
+        var denemee = VisitsVC()
+        navigationController?.pushViewController(denemee, animated: true)
+        //navigationController?.popViewController(animated: true)
     }
     @objc func mapButtonTapped(){
         //mapvc ye gidecek.
@@ -112,9 +120,20 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     @objc func buttonSave(){
+        var testtt = DetailVM()
         saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
         //print("tıklandı")
         saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
+        
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .visits) { [weak self] (result:Result<DataPlaces, Error>) in
+        
+            switch result {
+            case .success(let data):
+                testtt.fetchVisits(favorites: data.data.places )
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
     }
     @objc func refreshButton(){
         saveBtn.setImage(UIImage(named: "save"), for: .normal)
