@@ -27,8 +27,8 @@ class MapVM {
         }
     }
     
-    func fetchPlaces(completion: @escaping (Result<DataPlaces, Error>) -> Void) {
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { (result: Result<DataPlaces, Error>) in
+    func fetchPlaces(completion: @escaping (Result<PlacesDataStatus, Error>) -> Void) {
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { (result: Result<PlacesDataStatus, Error>) in
             switch result {
             case .success(let places):
                 self.places = places.data.places
@@ -42,7 +42,7 @@ class MapVM {
     func fetchPlacesForCollectionCell(){
         // here places will be fetchED from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
         
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<DataPlaces, Error>) in
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<PlacesDataStatus, Error>) in
             
             switch result {
             case .success(let data):

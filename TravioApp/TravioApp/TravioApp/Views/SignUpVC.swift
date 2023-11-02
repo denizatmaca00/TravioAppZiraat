@@ -9,7 +9,7 @@ import UIKit
 
 class SignUpVC: UIViewController {
     
-    var signUpData: User = User()
+    var signUpData: User = User(full_name: "", email: "", password: "", id: "")
     
     var viewModel = SignUpVM()
     
@@ -29,7 +29,7 @@ class SignUpVC: UIViewController {
         let lbl = UILabel()
         lbl.text = "Sign Up"
         lbl.textColor = .white
-        lbl.font = UIFont(name: "Poppins-Regular", size: 36)
+        lbl.font = UIFont(name: "Poppins-Bold", size: 36)
         return lbl
     }()
      private lazy var contentViewBig: UIView = {
@@ -91,9 +91,9 @@ class SignUpVC: UIViewController {
        
        if authenticate == true
        {
-           self.signUpData.username = txtUsername.text
-           self.signUpData.mail = txtEmail.text
-           self.signUpData.password = txtPassword.text
+           self.signUpData.full_name = txtUsername.text ?? ""
+           self.signUpData.email = txtEmail.text ?? ""
+           self.signUpData.password = txtPassword.text ?? ""
            
            signUpButton.isEnabled = authenticate
        }
@@ -121,7 +121,6 @@ class SignUpVC: UIViewController {
             }
         }
     }
-
     
     @objc func backButtonTapped(){
         self.navigationController?.popViewController(animated: true)
@@ -129,7 +128,9 @@ class SignUpVC: UIViewController {
     
     func setupViews() {
         
-        // imageView.frame = CGRect(x: 120, y: 64, width:149, height: 178)
+        txtPassword.isSecureTextEntry = true
+        txtPasswordConfirm.isSecureTextEntry = true
+        
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig)
         self.navigationItem.leftBarButtonItem = leftBarButton
@@ -212,9 +213,9 @@ extension SignUpVC:UITextFieldDelegate{
     
     func checkIsEmpty()->Bool?
     {
-        if txtUsername.text == "" || 
+        if txtUsername.text == "" ||
             txtEmail.text == "" ||
-            txtPassword.text == "" || 
+            txtPassword.text == "" ||
             txtPasswordConfirm.text == ""
         {
             return false
@@ -228,3 +229,15 @@ extension SignUpVC:UITextFieldDelegate{
         }
     }
 }
+
+#if DEBUG
+import SwiftUI
+
+@available(iOS 13, *)
+struct SignUpVC_Preview: PreviewProvider {
+    static var previews: some View{
+        
+        SignUpVC().showPreview()
+    }
+}
+#endif

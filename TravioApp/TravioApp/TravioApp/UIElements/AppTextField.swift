@@ -46,7 +46,7 @@ class AppTextField: UIView {
             case .username:
                 return "bilge_adam"
             case .passwordConfirm:
-                return "**************"
+                return "*******"
             case .presentMapTitle:
                 return "Plase write a place name"
             case .presentMapDescription:

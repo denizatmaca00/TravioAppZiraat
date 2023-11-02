@@ -23,14 +23,14 @@ enum Router {
 //    case deletePlace(id: String)
 //    case putPlace(id: String, params: Parameters)
     
+//    var token:String{
+//        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
+//    }
+    
     var baseURL:String {
         return "https://api.iosclass.live"
     }
     
-//    var token:String{
-//        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJKb2huIERvZSIsImlkIjoiYmI0MjM0ZWMtZmJmNy00Y2I1LWFkYzEtZjA2NmM0MjlkYmZjIiwicm9sZSI6InVzZXIiLCJleHAiOjE2OTg0NDU3ODZ9.ZjhVVtdyjg0q7zc_HQVqLjQgdVjq4M5HEx-4TtcUDhE"
-//    }
-//
     var path:String {
         switch self {
         case .register:
@@ -38,13 +38,14 @@ enum Router {
         case .user:
             return "/v1/auth/login"
         case .visits:
-            return "/v1/visits"
+            return "/v1/visits?page=1&limit=10"
         case .places:
             return "/v1/places"
             
         // delete and update cases
         case .deleteVisit(let visitId):
             return "/v1/visit/\(visitId)"
+            
         case .putVisit(let visitId, _):
             return "/v1/visit/\(visitId)"
         }
@@ -66,8 +67,8 @@ enum Router {
     var headers: HTTPHeaders {
             var baseHeaders: HTTPHeaders = [:]
 
-        if let token = KeychainHelper.shared.getToken(email: "Deneme@gmail.com"){
-        baseHeaders["Authorization"] = "Bearer " + token            
+        if let token = KeychainHelper.shared.getToken(){
+        baseHeaders["Authorization"] = token            
         }
             switch self {
             case .register, .user:
@@ -77,17 +78,15 @@ enum Router {
             }
         }
     
-    
     var parameters:Parameters? {
         switch self {
         case .register(let params):
             return params
         case .user (let params):
             return params
-        case .places:
+        case .places, .visits:
             return nil
-        case .visits:
-            return nil
+            
         // delete and update cases
         case .deleteVisit:
             return nil
@@ -95,8 +94,6 @@ enum Router {
             return params
         }
     }
-    
-    
 }
 
 extension Router:URLRequestConvertible {

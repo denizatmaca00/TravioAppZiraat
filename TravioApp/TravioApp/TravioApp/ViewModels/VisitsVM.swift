@@ -11,7 +11,7 @@ import CoreLocation
 
 class VisitsVM{
     
-    private var favorites: [Place] = []
+    private var favorites: [Visit] = []
     
     private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
@@ -29,11 +29,12 @@ class VisitsVM{
     func initFetch(){
         // here places will be fetchED from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
         
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<DataPlaces, Error>) in
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .visits) {(result:Result<VisitsDataStatus, Error>) in
             
             switch result {
-            case .success(let data):
-                self?.fetchVisits(favorites: data.data.places )
+            case .success(let success):
+                self.fetchVisits(favorites: success.data.visits )
+                
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
@@ -42,10 +43,10 @@ class VisitsVM{
     
     // MARK: Create View Model
     
-    private func fetchVisits(favorites:[Place]){
+    private func fetchVisits(favorites:[Visit]){
         self.favorites = favorites
         
-        var viewModels = [VisitCellViewModel]()
+        var viewModels:[VisitCellViewModel] = [VisitCellViewModel]()
         
         for favorite in favorites {
             viewModels.append(createCellViewModel(favorite: favorite))
@@ -54,12 +55,12 @@ class VisitsVM{
         self.cellViewModels = viewModels
     }
     
-    private func createCellViewModel(favorite:Place) -> VisitCellViewModel{
-        // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell to show inside each vistsCell
+    private func createCellViewModel(favorite:Visit) -> VisitCellViewModel{
+    // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell to show inside each vistsCell
         
         let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
-                                     placeName: favorite.title,
-                                     city: favorite.place)
+                                     placeName: favorite.place.title,
+                                     city: favorite.place.place)
         return cvm
     }
     
@@ -84,7 +85,6 @@ extension VisitsVM {
                     return
                 }
                 city = placemark.locality ?? " "
-                print("ekledim içeriden \(city)")
                 cityArr.append(city)
                 let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
                                              placeName: favorite.title,
