@@ -108,6 +108,13 @@ class MapVM {
         return cellViewModels[indexPath.row]
     }
     
+    func tappedCellMap(at indexPath:IndexPath){
+        let latitude = places[indexPath.row].latitude
+        let longitude = places[indexPath.row].longitude
+        let coordinate = MKCoordinateRegion.init(center: CLLocationCoordinate2D.init(latitude: latitude, longitude: longitude), span: MKCoordinateSpan.init())
+        map.setRegion(coordinate, animated: true)
+    }
+    
   
 
 }

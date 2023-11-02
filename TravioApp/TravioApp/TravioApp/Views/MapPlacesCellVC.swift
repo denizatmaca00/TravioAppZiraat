@@ -9,6 +9,8 @@ import SnapKit
 
 class MapPlacesCellVC: UICollectionViewCell {
     
+    var viewModel = MapVM()
+    
     var visitCellViewModel: VisitCellViewModel? {
         didSet {
             placeName.text = visitCellViewModel?.placeName
@@ -18,6 +20,7 @@ class MapPlacesCellVC: UICollectionViewCell {
     
     private lazy var cellView: UIView = {
         let view = UIView()
+        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -50,9 +53,6 @@ class MapPlacesCellVC: UICollectionViewCell {
         let img = UIImageView()
         img.image = UIImage(named: "sultanahmet")
         img.contentMode = .scaleToFill
-        
-        let tappedGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-        img.addGestureRecognizer(tappedGesture)
         img.isUserInteractionEnabled = true
         return img
     }()
@@ -65,10 +65,6 @@ class MapPlacesCellVC: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupViews()
-    }
-    
-    @objc func imageTapped() {
-        // Detay sayfası açılır
     }
     
     func setupViews() {
