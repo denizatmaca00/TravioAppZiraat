@@ -10,8 +10,6 @@ import Alamofire
 
 class SignUpVM{
     
-    var usersInfos: [Users] = []
-    
     var showAlertClosure: ((String, String) -> Void)?
 
     func postUserData(name: String?, email: String?, password: String?, completion: @escaping (Result<Messages, Error>) -> Void) {

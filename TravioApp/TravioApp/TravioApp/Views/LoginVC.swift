@@ -94,7 +94,7 @@ class LoginVC: UIViewController, ViewModelDelegate {
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
         
-        viewModel.loginData(email: email, password: password) {[self]  result in
+        viewModel.sendLoginData(email: email, password: password) {[self]  result in
             switch result {
             case .success:
                 let vc = TabBarVC()
@@ -114,6 +114,8 @@ class LoginVC: UIViewController, ViewModelDelegate {
     }
 
     func setupViews() {
+        
+        txtPassword.isSecureTextEntry = true
         
         self.view.addSubview(imageView)
         self.view.backgroundColor = UIColor(named: "backgroundColor")

@@ -13,31 +13,19 @@ final class KeychainHelper {
     
     var userToken = Tokens(accessToken: "", refreshToken: "") // logindeki tokenleri tutuyor.
     
-    init(){ }
     
-    // bunu bence post ederken visit kısımlarını konrtol edicez
-    //    if let accessToken = KeychainHelper.shared.getToken(service: "YourService", account: email) {
-    //        // accessToken kullanılabilir
-    //    } else {
-    //        // accessToken bulunamadı
-    //    }
-    
-    
-    func getToken(email: String?) -> String? {
-        if let data = read(service: "Travio", account: email!) {
+    func getToken() -> String? {
+        if let data = read(service: "Travio", account: "asd") {
             return String(data: data, encoding: .utf8)
         }
         return nil
     }
-    func setToken(email: String, param: Tokens) {
-        if let accessToken = KeychainHelper.shared.saveAccessToken(service: "travio", account: email, token: param.accessToken) {
+    
+    func setToken(param: Tokens) {
+        if let accessToken = KeychainHelper.shared.saveAccessToken(service: "travio", account: "email", token: param.accessToken) {
             userToken.accessToken = accessToken
-            print("****************")
-            print(userToken)
         }
     }
-    
-    
     
     func saveAccessToken(service: String, account: String, token: String) -> String? {
         let tokenData = token.data(using: .utf8)
