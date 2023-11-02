@@ -6,6 +6,8 @@ import MapKit
     class MapVC: UIViewController {
         let viewModel = MapVM()
         var selectedAnnotation: MKAnnotation?
+        
+        
 
         private lazy var collectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
@@ -17,6 +19,7 @@ import MapKit
             collectionView.dataSource = self
             collectionView.delegate = self
             collectionView.register(MapPlacesCellVC.self, forCellWithReuseIdentifier: "Cell")
+            
             layout.itemSize = CGSize(width: collectionView.bounds.size.width - 63, height: 178)
             
             return collectionView
@@ -121,6 +124,10 @@ extension MapVC: MKMapViewDelegate {
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.places.count
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.tappedCellMap(at: indexPath)
+        print("ldfkhlfh")
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
