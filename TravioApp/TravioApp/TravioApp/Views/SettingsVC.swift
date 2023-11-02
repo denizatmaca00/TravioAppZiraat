@@ -8,6 +8,11 @@
 import UIKit
 
 class SettingsVC: UIViewController {
+    
+    let celArray: [SettingsCell] = [
+        //SettingsCell(iconName: "user_alt", label: "Securtiy Settings")
+    ]
+    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
@@ -23,12 +28,12 @@ class SettingsVC: UIViewController {
        return view
    }()
     
-    private lazy var label: AppLabel = {
-       let lbl = AppLabel()
-        lbl.text = "Securtiy Settings"
-        lbl.sideView = .left(image: UIImage(systemName: "arrow.fill"))
-       return lbl
-   }()
+//    private lazy var label: AppLabel = {
+//       let lbl = AppLabel()
+//        lbl.text = "Securtiy Settings"
+//        lbl.sideView = .left(image: UIImage(systemName: "arrow.fill"))
+//       return lbl
+//   }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,18 +44,18 @@ class SettingsVC: UIViewController {
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig)
-        contentViewBig.addSubviews(imageView, label)
+        contentViewBig.addSubviews(imageView)
         
         setupLayout()
     }
 
     func setupLayout() {
         
-        label.snp.makeConstraints({ lbl in
-            lbl.top.equalTo(imageView.snp.bottom).offset(74)
-            lbl.trailing.equalTo(contentViewBig).offset(-16)
-            lbl.leading.equalTo(contentViewBig).offset(16)
-        })
+//        label.snp.makeConstraints({ lbl in
+//            lbl.top.equalTo(imageView.snp.bottom).offset(74)
+//            lbl.trailing.equalTo(contentViewBig).offset(-16)
+//            lbl.leading.equalTo(contentViewBig).offset(16)
+//        })
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(contentViewBig).offset(24)
             //img.centerX.equalTo(contentViewBig)
