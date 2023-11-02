@@ -22,6 +22,9 @@
 		0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */; };
 		0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A22AE92B0D00B2EBDE /* Router.swift */; };
 		0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A62AEA7FF600B2EBDE /* Protocol.swift */; };
+		0FB39D0A2AF386E0002C5DF7 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB39D092AF386E0002C5DF7 /* SettingsVC.swift */; };
+		0FB39D0C2AF38A21002C5DF7 /* AppLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */; };
+		0FB39D0E2AF39B7D002C5DF7 /* SettingsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB39D0D2AF39B7D002C5DF7 /* SettingsCollectionCell.swift */; };
 		0FF6D4582AEFC11900AA1339 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4572AEFC11900AA1339 /* KeychainHelper.swift */; };
 		0FF6D45C2AEFC89D00AA1339 /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D45B2AEFC89D00AA1339 /* PlaceModel.swift */; };
 		0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4602AF114E200AA1339 /* MapVM.swift */; };
@@ -62,6 +65,9 @@
 		0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReenieBeanie-Regular.ttf"; sourceTree = "<group>"; };
 		0F7829A22AE92B0D00B2EBDE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		0F7829A62AEA7FF600B2EBDE /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		0FB39D092AF386E0002C5DF7 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLabel.swift; sourceTree = "<group>"; };
+		0FB39D0D2AF39B7D002C5DF7 /* SettingsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCollectionCell.swift; sourceTree = "<group>"; };
 		0FF6D4572AEFC11900AA1339 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		0FF6D45B2AEFC89D00AA1339 /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
 		0FF6D4602AF114E200AA1339 /* MapVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVM.swift; sourceTree = "<group>"; };
@@ -162,6 +168,8 @@
 				ECFFD1CF2AEFD3750066E75C /* HomeVC.swift */,
 				ECFFD1D32AF11E970066E75C /* HeaderView.swift */,
 				ECFFD1D12AEFD9380066E75C /* CustomCollectionViewCell.swift */,
+				0FB39D092AF386E0002C5DF7 /* SettingsVC.swift */,
+				0FB39D0D2AF39B7D002C5DF7 /* SettingsCollectionCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,6 +198,7 @@
 				0F7829872AE9123C00B2EBDE /* AppTextField.swift */,
 				ECC8C5D12AEA448F001ED067 /* AppAlert.swift */,
 				EC4D832A2AE9279500D4936E /* AppButton.swift */,
+				0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -319,6 +328,8 @@
 				0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */,
 				ECFFD1CE2AEF874B0066E75C /* TabBarVC.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,
+				0FB39D0A2AF386E0002C5DF7 /* SettingsVC.swift in Sources */,
+				0FB39D0E2AF39B7D002C5DF7 /* SettingsCollectionCell.swift in Sources */,
 				0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */,
 				0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */,
 				ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */,
@@ -326,6 +337,7 @@
 				5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */,
 				5E388FC22AEA5193002ABDBD /* UserModel.swift in Sources */,
 				EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */,
+				0FB39D0C2AF38A21002C5DF7 /* AppLabel.swift in Sources */,
 				ECFFD1CC2AEBD5CB0066E75C /* VisitsVM.swift in Sources */,
 				0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */,
 				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
