@@ -172,6 +172,7 @@
 				ECFFD1D12AEFD9380066E75C /* CustomCollectionViewCell.swift */,
 				0FB39D092AF386E0002C5DF7 /* SettingsVC.swift */,
 				0FB39D0D2AF39B7D002C5DF7 /* SettingsCollectionCell.swift */,
+				EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
