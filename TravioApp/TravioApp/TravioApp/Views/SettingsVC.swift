@@ -68,14 +68,29 @@ class SettingsVC: UIViewController {
         btn.setTitle("Edit Profile", for: .normal)
         btn.setTitleColor(UIColor(named: "editProfileColor"), for: .normal)
         btn.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 12)
+        btn.addTarget(self, action: #selector(editProfileTapped), for: .touchUpInside)
+
         return btn
     }()
     private lazy var logOutButton: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(named: "logOut"), for: .normal)
+        btn.addTarget(self, action: #selector(logOutButtonTapped), for: .touchUpInside)
         return btn
     }()
-    
+
+    @objc func logOutButtonTapped() {
+       // KeychainHelper.shared.delete("Travio", account: "asd")
+        print("jvhmbk")
+        let vc = LoginVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    @objc func editProfileTapped() {
+       // KeychainHelper.shared.delete("Travio", account: "asd")
+        print("edit")
+        
+    }
+
     private lazy var contentViewBig: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "viewBackgroundColor")
@@ -87,15 +102,15 @@ class SettingsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = true
+       // self.navigationController?.isNavigationBarHidden = true
         setupViews()
-        
-        
     }
+    
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig,tableView, settingsLabel, logOutButton)
         contentViewBig.addSubviews(imageView, label,editProfileButton)
-        
         setupLayout()
     }
     
@@ -126,8 +141,10 @@ class SettingsVC: UIViewController {
         logOutButton.snp.makeConstraints({ btn in
             btn.centerY.equalTo(settingsLabel)
             btn.trailing.equalToSuperview().offset(-24)
-            btn.height.width.equalTo(30)
+            btn.height.equalTo(30)
+            btn.width.equalTo(30)
         })
+        self.view.bringSubviewToFront(logOutButton)
         
         contentViewBig.snp.makeConstraints ({ view in
             view.height.equalToSuperview().multipliedBy(0.8)

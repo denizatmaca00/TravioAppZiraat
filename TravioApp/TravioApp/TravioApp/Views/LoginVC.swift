@@ -80,6 +80,8 @@ class LoginVC: UIViewController, ViewModelDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        self.navigationController?.navigationBar.isHidden = true
+        
         viewModel.showAlertClosure = { [weak self] title, message in
             self?.showAlert(title: title, message: message)
         }//didsete ekelyeeğim

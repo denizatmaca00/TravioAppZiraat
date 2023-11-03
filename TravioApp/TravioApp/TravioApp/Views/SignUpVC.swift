@@ -59,13 +59,11 @@ class SignUpVC: UIViewController {
         signUpButton.isEnabled = false
         return signUpButton
     }()
-    
-    private lazy var leftBarButton: UIBarButtonItem = {
-        let leftBarButton = UIBarButtonItem()
+    private lazy var leftBarButton: UIButton = {
+        let leftBarButton = UIButton()
         leftBarButton.tintColor = .white
-        leftBarButton.image = UIImage(named: "leftArrow")
-        leftBarButton.target = self
-        leftBarButton.action = #selector(backButtonTapped)
+        leftBarButton.setImage(UIImage(named: "leftArrow"), for: .normal)
+        leftBarButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return leftBarButton
     }()
     
@@ -123,7 +121,8 @@ class SignUpVC: UIViewController {
     }
     
     @objc func backButtonTapped(){
-        self.navigationController?.popViewController(animated: true)
+        let vc = LoginVC()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func setupViews() {
@@ -133,8 +132,7 @@ class SignUpVC: UIViewController {
         
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig)
-        self.navigationItem.leftBarButtonItem = leftBarButton
-        self.view.addSubview(signUpLabel)
+        self.view.addSubviews(leftBarButton, signUpLabel)
 
         contentViewBig.addSubviews(stackViewMain, signUpButton)
         
@@ -146,9 +144,16 @@ class SignUpVC: UIViewController {
     func setupLayout() {
         let limits = self.view.safeAreaLayoutGuide.snp
          
+        leftBarButton.snp.makeConstraints({btn in
+            btn.width.equalTo(24)
+            btn.height.equalTo(21)
+            btn.top.equalTo(limits.top).offset(15)
+            btn.leading.equalToSuperview().offset(24)
+        })
+        
         signUpLabel.snp.makeConstraints({ lbl in
             lbl.centerX.equalToSuperview()
-            lbl.top.equalTo(limits.top).offset(-50)
+            lbl.top.equalTo(limits.top)
         })
         
         contentViewBig.snp.makeConstraints { view in
