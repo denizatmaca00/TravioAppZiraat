@@ -52,13 +52,14 @@ class DropCell: UITableViewCell {
     
     private lazy var imgDropButton:UIImageView = {
         let imgView = UIImageView()
-        let img = UIImage(systemName: "drop")?.withRenderingMode(.alwaysOriginal)
+        let img = UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysOriginal)
         imgView.image = img
         
         return imgView
     }()
     
     //MARK: -- Life Cycles
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -70,15 +71,11 @@ class DropCell: UITableViewCell {
     }
     
     //MARK: -- Component Actions
-    func setContent(){
-        self.lblHeader.text = ""
-        self.lblDescription.text = ""
-    }
     
     //MARK: -- Private Methods
     
-    
     //MARK: -- UI Methods
+    
     private func setupViews() {
         // Add here the setup for the UI
         self.backgroundColor = UIColor(named: "viewBackgroundColor")
@@ -109,14 +106,15 @@ class DropCell: UITableViewCell {
             lbl.top.equalTo(lblHeader).offset(12)
             lbl.leading.equalTo(lblHeader)
             lbl.trailing.equalToSuperview().offset(-15)
+            
         })
         
         imgDropButton.snp.makeConstraints({ img in
             img.trailing.equalToSuperview().offset(-18.37)
             img.centerY.equalToSuperview()
+            
         })
     }
-  
 }
 
 #if DEBUG
