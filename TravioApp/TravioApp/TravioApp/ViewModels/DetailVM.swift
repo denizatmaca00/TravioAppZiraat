@@ -36,7 +36,7 @@ class DetailVM{
     
     func getAPlaceById(complete: @escaping (Place)->()) {
         guard let placeId = placeId else { return }
-        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getPlaceByID(id: placeId)){ [weak self] (result:Result<DataPlaces, Error>) in
+        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getPlaceByID(id: placeId)){ [weak self] (result:Result<PlacesDataStatus, Error>) in
             switch result{
             case .success(let data):
                 self?.fetchVisits(favorites: data.data.places )
@@ -69,7 +69,7 @@ class DetailVM{
     func initFetch(){
         // here places will be fetchED from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
         
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .visits) { [weak self] (result:Result<DataPlaces, Error>) in
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .visits) { [weak self] (result:Result<PlacesDataStatus, Error>) in
             
             switch result {
             case .success(let data):
