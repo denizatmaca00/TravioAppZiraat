@@ -36,7 +36,16 @@
 		5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */; };
 		5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */; };
 		5E388FCD2AEA680C002ABDBD /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 5E388FCC2AEA680C002ABDBD /* TinyConstraints */; };
+<<<<<<< HEAD
 		EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */; };
+=======
+		5E388FD52AEFD659002ABDBD /* CustomDetailCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FD42AEFD659002ABDBD /* CustomDetailCellVC.swift */; };
+		5E388FDB2AEFEDBB002ABDBD /* DetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FDA2AEFEDBB002ABDBD /* DetailVM.swift */; };
+		5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FDC2AF041CA002ABDBD /* DetailPageCell.swift */; };
+		5E388FDF2AF04392002ABDBD /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FDE2AF04392002ABDBD /* DetailVC.swift */; };
+		5EDD08222AF3BD94002072BC /* PopularPlaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */; };
+		5EDD08242AF3BDCB002072BC /* PopularPageCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */; };
+>>>>>>> sprint2/PopularPlace
 		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
 		ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */; };
@@ -79,7 +88,16 @@
 		5E388FC12AEA5193002ABDBD /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingHelper.swift; sourceTree = "<group>"; };
 		5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisitCellVC.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVC.swift; sourceTree = "<group>"; };
+=======
+		5E388FD42AEFD659002ABDBD /* CustomDetailCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDetailCellVC.swift; sourceTree = "<group>"; };
+		5E388FDA2AEFEDBB002ABDBD /* DetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVM.swift; sourceTree = "<group>"; };
+		5E388FDC2AF041CA002ABDBD /* DetailPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageCell.swift; sourceTree = "<group>"; };
+		5E388FDE2AF04392002ABDBD /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
+		5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlaceVC.swift; sourceTree = "<group>"; };
+		5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPageCellVC.swift; sourceTree = "<group>"; };
+>>>>>>> sprint2/PopularPlace
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
@@ -165,17 +183,25 @@
 				ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */,
 				5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */,
 				0F15C9232AEBD09C00CE48CD /* MapVC.swift */,
+<<<<<<< HEAD
 				0FF6D4662AF2239E00AA1339 /* MapPresentVC.swift */,
 				0FF6D4682AF247CE00AA1339 /* MapPlacesCellVC.swift */,
 				ECFFD1CF2AEFD3750066E75C /* HomeVC.swift */,
 				ECFFD1D32AF11E970066E75C /* HeaderView.swift */,
 				ECFFD1D12AEFD9380066E75C /* CustomCollectionViewCell.swift */,
-<<<<<<< HEAD
-				EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */,
-=======
 				0FB39D092AF386E0002C5DF7 /* SettingsVC.swift */,
 				0FB39D0D2AF39B7D002C5DF7 /* SettingsCollectionCell.swift */,
->>>>>>> sprint2/settingsUI
+				EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */,
+=======
+				5E388FD42AEFD659002ABDBD /* CustomDetailCellVC.swift */,
+				5E388FDC2AF041CA002ABDBD /* DetailPageCell.swift */,
+				5E388FDE2AF04392002ABDBD /* DetailVC.swift */,
+				ECFFD1CF2AEFD3750066E75C /* HomeVC.swift */,
+				ECFFD1D32AF11E970066E75C /* HeaderView.swift */,
+				ECFFD1D12AEFD9380066E75C /* CustomCollectionViewCell.swift */,
+				5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */,
+				5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */,
+>>>>>>> sprint2/PopularPlace
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				ECFFD1CB2AEBD5CB0066E75C /* VisitsVM.swift */,
+				5E388FDA2AEFEDBB002ABDBD /* DetailVM.swift */,
 				0FF6D4602AF114E200AA1339 /* MapVM.swift */,
 				0FF6D4622AF1367500AA1339 /* SignUpVM.swift */,
 				0FF6D4642AF1368300AA1339 /* LoginVM.swift */,
@@ -324,8 +351,10 @@
 				0FF6D4632AF1367500AA1339 /* SignUpVM.swift in Sources */,
 				ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */,
 				0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */,
+				5E388FDB2AEFEDBB002ABDBD /* DetailVM.swift in Sources */,
 				0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */,
 				0FF6D45C2AEFC89D00AA1339 /* PlaceModel.swift in Sources */,
+				5E388FDF2AF04392002ABDBD /* DetailVC.swift in Sources */,
 				0FF6D4582AEFC11900AA1339 /* KeychainHelper.swift in Sources */,
 				0FF6D4672AF2239E00AA1339 /* MapPresentVC.swift in Sources */,
 				0F7829852AE911F400B2EBDE /* LoginVC.swift in Sources */,
@@ -333,6 +362,7 @@
 				0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */,
 				0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */,
 				ECFFD1CE2AEF874B0066E75C /* TabBarVC.swift in Sources */,
+				5E388FD52AEFD659002ABDBD /* CustomDetailCellVC.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,
 				0FB39D0A2AF386E0002C5DF7 /* SettingsVC.swift in Sources */,
 				0FB39D0E2AF39B7D002C5DF7 /* SettingsCollectionCell.swift in Sources */,
@@ -345,11 +375,17 @@
 				EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */,
 				0FB39D0C2AF38A21002C5DF7 /* AppLabel.swift in Sources */,
 				ECFFD1CC2AEBD5CB0066E75C /* VisitsVM.swift in Sources */,
+				5EDD08242AF3BDCB002072BC /* PopularPageCellVC.swift in Sources */,
 				0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */,
 				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
 				EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */,
 				0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */,
+<<<<<<< HEAD
 				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
+=======
+				5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */,
+				5EDD08222AF3BD94002072BC /* PopularPlaceVC.swift in Sources */,
+>>>>>>> sprint2/PopularPlace
 				ECFFD1D42AF11E970066E75C /* HeaderView.swift in Sources */,
 				ECFFD1D22AEFD9380066E75C /* CustomCollectionViewCell.swift in Sources */,
 			);

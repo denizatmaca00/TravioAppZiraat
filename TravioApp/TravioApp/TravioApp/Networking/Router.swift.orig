@@ -50,10 +50,16 @@ enum Router {
         // delete and update cases
         case .deleteVisit(let visitId):
             return "/v1/visit/\(visitId)"
+<<<<<<< HEAD
+            
+        case .putVisit(let visitId, _):
+            return "/v1/visit/\(visitId)"
+=======
         case .postVisit(let visitId, _):
             return "/v1/visits/\(visitId)"
         case .getPlaceByID(let id):
             return "/v1/visits/visitId\(id)"
+>>>>>>> sprint2/PopularPlace
         }
     }
     

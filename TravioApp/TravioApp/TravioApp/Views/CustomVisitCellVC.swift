@@ -49,10 +49,9 @@ class CustomVisitCellVC: UITableViewCell {
         var img = UIImageView()
         img.image = UIImage(named: "sultanahmet")
         img.contentMode = .scaleToFill
-     
-        let tappedGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-        imageView?.addGestureRecognizer(tappedGesture)
-        imageView?.isUserInteractionEnabled = true
+//        let tappedGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+//        imageView?.addGestureRecognizer(tappedGesture)
+//        imageView?.isUserInteractionEnabled = true
         return img
     }()
     
@@ -66,9 +65,11 @@ class CustomVisitCellVC: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func imageTapped(){
-     //detail page opens
-    }
+//    @objc func imageTapped(){
+//     //detail page opens
+//        let vc = DetailPageVC()
+//
+//    }
     func setupViews() {
 
         self.contentView.addSubviews(imageLocation,placeName,iconLocation,cityName)
@@ -101,6 +102,7 @@ class CustomVisitCellVC: UITableViewCell {
 //    }
 
 }
+
 
 #if DEBUG
 import SwiftUI

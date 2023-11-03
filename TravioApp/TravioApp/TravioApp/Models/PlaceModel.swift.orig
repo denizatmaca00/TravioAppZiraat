@@ -73,7 +73,26 @@ struct Place: Codable {
     var updated_at: String
 }
 
+<<<<<<< HEAD
 // MARK: Details View Model
+=======
+struct Placetext:Codable{
+    var id:String
+    var creator:String
+    var place:String
+    var description:String
+    var created_at:String
+  
+    
+    init(id: String, creator:String, place: String, description: String, created_at:String) {
+        self.id = id
+        self.creator = creator
+        self.place = place
+        self.description = description
+        self.created_at = created_at
+    }
+}
+>>>>>>> sprint2/PopularPlace
 
 struct DetailsCellViewModel{
     let desc:String
