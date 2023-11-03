@@ -58,7 +58,7 @@ class TabBarVC: UITabBarController {
 
         mapVC.tabBarItem = UITabBarItem(title: "Map", image: mapImage, selectedImage: mapSelectedImage)
         
-        let menuVC = SignUpVC()
+        let menuVC = SettingsVC()
         let menuNC = UINavigationController(rootViewController: menuVC)
         let menuImage = UIImage(named: "list")
         let menuSelectedImage = UIImage(named: "list")?.withRenderingMode(.automatic)
