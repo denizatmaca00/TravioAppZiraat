@@ -151,8 +151,19 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
             fatalError("cell does not exist")
         }
         let cellViewModel = viewModel.getCellViewModel(idx: indexPath)
-        cell.setContent()
+        cell.dropCellViewModel = cellViewModel
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.tableView.performBatchUpdates(nil)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? DropCell else{
+            fatalError("cell does not exist")
+        }
+//        cell.hideDetailView()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -162,8 +173,6 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
-    
-    
 }
 
 #if DEBUG
