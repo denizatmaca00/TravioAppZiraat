@@ -68,9 +68,12 @@ class PopularPlaceVC: UIViewController {
     @objc func sortDescending(){
         sortAscending.setImage(UIImage(named: "sortDescending"), for: .normal)
         sortAscending.addTarget(self, action: #selector(sortAscendingBack), for: .touchUpInside)
+        
     }
     @objc func sortAscendingBack(){
         sortAscending.setImage(UIImage(named: "sortAscending"), for: .normal)
+        sortAscending.addTarget(self, action: #selector(sortDescending), for: .touchUpInside)
+
     }
     
     @objc func backPage(){
