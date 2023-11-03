@@ -114,7 +114,7 @@ class SettingsVC: UIViewController {
             lbl.centerX.equalTo(contentViewBig)
         })
         settingsLabel.snp.makeConstraints({ lbl in
-            lbl.top.equalTo(limits.top).offset(24)
+            lbl.top.equalToSuperview().offset(60)
             lbl.leading.equalToSuperview().offset(20)
         })
         
