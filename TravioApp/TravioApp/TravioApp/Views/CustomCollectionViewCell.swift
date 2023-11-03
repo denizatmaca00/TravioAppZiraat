@@ -66,6 +66,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     @objc func imageTapped(){
      //detail page opens
+        print("tappedByGesture")
     }
 
     func configure(object:Place){
@@ -75,8 +76,9 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
     
     func setupViews() {
-
-        self.contentView.addSubviews(imgPlace,lblPlace,imgPinIcon,lblCity)
+        
+        self.isUserInteractionEnabled = true
+        self.contentView.addSubviews(imgPlace, lblPlace, imgPinIcon, lblCity)
 
         setupLayout()
     }

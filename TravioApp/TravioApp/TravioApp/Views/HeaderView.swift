@@ -12,6 +12,16 @@ import SnapKit
 class HeaderView: UICollectionReusableView {
     
     static let reuseId = "HeaderView"
+    //var delegate:SectionContentDelegate = nil
+    
+    var btnTapAction: (()->()) = { print("button tapped closure")}
+    
+    private lazy var sectionView:UIView = {
+        let view = UIView()
+        
+        view.isUserInteractionEnabled = true
+        return view
+    }()
     
     lazy var lblSectionTitle:UILabel = {
         let l = UILabel()
@@ -20,22 +30,31 @@ class HeaderView: UICollectionReusableView {
         return l
     }()
     
-    private lazy var btnSeeAll:UIButton = {
+    lazy var btnSeeAll:UIButton = {
         let b = UIButton()
         b.setTitle("See All", for: .normal)
         b.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 14)
         b.setTitleColor(UIColor(named: "backgroundColor"), for: .normal)
-        b.addTarget(self, action: #selector(btnSeeAllTapped), for: .touchUpInside)
+        //b.addTarget(self, action: #selector(self.btnSeeAllTapped), for: .touchUpInside)
+
         return b
     }()
     
-    @objc func btnSeeAllTapped(){
-        print("Command")
+    @objc private func btnSeeAllTapped(sender:UIButton!){
+        btnTapAction()
+        print(sender.tag)
+        print("Command to See All inside objective")
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupView()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        //delegate.wakeButton()
+        //self.btnSeeAll.addTarget(self, action: #selector(btnSeeAllTapped), for: .touchUpInside)
         setupView()
     }
     
@@ -47,24 +66,44 @@ class HeaderView: UICollectionReusableView {
         lblSectionTitle.text = titleText
     }
     
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        var view = btnSeeAll.hitTest(point, with: event)
+        
+        if view == nil {
+            view = super.hitTest(point, with: event)
+        }
+        return view
+    }
+    
+    func wakeButton(){
+        self.btnSeeAll.addTarget(self, action: #selector(self.btnSeeAllTapped), for: .touchUpInside)
+    }
+    
     private func setupView(){
         
-        addSubviews(lblSectionTitle)
-        self.addSubviews(lblSectionTitle, btnSeeAll)
+        self.btnSeeAll.addTarget(self, action: #selector(btnSeeAllTapped), for: .touchUpInside)
+
+        self.addSubviews(sectionView)
+        sectionView.addSubviews(lblSectionTitle, btnSeeAll)
         
         setupLayout()
     }
     
     private func setupLayout(){
+
+        sectionView.snp.makeConstraints({view in
+            view.top.equalToSuperview().offset(55-8)
+            view.leading.equalToSuperview().offset(24)
+            view.width.equalToSuperview().offset(-26)
+        })
         
         lblSectionTitle.snp.makeConstraints({lbl in
-
-            lbl.top.equalToSuperview().offset(55-8)
-            lbl.leading.equalToSuperview().offset(24)
+            lbl.top.equalToSuperview()
+            lbl.leading.equalToSuperview()
 
         })
-
-        btnSeeAll.snp.makeConstraints({btn in
+        
+        btnSeeAll.snp.makeConstraints({ btn in
             btn.centerY.equalTo(lblSectionTitle).offset(4)
             btn.trailing.equalToSuperview()
 

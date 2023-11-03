@@ -11,6 +11,10 @@ import TinyConstraints
 import SnapKit
 
 class HomeVC: UIViewController {
+    func wakeButton() {
+        print("axax")
+    }
+    
     
     var popularPlaces:[Place] = [Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
                                 
@@ -52,23 +56,9 @@ class HomeVC: UIViewController {
         cv.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseId)
         cv.dataSource = self
         cv.delegate = self
+        
+//        cv.isUserInteractionEnabled = true
         return cv
-    }()
-    
-    private lazy var lblSectionTitle:UILabel = {
-        let l = UILabel()
-        l.text = "Popular Places"
-        l.font = UIFont(name: "Poppins-Medium", size: 20)
-        return l
-    }()
-    
-    private lazy var btnSeeAll:UIButton = {
-        let b = UIButton()
-        b.setTitle("See All", for: .normal)
-        b.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 14)
-        b.setTitleColor(UIColor(named: "backgroundColor"), for: .normal)
-        //b.addTarget(self, action: #selector(btnSignUpTapped), for: .touchUpInside)
-        return b
     }()
     
     //MARK: -- Views
@@ -98,9 +88,10 @@ class HomeVC: UIViewController {
     
     //MARK: -- Component Actions
     
-    
     //MARK: -- Private Methods
-    
+    @objc private func btnSeeAllTapped(sender:UIButton!){
+        print(sender.tag)
+    }
     
     //MARK: -- UI Methods
     func setupViews() {
@@ -111,7 +102,7 @@ class HomeVC: UIViewController {
         
         self.view.addSubviews(imgLogo, lblHeader, contentViewBig)
         
-        contentViewBig.addSubviews(collectionView, lblSectionTitle, btnSeeAll)
+        contentViewBig.addSubviews(collectionView)
         
         setupLayout()
     }
@@ -120,7 +111,7 @@ class HomeVC: UIViewController {
         // Add here the setup for layout
         imgLogo.snp.makeConstraints({ img in
             img.leading.equalToSuperview().offset(16)
-            img.top.equalToSuperview().offset(28+12)
+            img.top.equalToSuperview().offset(50)
             img.height.equalTo(62)
             img.width.equalTo(66)
             
@@ -224,6 +215,16 @@ extension HomeVC:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseId, for: indexPath) as! HeaderView
         header.setTitle(titleText: "Popiler")
+        header.btnSeeAll.tag = indexPath.row
+        header.btnSeeAll.addTarget(self, action: #selector(self.btnSeeAllTapped(sender: )), for: .touchUpInside)
+//        header.wakeButton()
+//        header.btnTapAction = { () in
+//            header.wakeButton()
+//            print("axaxa")
+//        }
+        
+        // delegate
+//        header.delegate = self
         return header
     }
 }
@@ -235,6 +236,14 @@ extension HomeVC:UICollectionViewDelegateFlowLayout
         return CGSize(width: (collectionView.frame.width - 10) * 1,
                       height: (collectionView.frame.height - 10 ) * 1)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
+}
+
+protocol SectionContentDelegate {
+    func wakeButton()
 }
 
 #if DEBUG
@@ -252,3 +261,4 @@ struct HomeVC_Preview: PreviewProvider {
 // AutoLayout ile kısıtlamalar tanımıyoruz ve bunlara göre farklı ekranlarda aynı sonuç alıyoruz. Bunu da genelde superview ile yapıyoruz.
 
 // layout'daki genişliği neye göre vereceğiz?
+
