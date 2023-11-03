@@ -18,6 +18,8 @@ import UIKit
 
 class SettingsVC: UIViewController {
     
+    let loginVM = LoginVM()
+    
     let cellArray: [SettingsCell] = [
         SettingsCell(iconName: "profile", label: "Security Settings", iconArrow: "buttonArrow"),
         SettingsCell(iconName: "appDefault", label: "App Defaults", iconArrow: "buttonArrow"),
@@ -69,7 +71,7 @@ class SettingsVC: UIViewController {
         btn.setTitleColor(UIColor(named: "editProfileColor"), for: .normal)
         btn.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 12)
         btn.addTarget(self, action: #selector(editProfileTapped), for: .touchUpInside)
-
+        
         return btn
     }()
     private lazy var logOutButton: UIButton = {
@@ -78,19 +80,31 @@ class SettingsVC: UIViewController {
         btn.addTarget(self, action: #selector(logOutButtonTapped), for: .touchUpInside)
         return btn
     }()
-
+    
     @objc func logOutButtonTapped() {
-       // KeychainHelper.shared.delete("Travio", account: "asd")
-        print("jvhmbk")
-        let vc = LoginVC()
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    @objc func editProfileTapped() {
-       // KeychainHelper.shared.delete("Travio", account: "asd")
-        print("edit")
-        
-    }
+        //KeychainHelper.shared.delete("Travio", account: "asd")
 
+        loginVM.logout { result in
+            switch result {
+            case .success:
+                // Logout işlemi başarılı, kullanıcıyı çıkış yaptırın
+                // Örneğin, kullanıcıyı login sayfasına yönlendirebilirsiniz.
+                let loginVC = LoginVC()
+                let navigationController = UINavigationController(rootViewController: loginVC)
+                if let window = UIApplication.shared.windows.first {
+                    window.rootViewController = navigationController
+                }
+            case .failure(let error):
+                // Logout işlemi başarısız oldu, hata işlemlerini burada yapabilirsiniz
+                print("Logout Error: \(error)")
+            }
+        }
+    }
+    
+    @objc func editProfileTapped() {
+        print("edit")
+    }
+    
     private lazy var contentViewBig: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "viewBackgroundColor")
@@ -103,7 +117,7 @@ class SettingsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
-       // self.navigationController?.isNavigationBarHidden = true
+        // self.navigationController?.isNavigationBarHidden = true
         setupViews()
     }
     
@@ -116,7 +130,7 @@ class SettingsVC: UIViewController {
     
     func setupLayout() {
         let limits = self.view.safeAreaLayoutGuide.snp
-
+        
         
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(contentViewBig).offset(24)
@@ -215,7 +229,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 0 {
             return 54
         } else {
-            return 8 // Boşluk hücresi yüksekl
+            return 8 // Boşluk hücresi yükseklik
         }
     }
 }

@@ -86,6 +86,11 @@ class LoginVC: UIViewController, ViewModelDelegate {
             self?.showAlert(title: title, message: message)
         }//didsete ekelyeeğim
     }
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        // View controller görüntülendiğinde yapılacak işlemler
+//        tabBarController?.tabBar.isHidden = false
+//    }
     
     @objc func btnSignUpTapped(){
         let vc = SignUpVC()

@@ -13,9 +13,13 @@ final class KeychainHelper {
     
     var userToken = Tokens(accessToken: "", refreshToken: "") // logindeki tokenleri tutuyor.
     
+    func isUserLoggedIn() -> Bool {
+           return userToken != nil
+       }
     
     func getToken() -> String? {
         if let data = read(service: "Travio", account: "asd") {
+            print(data)
             return String(data: data, encoding: .utf8)
         }
         return nil

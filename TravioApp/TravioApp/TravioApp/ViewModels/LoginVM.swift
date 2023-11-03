@@ -30,5 +30,17 @@ class LoginVM{
             }
         }
     }
+    func logout(completion: @escaping (Result<Void, Error>) -> Void) {
+            if KeychainHelper.shared.isUserLoggedIn() {
+                // Kullanıcı oturum açık ise logout işlemini gerçekleştir
+                KeychainHelper.shared.delete("Travio", account: "asd")
+                completion(.success(()))
+            } else {
+                // Kullanıcı zaten oturum açık değilse hata döndür
+                let error = NSError(domain: "Logout Error", code: 401, userInfo: nil)
+                print("zaten açık değil")
+                completion(.failure(error))
+            }
+        }
     
 }
