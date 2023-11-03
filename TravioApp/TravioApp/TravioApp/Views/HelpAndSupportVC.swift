@@ -1,5 +1,5 @@
 //
-//  
+//
 //  HelpAndSupportVC.swift
 //  TravioApp
 //
@@ -14,11 +14,23 @@ class HelpAndSupportVC: UIViewController {
     
     //MARK: -- Properties
     
+    private let viewModel:HelpAndSupportVM = {
+        return HelpAndSupportVM()
+    }()
+    
     private lazy var lblHeader:UILabel = {
         let lbl = UILabel()
         lbl.text = "Help&Support"
         lbl.textColor = .white
         lbl.font = UIFont(name: "Poppins-Bold", size: 32)
+        return lbl
+    }()
+    
+    private lazy var lblPageTitle:UILabel = {
+        let lbl = UILabel()
+        lbl.text = "FAQ"
+        lbl.textColor = UIColor(named: "backgroundColor")
+        lbl.font = UIFont(name: "Poppins-SemiBold", size: 24)
         return lbl
     }()
     
@@ -42,12 +54,23 @@ class HelpAndSupportVC: UIViewController {
        return view
    }()
     
+    private lazy var tableView: UITableView = {
+        let tv = UITableView()
+        
+        tv.register(DropCell.self, forCellReuseIdentifier: "cell")
+        tv.delegate = self
+        tv.dataSource = self
+        return tv
+    }()
+    
     //MARK: -- Life Cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       setupViews()
+        setupViews()
+        
+        initVM()
        
     }
     
@@ -59,6 +82,15 @@ class HelpAndSupportVC: UIViewController {
     
     //MARK: -- Private Methods
     
+    func initVM(){
+       
+        viewModel.reloadTableViewClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        viewModel.fetchData()
+    }
     
     //MARK: -- UI Methods
     
@@ -70,14 +102,15 @@ class HelpAndSupportVC: UIViewController {
         self.navigationItem.leftBarButtonItem = leftBarButton
         
         self.view.addSubviews(lblHeader, contentViewBig)
+        contentViewBig.addSubviews(lblPageTitle, tableView)
         
         setupLayout()
     }
     
     func setupLayout() {
         
-        let limits = self.view.safeAreaLayoutGuide.snp
-        self.navigationItem.titleView?.layer
+//        let limits = self.view.safeAreaLayoutGuide.snp
+//        self.navigationItem.titleView?.layer
         let startY = self.view.bounds.origin.y + 50
         
         // Add here the setup for layout
@@ -88,11 +121,49 @@ class HelpAndSupportVC: UIViewController {
             view.bottom.equalToSuperview()
         })
         
+        tableView.snp.makeConstraints({ tv in
+            tv.top.equalToSuperview().offset(120)
+            tv.leading.equalToSuperview().offset(24)
+            tv.trailing.equalToSuperview().offset(-24)
+            tv.bottom.equalToSuperview()
+        })
+        
         lblHeader.snp.makeConstraints({lbl in
             lbl.top.equalToSuperview().offset(startY)
             lbl.leading.equalToSuperview().offset(72)
         })
+        
+        lblPageTitle.snp.makeConstraints({ lbl in
+            lbl.top.equalToSuperview().offset(44)
+            lbl.leading.equalToSuperview().offset(24)
+            
+        })
     }
+}
+
+extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfCells
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? DropCell else{
+            fatalError("cell does not exist")
+        }
+        let cellViewModel = viewModel.getCellViewModel(idx: indexPath)
+        cell.setContent()
+        return cell
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+    
+    
 }
 
 #if DEBUG
