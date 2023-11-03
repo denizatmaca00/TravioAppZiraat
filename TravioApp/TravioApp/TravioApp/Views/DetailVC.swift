@@ -124,16 +124,17 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
         //print("tıklandı")
         saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
-        
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .visits) { [weak self] (result:Result<DataPlaces, Error>) in
-        
-            switch result {
-            case .success(let data):
-                testtt.fetchVisits(favorites: data.data.places )
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
+       // var paramPost:String
+        var id = "1"
+//        NetworkingHelper.shared.dataFromRemote(urlRequest: .postVisit(id: id, params: paramPost)) { [weak self] (result:Result<DataPlaces, Error>) in
+//
+//            switch result {
+//            case .success(let data):
+//                testtt.fetchVisits(favorites: data.data.places )
+//            case .failure(let failure):
+//                print(failure.localizedDescription)
+//            }
+//        }
     }
     @objc func refreshButton(){
         saveBtn.setImage(UIImage(named: "save"), for: .normal)
