@@ -19,7 +19,8 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
 //            print("saflfşskşfdsklşfdks\(placeid)")
 //        }
 //    }
-//    
+//
+    
 
     private lazy var imageCollection:UICollectionView = {
         let l = UICollectionViewFlowLayout()
@@ -147,10 +148,13 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         navigationController?.navigationBar.isHidden = true
         setupViews()
         imageCollection.delegate = self
-        viewModel.reloadClosure = { place in
-            guard let place = place else { return }
-            self.imageCollection.reloadData()
+        viewModel.getAPlaceById { Place in
+            self.configurePage(place: Place)
         }
+//        viewModel.reloadClosure = { place in
+//            guard let place = place else { return }
+//            self.imageCollection.reloadData()
+//        }
         var pinCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060)
         let mapSnapshotOptions = MKMapSnapshotter.Options()
                 mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 100, longitudinalMeters: 100)
@@ -163,6 +167,13 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
 
             }
         }
+    }
+    func configurePage(place:Place){
+        centerText.text = place.place
+        dateText.text = place.created_at
+        byText.text = place.creator
+        descText.text = place.description
+        CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
     }
     func setupViews(){
         self.view.backgroundColor = .white
@@ -253,12 +264,12 @@ extension DetailVC:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource
         guard let c = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailPageCell else {
             return UICollectionViewCell()
         }
-        print(viewModel.currentPlace)
-        if let imgUrl = viewModel.currentPlace?.cover_image_url {
-            if let url = URL(string: imgUrl) {
-                c.configure(imageURL: url)
-            }
-        }
+//        print(viewModel.currentPlace)
+//        if let imgUrl = viewModel.currentPlace?.cover_image_url {
+//            if let url = URL(string: imgUrl) {
+//                c.configure(imageURL: url)
+//            }
+//        }
         return c
     }
 }

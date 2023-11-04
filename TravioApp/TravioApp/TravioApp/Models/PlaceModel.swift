@@ -73,6 +73,16 @@ struct Place: Codable {
     var updated_at: String
 }
 
+// MARK: Get Place By Id Response Model
+struct PlaceIDDataStatus: Codable {
+    var data: PlaceData
+    var status: String
+}
+
+struct PlaceData: Codable {
+    var place: Place
+}
+
 // MARK: Details View Model
 
 struct DetailsCellViewModel{

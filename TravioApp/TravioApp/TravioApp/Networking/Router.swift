@@ -53,7 +53,7 @@ enum Router {
         case .postVisit(let visitId, _):
             return "/v1/visits/\(visitId)"
         case .getPlaceByID(let id):
-            return "/v1/visits/visitId\(id)"
+            return "/v1/visits/\(id)"
         }
     }
     
@@ -98,8 +98,7 @@ enum Router {
             return nil
         case .postVisit(_, let params):
             return params
-        case .getPlaceByID(let params):
-            return nil
+        default: return [:]
         }
     }
 }
