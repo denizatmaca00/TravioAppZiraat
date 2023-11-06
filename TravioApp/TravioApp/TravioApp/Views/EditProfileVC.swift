@@ -4,11 +4,10 @@
 //
 //  Created by web3406 on 11/6/23.
 //
-// TODO: Labellar için bir UIEelements yazılablir
+// TODO: Labellar için bir UIEelements yazılablir +
 // TODO: labelheader uılabel sınıfı
-// TODO: leftBArITEm br tae yazılıp her yerden çekilebilir
+// TODO: leftBarItem bir tane yazılıp her yerden çekilebilir
 // TODO: contentViewBig her sayfada kullnaılıyor onu da düzenlemek lazım +
-// TODO: color enumı eklenebilir
 // TODO: color enumı eklenebilir
 import UIKit
 
@@ -39,20 +38,11 @@ class EditProfileVC: UIViewController {
         lbl.font = UIFont(name: "Poppins-Medium", size: 24)
         return lbl
     }()
-    private lazy var labelDate: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "30 Ağustos 203"
-        lbl.textColor = UIColor(named: "settingsLabelColor")
-        lbl.font = UIFont(name: "Poppins-Medium", size: 16)
-        return lbl
-    }()
-    private lazy var labelRole: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Admin"
-        lbl.textColor = UIColor(named: "settingsLabelColor")
-        lbl.font = UIFont(name: "Poppins-Medium", size: 16)
-        return lbl
-    }()
+    
+    private lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: "30 Ağustos 2023", alignment: .left)
+    private lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: "Admin", alignment: .left)
+
+    
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Edit Profile"
@@ -134,26 +124,29 @@ class EditProfileVC: UIViewController {
             lbl.top.equalTo(changePhotoButton.snp.bottom).offset(7)
             lbl.centerX.equalToSuperview()
         })
+        
         labelDate.snp.makeConstraints({ lbl in
-            lbl.top.equalTo(labelName.snp.bottom).offset(8)
+            lbl.top.equalTo(labelName.snp.bottom).offset(39)
             lbl.leading.equalToSuperview().offset(24)
         })
+
         labelRole.snp.makeConstraints({lbl in
-            lbl.top.equalTo(labelName.snp.bottom).offset(8)
-            lbl.leading.equalTo(labelDate.snp.trailing).offset(16)
-            lbl.trailing.equalToSuperview().offset(-24)
+            lbl.top.equalTo(labelName.snp.bottom).offset(39)
+            lbl.leading.equalTo(labelDate.viewWithBorder.snp.trailing).offset(16)
         })
+
         contentViewBig.snp.makeConstraints ({ view in
             view.height.equalToSuperview().multipliedBy(0.8)
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
             view.bottom.equalToSuperview()
         })
-        stackViewMain.snp.makeConstraints { stack in
+        
+        stackViewMain.snp.makeConstraints ({ stack in
             stack.leading.equalToSuperview().offset(24)
             stack.trailing.equalToSuperview().offset(-24)
-            stack.top.equalTo(labelDate.snp.bottom).offset(21)
-        }
+            stack.top.equalTo(labelName.snp.bottom).offset(92)
+        })
         saveButton.snp.makeConstraints({ btn in
             btn.bottom.equalTo(limits.bottom).offset(-23)
             btn.trailing.equalToSuperview().offset(-24)
