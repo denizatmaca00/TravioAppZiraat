@@ -38,6 +38,7 @@ class SecuritySettingVC: UIViewController {
     private lazy var bckButton: UIButton = {
        let bb = UIButton()
         bb.setImage(UIImage(named: "bckBtnSecuritySetting"), for: .normal)
+        bb.addTarget(self, action: #selector(backBtnTapped), for: .touchUpInside)
        return bb
     }()
     private lazy var changePasswordTitle:UILabel = {
@@ -158,6 +159,10 @@ class SecuritySettingVC: UIViewController {
         savebtn.layer.cornerRadius = 12
         return savebtn
     }()
+    
+    @objc func backBtnTapped(){
+        navigationController?.popViewController(animated: true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         viewBack.isHidden = false

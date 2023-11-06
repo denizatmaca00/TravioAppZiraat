@@ -87,17 +87,15 @@ class SettingsVC: UIViewController {
         loginVM.logout { result in
             switch result {
             case .success:
-                // Logout işlemi başarılı, kullanıcıyı çıkış yaptırın
-                // Örneğin, kullanıcıyı login sayfasına yönlendirebilirsiniz.
                 let loginVC = LoginVC()
                 let navigationController = UINavigationController(rootViewController: loginVC)
                 if let window = UIApplication.shared.windows.first {
                     window.rootViewController = navigationController
                 }
             case .failure(let error):
-                // Logout işlemi başarısız oldu, hata işlemlerini burada yapabilirsiniz
                 print("Logout Error: \(error)")
             }
+            //bir tane showAlert olabilir
         }
     }
     
@@ -199,6 +197,8 @@ class SettingsVC: UIViewController {
 //}
 
 extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return cellArray.count
     }
@@ -214,7 +214,9 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             cell.configure(data: cellData)
             cell.setupViews()
             cell.setupLayout()
+            cell.selectionStyle = .none
             cell.backgroundColor = UIColor(named: "viewBackgroundColor")
+            
             return cell
         } else {
             let spaceCell = tableView.dequeueReusableCell(withIdentifier: "SpaceCell", for: indexPath) as! SpaceCell
@@ -232,6 +234,27 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             return 8 // Boşluk hücresi yükseklik
         }
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedSection = indexPath.section
+    switch selectedSection {
+        case 0:
+            let securitySettingsVC = SecuritySettingVC()
+            navigationController?.pushViewController(securitySettingsVC, animated: true)
+        // diğer caseleri de burada değerlendiririm.
+//        case 1:
+//            let appDefaultsVC = AppDefaultsVC()
+//            navigationController?.pushViewController(appDefaultsVC, animated: true)
+//        case 2:
+//            let myAddedPlacesVC = MyAddedPlacesVC()
+//            navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+        default:
+            break
+        }
+        
+        // Seçilen section'ın vurgusunu kaldırır
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
 }
 
 
