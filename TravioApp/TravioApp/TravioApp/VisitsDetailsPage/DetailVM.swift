@@ -16,8 +16,6 @@ class DetailVM{
             print("saflfşskşfdsklşfdks\(placeIdtest)")
         }
     }
-    
-//    var favorites: [Place] = []
 
     var reloadClosure: ((Place?)->(Void))?
     var galeryData: GalleryImage?
@@ -39,21 +37,12 @@ class DetailVM{
                     switch result {
                     case .success(let result):
                         self?.galeryData = result
-                        print("ececececececec\(self?.galeryData)")
                         complete()
+                        print("ececececececec\(self?.galeryData)")
                     case .failure(let failure):
-                        print(failure.localizedDescription)
+                        print("hatahatahatahata\(failure.localizedDescription)")
                         
                     }
                 }
     }
-    func galleryCount() -> Int {
-            guard let galeryData = galeryData else { return 0 }
-            print(galeryData.data.count)
-            return galeryData.data.count
-        }
-//    func returnGalleryImage(row: Int) -> Image {
-//        guard let galeryData = galeryData else { return Image(id: "", place_id: "", image_url: "", create_at: "", updated_at: "") }
-//        return galeryData.data.images[row]
-//       }
 }

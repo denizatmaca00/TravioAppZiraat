@@ -25,7 +25,7 @@ enum Router {
 //    case deletePlace(id: String)
 //    case putPlace(id: String, params: Parameters)
     case getPlaceByID(id:String)
-    //galery;
+    //galeryAllGaleryByID;
     case getAllGaleryByID(id:String)
     
 //    var token:String{
@@ -33,7 +33,7 @@ enum Router {
 //    }
     
     var baseURL:String {
-        return "https://api.iosclass.live"
+        return "https://ios-class-2f9672c5c549.herokuapp.com"
     }
     
     var path:String {
@@ -106,7 +106,7 @@ enum Router {
         case .postVisit:
             return nil
     
-        default: return nil
+        default: return [:]
         }
     }
 }
