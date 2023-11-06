@@ -100,17 +100,15 @@ class SettingsVC: UIViewController {
     }
     
     @objc func editProfileTapped() {
+        let vc = EditProfileVC()
+        self.navigationController?.pushViewController(vc, animated: true)
         print("edit")
     }
     
-    private lazy var contentViewBig: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "viewBackgroundColor")
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 80
-        view.layer.maskedCorners = [.layerMinXMinYCorner]
-        return view
-    }()
+    private lazy var contentViewBig: AppView = {
+            let view = AppView()
+            return view
+        }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,7 +126,6 @@ class SettingsVC: UIViewController {
     
     func setupLayout() {
         let limits = self.view.safeAreaLayoutGuide.snp
-        
         
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(contentViewBig).offset(24)
@@ -238,8 +235,8 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         let selectedSection = indexPath.section
     switch selectedSection {
         case 0:
-            let securitySettingsVC = SecuritySettingVC()
-            navigationController?.pushViewController(securitySettingsVC, animated: true)
+            let vc = SecuritySettingVC()
+            navigationController?.pushViewController(vc, animated: true)
         // diğer caseleri de burada değerlendiririm.
 //        case 1:
 //            let appDefaultsVC = AppDefaultsVC()
@@ -247,6 +244,13 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
 //        case 2:
 //            let myAddedPlacesVC = MyAddedPlacesVC()
 //            navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+    case 4:
+        let vc = AboutUsVC()
+        navigationController?.pushViewController(vc, animated: true)
+    case 5:
+        let vc = TermsOfUseVC()
+        navigationController?.pushViewController(vc, animated: true)
+        
         default:
             break
         }

@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //                    // Oturum süresi hala geçerli mi ki
 //                    let vc = TabBarVC()
 //                    let navigationController = UINavigationController(rootViewController: vc)
-//                    let window = UIWindow(windowScene: windowScene) 
+//                    let window = UIWindow(windowScene: windowScene)
 //                    window.rootViewController = navigationController
 //                    window.makeKeyAndVisible()
 //                } else {
@@ -56,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let vc = SettingsVC()
+        let vc = LoginVC()
         let rootViewController = UINavigationController(rootViewController: vc)
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()

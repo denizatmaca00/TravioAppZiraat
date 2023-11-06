@@ -45,14 +45,10 @@ class HelpAndSupportVC: UIViewController {
     
     //MARK: -- Views
     
-    private lazy var contentViewBig: UIView = {
-       let view = UIView()
-       view.backgroundColor = UIColor(named: "viewBackgroundColor")
-       view.clipsToBounds = true
-       view.layer.cornerRadius = 80
-       view.layer.maskedCorners = [.layerMinXMinYCorner]
-       return view
-   }()
+    private lazy var contentViewBig: AppView = {
+            let view = AppView()
+            return view
+        }()
     
     private lazy var tableView: UITableView = {
         let tv = UITableView()

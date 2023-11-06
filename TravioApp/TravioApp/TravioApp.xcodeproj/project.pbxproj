@@ -22,6 +22,10 @@
 		0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */; };
 		0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A22AE92B0D00B2EBDE /* Router.swift */; };
 		0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A62AEA7FF600B2EBDE /* Protocol.swift */; };
+		0F9A80C22AF8D45700B47142 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9A80C12AF8D45700B47142 /* EditProfileVC.swift */; };
+		0F9A80C42AF8E1F700B47142 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9A80C32AF8E1F700B47142 /* AppView.swift */; };
+		0F9A80C62AF8E51100B47142 /* AboutUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9A80C52AF8E51100B47142 /* AboutUsVC.swift */; };
+		0F9A80C82AF8E70300B47142 /* TermsOfUseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9A80C72AF8E70300B47142 /* TermsOfUseVC.swift */; };
 		0FB39D0A2AF386E0002C5DF7 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB39D092AF386E0002C5DF7 /* SettingsVC.swift */; };
 		0FB39D0C2AF38A21002C5DF7 /* AppLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */; };
 		0FB39D0E2AF39B7D002C5DF7 /* SettingsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB39D0D2AF39B7D002C5DF7 /* SettingsCollectionCell.swift */; };
@@ -78,6 +82,10 @@
 		0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReenieBeanie-Regular.ttf"; sourceTree = "<group>"; };
 		0F7829A22AE92B0D00B2EBDE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		0F7829A62AEA7FF600B2EBDE /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		0F9A80C12AF8D45700B47142 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
+		0F9A80C32AF8E1F700B47142 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		0F9A80C52AF8E51100B47142 /* AboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsVC.swift; sourceTree = "<group>"; };
+		0F9A80C72AF8E70300B47142 /* TermsOfUseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseVC.swift; sourceTree = "<group>"; };
 		0FB39D092AF386E0002C5DF7 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLabel.swift; sourceTree = "<group>"; };
 		0FB39D0D2AF39B7D002C5DF7 /* SettingsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCollectionCell.swift; sourceTree = "<group>"; };
@@ -204,6 +212,9 @@
 				5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */,
 				0FDFAAEB2AF3D90E00F4FA61 /* TableViewCell.swift */,
 				0FD7E87E2AF50653001E09EB /* SpaceCell.swift */,
+				0F9A80C12AF8D45700B47142 /* EditProfileVC.swift */,
+				0F9A80C52AF8E51100B47142 /* AboutUsVC.swift */,
+				0F9A80C72AF8E70300B47142 /* TermsOfUseVC.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -233,6 +244,7 @@
 				ECC8C5D12AEA448F001ED067 /* AppAlert.swift */,
 				EC4D832A2AE9279500D4936E /* AppButton.swift */,
 				0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */,
+				0F9A80C32AF8E1F700B47142 /* AppView.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -367,6 +379,8 @@
 				ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */,
 				0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */,
 				5E388FDB2AEFEDBB002ABDBD /* DetailVM.swift in Sources */,
+				0F9A80C62AF8E51100B47142 /* AboutUsVC.swift in Sources */,
+				0F9A80C42AF8E1F700B47142 /* AppView.swift in Sources */,
 				5E3CC0842AF4D86F007FCFD5 /* SecuritySettingVC.swift in Sources */,
 				0FD7E87F2AF50653001E09EB /* SpaceCell.swift in Sources */,
 				0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */,
@@ -374,6 +388,7 @@
 				5E388FDF2AF04392002ABDBD /* DetailVC.swift in Sources */,
 				0FF6D4582AEFC11900AA1339 /* KeychainHelper.swift in Sources */,
 				0FF6D4672AF2239E00AA1339 /* MapPresentVC.swift in Sources */,
+				0F9A80C22AF8D45700B47142 /* EditProfileVC.swift in Sources */,
 				0F7829852AE911F400B2EBDE /* LoginVC.swift in Sources */,
 				5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */,
 				0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */,
@@ -403,6 +418,7 @@
 				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
 				5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */,
 				5EDD08222AF3BD94002072BC /* PopularPlaceVC.swift in Sources */,
+				0F9A80C82AF8E70300B47142 /* TermsOfUseVC.swift in Sources */,
 				ECFFD1D42AF11E970066E75C /* HeaderView.swift in Sources */,
 				ECFFD1D22AEFD9380066E75C /* CustomCollectionViewCell.swift in Sources */,
 			);
