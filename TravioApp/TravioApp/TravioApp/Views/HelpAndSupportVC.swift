@@ -56,8 +56,11 @@ class HelpAndSupportVC: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tv = UITableView()
+        tv.rowHeight = UITableView.automaticDimension
+        tv.estimatedRowHeight = 73*4
         tv.separatorStyle = .none
-        tv.register(DropCell.self, forCellReuseIdentifier: "cell")
+        
+        tv.register(DropCell.self, forCellReuseIdentifier: DropCell.reuseIdentifier)
         tv.delegate = self
         tv.dataSource = self
         return tv
@@ -71,7 +74,12 @@ class HelpAndSupportVC: UIViewController {
         setupViews()
         
         initVM()
-       
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let bottomSpace: CGFloat = 10.0
+        self.tableView.frame = self.tableView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: bottomSpace, right: 0))
     }
     
     //MARK: -- Component Actions
@@ -97,9 +105,7 @@ class HelpAndSupportVC: UIViewController {
     func setupViews() {
         // Add here the setup for the UI
         self.view.backgroundColor = UIColor(named: "backgroundColor")
-//        self.title = "Help&Support"
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 600
+        
         self.navigationItem.leftBarButtonItem = leftBarButton
         
         self.view.addSubviews(lblHeader, contentViewBig)
@@ -120,6 +126,7 @@ class HelpAndSupportVC: UIViewController {
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
             view.bottom.equalToSuperview()
+            
         })
         
         tableView.snp.makeConstraints({ tv in
@@ -127,11 +134,13 @@ class HelpAndSupportVC: UIViewController {
             tv.leading.equalToSuperview().offset(24)
             tv.trailing.equalToSuperview().offset(-24)
             tv.bottom.equalToSuperview()
+            
         })
         
         lblHeader.snp.makeConstraints({lbl in
             lbl.top.equalToSuperview().offset(startY)
             lbl.leading.equalToSuperview().offset(72)
+            
         })
         
         lblPageTitle.snp.makeConstraints({ lbl in
@@ -148,7 +157,7 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? DropCell else{
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DropCell.reuseIdentifier, for: indexPath) as? DropCell else{
             fatalError("cell does not exist")}
 //        guard let cell = tableView.cellForRow(at: indexPath) as? DropCell else { fatalError("cell does not exist") }
         let cellViewModel = viewModel.getCellViewModel(idx: indexPath)
@@ -157,12 +166,16 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.tableView.performBatchUpdates(nil)
+        // animasyon
+        self.tableView.performBatchUpdates(nil)
+        
         guard let faqItem = tableView.cellForRow(at: indexPath) as? DropCell else {return}
-        faqItem.isExpanded = !faqItem.isExpanded
+        faqItem.dropCellViewModel!.isExpanded.toggle()
+        //tableView.rowHeight = 72
 //        let content = viewModel.getCellViewModel(idx: indexPath)
         print(indexPath.row)
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+//        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
@@ -171,6 +184,9 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
 //            fatalError("cell does not exist")
 //        }
 //        //        cell.hideDetailView()
+//        tableView.rowHeight = 72
+//        tableView.reloadRows(at: [indexPath], with: .automatic)
+//        print(indexPath)
 //        
 //    }
     
@@ -179,8 +195,32 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //return 72
+//        return 100
         return UITableView.automaticDimension
+    }
+    
+    
+   
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        let verticalPadding:CGFloat = 8
+//        
+//        let maskLayer = CALayer()
+//        maskLayer.backgroundColor = UIColor.black.cgColor
+//        maskLayer.frame = CGRect(x: cell.bounds.origin.x, y: cell.bounds.origin.y, width: cell.bounds.width, height: cell.bounds.height).insetBy(dx: 0, dy: verticalPadding/2)
+//        cell.layer.mask = maskLayer
+//        tableView.contentInset.bottom = -verticalPadding/2
+//        tableView.contentInset.top = -verticalPadding/2
+//    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let header = UIView()
+        header.backgroundColor = .green //UIColor(named: "viewBackgroundColor")
+
+        return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        12
     }
 }
 
