@@ -38,16 +38,17 @@
 		5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */; };
 		5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */; };
 		5E388FCD2AEA680C002ABDBD /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 5E388FCC2AEA680C002ABDBD /* TinyConstraints */; };
-		EC0044182AF4330A001540A5 /* DropCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0044172AF4330A001540A5 /* DropCell.swift */; };
-		EC00441A2AF43819001540A5 /* HelpAndSupportVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0044192AF43819001540A5 /* HelpAndSupportVM.swift */; };
-		EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */; };
 		5E388FD52AEFD659002ABDBD /* CustomDetailCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FD42AEFD659002ABDBD /* CustomDetailCellVC.swift */; };
 		5E388FDB2AEFEDBB002ABDBD /* DetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FDA2AEFEDBB002ABDBD /* DetailVM.swift */; };
 		5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FDC2AF041CA002ABDBD /* DetailPageCell.swift */; };
 		5E388FDF2AF04392002ABDBD /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FDE2AF04392002ABDBD /* DetailVC.swift */; };
 		5E3CC0842AF4D86F007FCFD5 /* SecuritySettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */; };
+		5E45C4142AF832FC00399873 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5E45C4132AF832FC00399873 /* Kingfisher */; };
 		5EDD08222AF3BD94002072BC /* PopularPlaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */; };
 		5EDD08242AF3BDCB002072BC /* PopularPageCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */; };
+		EC0044182AF4330A001540A5 /* DropCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0044172AF4330A001540A5 /* DropCell.swift */; };
+		EC00441A2AF43819001540A5 /* HelpAndSupportVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0044192AF43819001540A5 /* HelpAndSupportVM.swift */; };
+		EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */; };
 		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
 		ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */; };
@@ -92,9 +93,6 @@
 		5E388FC12AEA5193002ABDBD /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingHelper.swift; sourceTree = "<group>"; };
 		5E388FC92AEA605E002ABDBD /* CustomVisitCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisitCellVC.swift; sourceTree = "<group>"; };
-		EC0044172AF4330A001540A5 /* DropCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCell.swift; sourceTree = "<group>"; };
-		EC0044192AF43819001540A5 /* HelpAndSupportVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVM.swift; sourceTree = "<group>"; };
-		EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVC.swift; sourceTree = "<group>"; };
 		5E388FD42AEFD659002ABDBD /* CustomDetailCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDetailCellVC.swift; sourceTree = "<group>"; };
 		5E388FDA2AEFEDBB002ABDBD /* DetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVM.swift; sourceTree = "<group>"; };
 		5E388FDC2AF041CA002ABDBD /* DetailPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageCell.swift; sourceTree = "<group>"; };
@@ -102,6 +100,9 @@
 		5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingVC.swift; sourceTree = "<group>"; };
 		5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlaceVC.swift; sourceTree = "<group>"; };
 		5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPageCellVC.swift; sourceTree = "<group>"; };
+		EC0044172AF4330A001540A5 /* DropCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCell.swift; sourceTree = "<group>"; };
+		EC0044192AF43819001540A5 /* HelpAndSupportVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVM.swift; sourceTree = "<group>"; };
+		EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVC.swift; sourceTree = "<group>"; };
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
@@ -120,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E45C4142AF832FC00399873 /* Kingfisher in Frameworks */,
 				0F78297D2AE9116800B2EBDE /* SnapKit in Frameworks */,
 				0F7829802AE9117300B2EBDE /* Alamofire in Frameworks */,
 				5E388FCD2AEA680C002ABDBD /* TinyConstraints in Frameworks */,
@@ -294,6 +296,7 @@
 				0F78297C2AE9116800B2EBDE /* SnapKit */,
 				0F78297F2AE9117300B2EBDE /* Alamofire */,
 				5E388FCC2AEA680C002ABDBD /* TinyConstraints */,
+				5E45C4132AF832FC00399873 /* Kingfisher */,
 			);
 			productName = TravioApp;
 			productReference = 0F7829642AE9113D00B2EBDE /* TravioApp.app */;
@@ -327,6 +330,7 @@
 				0F78297B2AE9116800B2EBDE /* XCRemoteSwiftPackageReference "SnapKit" */,
 				0F78297E2AE9117300B2EBDE /* XCRemoteSwiftPackageReference "Alamofire" */,
 				5E388FCB2AEA680C002ABDBD /* XCRemoteSwiftPackageReference "TinyConstraints" */,
+				5E45C4122AF832FC00399873 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 0F7829652AE9113D00B2EBDE /* Products */;
 			projectDirPath = "";
@@ -634,6 +638,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		5E45C4122AF832FC00399873 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -651,6 +663,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5E388FCB2AEA680C002ABDBD /* XCRemoteSwiftPackageReference "TinyConstraints" */;
 			productName = TinyConstraints;
+		};
+		5E45C4132AF832FC00399873 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5E45C4122AF832FC00399873 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

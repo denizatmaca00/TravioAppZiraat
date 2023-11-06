@@ -83,6 +83,8 @@ struct PlaceData: Codable {
     var place: Place
 }
 
+
+
 // MARK: Details View Model
 
 struct DetailsCellViewModel{
@@ -97,28 +99,29 @@ struct ReturnMessage:Codable {
     var status:String
 }
 
-//Get All Gallery by Place ID
-
+//MARK: Get All Gallery by PlaceID
 struct GalleryImage:Codable{
     var data: DataClass
-    var  status: String
+    var status: String
 }
 
 struct DataClass:Codable{
-    var count: Int
     var images: [Image]
+    var count: Int
 }
 struct Image:Codable{
-    let id, placeId: String
-    let imageUrl:String
-    let createAt, updateAt: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case placeId = "place_id"
-        case imageUrl = "image_url"
-        case createAt = "create_at"
-        case updateAt = "updated_at"
-    }
-   
+    var id: String
+    var place_id: String
+    var image_url: String
+    var create_at: String
+    var updated_at: String
 }
+//    enum CodingKeys: String, CodingKey {
+//        case id
+//        case placeId = "place_id"
+//        case imageUrl = "image_url"
+//        case createAt = "create_at"
+//        case updateAt = "updated_at"
+//    }
+   
+
