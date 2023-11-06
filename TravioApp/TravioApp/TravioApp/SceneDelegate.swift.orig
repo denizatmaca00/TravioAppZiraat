@@ -20,10 +20,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
 <<<<<<< HEAD
-        let vc = TabBarVC()
+        let vc = LoginVC()
 =======
-        let vc = PopularPlaceVC()
->>>>>>> sprint2/PopularPlace
+        let vc = MapVC()
+>>>>>>> sprint2/DetailMapMerge
         let rootViewController = UINavigationController(rootViewController: vc)
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()

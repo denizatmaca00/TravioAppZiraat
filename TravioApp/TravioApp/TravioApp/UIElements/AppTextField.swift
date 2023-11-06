@@ -7,6 +7,25 @@
 
 import UIKit
 
+class SecurityLabel: UIView{
+    enum PrivacyData {
+        case camera
+        case libraryPhoto
+        case Location
+        
+        var text: String {
+            switch self {
+            case .camera:
+                return "Camera"
+            case .libraryPhoto:
+                return "Photo Library"
+            case .Location:
+                return "Location"
+            }
+        }
+    }
+}
+
 class AppTextField: UIView {
 
     enum UserData {

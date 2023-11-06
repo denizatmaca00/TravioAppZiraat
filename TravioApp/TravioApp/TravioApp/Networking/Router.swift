@@ -18,12 +18,15 @@ enum Router {
     
     // delete and update cases
     case deleteVisit(id: String)
-    case postVisit(id: String, params: Parameters)
+    //case postVisit(id: String, params: Parameters)
+    case postVisit(id:String)
 
     
 //    case deletePlace(id: String)
 //    case putPlace(id: String, params: Parameters)
     case getPlaceByID(id:String)
+    //galery;
+    case getAllGaleryByID(id:String)
     
 //    var token:String{
 //        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
@@ -50,10 +53,13 @@ enum Router {
         // delete and update cases
         case .deleteVisit(let visitId):
             return "/v1/visit/\(visitId)"
-        case .postVisit(let visitId, _):
+        case .postVisit(let visitId):
             return "/v1/visits/\(visitId)"
         case .getPlaceByID(let id):
-            return "/v1/visits/visitId\(id)"
+            return "/v1/places/\(id)"
+            //get all galery by id
+        case .getAllGaleryByID(let id):
+            return "/v1/galleries/\(id)"
         }
     }
     
@@ -61,7 +67,7 @@ enum Router {
         switch self {
         case .register, .user, .postVisit, .visits:
             return .post
-        case .places, .getPlaceByID:
+        case .places, .getPlaceByID, .getAllGaleryByID:
             return .get
         case .deleteVisit:
             return .delete
@@ -77,7 +83,7 @@ enum Router {
         baseHeaders["Authorization"] = token            
         }
             switch self {
-            case .register, .user, .getPlaceByID:
+            case .register, .user, .getPlaceByID, .getAllGaleryByID:
                 return baseHeaders
             case .visits, .places, .deleteVisit, .postVisit:
                 return baseHeaders
@@ -96,10 +102,11 @@ enum Router {
         // delete and update cases
         case .deleteVisit:
             return nil
-        case .postVisit(_, let params):
-            return params
-        case .getPlaceByID(let params):
+       // case .postVisit(_, let params):
+        case .postVisit:
             return nil
+    
+        default: return nil
         }
     }
 }
