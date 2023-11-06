@@ -127,8 +127,11 @@ struct Image:Codable{
 
 //MARK: POSTAVISIT
 
-struct PostAVisit:Codable{
-    var place_id:String
-    var visited_at:String
+//struct PostAVisit:Codable{
+//    var place_id:String
+//    var visited_at:String
+//}
+struct PostAVisit: Codable {
+    var message: String
+    var status: String
 }
-

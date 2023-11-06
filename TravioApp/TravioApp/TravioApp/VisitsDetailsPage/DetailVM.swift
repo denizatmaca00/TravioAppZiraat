@@ -47,19 +47,27 @@ class DetailVM{
                     }
                 }
     }
-    func postAVisitById(){
+    func postVisit(){
         guard let placeid = placeIdtest else {return }
-
-        let params = ["place_id" : placeid, "visited_at" : "2023-08-10T00:00:00Z" ]
+//"2023-08-10T00:00:00Z"
+        let params = ["place_id" : placeid, "visited_at" : dateFormatter()]
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.postVisit(params: params)){
-            [weak self] (result:Result<PostAVisit,Error>) in
+             (result:Result<PostAVisit,Error>) in
             switch result {
             case .success(let result):
-                //self?.postData = result
-                print(result)
+                self.postData = result
+                print(self.postData)
             case .failure(let failure):
                 print("hatahatahatahata\(failure.localizedDescription)")
             }
         }
+    }
+    func dateFormatter()->String{
+        let dene = DateFormatter()
+        dene.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        let today = Date()
+        let testttttt = dene.string(from: today)
+        
+        return testttttt
     }
 }

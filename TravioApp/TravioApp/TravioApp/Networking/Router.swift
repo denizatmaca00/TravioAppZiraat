@@ -42,12 +42,11 @@ enum Router {
             return "/v1/auth/register"
         case .user:
             return "/v1/auth/login"
-        case .visits:
-            return "/v1/visits?page=1&limit=10"
+//        case .visits:
+//            return "/v1/visits?page=1&limit=10"
         case .places:
             return "/v1/places"
-        case .postVisit:
-            return "/v1/visits"
+    
         
             
         // delete and update cases
@@ -60,14 +59,16 @@ enum Router {
             //get all galery by id
         case .getAllGaleryByID(let id):
             return "/v1/galleries/\(id)"
+        case .visits:
+            return "/v1/visits"
         }
     }
     
     var method:HTTPMethod {
         switch self {
-        case .register, .user, .postVisit, .visits:
+        case .register, .user, .postVisit:
             return .post
-        case .places, .getPlaceByID, .getAllGaleryByID:
+        case .places, .getPlaceByID, .getAllGaleryByID, .visits:
             return .get
         case .deleteVisit:
             return .delete
@@ -80,12 +81,13 @@ enum Router {
             var baseHeaders: HTTPHeaders = [:]
 
         if let token = KeychainHelper.shared.getToken(){
-        baseHeaders["Authorization"] = "Bearer" + token            
+        baseHeaders["Authorization"] = "Bearer " + token            
         }
             switch self {
             case .register, .user, .getPlaceByID, .getAllGaleryByID:
                 return [:]
-            case .visits, .places, .deleteVisit, .postVisit:
+            case  .places, .deleteVisit, .postVisit, .visits:
+                print(baseHeaders)
                 return baseHeaders
             }
         }

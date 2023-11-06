@@ -11,7 +11,7 @@ import TinyConstraints
 
 class CustomVisitCellVC: UITableViewCell {
     
-    var visitCellViewModel : VisitCellViewModel? {
+    var visitCellViewModel : VisitCellViewModel?{
         didSet{
             placeName.text = visitCellViewModel?.placeName
             cityName.text = visitCellViewModel?.city
@@ -49,9 +49,6 @@ class CustomVisitCellVC: UITableViewCell {
         var img = UIImageView()
         img.image = UIImage(named: "sultanahmet")
         img.contentMode = .scaleToFill
-//        let tappedGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-//        imageView?.addGestureRecognizer(tappedGesture)
-//        imageView?.isUserInteractionEnabled = true
         return img
     }()
     
@@ -70,6 +67,11 @@ class CustomVisitCellVC: UITableViewCell {
 //        let vc = DetailPageVC()
 //
 //    }
+    func configure(data:VisitCellViewModel){
+        placeName.text = data.placeName
+        cityName.text = data.city
+        imageLocation.image = data.image
+    }
     func setupViews() {
 
         self.contentView.addSubviews(imageLocation,placeName,iconLocation,cityName)

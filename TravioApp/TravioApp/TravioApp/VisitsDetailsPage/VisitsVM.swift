@@ -11,17 +11,19 @@ import CoreLocation
 
 class VisitsVM{
     
-    private var favorites: [Visit] = []
+    var favorites: [Visit] = []
     
-    private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
+     var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
+            numberOfCells = cellViewModels.count
             reloadTableViewClosure?()
         }
     }
     
-    var numberOfCells:Int {
-        return cellViewModels.count
-    }
+    var numberOfCells:Int?
+//    {
+//        return cellViewModels.count
+//    }
     
     // this will be filled on VisitsVC to populate tableView with updated data
     var reloadTableViewClosure: (()->())?
@@ -33,7 +35,7 @@ class VisitsVM{
             
             switch result {
             case .success(let success):
-                self.fetchVisits(favorites: success.data.visits )
+                self.fetchVisits(favorites: success.data.visits)
                 
             case .failure(let failure):
                 print(failure.localizedDescription)

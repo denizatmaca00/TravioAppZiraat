@@ -123,9 +123,9 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "favoritesCell", for: indexPath) as? CustomVisitCellVC else {
             fatalError("cell does not exist")
         }
-        
-        let cellVM = viewModel.getCellViewModel(at: indexPath)
-        cell.visitCellViewModel = cellVM
+        let cellData = viewModel.cellViewModels[indexPath.row]
+        cell.configure(data: cellData)
+     
         return cell
     }
     
@@ -134,7 +134,8 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfCells
+        guard let count = viewModel.numberOfCells else {return 0}
+        return count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -147,14 +148,9 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
         print(indexPath.row)
         return indexPath
     }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let vc = DetailVC()
-//        vc.viewModel.currentPlace = viewModel.favorites[indexPath.row]
-//        print("\(viewModel.favorites[indexPath.row]) resim")
-//        let vm = DetailVM()
-//        navigationController?.pushViewController(vc, animated: true)
-//        vm.placeId = viewModel.favorites[indexPath.row].id
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       //celle tıklanınca ne yapacak?
+    }
 }
 
 #if DEBUG
