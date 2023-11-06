@@ -19,6 +19,7 @@ class DetailVM{
 
     var reloadClosure: ((Place?)->(Void))?
     var galeryData: GalleryImage?
+    var postData: PostAVisit?
     
     func getAPlaceById(complete: @escaping (Place)->()) {
         guard let placeId = placeIdtest else { return }
@@ -44,5 +45,17 @@ class DetailVM{
                         
                     }
                 }
+    }
+    func postAVisitById(){
+        guard let placeid = placeIdtest else {return }
+        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.postVisit(id: placeid)){
+            [weak self] (result:Result<PostAVisit,Error>) in
+            switch result {
+            case .success(let result):
+                self?.postData = result
+            case .failure(let failure):
+                print("hatahatahatahata\(failure.localizedDescription)")
+            }
+        }
     }
 }

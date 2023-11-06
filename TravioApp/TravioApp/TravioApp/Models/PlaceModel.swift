@@ -125,3 +125,10 @@ struct Image:Codable{
 //    }
    
 
+//MARK: POSTAVISIT
+
+struct PostAVisit:Codable{
+    var place_id:String
+    var visited_at:Date
+}
+

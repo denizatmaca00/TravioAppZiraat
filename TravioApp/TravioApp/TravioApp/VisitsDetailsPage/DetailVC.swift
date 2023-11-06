@@ -118,6 +118,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
         //print("tıklandı")
         saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
+        viewModel.postAVisitById()
     }
     
     @objc func refreshButton(){
