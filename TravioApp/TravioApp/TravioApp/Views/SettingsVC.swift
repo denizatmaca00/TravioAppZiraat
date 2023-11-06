@@ -95,6 +95,7 @@ class SettingsVC: UIViewController {
             case .failure(let error):
                 print("Logout Error: \(error)")
             }
+            //bir tane showAlert olabilir
         }
     }
     
