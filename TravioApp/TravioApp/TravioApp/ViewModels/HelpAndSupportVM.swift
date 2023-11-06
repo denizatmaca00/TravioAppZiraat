@@ -15,9 +15,14 @@ class HelpAndSupportVM: UIViewController {
     //MARK: -- Properties
     
     var titles:[String] = ["How can I create a new account on Travio?", "How can I save a visit", "How does Travio work?"]
-    var descriptions:[String] = ["lorem ipsum desc", "il domine ipsum", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."]
+    var descriptions:[String] = [
+        "lorem ipsum desc Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+        
+        "il domine ipsum Lorem Ipsum is useful.",
+        
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."]
     
-    private var cellViewModels: [DropCellViewModel] = [DropCellViewModel]() {
+    var cellViewModels: [DropCellViewModel] = [DropCellViewModel]() {
         didSet{
             reloadTableViewClosure?()
         }
@@ -87,8 +92,9 @@ class HelpAndSupportVM: UIViewController {
 }
 
 struct DropCellViewModel {
-    var title:String
-    var description:String
+    let title:String
+    let description:String
+    var isExpanded:Bool = false
 }
 
 #if DEBUG
