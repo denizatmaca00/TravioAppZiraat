@@ -42,6 +42,7 @@ class VisitsVC: UIViewController {
     private lazy var tableView:UITableView = {
         let tv = UITableView()
         tv.separatorStyle = .none
+        tv.backgroundColor = UIColor(named: "viewBackgroundColor")
         tv.register(CustomVisitCellVC.self, forCellReuseIdentifier: "favoritesCell")
         tv.delegate = self
         tv.dataSource = self

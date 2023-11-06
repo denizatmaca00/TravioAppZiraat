@@ -56,7 +56,7 @@ class HelpAndSupportVC: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tv = UITableView()
-        
+        tv.separatorStyle = .none
         tv.register(DropCell.self, forCellReuseIdentifier: "cell")
         tv.delegate = self
         tv.dataSource = self
@@ -98,7 +98,8 @@ class HelpAndSupportVC: UIViewController {
         // Add here the setup for the UI
         self.view.backgroundColor = UIColor(named: "backgroundColor")
 //        self.title = "Help&Support"
-        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 600
         self.navigationItem.leftBarButtonItem = leftBarButton
         
         self.view.addSubviews(lblHeader, contentViewBig)
@@ -148,22 +149,39 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? DropCell else{
-            fatalError("cell does not exist")
-        }
+            fatalError("cell does not exist")}
+//        guard let cell = tableView.cellForRow(at: indexPath) as? DropCell else { fatalError("cell does not exist") }
         let cellViewModel = viewModel.getCellViewModel(idx: indexPath)
-        cell.setContent()
+        cell.dropCellViewModel = cellViewModel
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.tableView.performBatchUpdates(nil)
+        guard let faqItem = tableView.cellForRow(at: indexPath) as? DropCell else {return}
+        faqItem.isExpanded = !faqItem.isExpanded
+//        let content = viewModel.getCellViewModel(idx: indexPath)
+        print(indexPath.row)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    
+//    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        guard let cell = tableView.cellForRow(at: indexPath) as? DropCell else{
+//            fatalError("cell does not exist")
+//        }
+//        //        cell.hideDetailView()
+//        
+//    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UITableView.automaticDimension
+        //return 72
+        return UITableView.automaticDimension
     }
-    
-    
 }
 
 #if DEBUG
