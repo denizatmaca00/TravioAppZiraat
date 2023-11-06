@@ -14,7 +14,11 @@ class DropCell: UITableViewCell {
     
     //MARK: -- Properties
     
-    var isExpanded:Bool = false
+    var isExpanded:Bool = false {
+        didSet{
+        }
+        
+    }
     
     var dropCellViewModel:DropCellViewModel? {
         didSet{
@@ -23,29 +27,37 @@ class DropCell: UITableViewCell {
         }
     }
     
+    var setHeightClosure: ()-> CGFloat = {return 73}
+    
     private lazy var lblHeader: UILabel = {
         let lbl = UILabel()
         lbl.text = "placeHolderTitle"
         lbl.font = UIFont(name: "Poppins-Medium", size: 14)
         lbl.textColor = UIColor(named: "textColor")
+        lbl.numberOfLines = 2
         return lbl
     }()
     
     private lazy var lblDescription: UILabel = {
         let lbl = UILabel()
-        lbl.text = "placeHolderDescription"
+        lbl.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
         lbl.font = UIFont(name: "Poppins-Regular", size: 10)
         lbl.textColor = UIColor(named: "textColor")
+        lbl.isHidden = true
+        lbl.numberOfLines = 5
         return lbl
     }()
     
     //MARK: -- Views
     
-    private lazy var dropView:UIView = {
+    lazy var dropView:UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "viewBackgroundColor")
         view.clipsToBounds = true
         view.layer.cornerRadius = 16
+        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.shadowRadius = 16
+        view.layer.shadowOpacity = 0.15
         view.layer.maskedCorners = [.layerMinXMinYCorner]
         return view
     }()
@@ -89,21 +101,23 @@ class DropCell: UITableViewCell {
     private func setupLayout() {
         // Add here the setup for layout
         dropView.snp.makeConstraints({ dv in
-            dv.leading.equalToSuperview().offset(24)
-            dv.trailing.equalToSuperview().offset(-24)
-            dv.height.equalTo(73)
+            dv.leading.equalToSuperview()//.offset(24)
+            dv.trailing.equalToSuperview()//.offset(-24)
+            dv.height.equalTo(setHeightClosure())
             dv.center.equalToSuperview()
             
         })
         
         lblHeader.snp.makeConstraints({lbl in
+            
             lbl.centerY.equalToSuperview()
             lbl.leading.equalToSuperview().offset(12)
+            lbl.trailing.equalToSuperview().offset(-12*4)
             
         })
         
         lblDescription.snp.makeConstraints({ lbl in
-            lbl.top.equalTo(lblHeader).offset(12)
+            lbl.top.equalTo(lblHeader.snp.bottom).offset(12)
             lbl.leading.equalTo(lblHeader)
             lbl.trailing.equalToSuperview().offset(-15)
             
