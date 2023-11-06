@@ -19,7 +19,7 @@ enum Router {
     // delete and update cases
     case deleteVisit(id: String)
     //case postVisit(id: String, params: Parameters)
-    case postVisit(id:String)
+    case postVisit(params:Parameters)
 
     
 //    case deletePlace(id: String)
@@ -53,8 +53,8 @@ enum Router {
         // delete and update cases
         case .deleteVisit(let visitId):
             return "/v1/visit/\(visitId)"
-        case .postVisit(let id):
-            return "/v1/visits/\(id)"
+        case .postVisit:
+            return "/v1/visits"
         case .getPlaceByID(let id):
             return "/v1/places/\(id)"
             //get all galery by id
@@ -80,7 +80,7 @@ enum Router {
             var baseHeaders: HTTPHeaders = [:]
 
         if let token = KeychainHelper.shared.getToken(){
-        baseHeaders["Authorization"] = "Barear" + token            
+        baseHeaders["Authorization"] = "Bearer" + token            
         }
             switch self {
             case .register, .user, .getPlaceByID, .getAllGaleryByID:
@@ -102,9 +102,8 @@ enum Router {
         // delete and update cases
         case .deleteVisit:
             return nil
-       // case .postVisit(_, let params):
-//        case .postVisit:
-//            return nil
+        case .postVisit(let params):
+            return params
     
         default: return [:]
         }

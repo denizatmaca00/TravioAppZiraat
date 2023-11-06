@@ -104,7 +104,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     
     @objc func back(){
         print("tıklandı back")
-        var denemee = VisitsVC()
+        var denemee = MapVC()
         navigationController?.pushViewController(denemee, animated: true)
         //navigationController?.popViewController(animated: true)
     }

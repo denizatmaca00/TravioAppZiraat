@@ -129,6 +129,6 @@ struct Image:Codable{
 
 struct PostAVisit:Codable{
     var place_id:String
-    var visited_at:Date
+    var visited_at:String
 }
 

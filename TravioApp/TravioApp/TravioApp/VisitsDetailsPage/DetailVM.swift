@@ -21,6 +21,7 @@ class DetailVM{
     var galeryData: GalleryImage?
     var postData: PostAVisit?
     
+    
     func getAPlaceById(complete: @escaping (Place)->()) {
         guard let placeId = placeIdtest else { return }
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getPlaceByID(id: placeId)){ [weak self] (result:Result<PlaceIDDataStatus, Error>) in
@@ -48,11 +49,14 @@ class DetailVM{
     }
     func postAVisitById(){
         guard let placeid = placeIdtest else {return }
-        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.postVisit(id: placeid)){
+
+        let params = ["place_id" : placeid, "visited_at" : "2023-08-10T00:00:00Z" ]
+        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.postVisit(params: params)){
             [weak self] (result:Result<PostAVisit,Error>) in
             switch result {
             case .success(let result):
-                self?.postData = result
+                //self?.postData = result
+                print(result)
             case .failure(let failure):
                 print("hatahatahatahata\(failure.localizedDescription)")
             }
