@@ -6,7 +6,7 @@
 //
 
 // TODO: signUp mvvme göre düzenle
-// TODO: signUp çıkan başarılı alertten sonra direkt logine aktar 
+// TODO: signUp çıkan başarılı alertten sonra direkt logine aktar ++
 //
 
 import UIKit
@@ -78,7 +78,9 @@ class SignUpVC: UIViewController {
         setupViews()
         
         viewModel.showAlertClosure = { [weak self] title, message in
-            self?.showAlert(title: title, message: message)
+            self?.showAlert(title: title, message: message){
+                
+            }
         }
     }
 
@@ -106,19 +108,19 @@ class SignUpVC: UIViewController {
                 switch result {
                 case .success(let response):
                     if let messages = response.message {
-                        self!.viewModel.showAlertClosure?("Notification", messages)
-                        
-                        
+                        self?.showAlert(title: "Notification", message: messages) {
+                            // Kapatma işlemi için LoginVC'ye geri dön
+                            self?.navigationController?.popViewController(animated: true)
+                        }
                     }
-                   // self?.navigationController?.popViewController(animated: true)
                 case .failure(let error):
                     print("Error: \(error)")
-                    self!.viewModel.showAlertClosure?("Yanlış", error.localizedDescription)
-
+                    self?.viewModel.showAlertClosure?("Yanlış", error.localizedDescription)
                 }
             }
         }
     }
+
     
     @objc func backButtonTapped(){
         let vc = LoginVC()
@@ -178,7 +180,7 @@ class SignUpVC: UIViewController {
     }
 }
 
-extension SignUpVC:UITextFieldDelegate{
+extension SignUpVC: UITextFieldDelegate{
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String)->Bool
     {
