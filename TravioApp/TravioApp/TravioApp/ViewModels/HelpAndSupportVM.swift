@@ -92,8 +92,8 @@ class HelpAndSupportVM: UIViewController {
 }
 
 struct DropCellViewModel {
-    let title:String
-    let description:String
+    var title:String
+    var description:String
     var isExpanded:Bool = false
 }
 

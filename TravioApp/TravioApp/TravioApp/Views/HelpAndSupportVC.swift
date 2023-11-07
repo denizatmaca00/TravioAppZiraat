@@ -14,6 +14,8 @@ class HelpAndSupportVC: UIViewController {
     
     //MARK: -- Properties
     
+    var selectedIndexPaths = [IndexPath]()
+    
     private let viewModel:HelpAndSupportVM = {
         return HelpAndSupportVM()
     }()
@@ -58,7 +60,9 @@ class HelpAndSupportVC: UIViewController {
         let tv = UITableView()
         tv.rowHeight = UITableView.automaticDimension
         tv.estimatedRowHeight = 73*4
-        tv.separatorStyle = .none
+//        tv.separatorStyle = .none
+//        tv.allowsSelection = true
+//        tv.allowsMultipleSelection = false
         
         tv.register(DropCell.self, forCellReuseIdentifier: DropCell.reuseIdentifier)
         tv.delegate = self
@@ -74,12 +78,6 @@ class HelpAndSupportVC: UIViewController {
         setupViews()
         
         initVM()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let bottomSpace: CGFloat = 10.0
-        self.tableView.frame = self.tableView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: bottomSpace, right: 0))
     }
     
     //MARK: -- Component Actions
@@ -104,6 +102,11 @@ class HelpAndSupportVC: UIViewController {
     
     func setupViews() {
         // Add here the setup for the UI
+        
+//        tableView.allowsSelection = true
+//        tableView.allowsMultipleSelection = false
+        
+        
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         
         self.navigationItem.leftBarButtonItem = leftBarButton
@@ -116,8 +119,6 @@ class HelpAndSupportVC: UIViewController {
     
     func setupLayout() {
         
-//        let limits = self.view.safeAreaLayoutGuide.snp
-//        self.navigationItem.titleView?.layer
         let startY = self.view.bounds.origin.y + 50
         
         // Add here the setup for layout
@@ -165,19 +166,92 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+//    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+//        
+//        
+//        // Create animation for cell
+//        self.tableView.performBatchUpdates(nil)
+//        
+//        
+//        //guard let faqItem = tableView.dequeueReusableCell(withIdentifier: DropCell.reuseIdentifier, for: indexPath) as? DropCell else {fatalError("err")}
+//        
+//        // manage selection
+//        if let idx = tableView.indexPathForSelectedRow {
+//            if idx == indexPath{
+//                tableView.deselectRow(at: indexPath, animated: true)
+//                viewModel.cellViewModels[indexPath.row].isExpanded = true
+//                return nil
+//            } else {
+//                viewModel.cellViewModels[idx.row].isExpanded = false
+//            }
+//        }
+//        // update
+//        viewModel.cellViewModels[indexPath.row].isExpanded = true
+//        
+//        return indexPath
+//    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // animasyon
-        self.tableView.performBatchUpdates(nil)
         
+        // Create animation for cell
+        self.tableView.performBatchUpdates(nil)
+//        
         guard let faqItem = tableView.cellForRow(at: indexPath) as? DropCell else {return}
+//        
+        let expandBool:Bool = faqItem.dropCellViewModel!.isExpanded
+        print("expandBool: \(expandBool) for \(indexPath.row)")
+        faqItem.dropCellViewModel?.title = viewModel.titles[indexPath.row]
+        faqItem.toggleCellData(data: viewModel.descriptions[indexPath.row])
         faqItem.dropCellViewModel!.isExpanded.toggle()
-        //tableView.rowHeight = 72
-//        let content = viewModel.getCellViewModel(idx: indexPath)
-        print(indexPath.row)
-//        tableView.reloadRows(at: [indexPath], with: .automatic)
-        tableView.deselectRow(at: indexPath, animated: true)
+        
+        
+        
+        //self.tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+        
+//        switch !expandBool{
+//        case true:
+////            let data = DropCellViewModel(title: viewModel.titles[indexPath.row], description: viewModel.descriptions[indexPath.row], isExpanded: !expandBool)
+////            faqItem.dropCellViewModel = data
+//            faqItem.dropCellViewModel?.description = viewModel.descriptions[indexPath.row]
+//            //faqItem.dropCellViewModel!.isExpanded.toggle()
+//        case false:
+////            let data = DropCellViewModel(title: viewModel.titles[indexPath.row], description:"", isExpanded: !expandBool)
+////            faqItem.dropCellViewModel = data
+//            faqItem.dropCellViewModel?.description = ""
+//            
+//        }
+        
+        
+        print("Cell idx: \(indexPath.row)")
+        
+        // prepare to deselect cells
+//        let selectedIndexPath = selectedIndexPaths.filter({ $0.section == indexPath.section })
+//        
+//        for indexPath in selectedIndexPath {
+//            tableView.deselectRow(at: indexPath, animated: true)
+//            if let indexOf = selectedIndexPaths.index(of: indexPath) {
+//                selectedIndexPaths.remove(at: indexOf)
+//            }
+//        }
+//        
+//        selectedIndexPaths.append(indexPath)
+        
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        tableView.deselectRow(at: tableView.indexPathForSelectedRow!, animated: true)
+        
+        //tableView.reloadRows(at: [indexPath], with: .fade)
+        
     }
     
+    // On deselect cell
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//        if let index = selectedIndexPaths.index(of: indexPath) {
+//            print("trigger selectPath on DeselectRowAt")
+//            selectedIndexPaths.remove(at: index)
+//        }
+        
+//        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
 //    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
 //        guard let cell = tableView.cellForRow(at: indexPath) as? DropCell else{
@@ -195,7 +269,6 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 100
         return UITableView.automaticDimension
     }
     
@@ -212,16 +285,17 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
 //        tableView.contentInset.top = -verticalPadding/2
 //    }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let header = UIView()
-        header.backgroundColor = .green //UIColor(named: "viewBackgroundColor")
-
-        return header
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        12
-    }
+//    footer view to be deleted
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let header = UIView()
+//        header.backgroundColor = .green //UIColor(named: "viewBackgroundColor")
+//
+//        return header
+//    }
+//    
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        12
+//    }
 }
 
 #if DEBUG
