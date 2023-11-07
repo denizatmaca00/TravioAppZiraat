@@ -19,6 +19,7 @@ import UIKit
 class SettingsVC: UIViewController {
     
     let loginVM = LoginVM()
+    var profileViewModel = ProfileVM()
     
     let cellArray: [SettingsCell] = [
         SettingsCell(iconName: "profile", label: "Security Settings", iconArrow: "buttonArrow"),
@@ -98,6 +99,7 @@ class SettingsVC: UIViewController {
             //bir tane showAlert olabilir
         }
     }
+
     
     @objc func editProfileTapped() {
         let vc = EditProfileVC()
@@ -115,6 +117,16 @@ class SettingsVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         // self.navigationController?.isNavigationBarHidden = true
         setupViews()
+        initVM()
+    }
+    
+    func initVM(){
+        profileViewModel.profileUpdateClosure = { [weak self] profile in
+                    self?.label.text = profile.full_name
+                    self?.imageView.image = UIImage(named: profile.pp_url)
+                }
+                
+        profileViewModel.getProfileInfos(completion: {result in })
     }
     
     func setupViews() {

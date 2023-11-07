@@ -9,9 +9,20 @@
 // TODO: leftBarItem bir tane yazılıp her yerden çekilebilir
 // TODO: contentViewBig her sayfada kullnaılıyor onu da düzenlemek lazım +
 // TODO: color enumı eklenebilir
+// TODO: map post networking
+// TODO: profile networking
+// TODO: signup fony size
+// TODO: signup loading
+// TODO: classları sayfa sayfa ayırın
+// TODO: fontlar enumdan beslensin
+// TODO: homevc uılar tamamlansın paddingler
+// TODO: populervc uı backbutton font üst üste gelmesi
+// TODO: delegate silinsin eğer kullanılmıyorsa
 import UIKit
 
 class EditProfileVC: UIViewController {
+    
+    var viewModel = EditProfileVM()
     
     private lazy var viewUsername = AppTextField(data: .username)
     private lazy var viewMail = AppTextField(data: .email)
@@ -83,6 +94,18 @@ class EditProfileVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        initVM()
+    }
+    
+    func initVM(){
+        viewModel.reloadEditProfileClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.imageView.image
+            }
+        }
+        viewModel.getEditProfileInfos(completion: {result in
+            
+        })
     }
     
     @objc func exitButtonTapped(){

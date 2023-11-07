@@ -27,6 +27,8 @@ enum Router {
     case getPlaceByID(id:String)
     //galery;
     case getAllGaleryByID(id:String)
+    case putEditProfile
+    case getProfile
     
 //    var token:String{
 //        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
@@ -48,6 +50,10 @@ enum Router {
             return "/v1/places"
         case .postVisit:
             return "/v1/visits"
+        case .putEditProfile:
+            return "v1/edit-profile"
+        case .getProfile:
+            return "v1/me"
         
             
         // delete and update cases
@@ -67,12 +73,12 @@ enum Router {
         switch self {
         case .register, .user, .postVisit, .visits:
             return .post
-        case .places, .getPlaceByID, .getAllGaleryByID:
+        case .places, .getPlaceByID, .getAllGaleryByID, .getProfile:
             return .get
         case .deleteVisit:
             return .delete
-//        case .postVisit:
-//            return .put
+        case .putEditProfile:
+            return .put
         }
     }
     
@@ -80,12 +86,12 @@ enum Router {
             var baseHeaders: HTTPHeaders = [:]
 
         if let token = KeychainHelper.shared.getToken(){
-        baseHeaders["Authorization"] = token            
+        baseHeaders["Authorization"] = "Bearer " + token
         }
             switch self {
             case .register, .user, .getPlaceByID, .getAllGaleryByID:
-                return baseHeaders
-            case .visits, .places, .deleteVisit, .postVisit:
+                return [:]
+            case .visits, .places, .deleteVisit, .postVisit, .putEditProfile, .getProfile:
                 return baseHeaders
             }
         }

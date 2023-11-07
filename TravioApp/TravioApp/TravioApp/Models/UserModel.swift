@@ -10,11 +10,23 @@ import CoreLocation
 import UIKit
 import MapKit
 
-struct User:Codable {
-    var full_name:String
-    var email:String
+struct User: Codable {
+    var full_name: String
+    var email: String
     var password: String
-    var id:String
+    var id: String
+}
+struct EditProfile: Codable {
+    var full_name: String
+    var email: String
+    var pp_url: String
+}
+struct Profile: Codable {
+    var full_name: String
+    var email: String
+    var pp_url: String
+    var role: String
+    var created_at: String
 }
 
 struct Tokens: Codable {
