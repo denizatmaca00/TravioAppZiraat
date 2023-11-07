@@ -22,10 +22,27 @@ class DropCell: UITableViewCell {
         didSet{
             lblHeader.text = dropCellViewModel?.title
             lblDescription.text = dropCellViewModel?.description
-            lblDescription.isHidden = !dropCellViewModel!.isExpanded
-            print("\(!dropCellViewModel!.isExpanded)")
-            imgDropButton.image = (dropCellViewModel!.isExpanded ? UIImage(systemName: "chevron.up") : UIImage(systemName: "chevron.down"))?.withRenderingMode(.alwaysOriginal)
+            //lblDescription.text = (!dropCellViewModel!.isExpanded ? dropCellViewModel?.description : "")
+//            lblDescription.text = (!dropCellViewModel!.isExpanded ? dropCellViewModel?.description : "")
+//            lblDescription.isHidden = !dropCellViewModel!.isExpanded
+//            print("DidSet of DropCell: \(!dropCellViewModel!.isExpanded)")
+//            imgDropButton.image = (!dropCellViewModel!.isExpanded ? UIImage(systemName: "chevron.up") : UIImage(systemName: "chevron.down"))?.withRenderingMode(.alwaysOriginal)
+//            
         }
+    }
+    
+    func toggleCellData(data:String){
+        let isExpanded = dropCellViewModel?.isExpanded
+        
+        lblDescription.isHidden = !isExpanded!
+        lblDescription.text = (!isExpanded! ? data : "")
+        
+        print("Function of DropCell: \(!isExpanded!)")
+        
+        imgDropButton.image = (!dropCellViewModel!.isExpanded ? 
+                               UIImage(systemName: "chevron.up") :
+                                UIImage(systemName: "chevron.down"))?
+            .withRenderingMode(.alwaysOriginal)
     }
     
     var setHeightClosure: ()-> CGFloat = {return 73}
@@ -44,7 +61,7 @@ class DropCell: UITableViewCell {
         lbl.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
         lbl.font = UIFont(name: "Poppins-Regular", size: 10)
         lbl.textColor = UIColor(named: "textColor")
-//        lbl.isHidden = false
+        lbl.isHidden = false
         lbl.numberOfLines = 0
         lbl.sizeToFit()
         return lbl
@@ -54,17 +71,17 @@ class DropCell: UITableViewCell {
     
     lazy var dropView:UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "viewBackgroundColor")
+        view.backgroundColor = .systemGray3 //UIColor(named: "viewBackgroundColor")
         view.clipsToBounds = true
         view.layer.cornerRadius = 16
         view.layer.borderColor = UIColor.black.cgColor
-        view.layer.shadowRadius = 20
-        view.layer.shadowOpacity = 0.45
-        view.layer.maskedCorners = [.layerMinXMinYCorner]
+        view.layer.shadowRadius = 16
+        view.layer.shadowOpacity = 1
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
         return view
     }()
-    private lazy var viewSpace:UIView = {
-        let v = UIView()
+    private lazy var viewSeperator:UIView = {
+        let v = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 12))
         return v
     }()
     
@@ -99,6 +116,7 @@ class DropCell: UITableViewCell {
         self.selectionStyle = .none
         self.addSubviews(dropView)
         dropView.addSubviews(lblHeader, imgDropButton, lblDescription)
+        dropView.addSubview(viewSeperator)
         
         setupLayout()
     }
@@ -107,9 +125,17 @@ class DropCell: UITableViewCell {
         // Add here the setup for layout
         dropView.snp.makeConstraints({ dv in
             dv.top.equalToSuperview()
-            dv.bottom.equalToSuperview()
+            dv.bottom.equalToSuperview().offset(-viewSeperator.frame.height)
             dv.leading.equalToSuperview()
             dv.trailing.equalToSuperview()
+            
+        })
+        
+        viewSeperator.snp.makeConstraints({ view in
+            view.leading.equalToSuperview()
+            view.trailing.equalToSuperview()
+            view.top.equalTo(dropView.snp.bottom)
+            view.bottom.equalToSuperview()
             
         })
         
@@ -123,7 +149,7 @@ class DropCell: UITableViewCell {
         
         lblDescription.snp.makeConstraints({ lbl in
             lbl.top.equalTo(lblHeader.snp.bottom)
-            lbl.bottom.equalToSuperview()
+            lbl.bottom.equalToSuperview().offset(-16)
             lbl.leading.equalTo(lblHeader)
             lbl.trailing.equalToSuperview().offset(-15)
             
@@ -135,11 +161,6 @@ class DropCell: UITableViewCell {
             img.trailing.equalToSuperview().offset(-18.37)
             
         })
-        
-//        viewSpace.snp.makeConstraints({ view in
-//            view.top.equalTo(dropView.snp.bottom)
-//
-//        })
     }
 }
 
@@ -149,7 +170,7 @@ import SwiftUI
 @available(iOS 13, *)
 struct DropCell_Preview: PreviewProvider {
     static var previews: some View{
-        
+        HelpAndSupportVC().showPreview().ignoresSafeArea()
         DropCell().showPreview()
     }
 }
