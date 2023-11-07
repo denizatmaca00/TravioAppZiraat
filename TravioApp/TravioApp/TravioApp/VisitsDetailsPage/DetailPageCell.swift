@@ -39,6 +39,7 @@ class DetailPageCell: UICollectionViewCell {
     func configure(imageURL:Image){
         if let url = URL(string: imageURL.image_url){
             //self.image.imageFrom(url: url)
+            //resmi indir ve görğntülerim
             image.kf.setImage(with: url)
             }
     }

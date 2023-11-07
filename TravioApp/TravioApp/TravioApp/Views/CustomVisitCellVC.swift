@@ -15,6 +15,7 @@ class CustomVisitCellVC: UITableViewCell {
         didSet{
             placeName.text = visitCellViewModel?.placeName
             cityName.text = visitCellViewModel?.city
+            //image.
         }
     }
     
@@ -71,7 +72,14 @@ class CustomVisitCellVC: UITableViewCell {
         placeName.text = data.placeName
         cityName.text = data.city
         imageLocation.image = data.image
+
     }
+    func configure(imageURL:Visit){
+        if let url = URL(string: imageURL.place.cover_image_url){
+            //self.image.imageFrom(url: url)
+            //resmi indir ve görğntülerim
+            imageLocation.kf.setImage(with: url)
+        }}
     func setupViews() {
 
         self.contentView.addSubviews(imageLocation,placeName,iconLocation,cityName)

@@ -8,13 +8,16 @@
 import Foundation
 import UIKit
 import CoreLocation
+import Kingfisher
 
 class VisitsVM{
-    var id: String?
+    var id: Visit?
     var favorites: [Visit] = []
     
+
      var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
+            reloadTableViewClosure?()
             numberOfCells = cellViewModels.count
             reloadTableViewClosure?()
         }
@@ -43,6 +46,18 @@ class VisitsVM{
         }
     }
     
+    func getaVisitbyID(){
+        guard let idplace = id?.place_id  else {return}
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .getAVisitByID(id: idplace)){(result:Result<VisitsDataStatus,Error>) in
+            switch result{
+            case .success(let success):
+                print("fssdg")
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    
     // MARK: Create View Model
     
     private func fetchVisits(favorites:[Visit]){
@@ -56,10 +71,18 @@ class VisitsVM{
         
         self.cellViewModels = viewModels
     }
-    
+
     private func createCellViewModel(favorite:Visit) -> VisitCellViewModel{
     // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell to show inside each vistsCell
-        
+       // guard let te = favorite.place.cover_image_url else {return VisitCellViewModel}
+        // "sultanahmet"
+        //URL(string: imageURL.place.cover_image_url)
+//        func configure(imageURL:Visit){
+//            if let url = URL(string: favorite.place.cover_image_url){
+//                //self.image.imageFrom(url: url)
+//                //resmi indir ve görğntülerim
+//                 imageLocation.kf.setImage(with: url)
+//            }}
         let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
                                      placeName: favorite.place.title,
                                      city: favorite.place.place)

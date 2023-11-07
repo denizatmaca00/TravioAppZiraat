@@ -118,7 +118,11 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
         //print("tıklandı")
         saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
+        //eğer myvisit sayfasında bu placeidye ait olan eklendiyse çalıştırma.
+        //detail.placeid myvisit sayfasında varsa çalıştırma.
+        
         viewModel.postVisit()
+       
     }
     
     @objc func refreshButton(){

@@ -116,7 +116,7 @@ class VisitsVC: UIViewController {
     
 }
 
-extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
+extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -125,6 +125,7 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
         }
         let cellData = viewModel.cellViewModels[indexPath.row]
         cell.configure(data: cellData)
+        //viewModel.reloadTableViewClosure?()
      
         return cell
     }
@@ -149,11 +150,20 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
         return indexPath
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       //celle tıklanınca ne yapacak?
+       //tıklndığının placeidsini
+        let vc = DetailVC()
+        vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
+        viewModel.getaVisitbyID()
+        navigationController?.pushViewController(vc, animated: true)
+        
+        //celle tıklanınca ne yapacak?
 //        let vc = DetailVC()
 //        vc.viewModel.placeIdtest = viewModel.cellViewModels[IndexPath.row]
 //        navigationController?.pushViewController(DetailVC(), animated: true)
     }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        viewModel.reloadTableViewClosure?()
+//    }
 }
 
 #if DEBUG
