@@ -11,7 +11,7 @@
 // TODO: color enumı eklenebilir
 // TODO: map post networking
 // TODO: profile networking
-// TODO: signup fony size
+// TODO: signup font size
 // TODO: signup loading
 // TODO: classları sayfa sayfa ayırın
 // TODO: fontlar enumdan beslensin
@@ -93,17 +93,8 @@ class EditProfileVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-//        initVM()
     }
-//
-//    func initVM(){
-//        viewModel.reloadEditProfileClosure = { [weak self] () -> Void in
-//            DispatchQueue.main.async {
-//            }
-//        }
-//        viewModel.getEditProfileInfos()
-//    }
-//
+
     
     @objc func exitButtonTapped(){
         navigationController?.popViewController(animated: true)

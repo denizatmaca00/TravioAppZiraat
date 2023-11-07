@@ -17,7 +17,6 @@ extension UIViewController
         let alert = AppAlertControl(title: title, message: message, preferredStyle: .alert)
         
         let btnCancel = UIAlertAction(title: "Kapat", style: .cancel) { _ in
-            // Kapatma işlemi için LoginVC'ye geri dön
             completion()
         }
         
