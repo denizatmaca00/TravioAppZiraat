@@ -51,7 +51,7 @@ enum Router {
             
         // delete and update cases
         case .deleteVisit(let visitId):
-            return "/v1/visit/\(visitId)"
+            return "/v1/visits/\(visitId)"
         case .postVisit:
             return "/v1/visits"
         case .getPlaceByID(let id):

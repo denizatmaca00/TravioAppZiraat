@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 class VisitsVM{
-    
+    var id: String?
     var favorites: [Visit] = []
     
      var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {

@@ -70,4 +70,16 @@ class DetailVM{
         
         return testttttt
     }
+    func deleteVisitbyPlceID(){
+        guard let id = placeIdtest  else {return}
+        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.deleteVisit(id: id)){
+            (result:Result<DeleteVisitbyID,Error>) in
+            switch result {
+            case .success(let data):
+                print(data)
+            case .failure(let failure):
+                print("deletehatahatahata\(failure.localizedDescription)")
+            }
+        }
+    }
 }

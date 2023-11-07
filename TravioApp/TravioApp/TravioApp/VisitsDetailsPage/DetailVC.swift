@@ -124,6 +124,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     @objc func refreshButton(){
         saveBtn.setImage(UIImage(named: "save"), for: .normal)
         saveBtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
+        viewModel.deleteVisitbyPlceID()
     }
     
     override func viewDidLoad() {
