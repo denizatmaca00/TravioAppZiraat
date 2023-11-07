@@ -2,7 +2,9 @@ import UIKit
 import SnapKit
 
 
-class LoginVC: UIViewController, ViewModelDelegate {
+class LoginVC: UIViewController {
+
+    
 
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var viewPass = AppTextField(data: .password)
@@ -79,7 +81,9 @@ class LoginVC: UIViewController, ViewModelDelegate {
         self.navigationController?.navigationBar.isHidden = true
         
         viewModel.showAlertClosure = { [weak self] title, message in
-            self?.showAlert(title: title, message: message)
+            self?.showAlert(title: title, message: message){
+                
+            }
         }//didsete ekelyeeğim
     }
 //    override func viewDidAppear(_ animated: Bool) {

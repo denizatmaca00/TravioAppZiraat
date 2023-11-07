@@ -21,6 +21,7 @@ struct EditProfile: Codable {
     var email: String
     var pp_url: String
 }
+
 struct Profile: Codable {
     var full_name: String
     var email: String

@@ -24,7 +24,7 @@ class EditProfileVC: UIViewController {
     
     var viewModel = EditProfileVM()
     
-    private lazy var viewUsername = AppTextField(data: .username)
+    private lazy var viewUsername = AppTextField(data: .fullname)
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var txtUsername = viewUsername.getTFAsObject()
     private lazy var txtEmail = viewMail.getTFAsObject()
@@ -85,8 +85,7 @@ class EditProfileVC: UIViewController {
         signUpButton.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
         signUpButton.backgroundColor = UIColor(named: "backgroundColor")
         signUpButton.layer.cornerRadius = 12
-        //signUpButton.addTarget(self, action: #selector(signUpUser), for: .touchUpInside)
-        signUpButton.isEnabled = false
+        signUpButton.addTarget(self, action: #selector(saveEditProfile), for: .touchUpInside)
         return signUpButton
     }()
     
@@ -94,24 +93,51 @@ class EditProfileVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-        initVM()
+//        initVM()
     }
-    
-    func initVM(){
-        viewModel.reloadEditProfileClosure = { [weak self] () in
-            DispatchQueue.main.async {
-                self?.imageView.image
-            }
-        }
-        viewModel.getEditProfileInfos(completion: {result in
-            
-        })
-    }
+//
+//    func initVM(){
+//        viewModel.reloadEditProfileClosure = { [weak self] () -> Void in
+//            DispatchQueue.main.async {
+//            }
+//        }
+//        viewModel.getEditProfileInfos()
+//    }
+//
     
     @objc func exitButtonTapped(){
         navigationController?.popViewController(animated: true)
     }
     
+
+    @objc func saveEditProfile() {
+                print("saved")
+                guard let email = txtEmail.text,
+                      let full_name = txtUsername.text,
+                      let pp_url = imageView.image else { return }
+
+        viewModel.changeProfileInfo(profile: EditProfile(full_name: full_name, email: email, pp_url: pp_url.description))
+print(full_name)
+print("fndfjkghfjg")
+        labelName.text = full_name
+        
+            }
+    
+//    @objc func saveEditProfile() {
+//        guard let full_name = txtUsername.text else {return}
+//        let email = txtEmail.text ?? ""
+//        let pp_url = "https://example.com/deneme.png"
+//
+//        viewModel.getEditProfileInfos(full_name: full_name, email: email, pp_url: pp_url){ [weak self] (result: Result<Messages,Error>) in
+//            switch result {
+//            case .success:
+//               print("oldu")
+//            case .failure(let error):
+//                print("Profile Update Error:")
+//            }
+//        }
+//}
+
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, exitButton)

@@ -36,6 +36,7 @@ class AppTextField: UIView {
         case presentMapTitle
         case presentMapDescription
         case presentMapLocation
+        case fullname
         
         var title: String {
             switch self {
@@ -53,6 +54,8 @@ class AppTextField: UIView {
                 return "Visit Description"
             case .presentMapLocation:
                 return "Country, City"
+            case .fullname:
+                return "Full Name"
             }
         }
         
@@ -72,6 +75,8 @@ class AppTextField: UIView {
                 return "Lorem ipsum..."
             case .presentMapLocation:
                 return "Location"
+            case .fullname:
+                return "Bilge Adam"
             }
         }
     }

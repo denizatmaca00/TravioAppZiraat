@@ -15,27 +15,17 @@ enum Router {
     case user(params: Parameters)
     case visits
     case places
-    
-    // delete and update cases
     case deleteVisit(id: String)
-    //case postVisit(id: String, params: Parameters)
     case postVisit(id:String)
-
-    
-//    case deletePlace(id: String)
-//    case putPlace(id: String, params: Parameters)
     case getPlaceByID(id:String)
     //galery;
     case getAllGaleryByID(id:String)
-    case putEditProfile
+    case putEditProfile(params: Parameters)
     case getProfile
-    
-//    var token:String{
-//        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
-//    }
+
     
     var baseURL:String {
-        return "https://api.iosclass.live"
+        return "https://ios-class-2f9672c5c549.herokuapp.com"
     }
     
     var path:String {
@@ -51,9 +41,9 @@ enum Router {
         case .postVisit:
             return "/v1/visits"
         case .putEditProfile:
-            return "v1/edit-profile"
+            return "/v1/edit-profile"
         case .getProfile:
-            return "v1/me"
+            return "/v1/me"
         
             
         // delete and update cases
@@ -111,6 +101,8 @@ enum Router {
        // case .postVisit(_, let params):
         case .postVisit:
             return nil
+        case .putEditProfile(let params):
+            return params
     
         default: return nil
         }
@@ -127,7 +119,7 @@ extension Router:URLRequestConvertible {
         
         let encoding:ParameterEncoding = {
             switch method {
-            case .post:
+            case .post , .put:
                 return JSONEncoding.default
 
             default:
