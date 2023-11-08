@@ -1,5 +1,5 @@
 //
-//  
+//
 //  HomeVC.swift
 //  TravioApp
 //
@@ -12,10 +12,12 @@ import SnapKit
 
 class HomeVC: UIViewController {
     
-    var popularPlaces:[Place] = [Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
-                                
-    var newPlaces:[Place] = [Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
-                            
+    let viewModel:HomeVM = HomeVM()
+    
+    var popularPlaces:[Place] = [] //[Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
+    
+    var newPlaces:[Place] = [] //[Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
+    
     //MARK: -- Properties
     
     private lazy var imgLogo: UIImageView = {
@@ -25,12 +27,12 @@ class HomeVC: UIViewController {
         return imageView
     }()
     
-//    private lazy var imgHeader: UIImageView = {
-//        let imageView = UIImageView()
-//        let image = UIImage(named: "travioHeader")?.withRenderingMode(.automatic)
-//        imageView.image = image
-//        return imageView
-//    }()
+    //    private lazy var imgHeader: UIImageView = {
+    //        let imageView = UIImageView()
+    //        let image = UIImage(named: "travioHeader")?.withRenderingMode(.automatic)
+    //        imageView.image = image
+    //        return imageView
+    //    }()
     
     private lazy var lblHeader:UILabel = {
         let lbl = UILabel()
@@ -72,7 +74,18 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         
-       setupViews()
+        initVM()
+        setupViews()
+    }
+    
+    func initVM(){
+        
+        viewModel.reloadTableViewClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+        viewModel.initFetch()
     }
     
     //MARK: -- Component Actions
@@ -107,20 +120,20 @@ class HomeVC: UIViewController {
             img.width.equalTo(66)
             
         })
-
-//        imgHeader.snp.makeConstraints({ lbl in
-//
-//            lbl.leading.equalTo(imgLogo.snp.trailing)
-//            lbl.centerY.equalTo(imgLogo.snp.centerY)
-//            lbl.height.equalTo(28)
-//            lbl.width.equalTo(102)
-//        })
+        
+        //        imgHeader.snp.makeConstraints({ lbl in
+        //
+        //            lbl.leading.equalTo(imgLogo.snp.trailing)
+        //            lbl.centerY.equalTo(imgLogo.snp.centerY)
+        //            lbl.height.equalTo(28)
+        //            lbl.width.equalTo(102)
+        //        })
         
         lblHeader.snp.makeConstraints({ lbl in
             
             lbl.leading.equalTo(imgLogo.snp.trailing)
             lbl.centerY.equalTo(imgLogo.snp.centerY)
-
+            
         })
         
         contentViewBig.snp.makeConstraints({cv in
@@ -170,7 +183,7 @@ extension HomeVC {
         
         let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [item] )
         
-//        layoutGroup.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .flexible(0), top: nil, trailing: nil, bottom: nil) // changing .flexible() changes distance between horizontal cells
+        //        layoutGroup.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .flexible(0), top: nil, trailing: nil, bottom: nil) // changing .flexible() changes distance between horizontal cells
         
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
         // set/show headers
@@ -187,7 +200,7 @@ extension HomeVC {
         
         UICollectionViewCompositionalLayout {
             [weak self] sectionIndex, environment in
-
+            
             return self?.makeSliderLayoutSection()
         }
     }
@@ -200,12 +213,12 @@ extension HomeVC:UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return popularPlaces.count
+        return viewModel.numberOfCells
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as! CustomCollectionViewCell
-        let object = popularPlaces[indexPath.row]
+        let object = viewModel.popularPlaces[indexPath.row]
         
         cell.configure(object:object)
         
@@ -220,7 +233,6 @@ extension HomeVC:UICollectionViewDataSource {
         header.btnTapAction = {
             print("closureTap")
             let popularPlacesVC:UIViewController = PopularPlaceVC()
-            popularPlacesVC
             self.navigationController?.pushViewController(popularPlacesVC, animated: true)
         }
         
@@ -247,7 +259,7 @@ import SwiftUI
 @available(iOS 13, *)
 struct HomeVC_Preview: PreviewProvider {
     static var previews: some View{
-
+        
         HomeVC().showPreview()
     }
 }
