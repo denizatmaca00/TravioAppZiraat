@@ -117,20 +117,21 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         var testtt = DetailVM()
         saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
         //print("tıklandı")
-        saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
+       // saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
         //eğer myvisit sayfasında bu placeidye ait olan eklendiyse çalıştırma.
         //detail.placeid myvisit sayfasında varsa çalıştırma.
-        
-        viewModel.postVisit()
+        viewModel.checkVisitbyPlaceID()
+        //viewModel.postVisit()
        
     }
-    
-    @objc func refreshButton(){
-        saveBtn.setImage(UIImage(named: "save"), for: .normal)
-        saveBtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
-        viewModel.deleteVisitbyPlceID()
-    }
-    
+//
+//    @objc func refreshButton(){
+//        saveBtn.setImage(UIImage(named: "save"), for: .normal)
+//        saveBtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
+//        //viewModel.deleteVisitbyPlceID()
+//        //viewModel.checkVisitbyPlaceID()
+//    }
+//
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true

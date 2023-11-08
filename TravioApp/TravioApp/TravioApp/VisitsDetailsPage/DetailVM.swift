@@ -49,7 +49,6 @@ class DetailVM{
     }
     func postVisit(){
         guard let placeid = placeIdtest else {return }
-//"2023-08-10T00:00:00Z"
         let params = ["place_id" : placeid, "visited_at" : dateFormatter()]
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.postVisit(params: params)){
              (result:Result<PostAVisit,Error>) in
@@ -79,6 +78,25 @@ class DetailVM{
                 print(data)
             case .failure(let failure):
                 print("deletehatahatahata\(failure.localizedDescription)")
+            }
+        }
+    }
+    func checkVisitbyPlaceID(){
+        guard let id = placeIdtest  else {return}
+        print(id)
+        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.checkVisitByID(id: id)){
+            (result:Result<CheckVisitbyID,Error>) in
+            switch result {
+            case .success(let message):
+                print(message)
+                if message.status == "success" {
+                    self.deleteVisitbyPlceID()
+                }
+                else if message.status == "fail" {
+                    self.postVisit()
+                }
+            case .failure(let failure):
+                print("checkhata\(failure.localizedDescription)")
             }
         }
     }

@@ -47,8 +47,16 @@ class VisitsVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         
+//        let refreshControl = UIRefreshControl()
+//        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
+//        tv.refreshControl = refreshControl
         return tv
     }()
+//    @objc func refreshTableView(sender: UIRefreshControl){
+//        tableView.reloadData()
+//        sender.endRefreshing()
+//
+//    }
     
     //MARK: -- Life Cycles
     override func viewDidLoad() {

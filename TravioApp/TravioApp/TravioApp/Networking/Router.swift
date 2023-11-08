@@ -28,6 +28,7 @@ enum Router {
     //galeryAllGaleryByID;
     case getAllGaleryByID(id:String)
     case getAVisitByID(id:String)
+    case checkVisitByID(id:String)
 //    var token:String{
 //        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
 //    }
@@ -63,6 +64,8 @@ enum Router {
             return "/v1/visits"
         case .getAVisitByID(let id):
             return "/v1/visits/\(id)"
+        case .checkVisitByID(let id):
+            return "/v1/visits/user/\(id)"
         }
     }
     
@@ -70,12 +73,10 @@ enum Router {
         switch self {
         case .register, .user, .postVisit:
             return .post
-        case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID:
+        case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID, .checkVisitByID:
             return .get
         case .deleteVisit:
             return .delete
-//        case .postVisit:
-//            return .put
         }
     }
     
@@ -88,7 +89,7 @@ enum Router {
             switch self {
             case .register, .user, .getPlaceByID, .getAllGaleryByID:
                 return [:]
-            case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID:
+            case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID:
                 print(baseHeaders)
                 return baseHeaders
             }
@@ -103,7 +104,7 @@ enum Router {
         case .places, .visits:
             return nil
             
-        // delete and update cases
+        // delete and post cases
         case .deleteVisit:
             return nil
         case .postVisit(let params):
