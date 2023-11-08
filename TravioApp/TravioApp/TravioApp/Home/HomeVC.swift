@@ -170,14 +170,14 @@ extension HomeVC {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         
-        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 24, bottom:-15+2, trailing: 0)
+        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 12, bottom:-15+2, trailing: 16)
         
         headerElement.pinToVisibleBounds = false
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -48, bottom: 0, trailing: 0)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -48-24, bottom: 0, trailing: 0)
         
         let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .fractionalHeight(0.35))
         
