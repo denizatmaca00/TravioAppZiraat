@@ -60,7 +60,7 @@ class HelpAndSupportVC: UIViewController {
         let tv = UITableView()
         tv.rowHeight = UITableView.automaticDimension
         tv.estimatedRowHeight = 73*4
-//        tv.separatorStyle = .none
+        tv.separatorStyle = .none
 //        tv.allowsSelection = true
 //        tv.allowsMultipleSelection = false
         
@@ -283,18 +283,6 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
 //        cell.layer.mask = maskLayer
 //        tableView.contentInset.bottom = -verticalPadding/2
 //        tableView.contentInset.top = -verticalPadding/2
-//    }
-    
-//    footer view to be deleted
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let header = UIView()
-//        header.backgroundColor = .green //UIColor(named: "viewBackgroundColor")
-//
-//        return header
-//    }
-//    
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        12
 //    }
 }
 

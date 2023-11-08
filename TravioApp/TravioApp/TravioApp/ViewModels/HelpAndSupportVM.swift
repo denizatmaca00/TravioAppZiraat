@@ -45,10 +45,7 @@ class HelpAndSupportVM: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViews()
-        
         fetchData()
-       
     }
     
     //MARK: -- Component Actions
@@ -75,20 +72,6 @@ class HelpAndSupportVM: UIViewController {
         
         return cellViewModels[idx.row]
     }
-    
-    //MARK: -- UI Methods
-    func setupViews() {
-        // Add here the setup for the UI
-        self.view.addSubviews()
-        
-        setupLayout()
-    }
-    
-    func setupLayout() {
-        // Add here the setup for layout
-       
-    }
-  
 }
 
 struct DropCellViewModel {

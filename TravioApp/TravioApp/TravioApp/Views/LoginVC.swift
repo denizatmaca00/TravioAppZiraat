@@ -22,7 +22,9 @@ class LoginVC: UIViewController, ViewModelDelegate {
         let wlcLabel = UILabel()
         wlcLabel.text = "Welcome to Travio"
         wlcLabel.textColor = .black
-        wlcLabel.font = UIFont(name: "Poppins-Regular", size: 24)
+//        wlcLabel.font = UIFont(name: "Poppins-Medium", size: 24)
+        //wlcLabel.font = AppFonts
+        wlcLabel.font = .Fonts.title24.font
         return wlcLabel
     }()
 
@@ -177,3 +179,15 @@ class LoginVC: UIViewController, ViewModelDelegate {
         })
     }
 }
+
+#if DEBUG
+import SwiftUI
+
+@available(iOS 13, *)
+struct LoginVC_Preview: PreviewProvider {
+    static var previews: some View{
+        
+        LoginVC().showPreview().ignoresSafeArea()
+    }
+}
+#endif
