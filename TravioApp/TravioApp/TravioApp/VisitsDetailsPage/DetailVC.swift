@@ -14,14 +14,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     var mapView: MKMapView!
     var pinCoordinate: CLLocationCoordinate2D?
     var viewModel = DetailVM()
-//    var placeid:String?{
-//        didSet{
-//            print("saflfşskşfdsklşfdks\(placeid)")
-//        }
-//    }
-
     
-
     private lazy var imageCollection:UICollectionView = {
         let l = UICollectionViewFlowLayout()
         l.scrollDirection = .horizontal
@@ -51,8 +44,8 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     private lazy var pageControl:UIPageControl = {
         let p = UIPageControl()
         //p.numberOfPages = 3
-       // p.currentPage = 0
-       // p.setCurrentPageIndicatorImage(UIImage(named: "pageControl"), forPage: 2)
+        // p.currentPage = 0
+        // p.setCurrentPageIndicatorImage(UIImage(named: "pageControl"), forPage: 2)
         p.pageIndicatorTintColor = UIColor(patternImage: UIImage(named: "pageControl")!)
         p.pageIndicatorTintColor = UIColor.lightGray
         p.currentPageIndicatorTintColor = UIColor.black
@@ -111,7 +104,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     
     @objc func back(){
         print("tıklandı back")
-        var denemee = VisitsVC()
+        var denemee = MapVC()
         navigationController?.pushViewController(denemee, animated: true)
         //navigationController?.popViewController(animated: true)
     }
@@ -124,41 +117,41 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         var testtt = DetailVM()
         saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
         //print("tıklandı")
-        saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
+       // saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
+        //eğer myvisit sayfasında bu placeidye ait olan eklendiyse çalıştırma.
+        //detail.placeid myvisit sayfasında varsa çalıştırma.
+        viewModel.checkVisitbyPlaceID()
+        //viewModel.postVisit()
+       
     }
-    
-    @objc func refreshButton(){
-        saveBtn.setImage(UIImage(named: "save"), for: .normal)
-        saveBtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
-    }
-    
+//
+//    @objc func refreshButton(){
+//        saveBtn.setImage(UIImage(named: "save"), for: .normal)
+//        saveBtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
+//        //viewModel.deleteVisitbyPlceID()
+//        //viewModel.checkVisitbyPlaceID()
+//    }
+//
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
         setupViews()
-        //imageCollection.delegate = self
         viewModel.getAPlaceById { Place in
             self.configurePage(place: Place)
             self.fetchMap()
-     
+            
         }
-//        viewModel.reloadClosure = { place in
-//            guard let place = place else { return }
-//            self.imageCollection.reloadData()
-//        }
-//        viewModel.getAllGaleryById {
-//            self.imageCollection.reloadData()
-//
-//        }
+        
         viewModel.getAllGaleryById(complete: {() in
             DispatchQueue.main.async {
                 self.pageControl.currentPage = 0
-                self.pageControl.numberOfPages = self.viewModel.galleryCount()
+                guard let count = self.viewModel.galeryData?.data.count else {return}
+                self.pageControl.numberOfPages = count
                 self.imageCollection.reloadData()
                 
             }
         })
- 
+        
     }
     func configurePage(place:Place){
         centerText.text = place.place
@@ -166,13 +159,12 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         byText.text = place.creator
         descText.text = place.description
         pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
-       
+        
     }
-//    func configureImage(img:Image){
-//       // img.image_url
-//        let url = URL(string: img.image_url)
-//
-//    }
+    func configureImage(img:Image){
+        // img.image_url
+        let url = URL(string: img.image_url)
+    }
     func fetchMap(){
         if let pinCoordinate = pinCoordinate{
             let mapSnapshotOptions = MKMapSnapshotter.Options()
@@ -236,20 +228,20 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         dateText.leading(to: centerText)
         byText.topToBottom(of: dateText,offset: 5)
         byText.leading(to: dateText)
-         
-
+        
+        
         mapButton.topToBottom(of: byText,offset: 15)
         mapButton.leadingToSuperview(offset:20)
         mapButton.height(227)
         mapButton.width(358)
-       
+        
         descText.topToBottom(of: mapButton, offset: 10)
         descText.height(300)
         descText.width(350)
         descText.leading(to: mapButton)
-
+        
     }
-
+    
 }
 
 extension DetailVC:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource{
@@ -262,7 +254,6 @@ extension DetailVC:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource
         let pageWidth = scrollView.frame.size.width
         var fractionalPage = scrollView.contentOffset.x / pageWidth
         
-        // Kontrol sınırlarının dışına çıkmasını engelle
         fractionalPage = max(0, min(2, fractionalPage))
         
         let currentPage = Int(fractionalPage)
@@ -270,10 +261,8 @@ extension DetailVC:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //return 3
-        // guard let viewModel = viewModel else {return 0}
-        print("lalallalallalallalalallaal\(viewModel.galleryCount())")
-        return viewModel.galleryCount()
+        guard let count = viewModel.galeryData?.data.count else {return 0}
+        return count
         
     }
     
@@ -281,32 +270,15 @@ extension DetailVC:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailPageCell else {
             return UICollectionViewCell()
         }
-        print(indexPath)
-        //guard let object = viewModel.galeryData?.data.images[indexPath.row] else { return UICollectionViewCell() }
-       // var object = viewModel.returnGalleryImage(row: indexPath.row)
-       ////// cell.configure(imageURL: viewModel.returnGalleryImage(row: indexPath.row))
-       // print("lalallalallalhhhhhhhhhhhallalalallaal\(object)")
-        //c.configure(imageURL: viewModel.returnGalleryImage(row: indexPath.row))
+        
+        guard let url = viewModel.galeryData?.data.images[indexPath.row] else {return UICollectionViewCell()}
+        cell.configure(imageURL: url)
         return cell
     }
+    
+}
 
-        
-    }
-    
-//    extension UIImageView{
-//      func imageFrom(url:URL){
-//        DispatchQueue.global().async { [weak self] in
-//          if let data = try? Data(contentsOf: url){
-//            if let image = UIImage(data:data){
-//              DispatchQueue.main.async{
-//                self?.image = image
-//              }
-//            }
-//          }
-//        }
-//      }
-//    }
-    
+
 
 #if DEBUG
 import SwiftUI
@@ -315,7 +287,7 @@ import MapKit
 @available(iOS 13, *)
 struct DetailVC_Preview: PreviewProvider {
     static var previews: some View{
-         
+        
         DetailVC().showPreview()
     }
 }

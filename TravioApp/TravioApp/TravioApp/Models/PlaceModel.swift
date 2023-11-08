@@ -12,6 +12,7 @@ import UIKit
 
 struct VisitCellViewModel{
     var image:UIImage
+   // var image:String
     var placeName:String
     var city:String
 }
@@ -25,7 +26,7 @@ struct VisitCellViewModel{
 //    var place:String
 //}
 
-
+//MARK: Get A Visit By ID
 // MARK: Visit Structs
 
 struct VisitsDataStatus: Codable{
@@ -113,7 +114,7 @@ struct Image:Codable{
     var id: String
     var place_id: String
     var image_url: String
-    var create_at: String
+    var created_at: String
     var updated_at: String
 }
 //    enum CodingKeys: String, CodingKey {
@@ -125,3 +126,21 @@ struct Image:Codable{
 //    }
    
 
+//MARK: POSTAVISIT
+
+struct PostAVisit: Codable {
+    var message: String
+    var status: String
+}
+
+//MARK: DeleteVisitbyPlaceID
+
+struct DeleteVisitbyID: Codable {
+    var message: String
+    var status: String
+}
+//MARK: Check Visit By Place ID
+struct CheckVisitbyID: Codable {
+    var message: String
+    var status: String
+}

@@ -42,8 +42,16 @@ class VisitsVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         
+//        let refreshControl = UIRefreshControl()
+//        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
+//        tv.refreshControl = refreshControl
         return tv
     }()
+//    @objc func refreshTableView(sender: UIRefreshControl){
+//        tableView.reloadData()
+//        sender.endRefreshing()
+//
+//    }
     
     //MARK: -- Life Cycles
     override func viewDidLoad() {
@@ -111,16 +119,17 @@ class VisitsVC: UIViewController {
     
 }
 
-extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
+extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "favoritesCell", for: indexPath) as? CustomVisitCellVC else {
             fatalError("cell does not exist")
         }
-        
-        let cellVM = viewModel.getCellViewModel(at: indexPath)
-        cell.visitCellViewModel = cellVM
+        let cellData = viewModel.cellViewModels[indexPath.row]
+        cell.configure(data: cellData)
+        //viewModel.reloadTableViewClosure?()
+     
         return cell
     }
     
@@ -129,7 +138,8 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfCells
+        guard let count = viewModel.numberOfCells else {return 0}
+        return count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -138,17 +148,24 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         // here navigation to placeDetail page will be implemented
-        navigationController?.pushViewController(SignUpVC(), animated: true)
+        //navigationController?.pushViewController(DetailVC(), animated: true)
         print(indexPath.row)
         return indexPath
     }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       //tıklndığının placeidsini
+        let vc = DetailVC()
+        vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
+        viewModel.getaVisitbyID()
+        navigationController?.pushViewController(vc, animated: true)
+        
+        //celle tıklanınca ne yapacak?
 //        let vc = DetailVC()
-//        vc.viewModel.currentPlace = viewModel.favorites[indexPath.row]
-//        print("\(viewModel.favorites[indexPath.row]) resim")
-//        let vm = DetailVM()
-//        navigationController?.pushViewController(vc, animated: true)
-//        vm.placeId = viewModel.favorites[indexPath.row].id
+//        vc.viewModel.placeIdtest = viewModel.cellViewModels[IndexPath.row]
+//        navigationController?.pushViewController(DetailVC(), animated: true)
+    }
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        viewModel.reloadTableViewClosure?()
 //    }
 }
 

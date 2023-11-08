@@ -16,11 +16,11 @@ class DetailVM{
             print("saflfşskşfdsklşfdks\(placeIdtest)")
         }
     }
-    
-//    var favorites: [Place] = []
 
     var reloadClosure: ((Place?)->(Void))?
     var galeryData: GalleryImage?
+    var postData: PostAVisit?
+    
     
     func getAPlaceById(complete: @escaping (Place)->()) {
         guard let placeId = placeIdtest else { return }
@@ -39,21 +39,65 @@ class DetailVM{
                     switch result {
                     case .success(let result):
                         self?.galeryData = result
-                        print("ececececececec\(self?.galeryData)")
                         complete()
+                        print("ececececececec\(self?.galeryData)")
                     case .failure(let failure):
-                        print(failure.localizedDescription)
+                        print("hatahatahatahata\(failure.localizedDescription)")
                         
                     }
                 }
     }
-    func galleryCount() -> Int {
-            guard let galeryData = galeryData else { return 0 }
-            print(galeryData.data.count)
-            return galeryData.data.count
+    func postVisit(){
+        guard let placeid = placeIdtest else {return }
+        let params = ["place_id" : placeid, "visited_at" : dateFormatter()]
+        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.postVisit(params: params)){
+             (result:Result<PostAVisit,Error>) in
+            switch result {
+            case .success(let result):
+                self.postData = result
+                print(self.postData)
+            case .failure(let failure):
+                print("hatahatahatahata\(failure.localizedDescription)")
+            }
         }
-//    func returnGalleryImage(row: Int) -> Image {
-//        guard let galeryData = galeryData else { return Image(id: "", place_id: "", image_url: "", create_at: "", updated_at: "") }
-//        return galeryData.data.images[row]
-//       }
+    }
+    func dateFormatter()->String{
+        let dene = DateFormatter()
+        dene.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        let today = Date()
+        let testttttt = dene.string(from: today)
+        
+        return testttttt
+    }
+    func deleteVisitbyPlceID(){
+        guard let id = placeIdtest  else {return}
+        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.deleteVisit(id: id)){
+            (result:Result<DeleteVisitbyID,Error>) in
+            switch result {
+            case .success(let data):
+                print(data)
+            case .failure(let failure):
+                print("deletehatahatahata\(failure.localizedDescription)")
+            }
+        }
+    }
+    func checkVisitbyPlaceID(){
+        guard let id = placeIdtest  else {return}
+        print(id)
+        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.checkVisitByID(id: id)){
+            (result:Result<CheckVisitbyID,Error>) in
+            switch result {
+            case .success(let message):
+                print(message)
+                if message.status == "success" {
+                    self.deleteVisitbyPlceID()
+                }
+                else if message.status == "fail" {
+                    self.postVisit()
+                }
+            case .failure(let failure):
+                print("checkhata\(failure.localizedDescription)")
+            }
+        }
+    }
 }

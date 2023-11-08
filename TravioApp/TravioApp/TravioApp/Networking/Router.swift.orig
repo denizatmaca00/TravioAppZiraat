@@ -15,22 +15,34 @@ enum Router {
     case user(params: Parameters)
     case visits
     case places
-    
-    // delete and update cases
     case deleteVisit(id: String)
-    case postVisit(id: String, params: Parameters)
+<<<<<<< HEAD
+    case postVisit(id:String)
+=======
+    //case postVisit(id: String, params: Parameters)
+    case postVisit(params:Parameters)
 
     
 //    case deletePlace(id: String)
 //    case putPlace(id: String, params: Parameters)
+>>>>>>> sprint3/AddMyVisitsV2
     case getPlaceByID(id:String)
-    
+    //galeryAllGaleryByID;
+    case getAllGaleryByID(id:String)
+<<<<<<< HEAD
+    case putEditProfile(params: Parameters)
+    case getProfile
+
+=======
+    case getAVisitByID(id:String)
+    case checkVisitByID(id:String)
 //    var token:String{
 //        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
 //    }
+>>>>>>> sprint3/AddMyVisitsV2
     
     var baseURL:String {
-        return "https://api.iosclass.live"
+        return "https://ios-class-2f9672c5c549.herokuapp.com"
     }
     
     var path:String {
@@ -39,40 +51,58 @@ enum Router {
             return "/v1/auth/register"
         case .user:
             return "/v1/auth/login"
-        case .visits:
-            return "/v1/visits?page=1&limit=10"
+//        case .visits:
+//            return "/v1/visits?page=1&limit=10"
         case .places:
             return "/v1/places"
+<<<<<<< HEAD
         case .postVisit:
             return "/v1/visits"
+        case .putEditProfile:
+            return "/v1/edit-profile"
+        case .getProfile:
+            return "/v1/me"
+=======
+    
+>>>>>>> sprint3/AddMyVisitsV2
         
             
         // delete and update cases
         case .deleteVisit(let visitId):
-            return "/v1/visit/\(visitId)"
-<<<<<<< HEAD
-            
-        case .putVisit(let visitId, _):
-            return "/v1/visit/\(visitId)"
-=======
-        case .postVisit(let visitId, _):
             return "/v1/visits/\(visitId)"
+        case .postVisit:
+            return "/v1/visits"
         case .getPlaceByID(let id):
-            return "/v1/visits/visitId\(id)"
->>>>>>> sprint2/PopularPlace
+            return "/v1/places/\(id)"
+            //get all galery by id
+        case .getAllGaleryByID(let id):
+            return "/v1/galleries/\(id)"
+        case .visits:
+            return "/v1/visits"
+        case .getAVisitByID(let id):
+            return "/v1/visits/\(id)"
+        case .checkVisitByID(let id):
+            return "/v1/visits/user/\(id)"
         }
     }
     
     var method:HTTPMethod {
         switch self {
-        case .register, .user, .postVisit, .visits:
+        case .register, .user, .postVisit:
             return .post
-        case .places, .getPlaceByID:
+<<<<<<< HEAD
+        case .places, .getPlaceByID, .getAllGaleryByID, .getProfile:
             return .get
         case .deleteVisit:
             return .delete
-//        case .postVisit:
-//            return .put
+        case .putEditProfile:
+            return .put
+=======
+        case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID, .checkVisitByID:
+            return .get
+        case .deleteVisit:
+            return .delete
+>>>>>>> sprint3/AddMyVisitsV2
         }
     }
     
@@ -80,12 +110,21 @@ enum Router {
             var baseHeaders: HTTPHeaders = [:]
 
         if let token = KeychainHelper.shared.getToken(){
-        baseHeaders["Authorization"] = token            
+<<<<<<< HEAD
+        baseHeaders["Authorization"] = "Bearer " + token
+=======
+        baseHeaders["Authorization"] = "Bearer " + token            
+>>>>>>> sprint3/AddMyVisitsV2
         }
             switch self {
-            case .register, .user, .getPlaceByID:
-                return baseHeaders
-            case .visits, .places, .deleteVisit, .postVisit:
+            case .register, .user, .getPlaceByID, .getAllGaleryByID:
+                return [:]
+<<<<<<< HEAD
+            case .visits, .places, .deleteVisit, .postVisit, .putEditProfile, .getProfile:
+=======
+            case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID:
+                print(baseHeaders)
+>>>>>>> sprint3/AddMyVisitsV2
                 return baseHeaders
             }
         }
@@ -99,13 +138,20 @@ enum Router {
         case .places, .visits:
             return nil
             
-        // delete and update cases
+        // delete and post cases
         case .deleteVisit:
             return nil
-        case .postVisit(_, let params):
-            return params
-        case .getPlaceByID(let params):
+<<<<<<< HEAD
+       // case .postVisit(_, let params):
+        case .postVisit:
             return nil
+        case .putEditProfile(let params):
+=======
+        case .postVisit(let params):
+>>>>>>> sprint3/AddMyVisitsV2
+            return params
+    
+        default: return [:]
         }
     }
 }
@@ -120,7 +166,7 @@ extension Router:URLRequestConvertible {
         
         let encoding:ParameterEncoding = {
             switch method {
-            case .post:
+            case .post , .put:
                 return JSONEncoding.default
 
             default:

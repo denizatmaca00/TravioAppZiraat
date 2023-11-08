@@ -10,43 +10,6 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-//    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-//        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-//        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-//        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-//        guard let windowScene = (scene as? UIWindowScene) else { return }
-//
-//            if let (startTime, duration) = KeychainHelper.shared.loadUserSession() {
-//                let currentTime = Date()
-//                let elapsedTime = currentTime.timeIntervalSince(startTime)
-//
-//                if elapsedTime <= duration {
-//                    // Oturum süresi hala geçerli mi ki
-//                    let vc = TabBarVC()
-//                    let navigationController = UINavigationController(rootViewController: vc)
-//                    let window = UIWindow(windowScene: windowScene)
-//                    window.rootViewController = navigationController
-//                    window.makeKeyAndVisible()
-//                } else {
-//                    // Oturumu sonlandırın ve kullanıcıyı LoginVC'ye yönlendirsin
-//                    UserDefaults.standard.removeObject(forKey: "loginTime")
-//                    let window = UIWindow(windowScene: windowScene)
-//                    let vc = LoginVC()
-//                    let rootViewController = UINavigationController(rootViewController: vc)
-//                    window.rootViewController = rootViewController
-//                    window.makeKeyAndVisible()
-//                }
-//            } else {
-//                // Kullanıcı daha önce oturum açmamışsa LoginVC'yi göstersin
-//                let window = UIWindow(windowScene: windowScene)
-//                let vc = LoginVC()
-//                let rootViewController = UINavigationController(rootViewController: vc)
-//                window.rootViewController = rootViewController
-//                window.makeKeyAndVisible()
-//            }
-//        }
-
-    
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -56,11 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-<<<<<<< HEAD
-        let vc = HelpAndSupportCollectionVC()
-=======
         let vc = LoginVC()
->>>>>>> sprint3/AddMyVisitsV2
         let rootViewController = UINavigationController(rootViewController: vc)
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()

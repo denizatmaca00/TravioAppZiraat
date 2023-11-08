@@ -16,13 +16,23 @@ enum Router {
     case visits
     case places
     case deleteVisit(id: String)
-    case postVisit(id:String)
+    //case postVisit(id: String, params: Parameters)
+    case postVisit(params:Parameters)
+
+    
+//    case deletePlace(id: String)
+//    case putPlace(id: String, params: Parameters)
     case getPlaceByID(id:String)
-    //galery;
+    //galeryAllGaleryByID;
     case getAllGaleryByID(id:String)
     case putEditProfile(params: Parameters)
     case getProfile
 
+    case getAVisitByID(id:String)
+    case checkVisitByID(id:String)
+//    var token:String{
+//        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
+//    }
     
     var baseURL:String {
         return "https://ios-class-2f9672c5c549.herokuapp.com"
@@ -34,8 +44,8 @@ enum Router {
             return "/v1/auth/register"
         case .user:
             return "/v1/auth/login"
-        case .visits:
-            return "/v1/visits?page=1&limit=10"
+//        case .visits:
+//            return "/v1/visits?page=1&limit=10"
         case .places:
             return "/v1/places"
         case .postVisit:
@@ -48,22 +58,29 @@ enum Router {
             
         // delete and update cases
         case .deleteVisit(let visitId):
-            return "/v1/visit/\(visitId)"
-        case .postVisit(let visitId):
             return "/v1/visits/\(visitId)"
+        case .postVisit:
+            return "/v1/visits"
         case .getPlaceByID(let id):
             return "/v1/places/\(id)"
             //get all galery by id
         case .getAllGaleryByID(let id):
             return "/v1/galleries/\(id)"
+        case .visits:
+            return "/v1/visits"
+        case .getAVisitByID(let id):
+            return "/v1/visits/\(id)"
+        case .checkVisitByID(let id):
+            return "/v1/visits/user/\(id)"
         }
     }
     
     var method:HTTPMethod {
         switch self {
-        case .register, .user, .postVisit, .visits:
+        case .register, .user, .postVisit:
             return .post
         case .places, .getPlaceByID, .getAllGaleryByID, .getProfile:
+        case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID, .checkVisitByID:
             return .get
         case .deleteVisit:
             return .delete
@@ -82,6 +99,9 @@ enum Router {
             case .register, .user, .getPlaceByID, .getAllGaleryByID:
                 return [:]
             case .visits, .places, .deleteVisit, .postVisit, .putEditProfile, .getProfile:
+                return [:]
+            case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID:
+                print(baseHeaders)
                 return baseHeaders
             }
         }
@@ -95,7 +115,7 @@ enum Router {
         case .places, .visits:
             return nil
             
-        // delete and update cases
+        // delete and post cases
         case .deleteVisit:
             return nil
        // case .postVisit(_, let params):
@@ -103,8 +123,10 @@ enum Router {
             return nil
         case .putEditProfile(let params):
             return params
+        case .postVisit(let params):
+            return params
     
-        default: return nil
+        default: return [:]
         }
     }
 }
