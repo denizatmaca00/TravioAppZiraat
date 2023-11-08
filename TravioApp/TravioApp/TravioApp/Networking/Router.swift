@@ -79,8 +79,7 @@ enum Router {
         switch self {
         case .register, .user, .postVisit:
             return .post
-        case .places, .getPlaceByID, .getAllGaleryByID, .getProfile:
-        case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID, .checkVisitByID:
+        case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID, .checkVisitByID, .getProfile:
             return .get
         case .deleteVisit:
             return .delete
@@ -98,9 +97,7 @@ enum Router {
             switch self {
             case .register, .user, .getPlaceByID, .getAllGaleryByID:
                 return [:]
-            case .visits, .places, .deleteVisit, .postVisit, .putEditProfile, .getProfile:
-                return [:]
-            case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID:
+            case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile :
                 print(baseHeaders)
                 return baseHeaders
             }
