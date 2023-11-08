@@ -53,11 +53,14 @@
 		5EDD08242AF3BDCB002072BC /* PopularPageCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */; };
 		EC0044182AF4330A001540A5 /* DropCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0044172AF4330A001540A5 /* DropCell.swift */; };
 		EC00441A2AF43819001540A5 /* HelpAndSupportVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0044192AF43819001540A5 /* HelpAndSupportVM.swift */; };
+		EC00441C2AFA6CB9001540A5 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC00441B2AFA6CB9001540A5 /* AppFonts.swift */; };
+		EC00441E2AFAC6D0001540A5 /* ExpandableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC00441D2AFAC6D0001540A5 /* ExpandableViewCell.swift */; };
+		EC0044202AFAC943001540A5 /* HelpAndSupportCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC00441F2AFAC943001540A5 /* HelpAndSupportCollectionVC.swift */; };
+		EC0044222AFB61DB001540A5 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC0044212AFB61DB001540A5 /* Poppins-Light.ttf */; };
 		EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */; };
 		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
 		ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */; };
-		ECC8C5DA2AEA678C001ED067 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5D92AEA678C001ED067 /* Poppins-Bold.ttf */; };
 		ECC8C5DD2AEA8319001ED067 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */; };
 		ECC8C5DE2AEA8319001ED067 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5DC2AEA8319001ED067 /* Poppins-SemiBold.ttf */; };
 		ECFFD1CC2AEBD5CB0066E75C /* VisitsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFFD1CB2AEBD5CB0066E75C /* VisitsVM.swift */; };
@@ -112,11 +115,14 @@
 		5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPageCellVC.swift; sourceTree = "<group>"; };
 		EC0044172AF4330A001540A5 /* DropCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCell.swift; sourceTree = "<group>"; };
 		EC0044192AF43819001540A5 /* HelpAndSupportVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVM.swift; sourceTree = "<group>"; };
+		EC00441B2AFA6CB9001540A5 /* AppFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFonts.swift; sourceTree = "<group>"; };
+		EC00441D2AFAC6D0001540A5 /* ExpandableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableViewCell.swift; sourceTree = "<group>"; };
+		EC00441F2AFAC943001540A5 /* HelpAndSupportCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportCollectionVC.swift; sourceTree = "<group>"; };
+		EC0044212AFB61DB001540A5 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
 		EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVC.swift; sourceTree = "<group>"; };
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
-		ECC8C5D92AEA678C001ED067 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		ECC8C5DC2AEA8319001ED067 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		ECFFD1CB2AEBD5CB0066E75C /* VisitsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVM.swift; sourceTree = "<group>"; };
@@ -181,11 +187,11 @@
 		0F78298D2AE912C100B2EBDE /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				EC0044212AFB61DB001540A5 /* Poppins-Light.ttf */,
 				ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */,
 				ECC8C5DC2AEA8319001ED067 /* Poppins-SemiBold.ttf */,
 				0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */,
 				0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */,
-				ECC8C5D92AEA678C001ED067 /* Poppins-Bold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -210,6 +216,8 @@
 				5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */,
 				5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */,
 				EC0044172AF4330A001540A5 /* DropCell.swift */,
+				EC00441D2AFAC6D0001540A5 /* ExpandableViewCell.swift */,
+				EC00441F2AFAC943001540A5 /* HelpAndSupportCollectionVC.swift */,
 				5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */,
 				0FDFAAEB2AF3D90E00F4FA61 /* TableViewCell.swift */,
 				0FD7E87E2AF50653001E09EB /* SpaceCell.swift */,
@@ -246,6 +254,7 @@
 				EC4D832A2AE9279500D4936E /* AppButton.swift */,
 				0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */,
 				0F9A80C32AF8E1F700B47142 /* AppView.swift */,
+				EC00441B2AFA6CB9001540A5 /* AppFonts.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -364,7 +373,7 @@
 				0F78298B2AE912AA00B2EBDE /* Poppins-Regular.ttf in Resources */,
 				ECC8C5DE2AEA8319001ED067 /* Poppins-SemiBold.ttf in Resources */,
 				0F7829742AE9113E00B2EBDE /* LaunchScreen.storyboard in Resources */,
-				ECC8C5DA2AEA678C001ED067 /* Poppins-Bold.ttf in Resources */,
+				EC0044222AFB61DB001540A5 /* Poppins-Light.ttf in Resources */,
 				ECC8C5DD2AEA8319001ED067 /* Poppins-Medium.ttf in Resources */,
 				0F7829712AE9113E00B2EBDE /* Assets.xcassets in Resources */,
 				0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */,
@@ -380,6 +389,7 @@
 			files = (
 				0FF6D4632AF1367500AA1339 /* SignUpVM.swift in Sources */,
 				ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */,
+				EC00441E2AFAC6D0001540A5 /* ExpandableViewCell.swift in Sources */,
 				0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */,
 				5E388FDB2AEFEDBB002ABDBD /* DetailVM.swift in Sources */,
 				0F9A80C62AF8E51100B47142 /* AboutUsVC.swift in Sources */,
@@ -392,6 +402,7 @@
 				0FF6D4582AEFC11900AA1339 /* KeychainHelper.swift in Sources */,
 				0FF6D4672AF2239E00AA1339 /* MapPresentVC.swift in Sources */,
 				0F9A80C22AF8D45700B47142 /* EditProfileVC.swift in Sources */,
+				EC0044202AFAC943001540A5 /* HelpAndSupportCollectionVC.swift in Sources */,
 				0F7829852AE911F400B2EBDE /* LoginVC.swift in Sources */,
 				5E388FCA2AEA605E002ABDBD /* CustomVisitCellVC.swift in Sources */,
 				0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */,
@@ -414,6 +425,7 @@
 				ECFFD1CC2AEBD5CB0066E75C /* VisitsVM.swift in Sources */,
 				0F9A80CA2AFA11B100B47142 /* EditProfileVM.swift in Sources */,
 				5EDD08242AF3BDCB002072BC /* PopularPageCellVC.swift in Sources */,
+				EC00441C2AFA6CB9001540A5 /* AppFonts.swift in Sources */,
 				0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */,
 				EC0044182AF4330A001540A5 /* DropCell.swift in Sources */,
 				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
@@ -566,6 +578,8 @@
 				DEVELOPMENT_TEAM = PVB65SRUST;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravioApp/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "allow app to know your current location";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "allow app to know your current location";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -593,6 +607,8 @@
 				DEVELOPMENT_TEAM = PVB65SRUST;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravioApp/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "allow app to know your current location";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "allow app to know your current location";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

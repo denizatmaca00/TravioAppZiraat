@@ -1,51 +1,17 @@
 //
-//  
-//  DropCell.swift
+//  ExpandableViewCell.swift
 //  TravioApp
 //
-//  Created by Aydın Erol on 2.11.2023.
+//  Created by Aydın Erol on 7.11.2023.
 //
-//
-import UIKit
-import TinyConstraints
-import SnapKit
 
-class DropCell: UITableViewCell {
+import UIKit
+
+class ExpandableViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "ExpandableCell"
+    static let reuseIdentifier:String = "cell"
     
-    //MARK: -- Properties
-    
-//    var isExpanded:Bool = false
-    
-    var dropCellViewModel:DropCellViewModel? {
-        didSet{
-            lblHeader.text = dropCellViewModel?.title
-            lblDescription.text = dropCellViewModel?.description
-            //lblDescription.text = (!dropCellViewModel!.isExpanded ? dropCellViewModel?.description : "")
-//            lblDescription.text = (!dropCellViewModel!.isExpanded ? dropCellViewModel?.description : "")
-//            lblDescription.isHidden = !dropCellViewModel!.isExpanded
-//            print("DidSet of DropCell: \(!dropCellViewModel!.isExpanded)")
-//            imgDropButton.image = (!dropCellViewModel!.isExpanded ? UIImage(systemName: "chevron.up") : UIImage(systemName: "chevron.down"))?.withRenderingMode(.alwaysOriginal)
-//            
-        }
-    }
-    
-    func toggleCellData(data:String){
-        let isExpanded = dropCellViewModel?.isExpanded
-        
-        lblDescription.isHidden = !isExpanded!
-        lblDescription.text = (!isExpanded! ? data : "")
-        
-        print("Function of DropCell: \(!isExpanded!)")
-        
-        imgDropButton.image = (!dropCellViewModel!.isExpanded ? 
-                               UIImage(systemName: "chevron.up") :
-                                UIImage(systemName: "chevron.down"))?
-            .withRenderingMode(.alwaysOriginal)
-    }
-    
-    var setHeightClosure: ()-> CGFloat = {return 73}
+    var expandCell = false
     
     private lazy var lblHeader: UILabel = {
         let lbl = UILabel()
@@ -80,6 +46,7 @@ class DropCell: UITableViewCell {
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
         return view
     }()
+    
     private lazy var viewSeperator:UIView = {
         let v = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 12))
         return v
@@ -87,18 +54,16 @@ class DropCell: UITableViewCell {
     
     private lazy var imgDropButton:UIImageView = {
         let imgView = UIImageView(image: UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysOriginal))
-        //let img = UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysOriginal)
-        //imgView.image = img
         
         return imgView
     }()
     
     //MARK: -- Life Cycles
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViews()
+        //configureCell(title: "Init", description: "Desc", isExpanded: false)
     }
     
     required init?(coder: NSCoder) {
@@ -109,14 +74,24 @@ class DropCell: UITableViewCell {
     
     //MARK: -- Private Methods
     
+    public func configureCell(title:String, description:String, isExpanded:Bool){
+        lblHeader.text = title
+        lblDescription.text = description
+        lblDescription.isHidden = isExpanded
+        imgDropButton.image = (isExpanded ?
+                               UIImage(systemName: "chevron.up") :
+                                UIImage(systemName: "chevron.down"))?
+            .withRenderingMode(.alwaysOriginal)
+    }
+    
     //MARK: -- UI Methods
     
     private func setupViews() {
         // Add here the setup for the UI
-        self.selectionStyle = .none
+        
         self.addSubviews(dropView)
         dropView.addSubviews(lblHeader, imgDropButton, lblDescription)
-        dropView.addSubview(viewSeperator)
+        //dropView.addSubview(viewSeperator)
         
         setupLayout()
     }
@@ -125,19 +100,19 @@ class DropCell: UITableViewCell {
         // Add here the setup for layout
         dropView.snp.makeConstraints({ dv in
             dv.top.equalToSuperview()
-            dv.bottom.equalToSuperview().offset(-viewSeperator.frame.height)
+            dv.bottom.equalToSuperview()//.offset(-viewSeperator.frame.height)
             dv.leading.equalToSuperview()
             dv.trailing.equalToSuperview()
             
         })
-        
-        viewSeperator.snp.makeConstraints({ view in
-            view.leading.equalToSuperview()
-            view.trailing.equalToSuperview()
-            view.top.equalTo(dropView.snp.bottom)
-            view.bottom.equalToSuperview()
-            
-        })
+//        
+//        viewSeperator.snp.makeConstraints({ view in
+//            view.leading.equalToSuperview()
+//            view.trailing.equalToSuperview()
+//            view.top.equalTo(dropView.snp.bottom)
+//            view.bottom.equalToSuperview()
+//            
+//        })
         
         lblHeader.snp.makeConstraints({lbl in
             lbl.top.equalToSuperview().offset(16)
@@ -168,10 +143,10 @@ class DropCell: UITableViewCell {
 import SwiftUI
 
 @available(iOS 13, *)
-struct DropCell_Preview: PreviewProvider {
+struct ExpandableCollectionViewCell_Preview: PreviewProvider {
     static var previews: some View{
-        HelpAndSupportVC().showPreview().ignoresSafeArea()
-        DropCell().showPreview()
+        
+        ExpandableViewCell().showPreview()
     }
 }
 #endif
