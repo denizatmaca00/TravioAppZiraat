@@ -5,19 +5,23 @@
 //  Created by web3406 on 11/6/23.
 //
 // TODO: Labellar için bir UIEelements yazılablir +
+// TODO: contentViewBig her sayfada kullnaılıyor onu da düzenlemek lazım +
+// TODO: profile networking +
+// TODO: delegate silinsin eğer kullanılmıyorsa +
+// TODO: signUp çıkan başarılı alertten sonra direkt logine aktar +
+
+
+// TODO: signUp mvvme göre düzenle
 // TODO: labelheader uılabel sınıfı
 // TODO: leftBarItem bir tane yazılıp her yerden çekilebilir
-// TODO: contentViewBig her sayfada kullnaılıyor onu da düzenlemek lazım +
 // TODO: color enumı eklenebilir
 // TODO: map post networking
-// TODO: profile networking
-// TODO: signup font size
+// TODO: editPrpfile put networking
 // TODO: signup loading
 // TODO: classları sayfa sayfa ayırın
-// TODO: fontlar enumdan beslensin
-// TODO: homevc uılar tamamlansın paddingler
-// TODO: populervc uı backbutton font üst üste gelmesi
-// TODO: delegate silinsin eğer kullanılmıyorsa
+// TODO: fontlar enumdan beslensin --> signup font size
+// TODO: homevc uılar get tamamlansın ,  paddingler
+// TODO: populervc uı backbutton, font, üst üste gelmesi
 import UIKit
 
 class EditProfileVC: UIViewController {

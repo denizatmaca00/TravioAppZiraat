@@ -21,7 +21,6 @@
 		0F78298B2AE912AA00B2EBDE /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */; };
 		0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */; };
 		0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A22AE92B0D00B2EBDE /* Router.swift */; };
-		0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A62AEA7FF600B2EBDE /* Protocol.swift */; };
 		0F9A80C22AF8D45700B47142 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9A80C12AF8D45700B47142 /* EditProfileVC.swift */; };
 		0F9A80C42AF8E1F700B47142 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9A80C32AF8E1F700B47142 /* AppView.swift */; };
 		0F9A80C62AF8E51100B47142 /* AboutUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9A80C52AF8E51100B47142 /* AboutUsVC.swift */; };
@@ -83,7 +82,6 @@
 		0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReenieBeanie-Regular.ttf"; sourceTree = "<group>"; };
 		0F7829A22AE92B0D00B2EBDE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		0F7829A62AEA7FF600B2EBDE /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		0F9A80C12AF8D45700B47142 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		0F9A80C32AF8E1F700B47142 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		0F9A80C52AF8E51100B47142 /* AboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsVC.swift; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 				5E3CC0862AF65C99007FCFD5 /* VisitsDetailsPage */,
 				0F7829672AE9113D00B2EBDE /* AppDelegate.swift */,
 				0F7829692AE9113D00B2EBDE /* SceneDelegate.swift */,
-				0F7829A62AEA7FF600B2EBDE /* Protocol.swift */,
 				0FF6D45E2AEFC8F400AA1339 /* ViewModels */,
 				0FF6D45D2AEFC8B800AA1339 /* UIElements */,
 				0FF6D45A2AEFC82B00AA1339 /* Models */,
@@ -421,7 +418,6 @@
 				EC0044182AF4330A001540A5 /* DropCell.swift in Sources */,
 				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
 				EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */,
-				0F7829A72AEA7FF600B2EBDE /* Protocol.swift in Sources */,
 				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
 				5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */,
 				5EDD08222AF3BD94002072BC /* PopularPlaceVC.swift in Sources */,

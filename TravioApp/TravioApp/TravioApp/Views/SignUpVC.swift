@@ -5,8 +5,6 @@
 //  Created by web3406 on 10/25/23.
 //
 
-// TODO: signUp mvvme göre düzenle
-// TODO: signUp çıkan başarılı alertten sonra direkt logine aktar ++
 //
 
 import UIKit
