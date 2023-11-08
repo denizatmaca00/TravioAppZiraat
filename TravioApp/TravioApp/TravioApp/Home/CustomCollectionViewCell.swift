@@ -31,7 +31,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     lazy var lblPlace:UILabel = {
        let pn = UILabel()
         pn.textColor = .blue
-        pn.font = UIFont(name: "Poppins-Bold", size: 24)
+        pn.font = .Fonts.header24.font
         pn.text = "PlaceName"
         pn.textColor = .white
         pn.numberOfLines = 1
@@ -41,7 +41,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     lazy var lblCity:UILabel = {
        let cn = UILabel()
         cn.textColor = .white
-        cn.font = UIFont(name: "Poppins-Regular", size: 14)
+        cn.font = .Fonts.label14.font
         cn.text = "CityName"
         cn.textColor = .white
         cn.numberOfLines = 1
