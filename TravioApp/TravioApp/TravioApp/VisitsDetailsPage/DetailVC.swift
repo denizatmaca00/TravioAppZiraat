@@ -64,7 +64,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         centertxt.text = "İSTANBUL"
         centertxt.textColor = .black
         centertxt.numberOfLines = 1
-        centertxt.font = UIFont(name: "Poppins", size: 30)
+        centertxt.font = .Fonts.title30.font
         return centertxt
     }()
     private var dateText:UILabel = {
@@ -73,7 +73,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         datetxt.textColor = .black
         datetxt.numberOfLines = 1
         //datetxt.backgroundColor = .systemBlue
-        datetxt.font = UIFont(name: "Poppins", size: 14)
+        datetxt.font = .Fonts.dateText.font
         return datetxt
     }()
     private var byText:UILabel = {
@@ -82,7 +82,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         by.textColor = .black
         by.numberOfLines = 1
         //by.backgroundColor = .systemBlue
-        by.font = UIFont(name: "Poppins", size: 10)
+        by.font = .Fonts.creatorText.font
         return by
     }()
     private lazy var mapButton:UIButton = {
@@ -98,7 +98,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         txt.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         txt.textColor = .black
         txt.numberOfLines = 0
-        txt.font = UIFont(name: "Poppins", size: 12)
+        txt.font = .Fonts.descriptionLabel.font
         return txt
     }()
     

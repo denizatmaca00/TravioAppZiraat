@@ -21,24 +21,20 @@ class MapPresentVC: UIViewController {
         let lbl = UILabel()
         lbl.text = "Visit Description"
         lbl.textColor = .black
-        lbl.font = UIFont(name: "Poppins-Medium", size: 14)
+        lbl.font = .Fonts.signUpTitle.font
         return lbl
         
     }()
     private lazy var textFieldDesciption: UITextField = {
         let textField = UITextField()
-        textField.font = UIFont(name: "Poppins-Regular", size: 12)
+        textField.font = .Fonts.textFieldText.font
         textField.placeholder = "Lorem İpsum"
         return textField
     }()
 
     private lazy var btnAddPlace: UIButton = {
-        let b = UIButton()
+        let b = AppButton()
         b.setTitle("Add Place", for: .normal)
-        b.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 16)
-        b.backgroundColor = UIColor(named: "backgroundColor")
-        b.layer.cornerRadius = 12
-        b.setTitleColor(.white, for: .normal)
         b.addTarget(self, action: #selector(btnAddPlaceTapped), for: .touchUpInside)
         return b
         

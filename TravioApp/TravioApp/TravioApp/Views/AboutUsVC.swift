@@ -16,7 +16,7 @@ class AboutUsVC: UIViewController {
         let lbl = UILabel()
         lbl.text = "About Us"
         lbl.textColor = .white
-        lbl.font = UIFont(name: "Poppins-Medium", size: 32)
+        lbl.font = .Fonts.pageHeader32.font
         return lbl
     }()
     private lazy var leftBarButton: UIButton = {

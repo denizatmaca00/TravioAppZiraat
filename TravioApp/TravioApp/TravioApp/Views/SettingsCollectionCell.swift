@@ -37,7 +37,7 @@ class SettingsCollectionCell: UITableViewCell {
     private lazy var label: UILabel = {
         let lbl = UILabel()
         lbl.textColor = UIColor(named: "settingsLabelColor")
-        lbl.font = UIFont(name: "Poppins-Regular", size: 14)
+        lbl.font = .Fonts.label14.font
         return lbl
     }()
   

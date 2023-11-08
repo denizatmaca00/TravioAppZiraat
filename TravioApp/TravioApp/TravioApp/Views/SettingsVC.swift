@@ -55,14 +55,14 @@ class SettingsVC: UIViewController {
         let lbl = UILabel()
         lbl.text = "İsim Soyisim"
         lbl.textColor = UIColor(named: "settingsLabelColor")
-        lbl.font = UIFont(name: "Poppins-Medium", size: 16)
+        lbl.font = .Fonts.profileNameTitle.font
         return lbl
     }()
     private lazy var settingsLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Settings"
         lbl.textColor = .white
-        lbl.font = UIFont(name: "Poppins-Medium", size: 32)
+        lbl.font = .Fonts.pageHeader32.font
         return lbl
     }()
     
@@ -70,7 +70,7 @@ class SettingsVC: UIViewController {
         let btn = UIButton()
         btn.setTitle("Edit Profile", for: .normal)
         btn.setTitleColor(UIColor(named: "editProfileColor"), for: .normal)
-        btn.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 12)
+        btn.titleLabel?.font = .Fonts.descriptionLabel.font
         btn.addTarget(self, action: #selector(editProfileTapped), for: .touchUpInside)
         
         return btn

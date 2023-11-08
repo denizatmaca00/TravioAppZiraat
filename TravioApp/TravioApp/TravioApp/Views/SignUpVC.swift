@@ -31,7 +31,7 @@ class SignUpVC: UIViewController {
         let lbl = UILabel()
         lbl.text = "Sign Up"
         lbl.textColor = .white
-        lbl.font = UIFont(name: "Poppins-Bold", size: 36)
+        lbl.font = .Fonts.pageHeader36.font
         return lbl
     }()
     private lazy var contentViewBig: AppView = {
@@ -50,9 +50,6 @@ class SignUpVC: UIViewController {
     private lazy var signUpButton: UIButton = {
         let signUpButton = AppButton()
         signUpButton.setTitle("Sign Up", for: .normal)
-        signUpButton.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
-        signUpButton.backgroundColor = UIColor(named: "backgroundColor")
-        signUpButton.layer.cornerRadius = 12
         signUpButton.addTarget(self, action: #selector(signUpUser), for: .touchUpInside)
         signUpButton.isEnabled = false
         return signUpButton

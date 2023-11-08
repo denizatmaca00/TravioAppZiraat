@@ -1,6 +1,6 @@
 //
 //  
-//  PopularPlaceVCVC.swift
+//  PopularPlaceVC.swift
 //  TravioApp
 //
 //  Created by Ece Poyraz on 2.11.2023.
@@ -23,7 +23,7 @@ class PopularPlaceVC: UIViewController {
         let wlcLabel = UILabel()
         wlcLabel.text = "Popular Places"
         wlcLabel.textColor = .white
-        wlcLabel.font = UIFont(name: "Poppins-Regular", size: 32)
+        wlcLabel.font = .Fonts.pageHeader32.font
         return wlcLabel
     }()
 

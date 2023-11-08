@@ -21,7 +21,7 @@ class VisitsVC: UIViewController {
     private lazy var lblHeader:UILabel = {
         let lbl = UILabel()
         lbl.text = "My Visits"
-        lbl.font = UIFont(name: "Poppins-Bold", size: 36)
+        lbl.font = .Fonts.pageHeader36.font
         lbl.textColor = UIColor(named: "textColorReversed")
         
         return lbl

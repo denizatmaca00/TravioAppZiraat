@@ -16,7 +16,7 @@ class TermsOfUseVC: UIViewController {
         let lbl = UILabel()
         lbl.text = "Terms Of Use"
         lbl.textColor = .white
-        lbl.font = UIFont(name: "Poppins-Medium", size: 32)
+        lbl.font = .Fonts.pageHeader32.font
         return lbl
     }()
     private lazy var leftBarButton: UIButton = {

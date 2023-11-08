@@ -32,7 +32,7 @@ class AppLabel: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = UIColor(named: "settingsLabelColor")
-        label.font = UIFont(name: "Poppins-Regular", size: 12)
+        label.font = .Fonts.textFieldText.font
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

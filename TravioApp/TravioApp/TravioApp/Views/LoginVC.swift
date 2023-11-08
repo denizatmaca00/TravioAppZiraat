@@ -24,8 +24,6 @@ class LoginVC: UIViewController {
         let wlcLabel = UILabel()
         wlcLabel.text = "Welcome to Travio"
         wlcLabel.textColor = .black
-//        wlcLabel.font = UIFont(name: "Poppins-Medium", size: 24)
-        //wlcLabel.font = AppFonts
         wlcLabel.font = .Fonts.title24.font
         return wlcLabel
     }()
@@ -46,9 +44,6 @@ class LoginVC: UIViewController {
     private lazy var loginBtn : UIButton = {
         let loginButton = AppButton()
         loginButton.setTitle("Login", for: .normal)
-        loginButton.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
-        loginButton.backgroundColor = UIColor(named: "backgroundColor")
-        loginButton.layer.cornerRadius = 12
         loginButton.addTarget(self, action: #selector(btnLoginTapped), for: .touchUpInside)
 
         return loginButton
@@ -59,7 +54,7 @@ class LoginVC: UIViewController {
         label.text = "Don't have any account?"
         label.textColor = .black
         label.numberOfLines = 1
-        label.font = UIFont(name: "Poppins-Bold", size: 14)
+        label.font = .Fonts.signUpTitle.font
         label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -69,7 +64,7 @@ class LoginVC: UIViewController {
     private lazy var btnSignUp: UIButton = {
         let b = UIButton()
         b.setTitle("Sign Up", for: .normal)
-        b.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 14)
+        b.titleLabel?.font = .Fonts.signUpTitle.font
         b.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         b.setTitleColor(.black, for: .normal)
         b.addTarget(self, action: #selector(btnSignUpTapped), for: .touchUpInside)

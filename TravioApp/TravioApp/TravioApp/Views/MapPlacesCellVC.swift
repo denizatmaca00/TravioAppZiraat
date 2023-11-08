@@ -26,8 +26,8 @@ class MapPlacesCellVC: UICollectionViewCell {
     
     lazy var placeName: UILabel = {
         let pn = UILabel()
-        pn.textColor = .blue
-        pn.font = UIFont(name: "Poppins-Bold", size: 24)
+        pn.textColor = .white
+        pn.font = .Fonts.header24.font
         pn.text = "PlaceName"
         pn.numberOfLines = 1
         return pn
@@ -36,7 +36,7 @@ class MapPlacesCellVC: UICollectionViewCell {
     lazy var cityName: UILabel = {
         let cn = UILabel()
         cn.textColor = .white
-        cn.font = UIFont(name: "Poppins-Regular", size: 14)
+        cn.font = .Fonts.label14.font
         cn.text = "CityName"
         cn.numberOfLines = 1
         return cn
@@ -108,7 +108,6 @@ class MapPlacesCellVC: UICollectionViewCell {
             make.centerY.equalTo(iconLocation)
             make.height.equalTo(18)
         }
-
     }
 }
 

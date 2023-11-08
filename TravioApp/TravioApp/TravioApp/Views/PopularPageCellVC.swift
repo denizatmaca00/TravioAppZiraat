@@ -26,12 +26,12 @@ class PopularPageCellVC: UICollectionViewCell {
     private lazy var title:UILabel = {
         let t = UILabel()
         t.text = "Colleseum"
-        t.font = UIFont(name: "Avenir-Medium", size: 20)
+        t.font = .Fonts.header24.font
         return t
     }()
     private lazy var country: UILabel = {
         let c = UILabel()
-        c.font = UIFont(name: "Avenir-Medium", size: 14)
+        c.font = .Fonts.label14.font
         c.text = "Rome"
         return c
     }()

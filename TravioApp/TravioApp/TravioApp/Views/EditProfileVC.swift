@@ -42,7 +42,7 @@ class EditProfileVC: UIViewController {
         let btn = UIButton()
         btn.setTitle("Change Photo", for: .normal)
         btn.setTitleColor(UIColor(named: "editProfileColor"), for: .normal)
-        btn.titleLabel?.font = UIFont(name: "Poppins-Regular", size: 12)
+        btn.titleLabel?.font = .Fonts.textFieldText.font
         //btn.addTarget(self, action: #selector(changePhotoTapped), for: .touchUpInside)
         return btn
     }()
@@ -50,19 +50,19 @@ class EditProfileVC: UIViewController {
         let lbl = UILabel()
         lbl.text = "Bruce Wills"
         lbl.textColor = UIColor(named: "settingsLabelColor")
-        lbl.font = UIFont(name: "Poppins-Medium", size: 24)
+        lbl.font = .Fonts.header24.font
         return lbl
     }()
     
     private lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: "30 Ağustos 2023", alignment: .left)
     private lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: "Admin", alignment: .left)
-
+    
     
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Edit Profile"
         lbl.textColor = .white
-        lbl.font = UIFont(name: "Poppins-Medium", size: 32)
+        lbl.font = .Fonts.pageHeader32.font
         return lbl
     }()
     private lazy var exitButton: UIButton = {
@@ -73,9 +73,10 @@ class EditProfileVC: UIViewController {
     }()
     
     private lazy var contentViewBig: AppView = {
-            let view = AppView()
-            return view
-        }()
+        let view = AppView()
+        return view
+    }()
+    
     private lazy var stackViewMain: UIStackView = {
         let stackViews = UIStackView()
         stackViews.backgroundColor = UIColor(named: "viewBackgroundColor")
@@ -83,12 +84,10 @@ class EditProfileVC: UIViewController {
         stackViews.spacing = 24
         return stackViews
     }()
+    
     private lazy var saveButton: UIButton = {
         let signUpButton = AppButton()
         signUpButton.setTitle("Save", for: .normal)
-        signUpButton.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
-        signUpButton.backgroundColor = UIColor(named: "backgroundColor")
-        signUpButton.layer.cornerRadius = 12
         signUpButton.addTarget(self, action: #selector(saveEditProfile), for: .touchUpInside)
         return signUpButton
     }()
@@ -98,41 +97,41 @@ class EditProfileVC: UIViewController {
         
         setupViews()
     }
-
+    
     
     @objc func exitButtonTapped(){
         navigationController?.popViewController(animated: true)
     }
     
-
+    
     @objc func saveEditProfile() {
-                print("saved")
-                guard let email = txtEmail.text,
-                      let full_name = txtUsername.text,
-                      let pp_url = imageView.image else { return }
-
+        print("saved")
+        guard let email = txtEmail.text,
+              let full_name = txtUsername.text,
+              let pp_url = imageView.image else { return }
+        
         viewModel.changeProfileInfo(profile: EditProfile(full_name: full_name, email: email, pp_url: pp_url.description))
-print(full_name)
-print("fndfjkghfjg")
+        print(full_name)
+        print("fndfjkghfjg")
         labelName.text = full_name
         
-            }
+    }
     
-//    @objc func saveEditProfile() {
-//        guard let full_name = txtUsername.text else {return}
-//        let email = txtEmail.text ?? ""
-//        let pp_url = "https://example.com/deneme.png"
-//
-//        viewModel.getEditProfileInfos(full_name: full_name, email: email, pp_url: pp_url){ [weak self] (result: Result<Messages,Error>) in
-//            switch result {
-//            case .success:
-//               print("oldu")
-//            case .failure(let error):
-//                print("Profile Update Error:")
-//            }
-//        }
-//}
-
+    //    @objc func saveEditProfile() {
+    //        guard let full_name = txtUsername.text else {return}
+    //        let email = txtEmail.text ?? ""
+    //        let pp_url = "https://example.com/deneme.png"
+    //
+    //        viewModel.getEditProfileInfos(full_name: full_name, email: email, pp_url: pp_url){ [weak self] (result: Result<Messages,Error>) in
+    //            switch result {
+    //            case .success:
+    //               print("oldu")
+    //            case .failure(let error):
+    //                print("Profile Update Error:")
+    //            }
+    //        }
+    //}
+    
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, exitButton)
@@ -148,17 +147,20 @@ print("fndfjkghfjg")
             lbl.top.equalToSuperview().offset(60)
             lbl.leading.equalToSuperview().offset(20)
         })
+        
         exitButton.snp.makeConstraints({ btn in
             btn.centerY.equalTo(titleLabel)
             btn.trailing.equalToSuperview().offset(-24)
             btn.height.width.equalTo(20)
         })
+        
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(contentViewBig).offset(24)
             img.leading.equalTo(contentViewBig).offset(135)
             img.trailing.equalTo(contentViewBig).offset(-135)
             img.height.equalTo(120)
         })
+        
         changePhotoButton.snp.makeConstraints({ btn in
             btn.top.equalTo(imageView.snp.bottom).offset(7)
             btn.centerX.equalToSuperview()
@@ -173,12 +175,12 @@ print("fndfjkghfjg")
             lbl.top.equalTo(labelName.snp.bottom).offset(39)
             lbl.leading.equalToSuperview().offset(24)
         })
-
+        
         labelRole.snp.makeConstraints({lbl in
             lbl.top.equalTo(labelName.snp.bottom).offset(39)
             lbl.leading.equalTo(labelDate.viewWithBorder.snp.trailing).offset(16)
         })
-
+        
         contentViewBig.snp.makeConstraints ({ view in
             view.height.equalToSuperview().multipliedBy(0.8)
             view.leading.equalToSuperview()
@@ -191,6 +193,7 @@ print("fndfjkghfjg")
             stack.trailing.equalToSuperview().offset(-24)
             stack.top.equalTo(labelName.snp.bottom).offset(92)
         })
+        
         saveButton.snp.makeConstraints({ btn in
             btn.bottom.equalTo(limits.bottom).offset(-23)
             btn.trailing.equalToSuperview().offset(-24)
@@ -198,10 +201,9 @@ print("fndfjkghfjg")
             btn.height.equalTo(54)
             
         })
-        
     }
-    
 }
+
 #if DEBUG
 import SwiftUI
 

@@ -23,14 +23,14 @@ class HeaderView: UICollectionReusableView {
     lazy var lblSectionTitle:UILabel = {
         let l = UILabel()
         l.text = "PlaceHolder"
-        l.font = UIFont(name: "Poppins-Medium", size: 20)
+        l.font = .Fonts.sectionTitle.font
         return l
     }()
     
     lazy var btnSeeAll:UIButton = {
         let b = UIButton(frame: CGRect(x: 0, y: 0, width: 47, height: 21))
         b.setTitle("See All", for: .normal)
-        b.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 14)
+        b.titleLabel?.font = .Fonts.textFieldTitle.font
         b.setTitleColor(UIColor(named: "backgroundColor"), for: .normal)
         b.addTarget(self, action: #selector(self.btnSeeAllTapped), for: .touchUpInside)
         return b

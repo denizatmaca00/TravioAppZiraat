@@ -31,7 +31,7 @@ class SecuritySettingVC: UIViewController {
     private lazy var mainTitle:UILabel = {
         let title = UILabel()
         title.text = "Security Settings"
-        title.font = UIFont(name: "Poppins-Regular", size: 32)
+        title.font = .Fonts.pageHeader32.font
         title.textColor = .white
         return title
     }()
@@ -44,7 +44,7 @@ class SecuritySettingVC: UIViewController {
     private lazy var changePasswordTitle:UILabel = {
         let cptxt = UILabel()
         cptxt.text = "Change Password"
-        cptxt.font = UIFont(name: "Poppins-Regular", size: 16)
+        cptxt.font = .Fonts.cityText16.font
         cptxt.textColor = UIColor(named: "backgroundColor")
         return cptxt
     }()
@@ -90,7 +90,7 @@ class SecuritySettingVC: UIViewController {
     private lazy var privacyTextField:UILabel = {
         let ptxt = UILabel()
         ptxt.text = "Privacy"
-        ptxt.font = UIFont(name: "Poppins-Regular", size: 16)
+        ptxt.font = .Fonts.cityText16.font
         ptxt.textColor = UIColor(named: "backgroundColor")
         return ptxt
     }()
@@ -154,9 +154,6 @@ class SecuritySettingVC: UIViewController {
     private lazy var saveButton: UIButton = {
         let savebtn = AppButton()
         savebtn.setTitle("Save", for: .normal)
-        savebtn.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
-        savebtn.backgroundColor = UIColor(named: "backgroundColor")
-        savebtn.layer.cornerRadius = 12
         return savebtn
     }()
     

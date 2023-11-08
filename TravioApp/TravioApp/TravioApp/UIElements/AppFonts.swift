@@ -52,7 +52,7 @@ extension UIFont {
     enum Fonts{
         
         // UI Element Fonts
-        case mainButton // 16-500
+        case mainButton // 16-600
         case textFieldTitle // 14-500
         case textFieldText // 12-300
         
@@ -105,7 +105,7 @@ extension UIFont {
         var font: UIFont! {
             switch self {
             case .mainButton:
-                return getFont(name: .medium, .size16)
+                return getFont(name: .semiBold, .size16)
             case .textFieldTitle:
                 return getFont(name: .medium, .size14)
             case .textFieldText:

@@ -24,7 +24,7 @@ class HelpAndSupportVC: UIViewController {
         let lbl = UILabel()
         lbl.text = "Help&Support"
         lbl.textColor = .white
-        lbl.font = UIFont(name: "Poppins-Bold", size: 32)
+        lbl.font = .Fonts.pageHeader32.font
         return lbl
     }()
     
@@ -32,7 +32,7 @@ class HelpAndSupportVC: UIViewController {
         let lbl = UILabel()
         lbl.text = "FAQ"
         lbl.textColor = UIColor(named: "backgroundColor")
-        lbl.font = UIFont(name: "Poppins-SemiBold", size: 24)
+        lbl.font = .Fonts.header24.font
         return lbl
     }()
     

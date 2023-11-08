@@ -50,7 +50,7 @@ class DropCell: UITableViewCell {
     private lazy var lblHeader: UILabel = {
         let lbl = UILabel()
         lbl.text = "placeHolderTitle"
-        lbl.font = UIFont(name: "Poppins-Medium", size: 14)
+        lbl.font = .Fonts.textFieldTitle.font
         lbl.textColor = UIColor(named: "textColor")
         lbl.numberOfLines = 0
         return lbl
@@ -59,7 +59,7 @@ class DropCell: UITableViewCell {
     private lazy var lblDescription: UILabel = {
         let lbl = UILabel()
         lbl.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-        lbl.font = UIFont(name: "Poppins-Regular", size: 10)
+        lbl.font = .Fonts.descriptionText.font
         lbl.textColor = UIColor(named: "textColor")
         lbl.isHidden = false
         lbl.numberOfLines = 0

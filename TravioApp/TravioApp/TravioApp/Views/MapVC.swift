@@ -1,86 +1,83 @@
 import UIKit
 import MapKit
 
-
+class MapVC: UIViewController {
     
-    class MapVC: UIViewController {
-        let viewModel = MapVM()
-        var selectedAnnotation: MKAnnotation?
+    let viewModel = MapVM()
+    var selectedAnnotation: MKAnnotation?
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 18
         
+        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 565, width: view.bounds.size.width, height: 178), collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(MapPlacesCellVC.self, forCellWithReuseIdentifier: "Cell")
         
-
-        private lazy var collectionView: UICollectionView = {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .horizontal
-            layout.minimumInteritemSpacing = 18
-            
-            let collectionView = UICollectionView(frame: CGRect(x: 0, y: 565, width: view.bounds.size.width, height: 178), collectionViewLayout: layout)
-            collectionView.backgroundColor = .clear
-            collectionView.dataSource = self
-            collectionView.delegate = self
-            collectionView.register(MapPlacesCellVC.self, forCellWithReuseIdentifier: "Cell")
-            
-            layout.itemSize = CGSize(width: collectionView.bounds.size.width - 63, height: 178)
-            
-            return collectionView
-        }()
-
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            viewModel.map.delegate = self
-            setupViews()
-            setupTapGestureRecognizer()
-            viewModel.fetchAndShowPlaces()
-            initVM()
-        }
+        layout.itemSize = CGSize(width: collectionView.bounds.size.width - 63, height: 178)
         
-        func initVM(){
-            viewModel.reloadTableViewClosure = { [weak self] () in
-                DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
-                }
+        return collectionView
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel.map.delegate = self
+        setupViews()
+        setupTapGestureRecognizer()
+        viewModel.fetchAndShowPlaces()
+        initVM()
+    }
+    
+    func initVM(){
+        viewModel.reloadTableViewClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
             }
-            viewModel.fetchPlacesForCollectionCell()
         }
-
-        func setupViews() {
-            self.view.addSubview(viewModel.map)
-            self.view.addSubview(collectionView)
-            setupLayout()
-        }
-
-        func setupLayout() {
-            viewModel.map.frame = view.bounds
-            viewModel.map.showsUserLocation = true
-        }
-
-        func setupTapGestureRecognizer() {
-            let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-            viewModel.map.addGestureRecognizer(longPressGesture)
-        }
-
-        @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
-            if gestureRecognizer.state == .began {
-                let touchPoint = gestureRecognizer.location(in: viewModel.map)
-                let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
-                if let existingAnnotation = selectedAnnotation {
-                    viewModel.map.removeAnnotation(existingAnnotation)
-                }
-                 
-                let newAnnotation = CustomAnnotation(
-                    title: "Yeni Pin",
-                    subtitle: "Açıklama",
-                    coordinate: coordinate,
-                    logoImage: UIImage(named: "pinLogo")
-                )
-                viewModel.map.addAnnotation(newAnnotation)
-                selectedAnnotation = newAnnotation
-                let vc = MapPresentVC()
-                self.present(vc, animated: true, completion: nil)
+        viewModel.fetchPlacesForCollectionCell()
+    }
+    
+    func setupViews() {
+        self.view.addSubview(viewModel.map)
+        self.view.addSubview(collectionView)
+        setupLayout()
+    }
+    
+    func setupLayout() {
+        viewModel.map.frame = view.bounds
+        viewModel.map.showsUserLocation = true
+    }
+    
+    func setupTapGestureRecognizer() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        viewModel.map.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            let touchPoint = gestureRecognizer.location(in: viewModel.map)
+            let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
+            if let existingAnnotation = selectedAnnotation {
+                viewModel.map.removeAnnotation(existingAnnotation)
             }
+            
+            let newAnnotation = CustomAnnotation(
+                title: "Yeni Pin",
+                subtitle: "Açıklama",
+                coordinate: coordinate,
+                logoImage: UIImage(named: "pinLogo")
+            )
+            viewModel.map.addAnnotation(newAnnotation)
+            selectedAnnotation = newAnnotation
+            let vc = MapPresentVC()
+            self.present(vc, animated: true, completion: nil)
         }
     }
-   
+}
+
 
 
 
@@ -119,7 +116,7 @@ extension MapVC: MKMapViewDelegate {
             }
         }
     }
-
+    
 }
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -130,11 +127,11 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
         print("ldfkhlfh")
         //map didselect cell id detail sayfasına iletilecek.
         let vc = DetailVC()
-      //  let vm = vc.DetailVM()
+        //  let vm = vc.DetailVM()
         vc.viewModel.placeIdtest = viewModel.places[indexPath.row].id
         navigationController?.pushViewController(vc, animated: true)
         
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -144,7 +141,7 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
         let cellVM = viewModel.getCellViewModel(at: indexPath)
         cell.visitCellViewModel = cellVM
         return cell
-    
+        
     }
 }
 
@@ -186,7 +183,7 @@ import SwiftUI
 @available(iOS 13, *)
 struct MapVC_Preview: PreviewProvider {
     static var previews: some View{
-
+        
         MapVC().showPreview()
     }
 }
