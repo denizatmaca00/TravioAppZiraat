@@ -15,7 +15,6 @@ class AppFonts:UIFont{
 }
 
 extension UIFont {
-    
     enum FontsSize: CGFloat{
         
         case size10 = 10
