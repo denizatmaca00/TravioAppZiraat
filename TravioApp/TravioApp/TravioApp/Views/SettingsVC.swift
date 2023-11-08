@@ -266,9 +266,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
-        
-        // Seçilen section'ın vurgusunu kaldırır
-        tableView.deselectRow(at: indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }
