@@ -14,12 +14,7 @@ class AppFonts:UIFont{
     private var font:Fonts?
 }
 
-
 extension UIFont {
-    
-
-    
-//    let pageHeader36 : UIFont = Fonts.semiBold(size: 36)
     
     enum FontsSize: CGFloat{
         
@@ -55,7 +50,6 @@ extension UIFont {
 //        }
 //    }
 
-    
     enum Fonts{
         
         // UI Element Fonts
