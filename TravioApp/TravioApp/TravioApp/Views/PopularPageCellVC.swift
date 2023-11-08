@@ -14,7 +14,7 @@ class PopularPageCellVC: UICollectionViewCell {
     private lazy var PopularView: UIView = {
         let pv = UIView()
         pv.layer.cornerRadius = 10
-        pv.backgroundColor = .lightGray
+        pv.backgroundColor = .white
         return pv
     }()
     private lazy var Image: UIImageView = {
@@ -62,7 +62,7 @@ class PopularPageCellVC: UICollectionViewCell {
     
     func setupLayout() {
         
-        PopularView.height(90)
+        PopularView.height(100)
         PopularView.width(342)
         PopularView.leadingToSuperview(offset:20)
         PopularView.topToSuperview(offset:20)
