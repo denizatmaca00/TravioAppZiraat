@@ -2,7 +2,7 @@
 //  AppFonts.swift
 //  TravioApp
 //
-//  Created by Aydın Erol on 7.11.2023.
+//  Created by Aydın Erol and Deniz Atmaca on 7.11.2023.
 //
 
 import Foundation
@@ -95,13 +95,7 @@ extension UIFont {
         // Page Headers
         case pageHeader32 // 32-600
         case pageHeader36 // 36-600
-        
-//        case light(size:FontsSize)
-//        case regular(size:FontsSize)
-//        case medium(size:FontsSize)
-//        case semiBold(size:FontsSize)
-        
-        // return UIFont(name: FontName.light.rawValue, size: FontsSize.size32.rawValue)
+
         var font: UIFont! {
             switch self {
             case .mainButton:
@@ -150,16 +144,5 @@ extension UIFont {
             let font = UIFont(name: name.rawValue, size: size.rawValue)!
             return font
         }
-
     }
-    
-//    init (font:Fonts){
-//        super.init(frame: .zero)
-//        self.fontSize = fontSize
-//        self.font = font
-//    }
-    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
 }
