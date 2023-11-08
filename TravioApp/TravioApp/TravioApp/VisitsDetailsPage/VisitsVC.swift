@@ -47,11 +47,10 @@ class VisitsVC: UIViewController {
 //        tv.refreshControl = refreshControl
         return tv
     }()
-//    @objc func refreshTableView(sender: UIRefreshControl){
-//        tableView.reloadData()
-//        sender.endRefreshing()
-//
-//    }
+    @objc func refreshTableView(sender: UIRefreshControl){
+        tableView.reloadData()
+
+    }
     
     //MARK: -- Life Cycles
     override func viewDidLoad() {
@@ -158,15 +157,11 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
         vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
         viewModel.getaVisitbyID()
         navigationController?.pushViewController(vc, animated: true)
-        
-        //celle tıklanınca ne yapacak?
-//        let vc = DetailVC()
-//        vc.viewModel.placeIdtest = viewModel.cellViewModels[IndexPath.row]
-//        navigationController?.pushViewController(DetailVC(), animated: true)
     }
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        viewModel.reloadTableViewClosure?()
-//    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        initVM()
+    }
 }
 
 #if DEBUG
