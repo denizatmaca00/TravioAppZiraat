@@ -121,7 +121,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         //eğer myvisit sayfasında bu placeidye ait olan eklendiyse çalıştırma.
         //detail.placeid myvisit sayfasında varsa çalıştırma.
         viewModel.checkVisitbyPlaceID()
-        //viewModel.postVisit()
+        viewModel.postVisit()
        
     }
 //
