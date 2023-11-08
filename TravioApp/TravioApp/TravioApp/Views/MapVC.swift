@@ -133,8 +133,6 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
       //  let vm = vc.DetailVM()
         vc.viewModel.placeIdtest = viewModel.places[indexPath.row].id
         navigationController?.pushViewController(vc, animated: true)
-        
-
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
