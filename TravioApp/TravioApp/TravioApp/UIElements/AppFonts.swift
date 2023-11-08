@@ -105,7 +105,7 @@ extension UIFont {
         var font: UIFont! {
             switch self {
             case .mainButton:
-                return getFont(name: .medium, .size16)
+                return getFont(name: .semiBold, .size16)
             case .textFieldTitle:
                 return getFont(name: .medium, .size14)
             case .textFieldText:
