@@ -93,7 +93,10 @@ class PopularPlaceVC: UIViewController {
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
        setupViews()
     }
-    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
     func setupViews() {
         self.view.backgroundColor = .white
         self.view.addSubview(backgroundView)
