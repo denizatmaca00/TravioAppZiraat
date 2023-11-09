@@ -29,7 +29,6 @@ class PopularPlaceVC: UIViewController {
     private lazy var uıView:UIView = {
         let uv = UIView()
         uv.layer.backgroundColor = UIColor(named: "viewBackgroundColor")?.cgColor
-        //uv.addSubviews(collectionView,backButton)
         uv.backgroundColor = UIColor(named: "viewBackgroundColor")
         uv.layer.cornerRadius = 50
         uv.layer.maskedCorners = [.layerMinXMinYCorner]
@@ -40,7 +39,6 @@ class PopularPlaceVC: UIViewController {
         let view = UIView()
         view.backgroundColor = UIColor(named: "backgroundColor")
         view.clipsToBounds = true
-        //view.layer.cornerRadius = 80
         view.layer.maskedCorners = [.layerMinXMinYCorner]
         return view
     }()
@@ -84,8 +82,9 @@ class PopularPlaceVC: UIViewController {
     }
     
     @objc func backPage(){
-        //backPage
-    }
+        let hvc = HomeVC()
+        navigationController?.pushViewController(hvc, animated: true)
+     }
     override func viewDidLoad(){
         super.viewDidLoad()
         titleLabel.isHidden = false

@@ -158,10 +158,17 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        //tıklndığının placeidsini
-        let vc = DetailVC()
-        vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
-        viewModel.getaVisitbyID()
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = DetailVC()
+////        vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
+////        viewModel.getaVisitbyID()
+//        navigationController?.pushViewController(vc, animated: true)
+        
+        
+//        let vc = DetailVC()
+//        let vcc = MapVC()
+      //  let vm = vc.DetailVM()
+//        vc.viewModel.placeIdtest = vcc.viewModel.places[indexPath.row].id
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

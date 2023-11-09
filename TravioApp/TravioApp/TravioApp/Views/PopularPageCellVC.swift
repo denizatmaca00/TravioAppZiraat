@@ -67,14 +67,14 @@ class PopularPageCellVC: UICollectionViewCell {
         PopularView.leadingToSuperview(offset:20)
         PopularView.topToSuperview(offset:20)
         
-        Image.height(89)
+        Image.heightToSuperview()
         Image.width(90)
-        Image.top(to: PopularView, offset: 0)
+        Image.topToSuperview()
         Image.leading(to: PopularView, offset: 26)
      
         
         title.height(36)
-        title.width(130)
+        title.width(131)
         title.top(to: PopularView,offset: 20)
         title.leadingToTrailing(of: Image, offset: 35)
         
@@ -84,7 +84,7 @@ class PopularPageCellVC: UICollectionViewCell {
         icon.leading(to: title)
         
         country.height(20)
-        country.width(40)
+        country.width(46)
         country.top(to: title, offset: 25)
         country.leadingToTrailing(of: icon, offset: 5)
         

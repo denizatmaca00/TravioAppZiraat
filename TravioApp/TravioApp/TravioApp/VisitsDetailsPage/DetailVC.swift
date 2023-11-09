@@ -28,12 +28,22 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         cv.register(DetailPageCell.self, forCellWithReuseIdentifier: "detailCell")
         return cv
     }()
-    private lazy var saveBtn:UIButton = {
-        let sb = UIButton()
-        sb.setImage(UIImage(named: "save"), for: .normal)
-        sb.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
-        return sb
-    }()
+//    private lazy var saveBtn:UIButton = {
+//        let sb = UIButton()
+//        //sb.setImage(UIImage(named: "save"), for: .normal)
+//        sb.image
+//        sb.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
+//        return sb
+//    }()
+        private lazy var saveBtn:UIImageView = {
+            let sb = UIImageView()
+            //sb.setImage(UIImage(named: "save"), for: .normal)
+            let tapgesture = UITapGestureRecognizer(target: self, action: #selector(buttonSave))
+            sb.isUserInteractionEnabled = true
+            sb.addGestureRecognizer(tapgesture)
+            //sb.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
+            return sb
+        }()
     private lazy var backButton:UIButton = {
         let b = UIButton()
         b.setImage(UIImage(named: "bckBtn"), for: .normal)
@@ -115,14 +125,21 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }
     @objc func buttonSave(){
         var testtt = DetailVM()
-        saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
+       // saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
         //print("tıklandı")
        // saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
         //eğer myvisit sayfasında bu placeidye ait olan eklendiyse çalıştırma.
         //detail.placeid myvisit sayfasında varsa çalıştırma.
-        viewModel.checkVisitbyPlaceID()
-        viewModel.postVisit()
-       
+        
+        //viewModel.checkVisitbyPlaceID()
+       // viewModel.postVisit()
+        if saveBtn.image == UIImage(named: "savefill") {
+            viewModel.deleteVisitbyPlceID()
+            saveBtn.image = UIImage(named: "save")
+        }else {
+            viewModel.postVisit()
+            saveBtn.image = UIImage(named: "savefill")
+        }
     }
 //
 //    @objc func refreshButton(){
@@ -134,8 +151,18 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
 //
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.checkVisitbyPlaceID()
         navigationController?.navigationBar.isHidden = true
         setupViews()
+        
+        viewModel.checkSuccessID = {[weak self] () in
+            self?.saveBtn.image = UIImage(named: "savefill")
+            //sb.setImage(UIImage(named: "save"), for: .normal)
+        }
+        viewModel.checkErrorID = {[weak self] () in
+            self?.saveBtn.image = UIImage(named: "save")
+        }
+        
         viewModel.getAPlaceById { Place in
             self.configurePage(place: Place)
             self.fetchMap()
