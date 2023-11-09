@@ -30,7 +30,7 @@ class PopularPlaceVC: UIViewController {
         let uv = UIView()
         uv.layer.backgroundColor = UIColor(named: "viewBackgroundColor")?.cgColor
         uv.backgroundColor = UIColor(named: "viewBackgroundColor")
-        uv.layer.cornerRadius = 50
+        uv.layer.cornerRadius = 80
         uv.layer.maskedCorners = [.layerMinXMinYCorner]
         return uv
     }()
@@ -124,7 +124,7 @@ class PopularPlaceVC: UIViewController {
         backButton.leadingToSuperview(offset:20)
         
         backgroundView.edgesToSuperview()
-        uıView.topToSuperview(offset:150)
+        uıView.topToSuperview(offset:125)
         uıView.edgesToSuperview(excluding: .bottom,usingSafeArea: true)
         uıView.height(800)
         
@@ -163,7 +163,7 @@ extension PopularPlaceVC:UICollectionViewDelegateFlowLayout{
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCell", for: indexPath) as! PopularPageCellVC
                 
-            let data = VisitCellViewModel(image: UIImage(named: "sultanahmet")!, placeName: "Rome", city: "Colleseum")
+            let data = VisitCellViewModel(image: URL(string: "sultanahmet")!, placeName: "Rome", city: "Colleseum")
             cell.configure(object: data)
                 
                 return cell

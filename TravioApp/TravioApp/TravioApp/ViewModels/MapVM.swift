@@ -98,7 +98,7 @@ class MapVM {
     private func createCellViewModel(favorite:Place) -> VisitCellViewModel{
         // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell to show inside each vistsCell
         
-        let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
+        let cvm = VisitCellViewModel(image: URL(string: favorite.cover_image_url)!,
                                      placeName: favorite.title,
                                      city: favorite.place)
         return cvm

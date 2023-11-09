@@ -71,8 +71,7 @@ class CustomVisitCellVC: UITableViewCell {
     func configure(data:VisitCellViewModel){
         placeName.text = data.placeName
         cityName.text = data.city
-        imageLocation.image = data.image
-
+        imageLocation.kf.setImage(with: data.image)
     }
     func configure(imageURL:Visit){
         if let url = URL(string: imageURL.place.cover_image_url){
