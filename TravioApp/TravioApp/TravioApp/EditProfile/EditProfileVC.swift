@@ -9,7 +9,9 @@
 // TODO: profile networking +
 // TODO: delegate silinsin eğer kullanılmıyorsa +
 // TODO: signUp çıkan başarılı alertten sonra direkt logine aktar +
-
+// TODO: fontlar enumdan beslensin --> signup font size +
+// TODO: classları sayfa sayfa ayırın +
+// TODO: homevc uılar get tamamlansın +
 
 // TODO: signUp mvvme göre düzenle
 // TODO: labelheader uılabel sınıfı
@@ -18,11 +20,10 @@
 // TODO: map post networking
 // TODO: editPrpfile put networking
 // TODO: signup loading
-// TODO: classları sayfa sayfa ayırın
-// TODO: fontlar enumdan beslensin --> signup font size
-// TODO: homevc uılar get tamamlansın ,  paddingler
+// TODO: homevc uılar paddingler
 // TODO: populervc uı backbutton, font, üst üste gelmesi
 // TODO: stackview eklenmeli cardların içine
+// TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
 import UIKit
 
 class EditProfileVC: UIViewController {

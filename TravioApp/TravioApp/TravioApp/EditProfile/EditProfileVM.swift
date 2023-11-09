@@ -12,7 +12,7 @@ import UIKit
 
 class EditProfileVM {
     
-    var editProfile: EditProfile = EditProfile(full_name: "", email: "", pp_url: "")
+   // var editProfile: EditProfile = EditProfile(full_name: "", email: "", pp_url: "")
 
     var showAlertClosure: ((String, String) -> Void)?
     var reloadEditProfileClosure: ((EditProfile) -> Void)?
@@ -20,14 +20,17 @@ class EditProfileVM {
     
     
     func changeProfileInfo(profile:EditProfile){
-        let params = ["full_name": profile.full_name, "email": profile.email, "pp_url": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.imdb.com%2Fname%2Fnm0000093%2Fbio%2F&psig=AOvVaw2AS0FsBGFMAbPecZTs4FUR&ust=1699359812146000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCNCJieKur4IDFQAAAAAdAAAAABAE"]
+        let params = ["full_name": profile.full_name, "email": profile.email, "pp_url": "https://example.com/deneme.png"]
 
         NetworkingHelper.shared.dataFromRemote(urlRequest: .putEditProfile(params: params), callback: { (result: Result<Messages, Error>) in
             switch result {
             case .success(let success):
                 print(params)
+                self.showAlertClosure?("Notification", "Update Successful")
                 print("Başarılı yanıt: \(success)")
             case .failure(let failure):
+                self.showAlertClosure?("Error", "Update Unssuccessful")
+
                 print("Başarısız yanıt: \(failure)")
             }
         })

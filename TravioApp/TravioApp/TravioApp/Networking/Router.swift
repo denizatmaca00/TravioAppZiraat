@@ -158,7 +158,7 @@ extension Router:URLRequestConvertible {
         
         let encoding:ParameterEncoding = {
             switch method {
-            case .post , .put:
+            case .put, .post:
                 return JSONEncoding.default
 
             default:

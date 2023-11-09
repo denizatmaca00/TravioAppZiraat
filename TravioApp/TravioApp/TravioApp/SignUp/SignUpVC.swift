@@ -11,7 +11,7 @@ import UIKit
 
 class SignUpVC: UIViewController {
     
-    var signUpData: User = User(full_name: "", email: "", password: "", id: "")
+    var signUpData: User = User(full_name: "", email: "", password: "")
     
     var viewModel = SignUpVM()
     
