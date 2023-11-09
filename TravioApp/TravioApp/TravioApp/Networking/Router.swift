@@ -30,6 +30,11 @@ enum Router {
 
     case getAVisitByID(id:String)
     case checkVisitByID(id:String)
+    case getPopularPlaces
+    case getPopularPlacesLimits(limit: Parameters)
+    case getNewPlaces
+    case getNewPlacesLimits(limit: Parameters)
+    case getHomeAllPlacesForUser
 //    var token:String{
 //        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
 //    }
@@ -54,8 +59,11 @@ enum Router {
             return "/v1/edit-profile"
         case .getProfile:
             return "/v1/me"
-        
-            
+        case .getPopularPlaces, .getPopularPlacesLimits:
+            return "/v1/places/popular"
+        case .getNewPlaces, .getNewPlacesLimits:
+            return "/v1/places/last"
+      
         // delete and update cases
         case .deleteVisit(let visitId):
             return "/v1/visits/\(visitId)"
@@ -72,6 +80,13 @@ enum Router {
             return "/v1/visits/\(id)"
         case .checkVisitByID(let id):
             return "/v1/visits/user/\(id)"
+        case.getHomeAllPlacesForUser:
+            return"/v1/places/user"
+        
+
+
+
+            
         }
     }
     
@@ -79,7 +94,7 @@ enum Router {
         switch self {
         case .register, .user, .postVisit:
             return .post
-        case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID, .checkVisitByID, .getProfile:
+        case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID, .checkVisitByID, .getProfile, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits, .getHomeAllPlacesForUser:
             return .get
         case .deleteVisit:
             return .delete
@@ -95,9 +110,9 @@ enum Router {
         baseHeaders["Authorization"] = "Bearer " + token
         }
             switch self {
-            case .register, .user, .getPlaceByID, .getAllGaleryByID:
+            case .register, .user, .getPlaceByID, .getAllGaleryByID, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits:
                 return [:]
-            case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile :
+            case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile, .getHomeAllPlacesForUser :
                 print(baseHeaders)
                 return baseHeaders
             }
@@ -122,6 +137,11 @@ enum Router {
             return params
         case .postVisit(let params):
             return params
+        case .getPopularPlacesLimits(let params):
+            return params
+        case .getNewPlacesLimits(let params):
+            return params
+
     
         default: return [:]
         }
