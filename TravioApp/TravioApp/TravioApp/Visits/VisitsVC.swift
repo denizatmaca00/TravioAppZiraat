@@ -115,8 +115,8 @@ class VisitsVC: UIViewController {
         
         tableView.snp.makeConstraints({ tv in
             tv.top.equalToSuperview().offset(45)
-            tv.leading.equalToSuperview().offset(24)
-            tv.width.equalToSuperview().inset(24)
+            tv.leading.equalToSuperview()//.offset(24)
+            tv.trailing.equalToSuperview()//.inset(24)
             tv.height.equalToSuperview()
         })
     }
@@ -148,7 +148,7 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        return tableView.frame.width * 0.6377 + 16
+        return (tableView.frame.width - (24 * 2)) * 0.6377 + 16
         //return (219+16)
     }
     

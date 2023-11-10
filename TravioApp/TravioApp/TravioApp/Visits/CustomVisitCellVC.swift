@@ -106,11 +106,10 @@ class CustomVisitCellVC: UITableViewCell {
     
     func setupLayout() {
         
-        
         imageLocation.snp.makeConstraints({ img in
             img.top.equalToSuperview()
-            img.leading.equalToSuperview()
-            img.trailing.equalToSuperview()
+            img.leading.equalToSuperview().offset(24)
+            img.trailing.equalToSuperview().inset(24)
             
         })
         
@@ -119,8 +118,8 @@ class CustomVisitCellVC: UITableViewCell {
         viewSeperator.snp.makeConstraints({ view in
             view.top.equalTo(imageLocation.snp.bottom)
             view.bottom.equalToSuperview()
-            view.leading.equalToSuperview()
-            view.trailing.equalToSuperview()
+            view.leading.equalTo(imageLocation)
+            view.trailing.equalTo(imageLocation)
             view.height.equalTo(self.viewSeperator.frame.height)
             
         })
