@@ -12,13 +12,17 @@
 // TODO: fontlar enumdan beslensin --> signup font size +
 // TODO: classları sayfa sayfa ayırın +
 // TODO: homevc uılar get tamamlansın +
+// TODO: map upload scrrolview +
 
 // TODO: signUp mvvme göre düzenle
 // TODO: labelheader uılabel sınıfı
 // TODO: leftBarItem bir tane yazılıp her yerden çekilebilir
 // TODO: color enumı eklenebilir
 // TODO: map post networking
+// TODO: map upload
 // TODO: editPrpfile put networking
+// TODO: editPrpfile label networking
+// TODO: editPrpfile changePhoto networking
 // TODO: signup loading
 // TODO: homevc uılar paddingler
 // TODO: populervc uı backbutton, font, üst üste gelmesi

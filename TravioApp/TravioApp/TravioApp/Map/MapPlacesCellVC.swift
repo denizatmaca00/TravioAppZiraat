@@ -24,6 +24,13 @@ class MapPlacesCellVC: UICollectionViewCell {
         return view
     }()
     
+    
+    
+    
+    
+    
+    
+    
     lazy var placeName: UILabel = {
         let pn = UILabel()
         pn.textColor = .white
@@ -80,7 +87,7 @@ class MapPlacesCellVC: UICollectionViewCell {
         cellView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.height.equalTo(178)
-            make.trailing.equalToSuperview().offset(-18)
+            make.trailing.equalToSuperview()
             make.leading.equalToSuperview().offset(18)
         }
          imageLocation.snp.makeConstraints { make in

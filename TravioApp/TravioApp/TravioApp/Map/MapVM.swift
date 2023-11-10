@@ -19,7 +19,6 @@ class MapVM {
     var showPinClosure: (() -> Void)?
     var showAlertClosure: ((String, String) -> Void)?
     var reloadTableViewClosure: (()->())?
-
     
     private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
@@ -32,6 +31,14 @@ class MapVM {
             switch result {
             case .success(let places):
                 self.places = places.data.places
+                
+                if let firstPlace = self.places.first {
+                    // Eğer yer varsa, haritayı ilk yerin koordinatlarına odaklıcak burası
+                    let coordinate = CLLocationCoordinate2D(latitude: firstPlace.latitude, longitude: firstPlace.longitude)
+                    let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                    self.map.setRegion(region, animated: true)
+                }
+                
                 completion(.success(places))
             case .failure(let error):
                 print("Hata oluştu: \(error)")
@@ -39,11 +46,9 @@ class MapVM {
             }
         }
     }
+    
     func fetchPlacesForCollectionCell(){
-        // here places will be fetchED from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
-        
         NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<PlacesDataStatus, Error>) in
-            
             switch result {
             case .success(let data):
                 self?.fetchVisits(favorites: data.data.places )
@@ -52,7 +57,6 @@ class MapVM {
             }
         }
     }
-
     
     func fetchAndShowPlaces() {
         self.fetchPlaces { result in
@@ -66,17 +70,16 @@ class MapVM {
                     let description = place.description
                     let latitude = place.latitude
                     let longitude = place.longitude
-
+                    
                     let annotation = CustomAnnotation(
                         title: title,
                         subtitle: description,
                         coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
                         logoImage: UIImage(named: "pinLogo")
                     )
-
+                    
                     self.map.addAnnotation(annotation)
                 }
-                
             case .failure(let error):
                 print("Hata: \(error)")
             }
@@ -96,8 +99,6 @@ class MapVM {
     }
     
     private func createCellViewModel(favorite:Place) -> VisitCellViewModel{
-        // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell to show inside each vistsCell
-        
         let cvm = VisitCellViewModel(image: URL(string: favorite.cover_image_url)!,
                                      placeName: favorite.title,
                                      city: favorite.place)
@@ -114,8 +115,4 @@ class MapVM {
         let coordinate = MKCoordinateRegion.init(center: CLLocationCoordinate2D.init(latitude: latitude, longitude: longitude), span: MKCoordinateSpan.init())
         map.setRegion(coordinate, animated: true)
     }
-    
-  
-
 }
-
