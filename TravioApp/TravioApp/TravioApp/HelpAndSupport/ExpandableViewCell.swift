@@ -123,10 +123,10 @@ class ExpandableViewCell: UICollectionViewCell {
         })
         
         lblDescription.snp.makeConstraints({ lbl in
-            lbl.top.equalTo(lblHeader.snp.bottom)
-            lbl.bottom.equalToSuperview().offset(-16)
-            lbl.leading.equalTo(lblHeader)
-            lbl.trailing.equalToSuperview().offset(-15)
+            lbl.top.equalTo(lblHeader.snp.bottom).offset(4)
+            lbl.bottom.equalToSuperview().inset(16)
+            lbl.leading.equalToSuperview().inset(16)
+            lbl.trailing.equalToSuperview().inset(16)
             
         })
         
@@ -147,6 +147,7 @@ struct ExpandableCollectionViewCell_Preview: PreviewProvider {
     static var previews: some View{
         
         ExpandableViewCell().showPreview()
+        HelpAndSupportCollectionVC().showPreview()
     }
 }
 #endif

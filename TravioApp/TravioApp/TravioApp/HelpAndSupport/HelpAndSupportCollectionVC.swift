@@ -11,6 +11,10 @@ import SnapKit
 
 class HelpAndSupportCollectionVC: UIViewController {
     
+    
+    private var selectedIndexPath: IndexPath?
+    private var isExpanded: Bool = false
+    
     //MARK: -- Properties
     
     private let viewModel:HelpAndSupportVM = {
@@ -57,17 +61,17 @@ class HelpAndSupportCollectionVC: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        // aynı satırdakileri ayırmak
-        layout.minimumInteritemSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 12
+        layout.sectionInset = UIEdgeInsets(top: 85, left: 0, bottom: 250, right: 0)
+        
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
 
 //        cv.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
         cv.isPagingEnabled = true
+        cv.isScrollEnabled = false
         
         cv.dataSource = self
         cv.delegate = self
@@ -164,8 +168,24 @@ extension HelpAndSupportCollectionVC : UICollectionViewDelegateFlowLayout, UICol
         let isExpand = cell.expandCell
         cell.configureCell(title: title, description: description, isExpanded: false)
         
-        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let isExpanded = selectedIndexPath == indexPath
+        return CGSize(width: collectionView.bounds.width,
+                      height: isExpanded  ? 200 : 70)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if selectedIndexPath == indexPath {
+            selectedIndexPath = nil
+        
+        } else {
+            selectedIndexPath = indexPath
+        }
+        collectionView.performBatchUpdates(nil, completion: nil)
     }
     
     /*

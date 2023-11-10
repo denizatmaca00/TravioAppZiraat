@@ -71,8 +71,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
 
     func configure(object:Place){
         imgPlace.image = UIImage(named: "sultanahmet")
-        lblPlace.text = object.place
-        lblCity.text = object.creator
+        lblPlace.text = object.title
+        lblCity.text = object.place
     }
     
     func setupViews() {

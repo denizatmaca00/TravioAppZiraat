@@ -22,6 +22,7 @@
 // TODO: fontlar enumdan beslensin --> signup font size
 // TODO: homevc uılar get tamamlansın ,  paddingler
 // TODO: populervc uı backbutton, font, üst üste gelmesi
+// TODO: stackview eklenmeli cardların içine
 import UIKit
 
 class EditProfileVC: UIViewController {

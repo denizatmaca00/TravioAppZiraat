@@ -23,8 +23,9 @@ class NetworkingHelper {
             case .success(let success):
                 callback(.success(success))
             case .failure(let failure):
-                print(failure)
                 callback(.failure(failure))
+                print(failure)
+
             }
         }
     }

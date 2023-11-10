@@ -1,5 +1,5 @@
 //
-//  
+//
 //  HomeVC.swift
 //  TravioApp
 //
@@ -12,10 +12,12 @@ import SnapKit
 
 class HomeVC: UIViewController {
     
-    var popularPlaces:[Place] = [Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
-                                
-    var newPlaces:[Place] = [Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
-                            
+    let viewModel:HomeVM = HomeVM()
+    
+    var popularPlaces:[Place] = [] //[Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
+    
+    var newPlaces:[Place] = [] //[Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
+    
     //MARK: -- Properties
     
     private lazy var imgLogo: UIImageView = {
@@ -25,12 +27,12 @@ class HomeVC: UIViewController {
         return imageView
     }()
     
-//    private lazy var imgHeader: UIImageView = {
-//        let imageView = UIImageView()
-//        let image = UIImage(named: "travioHeader")?.withRenderingMode(.automatic)
-//        imageView.image = image
-//        return imageView
-//    }()
+    //    private lazy var imgHeader: UIImageView = {
+    //        let imageView = UIImageView()
+    //        let image = UIImage(named: "travioHeader")?.withRenderingMode(.automatic)
+    //        imageView.image = image
+    //        return imageView
+    //    }()
     
     private lazy var lblHeader:UILabel = {
         let lbl = UILabel()
@@ -71,9 +73,43 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
-        
-       setupViews()
+        initPopularVM()
+        initNewsVM()
+        initAllForUserVM()
+
+        setupViews()
     }
+    
+    func initPopularVM() {
+        viewModel.reloadPopularClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+        
+        viewModel.initFetchPopularHomeLimits(limit: 10)
+    }
+    func initNewsVM() {
+        viewModel.reloadNewPlacesClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+
+        viewModel.initFetchNewHomeLimits(limit: 10)
+        
+    }
+    func initAllForUserVM() {
+        viewModel.reloadAllForUserPlacesClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+
+        viewModel.initFetchAllForUserHomeAll()
+        
+    }
+
     
     //MARK: -- Component Actions
     
@@ -95,6 +131,8 @@ class HomeVC: UIViewController {
         contentViewBig.addSubviews(collectionView)
         
         setupLayout()
+        
+//        viewModel.sectionsArray = [popularPlaces, newPlaces]
     }
     
     func setupLayout() {
@@ -107,20 +145,20 @@ class HomeVC: UIViewController {
             img.width.equalTo(66)
             
         })
-
-//        imgHeader.snp.makeConstraints({ lbl in
-//
-//            lbl.leading.equalTo(imgLogo.snp.trailing)
-//            lbl.centerY.equalTo(imgLogo.snp.centerY)
-//            lbl.height.equalTo(28)
-//            lbl.width.equalTo(102)
-//        })
+        
+        //        imgHeader.snp.makeConstraints({ lbl in
+        //
+        //            lbl.leading.equalTo(imgLogo.snp.trailing)
+        //            lbl.centerY.equalTo(imgLogo.snp.centerY)
+        //            lbl.height.equalTo(28)
+        //            lbl.width.equalTo(102)
+        //        })
         
         lblHeader.snp.makeConstraints({ lbl in
             
             lbl.leading.equalTo(imgLogo.snp.trailing)
             lbl.centerY.equalTo(imgLogo.snp.centerY)
-
+            
         })
         
         contentViewBig.snp.makeConstraints({cv in
@@ -157,26 +195,27 @@ extension HomeVC {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         
-        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 24, bottom:-15+2, trailing: 0)
+        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 12, bottom:-15+2, trailing: 16)
         
         headerElement.pinToVisibleBounds = false
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -48, bottom: 0, trailing: 0)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -48-24, bottom: 0, trailing: 0)
         
         let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .fractionalHeight(0.35))
         
         let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [item] )
         
-//        layoutGroup.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .flexible(0), top: nil, trailing: nil, bottom: nil) // changing .flexible() changes distance between horizontal cells
+        //        layoutGroup.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .flexible(0), top: nil, trailing: nil, bottom: nil) // changing .flexible() changes distance between horizontal cells
         
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
         // set/show headers
         layoutSection.boundarySupplementaryItems = [headerElement]
         
         layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
+
         
         
         
@@ -186,9 +225,11 @@ extension HomeVC {
     func makeCollectionViewLayout() -> UICollectionViewLayout {
         
         UICollectionViewCompositionalLayout {
+            
             [weak self] sectionIndex, environment in
-
-            return self?.makeSliderLayoutSection()
+            
+                       return self?.makeSliderLayoutSection()
+         
         }
     }
 }
@@ -200,29 +241,76 @@ extension HomeVC:UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return popularPlaces.count
+        if section == 0 {
+            return viewModel.numberOfCells
+        }
+        else if section == 1{
+            return viewModel.newPlaces.count
+        }
+        else{
+            return viewModel.allPlaces.count
+
+        }
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as! CustomCollectionViewCell
-        let object = popularPlaces[indexPath.row]
+                if indexPath.section == 0 {
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
+                    let object = viewModel.popularPlaces[indexPath.row]
         
-        cell.configure(object:object)
+                    cell.configure(object:object)
+                    return cell
+                }
+                else if indexPath.section == 1{
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
+                    let object = viewModel.newPlaces[indexPath.row]
         
-        return cell
+                    cell.configure(object:object)
+                    return cell
+        
+                }
+                else{
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
+                    let object = viewModel.allPlaces[indexPath.row]
+        
+                    cell.configure(object:object)
+                    return cell
+                }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseId, for: indexPath) as! HeaderView
-        header.setTitle(titleText: "Popiler")
+        if indexPath.section == 0{
+            header.setTitle(titleText: "Popular Places")
+            header.btnTapAction = {
+                let popularPlacesVC:UIViewController = PopularPlaceVC()
+                // burada hepsi aslında tek bir vcye gidecek hepsi popoularvc ye ve verilerin değişik aktarılması burada yapılacak bence
+                //initFetchPopularHomeAll() bu fonksiyon burada çalışacak
+                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+            }
+        }else if indexPath.section == 1 {
+            header.setTitle(titleText: "New Places")
+            header.btnTapAction = {
+                let popularPlacesVC:UIViewController = MapVC()
+                // initFetchNewHomeAll() bu da burada
+                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+            }
+        }else{
+            header.setTitle(titleText: "My Added Places")
+            header.btnTapAction = {
+                let popularPlacesVC:UIViewController = SettingsVC()
+                //initFetchAllForUserHomeAll() bu da burada 
+                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+            }
+        }
         
         // define closure for SeeAll Button
-        header.btnTapAction = {
-            print("closureTap")
-            let popularPlacesVC:UIViewController = PopularPlaceVC()
-            popularPlacesVC
-            self.navigationController?.pushViewController(popularPlacesVC, animated: true)
-        }
+//        header.btnTapAction = {
+//            print("closureTap")
+//
+//        }
         
         return header
     }
@@ -247,7 +335,7 @@ import SwiftUI
 @available(iOS 13, *)
 struct HomeVC_Preview: PreviewProvider {
     static var previews: some View{
-
+        
         HomeVC().showPreview()
     }
 }
