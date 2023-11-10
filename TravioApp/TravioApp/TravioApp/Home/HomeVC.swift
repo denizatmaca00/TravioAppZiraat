@@ -13,11 +13,7 @@ import SnapKit
 class HomeVC: UIViewController {
     
     let viewModel:HomeVM = HomeVM()
-    
-    var popularPlaces:[Place] = [] //[Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
-    
-    var newPlaces:[Place] = [] //[Place(id: "1", creator: "Avni", place: "Colloseo", title: "KolezyumBaşlık", description: "Kolezyuma gittim geldim falan", cover_image_url: "https://myimage.com/colosseum", latitude: 27.232323, longitude: 15.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "2", creator: "Mehmet", place: "Ayasofya", title: "AyasofyaBaşlık", description: "Ayasofya'da 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28"), Place(id: "3", creator: "Ali", place: "Çultanahmet", title: "AyasofyaBaşlık", description: "Sultanahmt'te 2 rekat kıldım gittim geldim falan", cover_image_url: "https://myimage.com/hagiasophia", latitude: 23.232323, longitude: 17.35215, created_at: "2023-10-28", updated_at: "2023-10-28")]
-    
+
     //MARK: -- Properties
     
     private lazy var imgLogo: UIImageView = {

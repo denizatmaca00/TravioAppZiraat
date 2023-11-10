@@ -7,18 +7,13 @@ class MapVC: UIViewController {
     var selectedAnnotation: MKAnnotation?
     
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 18
+        let layout = MapPageLayout.shared.mapLayout()
         
-        let collectionView = UICollectionView(frame: CGRect(x: 0, y: 565, width: view.bounds.size.width, height: 178), collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MapPlacesCellVC.self, forCellWithReuseIdentifier: "Cell")
-        
-        layout.itemSize = CGSize(width: collectionView.bounds.size.width - 63, height: 178)
-        
         return collectionView
     }()
     
@@ -31,7 +26,7 @@ class MapVC: UIViewController {
         initVM()
     }
     
-    func initVM(){
+    func initVM() {
         viewModel.reloadTableViewClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
@@ -47,6 +42,12 @@ class MapVC: UIViewController {
     }
     
     func setupLayout() {
+        collectionView.snp.makeConstraints { cv in
+            cv.leading.equalToSuperview()
+            cv.trailing.equalToSuperview()
+            cv.bottom.equalToSuperview().offset(-20)
+            cv.height.equalTo(178)
+        }
         viewModel.map.frame = view.bounds
         viewModel.map.showsUserLocation = true
     }
@@ -60,10 +61,15 @@ class MapVC: UIViewController {
         if gestureRecognizer.state == .began {
             let touchPoint = gestureRecognizer.location(in: viewModel.map)
             let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
+            
+            // Eğer önceki bir seçili pin varsa, onu kaldır
             if let existingAnnotation = selectedAnnotation {
                 viewModel.map.removeAnnotation(existingAnnotation)
             }
             
+            // Eğer önceki bir seçili pin varsa, seçili pin'i kaldır
+            deselectSelectedAnnotation()
+
             let newAnnotation = CustomAnnotation(
                 title: "Yeni Pin",
                 subtitle: "Açıklama",
@@ -71,15 +77,16 @@ class MapVC: UIViewController {
                 logoImage: UIImage(named: "pinLogo")
             )
             viewModel.map.addAnnotation(newAnnotation)
+            
+            // Yeni pin'i seçili olarak işaretle
             selectedAnnotation = newAnnotation
+            
             let vc = MapPresentVC()
             self.present(vc, animated: true, completion: nil)
         }
     }
+
 }
-
-
-
 
 extension MapVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -107,17 +114,36 @@ extension MapVC: MKMapViewDelegate {
         
         return nil
     }
-    
+
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let annotation = view.annotation {
-            if annotation === selectedAnnotation {
-                viewModel.map.removeAnnotation(annotation)
-                selectedAnnotation = nil
-            }
+        guard let annotation = view.annotation as? CustomAnnotation,
+              let index = viewModel.places.firstIndex(where: { $0.title == annotation.title }) else {
+            return
+        }
+
+        selectCollectionViewCell(at: index)
+
+        if annotation === selectedAnnotation {
+            deselectSelectedAnnotation()
         }
     }
-    
+
+    func deselectSelectedAnnotation() {
+        if let selectedAnnotation = selectedAnnotation {
+            viewModel.map.removeAnnotation(selectedAnnotation)
+            self.selectedAnnotation = nil
+        }
+    }
+
+
+    func selectCollectionViewCell(at index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+    }
+
+
 }
+
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.places.count
@@ -186,3 +212,7 @@ struct MapVC_Preview: PreviewProvider {
     }
 }
 #endif
+
+    
+
+    
