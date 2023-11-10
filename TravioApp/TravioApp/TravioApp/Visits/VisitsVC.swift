@@ -43,7 +43,7 @@ class VisitsVC: UIViewController {
         let tv = UITableView()
         tv.separatorStyle = .none
         tv.backgroundColor = UIColor(named: "viewBackgroundColor")
-        tv.register(CustomVisitCellVC.self, forCellReuseIdentifier: "favoritesCell")
+        tv.register(CustomVisitCellVC.self, forCellReuseIdentifier: CustomVisitCellVC.reuseIdentifier)
         tv.delegate = self
         tv.dataSource = self
         
@@ -115,8 +115,8 @@ class VisitsVC: UIViewController {
         
         tableView.snp.makeConstraints({ tv in
             tv.top.equalToSuperview().offset(45)
-            tv.leading.equalToSuperview()
-            tv.width.equalToSuperview()
+            tv.leading.equalToSuperview().offset(24)
+            tv.width.equalToSuperview().inset(24)
             tv.height.equalToSuperview()
         })
     }
@@ -127,7 +127,7 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "favoritesCell", for: indexPath) as? CustomVisitCellVC else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomVisitCellVC.reuseIdentifier, for: indexPath) as? CustomVisitCellVC else {
             fatalError("cell does not exist")
         }
         let cellData = viewModel.cellViewModels[indexPath.row]
@@ -147,7 +147,9 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (219+16)
+
+        return tableView.frame.width * 0.6377 + 16
+        //return (219+16)
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -172,7 +174,8 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        initVM()
+        // refresh table when scrolled
+        //        initVM()
     }
 }
 
@@ -184,6 +187,7 @@ struct VisitsVC_Preview: PreviewProvider {
     static var previews: some View{
         
         VisitsVC().showPreview()
+        CustomVisitCellVC().showPreview()
     }
 }
 #endif
