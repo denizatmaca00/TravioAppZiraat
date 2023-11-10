@@ -29,10 +29,15 @@ class VisitsVC: UIViewController {
     
     //MARK: -- Views
     
-    private lazy var contentViewBig: AppView = {
-            let view = AppView()
-            return view
-        }()
+    private lazy var contentViewBig : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "viewBackgroundColor")
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 80
+        view.layer.maskedCorners = [.layerMinXMinYCorner]
+        
+        return view
+    }()
     
     private lazy var tableView:UITableView = {
         let tv = UITableView()
@@ -153,10 +158,17 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        //tıklndığının placeidsini
-        let vc = DetailVC()
-        vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
-        viewModel.getaVisitbyID()
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = DetailVC()
+////        vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
+////        viewModel.getaVisitbyID()
+//        navigationController?.pushViewController(vc, animated: true)
+        
+        
+//        let vc = DetailVC()
+//        let vcc = MapVC()
+      //  let vm = vc.DetailVM()
+//        vc.viewModel.placeIdtest = vcc.viewModel.places[indexPath.row].id
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -83,7 +83,9 @@ class VisitsVM{
 //                //resmi indir ve görğntülerim
 //                 imageLocation.kf.setImage(with: url)
 //            }}
-        let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
+        
+        let imgUrl = URL(string: favorite.place.cover_image_url)!
+        let cvm = VisitCellViewModel(image:imgUrl,
                                      placeName: favorite.place.title,
                                      city: favorite.place.place)
         return cvm
@@ -111,7 +113,7 @@ extension VisitsVM {
                 }
                 city = placemark.locality ?? " "
                 cityArr.append(city)
-                let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
+                let cvm = VisitCellViewModel(image: URL(string: favorite.cover_image_url)!,
                                              placeName: favorite.title,
                                              city: city)
                 viewModels.append(cvm)

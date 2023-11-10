@@ -115,9 +115,6 @@ enum Router {
         // delete and post cases
         case .deleteVisit:
             return nil
-       // case .postVisit(_, let params):
-        case .postVisit:
-            return nil
         case .putEditProfile(let params):
             return params
         case .postVisit(let params):

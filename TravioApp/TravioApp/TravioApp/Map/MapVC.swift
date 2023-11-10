@@ -127,11 +127,9 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
         print("ldfkhlfh")
         //map didselect cell id detail sayfasına iletilecek.
         let vc = DetailVC()
-        //  let vm = vc.DetailVM()
-        vc.viewModel.placeIdtest = viewModel.places[indexPath.row].id
+        let deger = vc.viewModel.placeIdtest = viewModel.places[indexPath.row].id
+        print(deger)
         navigationController?.pushViewController(vc, animated: true)
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

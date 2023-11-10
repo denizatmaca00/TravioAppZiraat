@@ -11,7 +11,7 @@ import UIKit
 // MARK: Visits View Model
 
 struct VisitCellViewModel{
-    var image:UIImage
+    var image:URL
    // var image:String
     var placeName:String
     var city:String

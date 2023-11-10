@@ -26,12 +26,19 @@ class PopularPlaceVC: UIViewController {
         wlcLabel.font = .Fonts.pageHeader32.font
         return wlcLabel
     }()
+    private lazy var uıView:UIView = {
+        let uv = UIView()
+        uv.layer.backgroundColor = UIColor(named: "viewBackgroundColor")?.cgColor
+        uv.backgroundColor = UIColor(named: "viewBackgroundColor")
+        uv.layer.cornerRadius = 80
+        uv.layer.maskedCorners = [.layerMinXMinYCorner]
+        return uv
+    }()
 
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "backgroundColor")
         view.clipsToBounds = true
-        //view.layer.cornerRadius = 80
         view.layer.maskedCorners = [.layerMinXMinYCorner]
         return view
     }()
@@ -44,7 +51,7 @@ class PopularPlaceVC: UIViewController {
     
     private lazy var backButton:UIButton = {
         let bck = UIButton()
-        bck.setImage(UIImage(named: "bckBtn"), for: .normal)
+        bck.setImage(UIImage(named: "bckBtnSecuritySetting"), for: .normal)
         bck.addTarget(self, action: #selector(backPage), for: .touchUpInside )
         return bck
     }()
@@ -55,13 +62,14 @@ class PopularPlaceVC: UIViewController {
         layoutcv.minimumInteritemSpacing = 1
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layoutcv)
-        cv.contentInset = UIEdgeInsets(top: 50, left: 10, bottom: 0, right: 10)
+        cv.contentInset = UIEdgeInsets(top: 20, left: 10, bottom: 0, right: 10)
         cv.register(PopularPageCellVC.self, forCellWithReuseIdentifier: "popularCell")
         cv.isPagingEnabled = true
         cv.dataSource = self
         cv.delegate = self
         cv.layer.maskedCorners = [.layerMinXMinYCorner]
         cv.layer.cornerRadius = 30
+        cv.layer.backgroundColor = UIColor(named: "viewBackgroundColor")?.cgColor
         cv.addSubview(sortAscending)
         return cv
     }()
@@ -71,11 +79,13 @@ class PopularPlaceVC: UIViewController {
     }
     @objc func sortAscendingBack(){
         sortAscending.setImage(UIImage(named: "sortAscending"), for: .normal)
+        sortAscending.addTarget(self, action: #selector(sortDescending), for: .touchUpInside)
     }
     
     @objc func backPage(){
-        //backPage
-    }
+        let hvc = HomeVC()
+        navigationController?.pushViewController(hvc, animated: true)
+     }
     override func viewDidLoad(){
         super.viewDidLoad()
         titleLabel.isHidden = false
@@ -83,14 +93,20 @@ class PopularPlaceVC: UIViewController {
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
        setupViews()
     }
-    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
     func setupViews() {
         self.view.backgroundColor = .white
-        collectionView.addSubview(sortAscending)
         self.view.addSubview(backgroundView)
+        self.view.addSubview(uıView)
+        uıView.addSubviews(collectionView,sortAscending)
+        //collectionView.addSubview(sortAscending)
+        
         self.view.addSubview(titleLabel)
         self.view.addSubview(backButton)
-        self.view.addSubview(collectionView)
+//        self.view.addSubview(collectionView)
         self.view.addSubviews()
         setupLayout()
     }
@@ -108,8 +124,12 @@ class PopularPlaceVC: UIViewController {
         backButton.leadingToSuperview(offset:20)
         
         backgroundView.edgesToSuperview()
+        uıView.topToSuperview(offset:125)
+        uıView.edgesToSuperview(excluding: .bottom,usingSafeArea: true)
+        uıView.height(800)
         
-        collectionView.topToSuperview(offset:150)
+        
+        collectionView.topToSuperview(offset:50)
         collectionView.edgesToSuperview(excluding: .bottom,usingSafeArea: true)
         collectionView.height(800)
         
@@ -117,7 +137,7 @@ class PopularPlaceVC: UIViewController {
         sortAscending.height(40)
         sortAscending.width(40)
         sortAscending.topToSuperview(offset:10,usingSafeArea: true)
-        sortAscending.trailingToSuperview(offset:-350)
+        sortAscending.trailingToSuperview(offset:40)
   
     }
   
@@ -143,7 +163,7 @@ extension PopularPlaceVC:UICollectionViewDelegateFlowLayout{
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCell", for: indexPath) as! PopularPageCellVC
                 
-            let data = VisitCellViewModel(image: UIImage(named: "sultanahmet")!, placeName: "Rome", city: "Colleseum")
+            let data = VisitCellViewModel(image: URL(string: "sultanahmet")!, placeName: "Rome", city: "Colleseum")
             cell.configure(object: data)
                 
                 return cell

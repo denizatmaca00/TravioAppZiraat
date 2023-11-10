@@ -11,11 +11,26 @@ import Alamofire
 
 class DetailVM{
     //mapten gelen placeid olacak.
+    var id:String?
     var placeIdtest:String?{
         didSet{
             print("saflfşskşfdsklşfdks\(placeIdtest)")
         }
     }
+    var checkSuccessID: (()->())?
+    var checkErrorID: (()->())?
+    
+    var successCheckIdResponse: String? {
+        didSet{
+            checkSuccessID?()
+        }
+    }
+    var errorCheckIdResponse: String? {
+        didSet{
+            checkErrorID?()
+        }
+    }
+
 
     var reloadClosure: ((Place?)->(Void))?
     var galeryData: GalleryImage?
@@ -66,7 +81,6 @@ class DetailVM{
         dene.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         let today = Date()
         let testttttt = dene.string(from: today)
-        
         return testttttt
     }
     func deleteVisitbyPlceID(){
@@ -87,17 +101,28 @@ class DetailVM{
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.checkVisitByID(id: id)){
             (result:Result<CheckVisitbyID,Error>) in
             switch result {
-            case .success(let message):
-                print(message)
-                if message.status == "success" {
-                    self.deleteVisitbyPlceID()
-                }
-                else if message.status == "fail" {
-                    self.postVisit()
-                }
+            case .success(let success):
+                self.successCheckIdResponse = success.message
+               
             case .failure(let failure):
-                print("checkhata\(failure.localizedDescription)")
+                self.errorCheckIdResponse = failure.localizedDescription
             }
         }
     }
 }
+//func checkVisitbyPlaceID(){
+//    guard let id = placeIdtest  else {return}
+//    print(id)
+//    NetworkingHelper.shared.dataFromRemote(urlRequest: Router.checkVisitByID(id: id)){
+//        (result:Result<CheckVisitbyID,Error>) in
+//        switch result {
+//        case .success(let success):
+//            print(message)
+//            if success.status == "success" {
+////                    self.deleteVisitbyPlceID()
+//                successCheckIdResponse()
+//            }
+//        case .failure(let failure):
+//            self.postVisit()
+//        }
+//    }
