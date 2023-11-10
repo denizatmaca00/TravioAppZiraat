@@ -71,6 +71,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
 
     func configure(object:Place){
         imgPlace.image = UIImage(named: "sultanahmet")
+//        imgPlace.image = URL(string: object.cover_image_url)!
         lblPlace.text = object.title
         lblCity.text = object.place
     }
