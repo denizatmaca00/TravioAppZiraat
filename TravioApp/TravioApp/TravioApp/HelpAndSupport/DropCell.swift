@@ -13,7 +13,21 @@ import SnapKit
 class DropCell: UITableViewCell {
     
     static let reuseIdentifier = "ExpandableCell"
-    
+    var toExpand = false {
+        didSet{
+            toggleCellData(data: "")
+        }
+    }
+    override var isSelected: Bool{
+        didSet{
+//            print("isSelected changed to \(isSelected)")
+//            imgDropButton.image = (self.isSelected ?
+//                                   UIImage(systemName: "chevron.up") :
+//                                    UIImage(systemName: "chevron.down"))?
+//                .withRenderingMode(.alwaysOriginal)
+//            lblDescription.isHidden = (self.isSelected ? false : true)
+        }
+    }
     //MARK: -- Properties
     
 //    var isExpanded:Bool = false
@@ -31,15 +45,25 @@ class DropCell: UITableViewCell {
         }
     }
     
+    func animate() {
+        UIView.animate(withDuration: 0.5, delay: 0.3, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+            self.contentView.layoutIfNeeded()
+        })
+    }
+    
+    
     func toggleCellData(data:String){
-        let isExpanded = dropCellViewModel?.isExpanded
+        //let isExpanded = dropCellViewModel?.isExpanded
+        // ucuncude burası false kalıyor
+        lblDescription.isHidden = !toExpand
+//        lblDescription.text = (!isExpanded! ? data : "")
         
-        lblDescription.isHidden = !isExpanded!
-        lblDescription.text = (!isExpanded! ? data : "")
+        print("Function of DropCell: \(!toExpand)")
+//        imgDropButton.image = (self.isSelected ?
+//                                           UIImage(systemName: "chevron.up") :
+//                                            UIImage(systemName: "chevron.down"))? .withRenderingMode(.alwaysOriginal)
         
-        print("Function of DropCell: \(!isExpanded!)")
-        
-        imgDropButton.image = (!dropCellViewModel!.isExpanded ? 
+        imgDropButton.image = (!toExpand ?
                                UIImage(systemName: "chevron.up") :
                                 UIImage(systemName: "chevron.down"))?
             .withRenderingMode(.alwaysOriginal)
@@ -61,8 +85,8 @@ class DropCell: UITableViewCell {
         lbl.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
         lbl.font = .Fonts.descriptionText.font
         lbl.textColor = UIColor(named: "textColor")
-        lbl.isHidden = false
-        lbl.numberOfLines = 0
+        lbl.isHidden = true
+        lbl.numberOfLines = -1
         lbl.sizeToFit()
         return lbl
     }()
@@ -116,7 +140,7 @@ class DropCell: UITableViewCell {
         self.selectionStyle = .none
         self.addSubviews(dropView)
         dropView.addSubviews(lblHeader, imgDropButton, lblDescription)
-        dropView.addSubview(viewSeperator)
+//        dropView.addSubview(viewSeperator)
         
         setupLayout()
     }
@@ -131,33 +155,35 @@ class DropCell: UITableViewCell {
             
         })
         
-        viewSeperator.snp.makeConstraints({ view in
-            view.leading.equalToSuperview()
-            view.trailing.equalToSuperview()
-            view.top.equalTo(dropView.snp.bottom)
-            view.bottom.equalToSuperview()
-            
-        })
+//        dropView.addSubview(viewSeperator)
+//        viewSeperator.snp.makeConstraints({ view in
+//            view.leading.equalToSuperview()
+//            view.trailing.equalToSuperview()
+//            view.top.equalTo(dropView.snp.bottom)
+//            view.bottom.equalToSuperview()
+//            
+//        })
         
         lblHeader.snp.makeConstraints({lbl in
             lbl.top.equalToSuperview().offset(16)
             lbl.bottom.equalTo(lblDescription.snp.top).offset(-12)
             lbl.leading.equalToSuperview().offset(12)
-            lbl.trailing.equalToSuperview().offset(-12*4)
+            lbl.trailing.equalToSuperview().offset(-46)
             
         })
         
         lblDescription.snp.makeConstraints({ lbl in
             lbl.top.equalTo(lblHeader.snp.bottom)
             lbl.bottom.equalToSuperview().offset(-16)
-            lbl.leading.equalTo(lblHeader)
+            lbl.leading.equalTo(lblHeader.snp.leading)
             lbl.trailing.equalToSuperview().offset(-15)
             
         })
         
         imgDropButton.snp.makeConstraints({ img in
-            img.top.equalTo(lblHeader.snp.bottom)
-            img.bottom.equalTo(lblHeader.snp.bottom).offset(-lblHeader.frame.height/1.5)
+//            img.top.equalTo(lblHeader.snp.bottom)
+//            img.bottom.equalTo(lblHeader.snp.bottom).offset(-lblHeader.frame.height/1.3)
+            img.centerY.equalTo(lblHeader.snp.centerY)
             img.trailing.equalToSuperview().offset(-18.37)
             
         })

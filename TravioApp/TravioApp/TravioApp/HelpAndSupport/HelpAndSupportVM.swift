@@ -24,7 +24,7 @@ class HelpAndSupportVM: UIViewController {
     
     var cellViewModels: [DropCellViewModel] = [DropCellViewModel]() {
         didSet{
-            reloadTableViewClosure?()
+//            reloadTableViewClosure?()
         }
     }
     
