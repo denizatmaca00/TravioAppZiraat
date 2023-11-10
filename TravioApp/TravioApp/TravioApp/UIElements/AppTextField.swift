@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+
 class SecurityLabel: UIView{
     enum PrivacyData {
         case camera
@@ -23,6 +25,86 @@ class SecurityLabel: UIView{
                 return "Location"
             }
         }
+        var placeholder: String {
+            switch self {
+            case .camera:
+                return " "
+            case .libraryPhoto:
+                return " "
+            case .Location:
+                return " "
+            }
+        }
+    }
+    private var dataPrivacy: PrivacyData?
+    
+    private lazy var titleLbl: UILabel = {
+        let loginTitleLbl = UILabel()
+        loginTitleLbl.text = dataPrivacy?.text
+        loginTitleLbl.textColor = .black
+        loginTitleLbl.font = .Fonts.textFieldTitle.font
+        return loginTitleLbl
+    }()
+
+    lazy var textField: UITextField = {
+        let textField = UITextField()
+        textField.font = .Fonts.textFieldText.font
+        textField.placeholder = dataPrivacy?.placeholder
+        return textField
+    }()
+
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        stackView.layer.cornerRadius = 16
+        stackView.layer.borderColor = UIColor.black.cgColor
+        stackView.layer.shadowRadius = 20
+        stackView.layer.shadowOpacity = 0.15
+        stackView.backgroundColor = UIColor(named: "textColorReversed")
+        return stackView
+    }()
+
+//    public func getLoginTextFieldText() -> String? {
+//        return loginTextField.text
+//   }
+    public func getTFAsObject()->UITextField{
+        return textField
+    }
+
+    init(data: PrivacyData) {
+        super.init(frame: .zero)
+        self.dataPrivacy = data
+        setupViews()
+    }
+    
+
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupViews() {
+ 
+        stackView.addArrangedSubview(titleLbl)
+        stackView.addArrangedSubview(textField)
+
+        addSubview(stackView)
+        setupLayout()
+        
+    }
+    
+    func setupLayout(){
+        stackView.snp.makeConstraints ({ stack in
+            stack.edges.equalToSuperview()
+            stack.height.equalTo(74)
+        })
+        titleLbl.snp.makeConstraints({ lbl in
+            lbl.top.equalTo(stackView).offset(8)
+            lbl.leading.equalToSuperview().offset(12)
+        })
+        textField.snp.makeConstraints({tf in
+            tf.top.equalTo(titleLbl.snp.bottom).offset(8)
+        })
     }
 }
 
@@ -37,6 +119,9 @@ class AppTextField: UIView {
         case presentMapDescription
         case presentMapLocation
         case fullname
+        case placeHolderEmpty
+        case passwordConfirmEmpty
+        //case camera
         
         var title: String {
             switch self {
@@ -56,6 +141,12 @@ class AppTextField: UIView {
                 return "Country, City"
             case .fullname:
                 return "Full Name"
+            case .placeHolderEmpty:
+                return "Password"
+            case .passwordConfirmEmpty:
+                return "Password Confirm"
+           // case .camera:
+                return "Camera"
             }
         }
         
@@ -77,6 +168,12 @@ class AppTextField: UIView {
                 return "Location"
             case .fullname:
                 return "Bilge Adam"
+            case .placeHolderEmpty:
+                return ""
+            case .passwordConfirmEmpty:
+                return ""
+            //case .camera:
+                return ""
             }
         }
     }
@@ -122,6 +219,7 @@ class AppTextField: UIView {
         self.data = data
         setupViews()
     }
+    
 
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

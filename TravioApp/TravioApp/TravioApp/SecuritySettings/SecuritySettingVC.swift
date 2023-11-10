@@ -11,22 +11,20 @@ import TinyConstraints
 import SnapKit
 
 class SecuritySettingVC: UIViewController {
-    
-    private lazy var backgroundColor: UIView = {
-        let bgc = UIView()
-        bgc.backgroundColor = UIColor(named: "backgroundColor")
-        //bgc.clipsToBounds = true
-        view.layer.cornerRadius = 80
-        bgc.layer.maskedCorners = [.layerMinXMinYCorner]
-        return bgc
+    //background color
+    private lazy var uıView: AppView = {
+        let uv = AppView()
+        return uv
     }()
-    private lazy var viewBack: UIView = {
-        let v = UIView()
-        v.backgroundColor = UIColor(named: "viewBackgroundColor")
-        v.layer.cornerRadius = 50
-        v.layer.maskedCorners = [.layerMinXMinYCorner]
-        return v
+    //background color
+    private lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "backgroundColor")
+        view.clipsToBounds = true
+        view.layer.maskedCorners = [.layerMinXMinYCorner]
+        return view
     }()
+
     //Security Settings
     private lazy var mainTitle:UILabel = {
         let title = UILabel()
@@ -35,12 +33,14 @@ class SecuritySettingVC: UIViewController {
         title.textColor = .white
         return title
     }()
-    private lazy var bckButton: UIButton = {
-       let bb = UIButton()
-        bb.setImage(UIImage(named: "bckBtnSecuritySetting"), for: .normal)
-        bb.addTarget(self, action: #selector(backBtnTapped), for: .touchUpInside)
-       return bb
+    
+    private lazy var backButton:UIButton = {
+        let bck = UIButton()
+        bck.setImage(UIImage(named: "bckBtnSecuritySetting"), for: .normal)
+        bck.addTarget(self, action: #selector(backPage), for: .touchUpInside )
+        return bck
     }()
+    
     private lazy var changePasswordTitle:UILabel = {
         let cptxt = UILabel()
         cptxt.text = "Change Password"
@@ -48,121 +48,71 @@ class SecuritySettingVC: UIViewController {
         cptxt.textColor = UIColor(named: "backgroundColor")
         return cptxt
     }()
-    private lazy var passwordTextField: UITextField = {
-       let ptxt = UITextField()
-        ptxt.placeholder = "New Password"
-        ptxt.tintColor = .black
-        ptxt.layer.borderColor = UIColor.gray.cgColor
-        ptxt.layer.borderWidth = 2
-        ptxt.backgroundColor = .white
-        ptxt.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner,.layerMaxXMinYCorner]
-        ptxt.layer.cornerRadius = 15
-        return ptxt
+    private lazy var privacyTitle:UILabel = {
+        let cptxt = UILabel()
+        cptxt.text = "Privacy"
+        cptxt.font = .Fonts.cityText16.font
+        cptxt.textColor = UIColor(named: "backgroundColor")
+        return cptxt
     }()
-    
-    private lazy var pasconfirmTextField: UITextField = {
-       let ptxt = UITextField()
-        ptxt.placeholder = "New Password Confirm"
-        ptxt.tintColor = .black
-        ptxt.layer.borderColor = UIColor.gray.cgColor
-        ptxt.backgroundColor = .white
-        ptxt.layer.borderWidth = 2
-        ptxt.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner,.layerMaxXMinYCorner]
-        ptxt.layer.cornerRadius = 15
-        //ptxt.layer.shadowOpacity = 0.5
-        return ptxt
+
+    private lazy var passwordTextField = AppTextField(data: .placeHolderEmpty)
+    private lazy var confirmPassword = AppTextField(data: .passwordConfirmEmpty)
+    private lazy var camera = SecurityLabel(data: .camera)
+    private lazy var photoLibrary = SecurityLabel(data: .libraryPhoto)
+    private lazy var location = SecurityLabel(data: .Location)
+    private lazy var saveButon: UIButton = {
+        let s = AppButton()
+            s.setTitle("Sign Up", for: .normal)
+            s.isEnabled = true
+            return s
+        }()
+    lazy var switchBtnfirst: UISwitch = {
+        let sw = UISwitch()
+        sw.height(31)
+        sw.width(51)
+        return sw
     }()
-    private lazy var stackViewPopular: UIStackView = {
+    lazy var switchBtnsecond: UISwitch = {
+        let sw = UISwitch()
+        sw.height(31)
+        sw.width(51)
+        return sw
+    }()
+    lazy var switchBtnthird: UISwitch = {
+        let sw = UISwitch()
+        sw.height(31)
+        sw.width(51)
+        return sw
+    }()
+
+    private lazy var stackViewPasswordChange: UIStackView = {
         let svp = UIStackView()
-       // svp.backgroundColor = .white
+        svp.backgroundColor = UIColor(named: "viewBackgroundColor")
         svp.axis = .vertical
-        svp.spacing = 24
+        svp.spacing = 22
+        svp.alignment = .fill
+        svp.distribution = .fill
         return svp
     }()
-//privacy
-   // private lazy var deneme: SecurityLabel
     private lazy var stackViewPrivacy: UIStackView = {
-        let s = UIStackView()
-        s.axis = .vertical
-        s.spacing = 24
-        return s
-    }()
-    private lazy var privacyTextField:UILabel = {
-        let ptxt = UILabel()
-        ptxt.text = "Privacy"
-        ptxt.font = .Fonts.cityText16.font
-        ptxt.textColor = UIColor(named: "backgroundColor")
-        return ptxt
-    }()
-    private lazy var viewCamera:UIView = {
-        let v = UIView()
-        v.layer.borderWidth = 2
-        v.layer.borderColor = UIColor.gray.cgColor
-        v.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner,.layerMaxXMinYCorner]
-        v.layer.cornerRadius = 15
-        return v
-    }()
-    private lazy var textCamera:UILabel = {
-        let t = UILabel()
-        t.text =  "Camera"
-        t.textColor = .black
-        return t
-    }()
-    private lazy var switchCamera: UISwitch = {
-       let s = UISwitch()
-       return s
-    }()
-    //photolibrary
-    private lazy var viewPhotoLibrary:UIView = {
-        let v = UIView()
-        v.layer.borderWidth = 2
-        v.layer.borderColor = UIColor.gray.cgColor
-        v.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner,.layerMaxXMinYCorner]
-        v.layer.cornerRadius = 15
-        return v
-    }()
-    private lazy var textPhotoLibrary:UILabel = {
-        let t = UILabel()
-        t.text =  "Photo Library"
-        t.textColor = .black
-        return t
-    }()
-    private lazy var switchPhotoLibrary: UISwitch = {
-       let s = UISwitch()
-       return s
-    }()
-    //Location
-    private lazy var viewLocation:UIView = {
-        let v = UIView()
-        v.layer.borderWidth = 2
-        v.layer.borderColor = UIColor.gray.cgColor
-        v.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner,.layerMaxXMinYCorner]
-        v.layer.cornerRadius = 15
-        return v
-    }()
-    private lazy var textLocation:UILabel = {
-        let t = UILabel()
-        t.text =  "Location"
-        t.textColor = .black
-        return t
-    }()
-    private lazy var switchLocation: UISwitch = {
-       let s = UISwitch()
-       return s
-    }()
-    //SAVE BUTON
-    private lazy var saveButton: UIButton = {
-        let savebtn = AppButton()
-        savebtn.setTitle("Save", for: .normal)
-        return savebtn
+        let sp = UIStackView()
+        sp.backgroundColor = UIColor(named: "viewBackgroundColor")
+        sp.axis = .vertical
+        sp.spacing = 22
+        sp.alignment = .fill
+        sp.distribution = .fill
+        return sp
     }()
     
-    @objc func backBtnTapped(){
-        navigationController?.popViewController(animated: true)
-    }
+    @objc func backPage(){
+        let hvc = SettingsVC()
+        navigationController?.pushViewController(hvc, animated: true)
+     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewBack.isHidden = false
+       // viewBack.isHidden = false
        setupViews()
        
     }
@@ -170,127 +120,88 @@ class SecuritySettingVC: UIViewController {
     func setupViews() {
         // Add here the setup for the UI
        // self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
-        self.view.addSubviews()
-        self.view.addSubview(backgroundColor)
-        self.view.addSubview(viewBack)
-        self.view.addSubview(bckButton)
+        //self.view.addSubviews()
+        self.view.addSubview(backgroundView)
+        self.view.addSubview(uıView)
         self.view.addSubview(mainTitle)
-        viewBack.addSubviews(changePasswordTitle, stackViewPopular,stackViewPrivacy)
-        stackViewPopular.addArrangedSubviews(passwordTextField,pasconfirmTextField)
-        self.view.addSubview(privacyTextField)
+        self.view.addSubview(backButton)
+        self.view.addSubview(changePasswordTitle)
+   
+        stackViewPasswordChange.addArrangedSubview(passwordTextField)
+        stackViewPasswordChange.addArrangedSubview(confirmPassword)
+        self.view.addSubview(stackViewPasswordChange)
+        
+        self.view.addSubview(privacyTitle)
+        
+        stackViewPrivacy.addArrangedSubview(camera)
+        camera.addSubview(switchBtnfirst)
+        stackViewPrivacy.addArrangedSubview(photoLibrary)
+        photoLibrary.addSubview(switchBtnsecond)
+        stackViewPrivacy.addArrangedSubview(location)
+        location.addSubview(switchBtnthird)
+        self.view.addSubview(stackViewPrivacy)
+        
+        self.view.addSubview(saveButon)
      
-        
-        //stackview2
-        stackViewPrivacy.addArrangedSubviews(viewCamera,viewPhotoLibrary,viewLocation)
-        self.view.addSubview(viewCamera)
-        viewCamera.addSubviews(textCamera,switchCamera)
-        viewPhotoLibrary.addSubviews(textPhotoLibrary,switchPhotoLibrary)
-        viewLocation.addSubviews(textLocation,switchLocation)
-        self.view.addSubview(saveButton)
-        
-        
-      
-        
         setupLayout()
     }
     
     func setupLayout() {
-        // Add here the setup for layout
-        bckButton.height(40)
-        bckButton.width(40)
-        //bckButton.centerY(to: mainTitle)
-        bckButton.topToSuperview(offset:60)
+        backgroundView.edgesToSuperview()
+        uıView.topToSuperview(offset:125)
+        uıView.edgesToSuperview(excluding: .bottom,usingSafeArea: true)
+        uıView.height(800)
+        //security setting
+        mainTitle.topToSuperview(offset:70)
+        mainTitle.height(48)
+        mainTitle.width(241)
+        mainTitle.centerXToSuperview()
+        //backbtn
+        backButton.centerY(to: mainTitle)
+        backButton.height(40)
+        backButton.height(40)
+        backButton.leadingToSuperview(offset:20)
         
-        mainTitle.height(40)
-        mainTitle.width(275)
-        mainTitle.leadingToSuperview(offset:72)
-        mainTitle.centerY(to: bckButton)
-    
-        viewBack.topToSuperview(offset:150)
-        viewBack.edgesToSuperview(excluding: .bottom,usingSafeArea: true)
-        viewBack.height(800)
-        
-        backgroundColor.edgesToSuperview()
-     //changed password
-        changePasswordTitle.topToSuperview(offset:44)
-        changePasswordTitle.height(40)
-        changePasswordTitle.width(200)
+
+        //changed password title
+        changePasswordTitle.top(to: uıView, offset: 44)
+        changePasswordTitle.height(20)
+        changePasswordTitle.width(236)
         changePasswordTitle.leadingToSuperview(offset:24)
         
-        passwordTextField.topToBottom(of: changePasswordTitle,offset: 8)
-        passwordTextField.leading(to: changePasswordTitle)
-        passwordTextField.height(74)
-      
-        pasconfirmTextField.height(74)
-       
-        stackViewPopular.topToSuperview(offset: 24)
-        stackViewPopular.leadingToSuperview(offset: 24)
-        stackViewPopular.trailingToSuperview(offset:24)
-       //privacy
-        privacyTextField.height(40)
-        privacyTextField.topToBottom(of: stackViewPopular, offset: 24)
-        privacyTextField.width(200)
-        privacyTextField.leading(to: changePasswordTitle)
-    
-       /////Camera
-        viewCamera.height(74)
-        viewCamera.trailing(to: stackViewPopular)
-        viewCamera.topToBottom(of: privacyTextField,offset: 8)
-        viewCamera.leading(to: stackViewPopular)
         
-        textCamera.height(30)
-        textCamera.width(60)
-        textCamera.topToSuperview(offset:5)
-        textCamera.leadingToSuperview(offset:5)
-        textCamera.centerY(to: viewCamera)
-        
-        switchCamera.height(20)
-        switchCamera.width(50)
-        switchCamera.trailingToSuperview(offset:10)
-        switchCamera.centerY(to: textCamera)
-        //photolibrary
-        textPhotoLibrary.height(30)
-        textPhotoLibrary.width(150)
-        textPhotoLibrary.topToSuperview(offset:5)
-        textPhotoLibrary.centerY(to: viewPhotoLibrary)
-    
-        viewPhotoLibrary.height(74)
-        viewPhotoLibrary.trailing(to: stackViewPrivacy)
-        viewPhotoLibrary.leading(to: stackViewPrivacy)
-       // viewPhotoLibrary.topToBottom(of: stackViewPrivacy,offset:150)
+        stackViewPasswordChange.leadingToSuperview(offset:20)
+        stackViewPasswordChange.trailingToSuperview(offset:20)
+        stackViewPasswordChange.topToBottom(of: changePasswordTitle,offset: 20)
+        stackViewPasswordChange.height(170)
 
-        switchPhotoLibrary.height(20)
-        switchPhotoLibrary.width(50)
-        switchPhotoLibrary.trailingToSuperview(offset:10)
-        switchPhotoLibrary.centerY(to: textPhotoLibrary)
-        //Location
-        textLocation.height(30)
-        textLocation.width(150)
-        textLocation.topToSuperview(offset:5)
-        textLocation.centerY(to: viewLocation)
+        stackViewPasswordChange.addArrangedSubview(passwordTextField)
+        stackViewPasswordChange.addArrangedSubview(confirmPassword)
         
-        viewLocation.height(74)
-        viewLocation.trailing(to: stackViewPrivacy)
-        viewLocation.leading(to: stackViewPrivacy)
+        privacyTitle.topToBottom(of: stackViewPasswordChange, offset: 10)
+        privacyTitle.height(20)
+        privacyTitle.width(236)
+        privacyTitle.leading(to: changePasswordTitle)
         
-        switchLocation.height(20)
-        switchLocation.width(50)
-        switchLocation.trailingToSuperview(offset:10)
-        switchLocation.centerY(to: textLocation)
+        stackViewPrivacy.leadingToSuperview(offset:20)
+        stackViewPrivacy.trailingToSuperview(offset:20)
+        stackViewPrivacy.topToBottom(of: privacyTitle,offset: 20)
+        stackViewPrivacy.height(266)
         
+        switchBtnfirst.topToSuperview(offset:10, usingSafeArea: true)
+        switchBtnfirst.trailingToSuperview(offset:20)
         
+        switchBtnsecond.topToSuperview(offset:10, usingSafeArea: true)
+        switchBtnsecond.trailingToSuperview(offset:20)
         
-        //stack2
-        stackViewPrivacy.topToBottom(of: viewCamera, offset: 20)
-        stackViewPrivacy.leading(to: stackViewPopular)
-        stackViewPrivacy.trailing(to: stackViewPopular)
+        switchBtnthird.topToSuperview(offset:10, usingSafeArea: true)
+        switchBtnthird.trailingToSuperview(offset:20)
         
-        saveButton.height(54)
-        saveButton.width(342)
-        saveButton.leading(to: viewPhotoLibrary)
-        saveButton.trailing(to: viewPhotoLibrary)
-        saveButton.bottomToSuperview(offset:-10,usingSafeArea: true)
-        //saveButton.top(to: stackViewPrivacy)
+        saveButon.bottomToSuperview(offset:20,usingSafeArea: true)
+        saveButon.height(54)
+        saveButon.trailingToSuperview(offset:24)
+        saveButon.leadingToSuperview(offset:24)
+ 
     
     }
   
