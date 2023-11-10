@@ -142,7 +142,8 @@ class HomeVM{
     }
     
     private func createCellViewModel(cell:Place) -> VisitCellViewModel{
-        let cvm = VisitCellViewModel(image: UIImage(named: "sultanahmet")!,
+        let imgUrl = URL(string: cell.cover_image_url)!
+        let cvm = VisitCellViewModel(image: imgUrl),
                                      placeName: cell.title,
                                      city: cell.place)
         return cvm
