@@ -1,5 +1,5 @@
 //
-//  
+//
 //  CustomVisitCellVC.swift
 //  TravioApp
 //
@@ -11,16 +11,17 @@ import TinyConstraints
 
 class CustomVisitCellVC: UITableViewCell {
     
+    static let reuseIdentifier: String = "visitCell"
+    
     var visitCellViewModel : VisitCellViewModel?{
         didSet{
             placeName.text = visitCellViewModel?.placeName
             cityName.text = visitCellViewModel?.city
-            //image.
         }
     }
     
     lazy var placeName:UILabel = {
-       let pn = UILabel()
+        let pn = UILabel()
         pn.textColor = .blue
         pn.font = .Fonts.title30.font
         pn.text = "PlaceName"
@@ -30,7 +31,7 @@ class CustomVisitCellVC: UITableViewCell {
     }()
     
     lazy var cityName:UILabel = {
-       let cn = UILabel()
+        let cn = UILabel()
         cn.textColor = .white
         cn.font = .Fonts.cityText16.font
         cn.text = "CityName"
@@ -40,22 +41,28 @@ class CustomVisitCellVC: UITableViewCell {
     }()
     
     private lazy var iconLocation:UIImageView = {
-       let img = UIImageView()
+        let img = UIImageView()
         img.image = UIImage(named: "location")
-        img.contentMode = .scaleAspectFit
-       return img
+        return img
     }()
     
     private lazy var imageLocation:UIImageView = {
-        var img = UIImageView()
-        img.image = UIImage(named: "sultanahmet")
-        img.contentMode = .scaleToFill
-        return img
+        var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 344, height: 219))
+        imageView.image = UIImage(named: "sultanahmet")
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    // used to adjust distance between cells
+    private lazy var viewSeperator:UIView = {
+        let v = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        return v
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         setupViews()
     }
     
@@ -63,29 +70,60 @@ class CustomVisitCellVC: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    @objc func imageTapped(){
-//     //detail page opens
-//        let vc = DetailPageVC()
-//
-//    }
+    //    @objc func imageTapped(){
+    //     //detail page opens
+    //        let vc = DetailPageVC()
+    //
+    //    }
     func configure(data:VisitCellViewModel){
         placeName.text = data.placeName
         cityName.text = data.city
-        imageLocation.kf.setImage(with: data.image)
+        setImage(imageURL: data.image)
+        //        imageLocation.kf.setImage(with: data.image) // old code to set image
     }
-    func configure(imageURL:Visit){
-        if let url = URL(string: imageURL.place.cover_image_url){
-            //self.image.imageFrom(url: url)
-            //resmi indir ve görğntülerim
-            imageLocation.kf.setImage(with: url)
-        }}
+    
+    func setImage(imageURL:URL){
+        KingfisherManager.shared.retrieveImage(with: imageURL, options: nil, progressBlock: nil) { result in
+            
+            switch result{
+            case .success(let value):
+                self.imageLocation.image = value.image
+            case .failure(_): //let error case
+                print("image not found on: \(imageURL)")
+                self.imageLocation.image = UIImage(systemName: "camera.metering.none")?
+                    .withRenderingMode(.alwaysOriginal)
+                    .withTintColor(.systemGray3)
+                return
+            }
+        }
+    }
+    
     func setupViews() {
-
-        self.contentView.addSubviews(imageLocation,placeName,iconLocation,cityName)
+        
+        self.contentView.addSubviews(imageLocation, placeName,iconLocation,cityName)
         setupLayout()
     }
     
     func setupLayout() {
+        
+        
+        imageLocation.snp.makeConstraints({ img in
+            img.top.equalToSuperview()
+            img.leading.equalToSuperview()
+            img.trailing.equalToSuperview()
+            
+        })
+        
+        // add seperator view between cells
+        self.contentView.addSubview(viewSeperator)
+        viewSeperator.snp.makeConstraints({ view in
+            view.top.equalTo(imageLocation.snp.bottom)
+            view.bottom.equalToSuperview()
+            view.leading.equalToSuperview()
+            view.trailing.equalToSuperview()
+            view.height.equalTo(self.viewSeperator.frame.height)
+            
+        })
         
         placeName.leading(to: imageLocation, offset: 8)
         placeName.topToSuperview(offset:142)
@@ -104,22 +142,22 @@ class CustomVisitCellVC: UITableViewCell {
         
     }
     
-//    func setUserText(userPlaceText: String, userCountryText: String, img:String ) {
-//        placeName.text = userPlaceText
-//        cityName.text = userCountryText
-//        imageLocation.image = UIImage(systemName: img)
-//    }
-
+    //    func setUserText(userPlaceText: String, userCountryText: String, img:String ) {
+    //        placeName.text = userPlaceText
+    //        cityName.text = userCountryText
+    //        imageLocation.image = UIImage(systemName: img)
+    //    }
+    
 }
-
 
 #if DEBUG
 import SwiftUI
+import Kingfisher
 
 @available(iOS 13, *)
 struct CustomVisitCellVC_Preview: PreviewProvider {
     static var previews: some View{
-
+        
         CustomVisitCellVC().showPreview()
     }
 }
