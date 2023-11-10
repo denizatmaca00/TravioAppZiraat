@@ -73,20 +73,43 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
-        
-        initVM()
+        initPopularVM()
+        initNewsVM()
+        initAllForUserVM()
+
         setupViews()
     }
     
-    func initVM(){
-        
-        viewModel.reloadTableViewClosure = { [weak self] () in
+    func initPopularVM() {
+        viewModel.reloadPopularClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
             }
         }
-        viewModel.initFetch()
+        
+        viewModel.initFetchPopularHomeLimits(limit: 10)
     }
+    func initNewsVM() {
+        viewModel.reloadNewPlacesClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+
+        viewModel.initFetchNewHomeLimits(limit: 10)
+        
+    }
+    func initAllForUserVM() {
+        viewModel.reloadAllForUserPlacesClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+
+        viewModel.initFetchAllForUserHomeAll()
+        
+    }
+
     
     //MARK: -- Component Actions
     
@@ -108,6 +131,8 @@ class HomeVC: UIViewController {
         contentViewBig.addSubviews(collectionView)
         
         setupLayout()
+        
+//        viewModel.sectionsArray = [popularPlaces, newPlaces]
     }
     
     func setupLayout() {
@@ -190,6 +215,7 @@ extension HomeVC {
         layoutSection.boundarySupplementaryItems = [headerElement]
         
         layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
+
         
         
         
@@ -199,9 +225,11 @@ extension HomeVC {
     func makeCollectionViewLayout() -> UICollectionViewLayout {
         
         UICollectionViewCompositionalLayout {
+            
             [weak self] sectionIndex, environment in
             
-            return self?.makeSliderLayoutSection()
+                       return self?.makeSliderLayoutSection()
+         
         }
     }
 }
@@ -213,28 +241,76 @@ extension HomeVC:UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfCells
+        if section == 0 {
+            return viewModel.numberOfCells
+        }
+        else if section == 1{
+            return viewModel.newPlaces.count
+        }
+        else{
+            return viewModel.allPlaces.count
+
+        }
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as! CustomCollectionViewCell
-        let object = viewModel.popularPlaces[indexPath.row]
+                if indexPath.section == 0 {
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
+                    let object = viewModel.popularPlaces[indexPath.row]
         
-        cell.configure(object:object)
+                    cell.configure(object:object)
+                    return cell
+                }
+                else if indexPath.section == 1{
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
+                    let object = viewModel.newPlaces[indexPath.row]
         
-        return cell
+                    cell.configure(object:object)
+                    return cell
+        
+                }
+                else{
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
+                    let object = viewModel.allPlaces[indexPath.row]
+        
+                    cell.configure(object:object)
+                    return cell
+                }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseId, for: indexPath) as! HeaderView
-        header.setTitle(titleText: "Popiler")
+        if indexPath.section == 0{
+            header.setTitle(titleText: "Popular Places")
+            header.btnTapAction = {
+                let popularPlacesVC:UIViewController = PopularPlaceVC()
+                // burada hepsi aslında tek bir vcye gidecek hepsi popoularvc ye ve verilerin değişik aktarılması burada yapılacak bence
+                //initFetchPopularHomeAll() bu fonksiyon burada çalışacak
+                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+            }
+        }else if indexPath.section == 1 {
+            header.setTitle(titleText: "New Places")
+            header.btnTapAction = {
+                let popularPlacesVC:UIViewController = MapVC()
+                // initFetchNewHomeAll() bu da burada
+                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+            }
+        }else{
+            header.setTitle(titleText: "My Added Places")
+            header.btnTapAction = {
+                let popularPlacesVC:UIViewController = SettingsVC()
+                //initFetchAllForUserHomeAll() bu da burada 
+                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+            }
+        }
         
         // define closure for SeeAll Button
-        header.btnTapAction = {
-            print("closureTap")
-            let popularPlacesVC:UIViewController = PopularPlaceVC()
-            self.navigationController?.pushViewController(popularPlacesVC, animated: true)
-        }
+//        header.btnTapAction = {
+//            print("closureTap")
+//
+//        }
         
         return header
     }
