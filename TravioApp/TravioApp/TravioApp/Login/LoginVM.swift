@@ -10,7 +10,7 @@ import Alamofire
 
 class LoginVM{
     
-    var userInfo: User = User(full_name: "", email: "", password: "", id: "")
+    var userInfo: LoginUser = LoginUser(email: "", password: "")
     
     var showAlertClosure: ((String, String) -> Void)?
     

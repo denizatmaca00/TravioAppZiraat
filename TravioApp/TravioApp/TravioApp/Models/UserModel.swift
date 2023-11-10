@@ -14,7 +14,12 @@ struct User: Codable {
     var full_name: String
     var email: String
     var password: String
-    var id: String
+    //var id: String
+}
+
+struct LoginUser: Codable {
+    var email: String
+    var password: String
 }
 struct EditProfile: Codable {
     var full_name: String
