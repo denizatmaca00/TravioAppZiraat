@@ -10,6 +10,8 @@ import SnapKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
+    static let reuseIdentifier = "placeCell"
+    
     var visitCellViewModel : VisitCellViewModel? {
         didSet{
             lblPlace.text = visitCellViewModel?.placeName
@@ -18,14 +20,16 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
     
     private lazy var imgPlace:UIImageView = {
-        var img = UIImageView()
-        img.image = UIImage(named: "sultanahmet")
-        img.contentMode = .scaleToFill
+        var imageView = UIImageView()
+        imageView.image = UIImage(named: "sultanahmet")
+        // round corners of the image
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
      
         let tappedGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-        img.addGestureRecognizer(tappedGesture)
-        img.isUserInteractionEnabled = true
-        return img
+        imageView.addGestureRecognizer(tappedGesture)
+        imageView.isUserInteractionEnabled = true
+        return imageView
     }()
     
     lazy var lblPlace:UILabel = {
@@ -70,8 +74,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(object:Place){
-        imgPlace.image = UIImage(named: "sultanahmet")
-//        imgPlace.image = URL(string: object.cover_image_url)!
+        let imageURL = URL(string: object.cover_image_url)!
+        ImageHelper().setImage(imageURL: imageURL, imageView: imgPlace)
         lblPlace.text = object.title
         lblCity.text = object.place
     }

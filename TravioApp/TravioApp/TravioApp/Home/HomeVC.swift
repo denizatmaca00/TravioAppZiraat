@@ -45,7 +45,7 @@ class HomeVC: UIViewController {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = UIColor(named: "viewBackgroundColor")
-        cv.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: "cvCell")
+        cv.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier: CustomCollectionViewCell.reuseIdentifier)
         cv.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseId)
         cv.dataSource = self
         cv.delegate = self
@@ -56,12 +56,7 @@ class HomeVC: UIViewController {
     //MARK: -- Views
     
     private lazy var contentViewBig : UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "viewBackgroundColor")
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 80
-        view.layer.maskedCorners = [.layerMinXMinYCorner]
-        
+        let view = AppView()
         return view
     }()
     
@@ -252,14 +247,14 @@ extension HomeVC:UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 if indexPath.section == 0 {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
                     let object = viewModel.popularPlaces[indexPath.row]
         
                     cell.configure(object:object)
                     return cell
                 }
                 else if indexPath.section == 1{
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
                     let object = viewModel.newPlaces[indexPath.row]
         
                     cell.configure(object:object)
@@ -267,7 +262,7 @@ extension HomeVC:UICollectionViewDataSource {
         
                 }
                 else{
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cvCell", for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
                     let object = viewModel.allPlaces[indexPath.row]
         
                     cell.configure(object:object)
