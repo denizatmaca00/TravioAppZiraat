@@ -12,12 +12,23 @@ class LoginVM{
     
     var userInfo: LoginUser = LoginUser(email: "", password: "")
     
+    var isLoading:Bool = false {
+        didSet{
+            self.updateLoadingStatus?()
+        }
+    }
+    
     var showAlertClosure: ((String, String) -> Void)?
     
+    var updateLoadingStatus: ( ()->() )?
+    
     func sendLoginData(email: String?, password: String, completion: @escaping (Result<Tokens, Error>) -> Void) {
+        self.isLoading = true
+        
         let paramsPost = ["email": email, "password": password]
 
         NetworkingHelper.shared.dataFromRemote(urlRequest: .user(params: paramsPost)) { (result: Result<Tokens, Error>) in
+            self.isLoading = false
             switch result {
                 case .success(let response):
                 KeychainHelper.shared.setToken(param: response)

@@ -93,8 +93,22 @@ class LoginVC: UIViewController {
         let vc = SignUpVC()
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func initIndicator(){
+        let activityIndicator = AppActivityIndicator()
+        activityIndicator.targetVC = self
+        
+        viewModel.updateLoadingStatus = { [weak self] () in
+            DispatchQueue.main.async {
+                activityIndicator.getLoadView()
+            }
+        }
+    }
 
     @objc func btnLoginTapped() {
+        
+        initIndicator()
+        
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
         
