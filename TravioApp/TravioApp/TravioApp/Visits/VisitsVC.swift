@@ -6,8 +6,8 @@
 //  Created by Aydın Erol on 26.10.2023.
 //
 //
+
 import UIKit
-//import TinyConstraints
 import SnapKit
 
 class VisitsVC: UIViewController {
@@ -30,12 +30,7 @@ class VisitsVC: UIViewController {
     //MARK: -- Views
     
     private lazy var contentViewBig : UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "viewBackgroundColor")
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 80
-        view.layer.maskedCorners = [.layerMinXMinYCorner]
-        
+        let view = AppView()
         return view
     }()
     
@@ -43,7 +38,7 @@ class VisitsVC: UIViewController {
         let tv = UITableView()
         tv.separatorStyle = .none
         tv.backgroundColor = UIColor(named: "viewBackgroundColor")
-        tv.register(CustomVisitCellVC.self, forCellReuseIdentifier: CustomVisitCellVC.reuseIdentifier)
+        tv.register(CustomVisitCell.self, forCellReuseIdentifier: CustomVisitCell.reuseIdentifier)
         tv.delegate = self
         tv.dataSource = self
         
@@ -52,10 +47,6 @@ class VisitsVC: UIViewController {
 //        tv.refreshControl = refreshControl
         return tv
     }()
-    @objc func refreshTableView(sender: UIRefreshControl){
-        tableView.reloadData()
-
-    }
     
     //MARK: -- Life Cycles
     override func viewDidLoad() {
@@ -67,8 +58,16 @@ class VisitsVC: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableView.reloadData()
+    }
+    
     //MARK: -- Component Actions
     
+//    @objc func refreshTableView(sender: UIRefreshControl){
+//        tableView.reloadData()
+//    }
     
     //MARK: -- Private Methods
     func initVM(){
@@ -86,9 +85,10 @@ class VisitsVC: UIViewController {
         // Add here the setup for the UI
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.navigationItem.setHidesBackButton(true, animated: false)
-        self.view.addSubviews(lblHeader, contentViewBig)
         
+        self.view.addSubviews(lblHeader, contentViewBig)
         contentViewBig.addSubview(tableView)
+        
         setupLayout()
     }
     
@@ -98,14 +98,13 @@ class VisitsVC: UIViewController {
         
         // Add here the setup for layout
         lblHeader.snp.makeConstraints({l in
-            //l.top.equalTo(limits.top).offset(0)
             l.top.equalToSuperview().offset(48)
             l.leading.equalToSuperview().offset(24)
             l.trailing.equalToSuperview()
+            
         })
         
         contentViewBig.snp.makeConstraints({ cv in
-
             cv.leading.equalToSuperview()
             cv.trailing.equalToSuperview()
             cv.height.equalToSuperview().multipliedBy(0.8)
@@ -115,24 +114,24 @@ class VisitsVC: UIViewController {
         
         tableView.snp.makeConstraints({ tv in
             tv.top.equalToSuperview().offset(45)
-            tv.leading.equalToSuperview()//.offset(24)
-            tv.trailing.equalToSuperview()//.inset(24)
+            tv.leading.equalToSuperview()
+            tv.trailing.equalToSuperview()
             tv.height.equalToSuperview()
+            
         })
     }
-    
 }
 
 extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomVisitCellVC.reuseIdentifier, for: indexPath) as? CustomVisitCellVC else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomVisitCell.reuseIdentifier, for: indexPath) as? CustomVisitCell else {
             fatalError("cell does not exist")
         }
+        
         let cellData = viewModel.cellViewModels[indexPath.row]
         cell.configure(data: cellData)
-        //viewModel.reloadTableViewClosure?()
      
         return cell
     }
@@ -187,7 +186,7 @@ struct VisitsVC_Preview: PreviewProvider {
     static var previews: some View{
         
         VisitsVC().showPreview()
-        CustomVisitCellVC().showPreview()
+        CustomVisitCell().showPreview()
     }
 }
 #endif

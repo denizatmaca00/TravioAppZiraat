@@ -7,8 +7,6 @@
 
 import Foundation
 import UIKit
-import CoreLocation
-import Kingfisher
 
 class VisitsVM{
     var id: Visit?
@@ -51,7 +49,7 @@ class VisitsVM{
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getAVisitByID(id: idplace)){(result:Result<VisitsDataStatus,Error>) in
             switch result{
             case .success(let success):
-                print("fssdg")
+                print(success.status)
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
@@ -96,35 +94,6 @@ class VisitsVM{
     }
 }
 
-extension VisitsVM {
-    // This function can be used to create cellView with city data obtained by Lat:Long data in favorites array
-    private func setCellViewByLatLong(favorite:Place){
-        var cityArr:[String] = []
-        var viewModels = [VisitCellViewModel]()
-        
-        let location = CLLocation(latitude: favorite.latitude, longitude: favorite.longitude)
-        var city:String = "nilDefault"
-        
-        CLGeocoder().reverseGeocodeLocation(location) { placemarks , error in
-            
-            if error == nil && placemarks!.count > 0 {
-                guard let placemark = placemarks?.last else {
-                    return
-                }
-                city = placemark.locality ?? " "
-                cityArr.append(city)
-                let cvm = VisitCellViewModel(image: URL(string: favorite.cover_image_url)!,
-                                             placeName: favorite.title,
-                                             city: city)
-                viewModels.append(cvm)
-                self.cellViewModels = viewModels
-            }
-            if city != "nilDefault"{
-                cityArr.append(city)
-            }
-        }
-    }
-}
 
 #if DEBUG
 import SwiftUI

@@ -1,15 +1,16 @@
 //
 //
-//  CustomVisitCellVC.swift
+//  CustomVisitCell.swift
 //  TravioApp
 //
 //  Created by Ece Poyraz on 26.10.2023.
 //
 //
+
 import UIKit
 import TinyConstraints
 
-class CustomVisitCellVC: UITableViewCell {
+class CustomVisitCell: UITableViewCell {
     
     static let reuseIdentifier: String = "visitCell"
     
@@ -22,7 +23,7 @@ class CustomVisitCellVC: UITableViewCell {
     
     lazy var placeName:UILabel = {
         let pn = UILabel()
-        pn.textColor = .blue
+        pn.textColor = .white
         pn.font = .Fonts.title30.font
         pn.text = "PlaceName"
         pn.textColor = .white
@@ -70,32 +71,11 @@ class CustomVisitCellVC: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //    @objc func imageTapped(){
-    //     //detail page opens
-    //        let vc = DetailPageVC()
-    //
-    //    }
     func configure(data:VisitCellViewModel){
         placeName.text = data.placeName
         cityName.text = data.city
-        setImage(imageURL: data.image)
-        //        imageLocation.kf.setImage(with: data.image) // old code to set image
-    }
-    
-    func setImage(imageURL:URL){
-        KingfisherManager.shared.retrieveImage(with: imageURL, options: nil, progressBlock: nil) { result in
-            
-            switch result{
-            case .success(let value):
-                self.imageLocation.image = value.image
-            case .failure(_): //let error case
-                print("image not found on: \(imageURL)")
-                self.imageLocation.image = UIImage(systemName: "camera.metering.none")?
-                    .withRenderingMode(.alwaysOriginal)
-                    .withTintColor(.systemGray3)
-                return
-            }
-        }
+        ImageHelper().setImage(imageURL: data.image, imageView: imageLocation)
+        
     }
     
     func setupViews() {
@@ -157,7 +137,7 @@ import Kingfisher
 struct CustomVisitCellVC_Preview: PreviewProvider {
     static var previews: some View{
         
-        CustomVisitCellVC().showPreview()
+        CustomVisitCell().showPreview()
     }
 }
 #endif
