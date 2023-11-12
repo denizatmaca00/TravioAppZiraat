@@ -58,16 +58,14 @@ class VisitsVC: UIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    // fetch data and refresh tableView each time view appear
+    override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tableView.reloadData()
+        initVM()
     }
     
     //MARK: -- Component Actions
     
-//    @objc func refreshTableView(sender: UIRefreshControl){
-//        tableView.reloadData()
-//    }
     
     //MARK: -- Private Methods
     func initVM(){
@@ -93,8 +91,6 @@ class VisitsVC: UIViewController {
     }
     
     func setupLayout() {
-        
-        //let limits = self.view.safeAreaLayoutGuide.snp
         
         // Add here the setup for layout
         lblHeader.snp.makeConstraints({l in
