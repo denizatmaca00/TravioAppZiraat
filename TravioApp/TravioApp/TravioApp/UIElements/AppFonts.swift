@@ -26,10 +26,11 @@ extension UIFont {
         case size30 = 30
         case size32 = 32
         case size36 = 36
-        
+        case size40 = 40
     }
     
     enum FontName:String {
+        case reenie = "ReenieBeanie"
         case light = "Poppins-Light"
         case regular = "Poppins-Regular"
         case medium =  "Poppins-Medium"
@@ -50,6 +51,8 @@ extension UIFont {
 //    }
 
     enum Fonts{
+        // LandingPage
+        case landingHeader // 40-500
         
         // UI Element Fonts
         case mainButton // 16-600
@@ -98,6 +101,8 @@ extension UIFont {
 
         var font: UIFont! {
             switch self {
+            case .landingHeader:
+                return getFont(name: .reenie, .size40)
             case .mainButton:
                 return getFont(name: .semiBold, .size16)
             case .textFieldTitle:
