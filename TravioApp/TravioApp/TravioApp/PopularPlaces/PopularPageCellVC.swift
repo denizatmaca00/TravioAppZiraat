@@ -9,6 +9,7 @@
 import UIKit
 import TinyConstraints
 import SnapKit
+import Kingfisher
 
 class PopularPageCellVC: UICollectionViewCell {
     private lazy var PopularView: UIView = {
@@ -48,9 +49,10 @@ class PopularPageCellVC: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(object:VisitCellViewModel){
-        
-        
+    public func configure(object:Place){
+        title.text = object.title
+        country.text = object.place
+        //Image.image = UIImage(named: object.cover_image_url)
     }
     
 
@@ -74,7 +76,7 @@ class PopularPageCellVC: UICollectionViewCell {
      
         
         title.height(36)
-        title.width(131)
+        title.width(160)
         title.top(to: PopularView,offset: 20)
         title.leadingToTrailing(of: Image, offset: 35)
         
@@ -84,7 +86,7 @@ class PopularPageCellVC: UICollectionViewCell {
         icon.leading(to: title)
         
         country.height(20)
-        country.width(46)
+        country.width(70)
         country.top(to: title, offset: 25)
         country.leadingToTrailing(of: icon, offset: 5)
         
