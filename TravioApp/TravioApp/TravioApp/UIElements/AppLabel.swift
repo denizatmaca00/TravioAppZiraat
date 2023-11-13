@@ -28,7 +28,7 @@ class AppLabel: UIView {
         return imageView
     }()
     
-    private lazy var textLabel: UILabel = {
+     lazy var textLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = UIColor(named: "settingsLabelColor")
