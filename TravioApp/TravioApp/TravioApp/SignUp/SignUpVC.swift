@@ -77,6 +77,16 @@ class SignUpVC: UIViewController {
                 
             }
         }
+        viewModel.indicatorUpdateClosure = { [weak self] isLoading in
+            DispatchQueue.main.async {
+                switch isLoading{
+                case true:
+                    self?.showIndicator()
+                case false:
+                    self?.hideIndicator()
+                }
+            }
+        }
     }
     
     @objc func updateUserInfo() -> Bool
@@ -95,6 +105,8 @@ class SignUpVC: UIViewController {
     }
     
     @objc func signUpUser() {
+        
+        viewModel.isLoading = true
         
         let isAuthenticated = updateUserInfo()
 

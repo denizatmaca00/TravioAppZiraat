@@ -10,7 +10,15 @@ import Alamofire
 
 class SignUpVM{
     
+    var isLoading:Bool = false {
+        didSet{
+            indicatorUpdateClosure?(self.isLoading)
+        }
+    }
+    
     var showAlertClosure: ((String, String) -> Void)?
+    
+    var indicatorUpdateClosure:((Bool)->(Void))?
 
     func postUserData(name: String?, email: String?, password: String?, completion: @escaping (Result<Messages, Error>) -> Void) {
         let paramsPost = ["full_name": name, "email": email, "password": password]

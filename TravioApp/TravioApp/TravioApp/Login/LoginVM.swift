@@ -14,13 +14,13 @@ class LoginVM{
     
     var isLoading:Bool = false {
         didSet{
-            self.updateLoadingStatus?()
+            self.updateLoadingStatus?(isLoading)
         }
     }
     
     var showAlertClosure: ((String, String) -> Void)?
     
-    var updateLoadingStatus: ( ()->() )?
+    var updateLoadingStatus: ( (Bool)->Void )?
     
     func sendLoginData(email: String?, password: String, completion: @escaping (Result<Tokens, Error>) -> Void) {
         self.isLoading = true

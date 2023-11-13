@@ -80,32 +80,26 @@ class LoginVC: UIViewController {
                 
             }
         }//didsete ekelyeeğim
+        viewModel.updateLoadingStatus = { [weak self] (isLoading) in
+            DispatchQueue.main.async {
+                switch self!.viewModel.isLoading{
+                case true:
+                    self?.showIndicator()
+                case false:
+                    self?.hideIndicator()
+                }
+            }
+        }
     }
-    //    override func viewDidAppear(_ animated: Bool) {
-    //        super.viewDidAppear(animated)
-    //        // View controller görüntülendiğinde yapılacak işlemler
-    //        tabBarController?.tabBar.isHidden = false
-    //    }
     
     @objc func btnSignUpTapped(){
         let vc = SignUpVC()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func initIndicator(){
-        let activityIndicator = AppActivityIndicator()
-        activityIndicator.targetVC = self
-        
-        viewModel.updateLoadingStatus = { [weak self] () in
-            DispatchQueue.main.async {
-                activityIndicator.getLoadView()
-            }
-        }
-    }
-    
     @objc func btnLoginTapped() {
         
-        initIndicator()
+        viewModel.isLoading = true
         
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
