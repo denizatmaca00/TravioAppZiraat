@@ -16,6 +16,7 @@ class SignUpVM{
         let paramsPost = ["full_name": name, "email": email, "password": password]
 
         NetworkingHelper.shared.dataFromRemote(urlRequest: .register(params: paramsPost)) { (result: Result<Messages, Error>) in
+            
             switch result {
             case .success(let response):
                 if let messages = response.message {

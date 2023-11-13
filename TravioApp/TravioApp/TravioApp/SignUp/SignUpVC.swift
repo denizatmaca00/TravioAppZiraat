@@ -15,8 +15,6 @@ class SignUpVC: UIViewController {
     
     var viewModel = SignUpVM()
     
-    //var userDelegator:UserDataDelegator?
-    
     private lazy var viewUsername = AppTextField(data: .username)
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var viewPass = AppTextField(data: .password)
@@ -34,10 +32,11 @@ class SignUpVC: UIViewController {
         lbl.font = .Fonts.pageHeader36.font
         return lbl
     }()
+    
     private lazy var contentViewBig: AppView = {
-            let view = AppView()
-            return view
-        }()
+        let view = AppView()
+        return view
+    }()
     
     private lazy var stackViewMain: UIStackView = {
         let stackViews = UIStackView()
@@ -54,6 +53,7 @@ class SignUpVC: UIViewController {
         signUpButton.isEnabled = false
         return signUpButton
     }()
+    
     private lazy var leftBarButton: UIButton = {
         let leftBarButton = UIButton()
         leftBarButton.tintColor = .white
@@ -78,24 +78,24 @@ class SignUpVC: UIViewController {
             }
         }
     }
-
     
     @objc func updateUserInfo() -> Bool
     {
-       let authenticate:Bool = checkPassMatch()
-       
-       if authenticate == true
-       {
-           self.signUpData.full_name = txtUsername.text ?? ""
-           self.signUpData.email = txtEmail.text ?? ""
-           self.signUpData.password = txtPassword.text ?? ""
-           
-           signUpButton.isEnabled = authenticate
-       }
-       return authenticate
+        let authenticate:Bool = checkPassMatch()
+        
+        if authenticate == true
+        {
+            self.signUpData.full_name = txtUsername.text ?? ""
+            self.signUpData.email = txtEmail.text ?? ""
+            self.signUpData.password = txtPassword.text ?? ""
+            
+            signUpButton.isEnabled = authenticate
+        }
+        return authenticate
     }
-       
+    
     @objc func signUpUser() {
+        
         let isAuthenticated = updateUserInfo()
 
         if isAuthenticated {
@@ -130,7 +130,7 @@ class SignUpVC: UIViewController {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig)
         self.view.addSubviews(leftBarButton, signUpLabel)
-
+        
         contentViewBig.addSubviews(stackViewMain, signUpButton)
         
         stackViewMain.addArrangedSubviews(viewUsername, viewMail, viewPass, viewPassConfirm)
@@ -140,7 +140,7 @@ class SignUpVC: UIViewController {
     
     func setupLayout() {
         let limits = self.view.safeAreaLayoutGuide.snp
-         
+        
         leftBarButton.snp.makeConstraints({btn in
             btn.width.equalTo(24)
             btn.height.equalTo(21)
