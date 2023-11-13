@@ -61,3 +61,13 @@ class AppActivityIndicator: UIView {
         }
     }
 }
+
+extension UIViewController {
+    func showIndicator(){
+        
+    }
+    
+    func removeIndicator(){
+        
+    }
+}

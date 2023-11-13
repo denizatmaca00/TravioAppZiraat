@@ -3,9 +3,7 @@ import SnapKit
 
 
 class LoginVC: UIViewController {
-
     
-
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var viewPass = AppTextField(data: .password)
     
@@ -13,7 +11,7 @@ class LoginVC: UIViewController {
     private lazy var txtPassword = viewPass.getTFAsObject()
     
     var viewModel = LoginVM()
-
+    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
@@ -27,12 +25,12 @@ class LoginVC: UIViewController {
         wlcLabel.font = .Fonts.title24.font
         return wlcLabel
     }()
-
+    
     private lazy var contentViewBig: AppView = {
-            let view = AppView()
-            return view
-        }()
-
+        let view = AppView()
+        return view
+    }()
+    
     private lazy var stackViewMain: UIStackView = {
         let stackViews = UIStackView()
         stackViews.backgroundColor = UIColor(named: "viewBackgroundColor")
@@ -45,7 +43,7 @@ class LoginVC: UIViewController {
         let loginButton = AppButton()
         loginButton.setTitle("Login", for: .normal)
         loginButton.addTarget(self, action: #selector(btnLoginTapped), for: .touchUpInside)
-
+        
         return loginButton
     }()
     
@@ -71,7 +69,7 @@ class LoginVC: UIViewController {
         return b
         
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -83,18 +81,18 @@ class LoginVC: UIViewController {
             }
         }//didsete ekelyeeğim
     }
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        // View controller görüntülendiğinde yapılacak işlemler
-//        tabBarController?.tabBar.isHidden = false
-//    }
+    //    override func viewDidAppear(_ animated: Bool) {
+    //        super.viewDidAppear(animated)
+    //        // View controller görüntülendiğinde yapılacak işlemler
+    //        tabBarController?.tabBar.isHidden = false
+    //    }
     
     @objc func btnSignUpTapped(){
         let vc = SignUpVC()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func initIndicator(){
+    private func initIndicator(){
         let activityIndicator = AppActivityIndicator()
         activityIndicator.targetVC = self
         
@@ -104,7 +102,7 @@ class LoginVC: UIViewController {
             }
         }
     }
-
+    
     @objc func btnLoginTapped() {
         
         initIndicator()
@@ -130,7 +128,7 @@ class LoginVC: UIViewController {
             }
         }
     }
-
+    
     func setupViews() {
         
         txtPassword.isSecureTextEntry = true
@@ -139,11 +137,11 @@ class LoginVC: UIViewController {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubview(contentViewBig)
         contentViewBig.addSubviews(welcomeLabel, stackViewMain, loginBtn, lblSignUp, btnSignUp)
-
+        
         stackViewMain.addArrangedSubviews(viewMail, viewPass)
         setupLayout()
     }
-
+    
     func setupLayout() {
         contentViewBig.snp.makeConstraints ({ view in
             view.height.equalToSuperview().multipliedBy(0.7)
@@ -151,13 +149,13 @@ class LoginVC: UIViewController {
             view.trailing.equalToSuperview()
             view.bottom.equalToSuperview()
         })
-
+        
         welcomeLabel.snp.makeConstraints ({ lbl in
             lbl.leading.equalToSuperview().offset(82)
             lbl.trailing.equalToSuperview().offset(-82)
             lbl.top.equalTo(contentViewBig).offset(64)
         })
-
+        
         stackViewMain.snp.makeConstraints ({ stack in
             stack.leading.equalToSuperview().offset(24)
             stack.trailing.equalToSuperview().offset(-24)
