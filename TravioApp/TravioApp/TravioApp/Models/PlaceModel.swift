@@ -144,3 +144,21 @@ struct CheckVisitbyID: Codable {
     var message: String
     var status: String
 }
+
+//MARK: Add Photo
+
+struct AddPhotoUploadMultipart: Codable {
+    var messageType: String
+    var message: String
+    var urls: [String]
+}
+
+// MARK: Map add place post
+struct AddPlace: Codable {
+    var place: String
+    var title: String
+    var description: String
+    var cover_image_url: String
+    var latitude: Double
+    var longitude: Double
+}

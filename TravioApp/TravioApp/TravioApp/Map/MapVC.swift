@@ -5,7 +5,8 @@ class MapVC: UIViewController {
     
     let viewModel = MapVM()
     var selectedAnnotation: MKAnnotation?
-    
+    var updateMapClosure: (() -> Void)?
+
     private lazy var collectionView: UICollectionView = {
         let layout = MapPageLayout.shared.mapLayout()
         
@@ -19,11 +20,17 @@ class MapVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.map.delegate = self
-        setupViews()
-        setupTapGestureRecognizer()
         viewModel.fetchAndShowPlaces()
-        initVM()
+        setupViews()
+        viewModel.map.delegate = self
+        setupTapGestureRecognizer()
+
+       // initVM()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       initVM()
     }
     
     func initVM() {
@@ -67,7 +74,7 @@ class MapVC: UIViewController {
                 viewModel.map.removeAnnotation(existingAnnotation)
             }
             
-            // Eğer önceki bir seçili pin varsa, seçili pin'i kaldır
+            // Eğer önceki bir seçili pin varsa, seçili pin'i kaldır ama çalışmıyor
             deselectSelectedAnnotation()
 
             let newAnnotation = CustomAnnotation(
@@ -82,6 +89,11 @@ class MapVC: UIViewController {
             selectedAnnotation = newAnnotation
             
             let vc = MapPresentVC()
+            vc.latitude = coordinate.latitude
+            vc.longitude = coordinate.longitude
+            
+            vc.updateMapClosure = { [weak self] in
+                self?.initVM()}
             self.present(vc, animated: true, completion: nil)
         }
     }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0F1182982B02068500225994 /* MapPresentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1182972B02068500225994 /* MapPresentVM.swift */; };
+		0F11829B2B02398500225994 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0F11829A2B02398500225994 /* IQKeyboardManagerSwift */; };
 		0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F15C9232AEBD09C00CE48CD /* MapVC.swift */; };
 		0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829672AE9113D00B2EBDE /* AppDelegate.swift */; };
 		0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829692AE9113D00B2EBDE /* SceneDelegate.swift */; };
@@ -77,6 +79,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F1182972B02068500225994 /* MapPresentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresentVM.swift; sourceTree = "<group>"; };
 		0F15C9232AEBD09C00CE48CD /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		0F7829642AE9113D00B2EBDE /* TravioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F7829672AE9113D00B2EBDE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F11829B2B02398500225994 /* IQKeyboardManagerSwift in Frameworks */,
 				5E45C4142AF832FC00399873 /* Kingfisher in Frameworks */,
 				0F78297D2AE9116800B2EBDE /* SnapKit in Frameworks */,
 				0F7829802AE9117300B2EBDE /* Alamofire in Frameworks */,
@@ -168,6 +172,7 @@
 				0FF6D4682AF247CE00AA1339 /* MapPlacesCellVC.swift */,
 				0F7A65122AFE1F060005FB70 /* MapPageLayout.swift */,
 				0F7A65142AFE48910005FB70 /* MapPresentCellVC.swift */,
+				0F1182972B02068500225994 /* MapPresentVM.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -427,6 +432,7 @@
 				0F78297F2AE9117300B2EBDE /* Alamofire */,
 				5E388FCC2AEA680C002ABDBD /* TinyConstraints */,
 				5E45C4132AF832FC00399873 /* Kingfisher */,
+				0F11829A2B02398500225994 /* IQKeyboardManagerSwift */,
 			);
 			productName = TravioApp;
 			productReference = 0F7829642AE9113D00B2EBDE /* TravioApp.app */;
@@ -461,6 +467,7 @@
 				0F78297E2AE9117300B2EBDE /* XCRemoteSwiftPackageReference "Alamofire" */,
 				5E388FCB2AEA680C002ABDBD /* XCRemoteSwiftPackageReference "TinyConstraints" */,
 				5E45C4122AF832FC00399873 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				0F1182992B02398500225994 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 0F7829652AE9113D00B2EBDE /* Products */;
 			projectDirPath = "";
@@ -520,6 +527,7 @@
 				EC4023E42B0166020016FA3A /* AppActivityIndicator.swift in Sources */,
 				0FB39D0E2AF39B7D002C5DF7 /* SettingsCollectionCell.swift in Sources */,
 				EC4023E02B0101990016FA3A /* LocationHelper.swift in Sources */,
+				0F1182982B02068500225994 /* MapPresentVM.swift in Sources */,
 				EC00441A2AF43819001540A5 /* HelpAndSupportVM.swift in Sources */,
 				0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */,
 				0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */,
@@ -762,6 +770,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0F1182992B02398500225994 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		0F78297B2AE9116800B2EBDE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -797,6 +813,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0F11829A2B02398500225994 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0F1182992B02398500225994 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
 		0F78297C2AE9116800B2EBDE /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0F78297B2AE9116800B2EBDE /* XCRemoteSwiftPackageReference "SnapKit" */;
