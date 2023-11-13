@@ -79,7 +79,7 @@ class CustomVisitCell: UITableViewCell {
     }
     
     func setupViews() {
-        
+        self.selectionStyle = .none
         self.contentView.addSubviews(imageLocation, placeName,iconLocation,cityName)
         setupLayout()
     }
