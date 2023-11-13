@@ -13,18 +13,16 @@ class AppAlertControl: UIAlertController {
 
 extension UIViewController
 {
-
-    func showAlert(title:String, message:String)
-    {
-        DispatchQueue.main.async{
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            
-            let btnCancel = UIAlertAction(title: "Kapat", style: .cancel)
-            
-            alert.addAction(btnCancel)
-            
-            self.present(alert, animated: true, completion: nil)
-
+    func showAlert(title: String, message: String, completion: @escaping () -> Void) {
+        let alert = AppAlertControl(title: title, message: message, preferredStyle: .alert)
+        
+        let btnCancel = UIAlertAction(title: "Kapat", style: .cancel) { _ in
+            completion()
         }
+        
+        alert.addAction(btnCancel)
+        
+        self.present(alert, animated: true, completion: nil)
     }
+
 }

@@ -10,16 +10,76 @@ import Foundation
 final class KeychainHelper {
     
     static let shared = KeychainHelper()
-    
     var userToken = Tokens(accessToken: "", refreshToken: "") // logindeki tokenleri tutuyor.
     
+//    func saveUserSession(startTime: Date, duration: TimeInterval) {
+//        let sessionData: [String: Any] = [
+//            "startTime": startTime,
+//            "duration": duration
+//        ]
+//
+//        let encodedData = NSKeyedArchiver.archivedData(withRootObject: sessionData)
+//
+//        let query: [String: Any] = [
+//            kSecClass as String: kSecClassGenericPassword,
+//            kSecAttrService as String: "TravioSession",
+//            kSecAttrAccount as String: "UserSession",
+//            kSecValueData as String: encodedData
+//        ]
+//
+//        SecItemDelete(query as CFDictionary)
+//
+//        let status = SecItemAdd(query as CFDictionary, nil)
+//        if status != errSecSuccess {
+//            print("Error saving session data to Keychain")
+//        }
+//    }
+//
+//    func loadUserSession() -> (startTime: Date, duration: TimeInterval)? {
+//        let query: [String: Any] = [
+//            kSecClass as String: kSecClassGenericPassword,
+//            kSecAttrService as String: "TravioSession",
+//            kSecAttrAccount as String: "UserSession",
+//            kSecMatchLimit as String: kSecMatchLimitOne,
+//            kSecReturnData as String: kCFBooleanTrue,
+//        ]
+//
+//        var data: CFTypeRef?
+//        let status = SecItemCopyMatching(query as CFDictionary, &data)
+//
+//        if status == errSecSuccess, let data = data as? Data {
+//            if let sessionData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [String: Any],
+//               let startTime = sessionData["startTime"] as? Date,
+//               let duration = sessionData["duration"] as? TimeInterval {
+//                return (startTime, duration)
+//            }
+//        }
+//
+//        return nil
+//    }
+
     
-    func getToken() -> String? {
-        if let data = read(service: "Travio", account: "asd") {
-            return String(data: data, encoding: .utf8)
-        }
-        return nil
+    func isUserLoggedIn() -> Bool {
+        return !userToken.accessToken.isEmpty // Kullanıcı token'ı doluysa oturum açık kabul edilsin
     }
+
+    func getToken() -> String? {
+        return userToken.accessToken // Kullanıcının token'ını döndürün dedi chatgbt
+    }
+    
+//    func isUserLoggedIn() -> Bool {
+//        print("şu an burası getToken ve muhtelemen girmeyecek")
+//           return getToken() != nil
+//       }
+    
+//    func getToken() -> String? {
+//        if let data = read(service: "Travio", account: "asd") {
+//            print(data)
+//            return String(data: data, encoding: .utf8)
+//        }
+//        return nil
+//    }
+    
     
     func setToken(param: Tokens) {
         if let accessToken = KeychainHelper.shared.saveAccessToken(service: "travio", account: "email", token: param.accessToken) {

@@ -7,111 +7,110 @@
 
 import UIKit
 
-    
-    enum SideViewStatus {
-        
-        case left(image:UIImage?)
-        case right(image:UIImage?)
-        case none
-        
-        var definedSideView:UIView? {
-            switch self {
-            case .left(let image),.right(let image):
-                let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-                imageView.tintColor = #colorLiteral(red: 0.09411764706, green: 0.2901960784, blue: 0.1725490196, alpha: 1)
-                //imageView.image = #imageLiteral(resourceName: "header.psd")
-                imageView.image = image
-                imageView.contentMode = .scaleAspectFit
-            
-                let sideView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-                imageView.center = sideView.center
-                sideView.addSubview(imageView)
-                return sideView
-            case .none:
-                return nil
-            }
-        }
-        
-        func setSideView(icon:UIImage? = nil)->UIView{
-            
-            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-            imageView.tintColor = #colorLiteral(red: 0.09411764706, green: 0.2901960784, blue: 0.1725490196, alpha: 1)
-            //imageView.image = #imageLiteral(resourceName: "header.psd")
-            imageView.image = icon
-            imageView.contentMode = .scaleAspectFit
-        
-            let sideView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-            imageView.center = sideView.center
-            sideView.addSubview(imageView)
-            
-            return sideView
-            
-        }
-    }
+import SnapKit
 
-class AppLabel: UILabel {
+import UIKit
+import SnapKit
+
+enum IconAlignment {
+    case left
+    case right
+    case none
+}
+
+class AppLabel: UIView {
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
+        return imageView
+    }()
     
-    var sideView: SideViewStatus? = nil {
-        didSet {
-            defineSideViewLocation()
+     lazy var textLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = UIColor(named: "settingsLabelColor")
+        label.font = .Fonts.textFieldText.font
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var viewWithBorder: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 16
+        return view
+    }()
+    
+    init(icon: UIImage?, text: String, alignment: IconAlignment) {
+        super.init(frame: .zero)
+        
+        var updatedAlignment = alignment
+        
+        if let icon = icon {
+            iconImageView.image = icon
+        } else {
+            updatedAlignment = .none
         }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.layer.borderWidth = 0.5
-        self.layer.cornerRadius = 8
-        self.layer.borderColor = UIColor.black.cgColor
-    }
-    
-    func defineSideViewLocation() {
-        switch sideView {
-        case .left(let image):
-            addLeftIcon(image: image)
-        case .right(let image):
-            addRightIcon(image: image)
-        case .none:
-            break
-        case .some(.none):
-            break
-        }
-    }
-    
-     func addLeftIcon(image: UIImage?) {
-        let iconSize: CGFloat = 20.0
-        let spacing: CGFloat = 4.0
         
-        let iconImageView = UIImageView(image: image)
-        iconImageView.frame = CGRect(x: 0, y: 0, width: iconSize, height: iconSize)
-        iconImageView.tintColor = #colorLiteral(red: 0.09411764706, green: 0.2901960784, blue: 0.1725490196, alpha: 1)
-        iconImageView.contentMode = .scaleAspectFit
-        
-        let textLabel = UILabel()
         textLabel.text = text
-        textLabel.frame = CGRect(x: iconSize + spacing, y: 0, width: frame.size.width - iconSize - spacing, height: frame.size.height)
         
-        addSubview(iconImageView)
-        addSubview(textLabel)
-    }
-    
-     func addRightIcon(image: UIImage?) {
-        let iconSize: CGFloat = 20.0
-        let spacing: CGFloat = 4.0
+        viewWithBorder.backgroundColor = .white
+        viewWithBorder.addSubview(iconImageView)
+        viewWithBorder.addSubview(textLabel)
+        addSubview(viewWithBorder)
         
-        let textLabel = UILabel()
-        textLabel.text = text
-        textLabel.frame = CGRect(x: 0, y: 0, width: frame.size.width - iconSize - spacing, height: frame.size.height)
-        
-        let iconImageView = UIImageView(image: image)
-        iconImageView.frame = CGRect(x: frame.size.width - iconSize, y: 0, width: iconSize, height: iconSize)
-        iconImageView.tintColor = #colorLiteral(red: 0.09411764706, green: 0.2901960784, blue: 0.1725490196, alpha: 1)
-        iconImageView.contentMode = .scaleAspectFit
-        
-        addSubview(textLabel)
-        addSubview(iconImageView)
+        setupConstraints(updatedAlignment)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupConstraints(_ alignment: IconAlignment) {
+        viewWithBorder.snp.makeConstraints { view in
+            view.leading.equalToSuperview()
+            view.centerY.equalToSuperview()
+            view.height.equalTo(52)
+            view.width.equalTo(163)
+        }
+        
+        iconImageView.snp.makeConstraints { icon in
+            icon.width.equalTo(20)
+            icon.height.equalTo(20)
+            icon.centerY.equalToSuperview()
+            icon.leading.equalTo(viewWithBorder.snp.leading).offset(8)
+        }
+        
+        textLabel.snp.makeConstraints { lbl in
+            switch alignment {
+            case .left:
+                lbl.leading.equalTo(iconImageView.snp.trailing).offset(8)
+                lbl.centerY.equalToSuperview()
+            case .right:
+                lbl.leading.equalToSuperview().offset(8)
+                lbl.centerX.equalTo(viewWithBorder)
+                lbl.centerY.equalToSuperview()
+            case .none:
+                lbl.leading.equalToSuperview().offset(8)
+                lbl.trailing.equalToSuperview().inset(8)
+                lbl.centerY.equalToSuperview()
+            }
+        }
+    }
+}
+
+extension UILabel{
+    func getHeaderLabel(text:String)->UILabel{
+        lazy var lblHeader:UILabel = {
+            let lbl = UILabel()
+            lbl.font = .Fonts.pageHeader36.font
+            lbl.textColor = UIColor(named: "textColorReversed")
+            lbl.text = text
+            return lbl
+        }()
+        return lblHeader
     }
 }

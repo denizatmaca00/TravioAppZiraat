@@ -11,7 +11,8 @@ import UIKit
 // MARK: Visits View Model
 
 struct VisitCellViewModel{
-    var image:UIImage
+    var image:URL
+   // var image:String
     var placeName:String
     var city:String
 }
@@ -25,7 +26,7 @@ struct VisitCellViewModel{
 //    var place:String
 //}
 
-
+//MARK: Get A Visit By ID
 // MARK: Visit Structs
 
 struct VisitsDataStatus: Codable{
@@ -73,6 +74,18 @@ struct Place: Codable {
     var updated_at: String
 }
 
+// MARK: Get Place By Id Response Model
+struct PlaceIDDataStatus: Codable {
+    var data: PlaceData
+    var status: String
+}
+
+struct PlaceData: Codable {
+    var place: Place
+}
+
+
+
 // MARK: Details View Model
 
 struct DetailsCellViewModel{
@@ -87,28 +100,65 @@ struct ReturnMessage:Codable {
     var status:String
 }
 
-//Get All Gallery by Place ID
-
+//MARK: Get All Gallery by PlaceID
 struct GalleryImage:Codable{
     var data: DataClass
-    var  status: String
+    var status: String
 }
 
 struct DataClass:Codable{
-    var count: Int
     var images: [Image]
+    var count: Int
 }
 struct Image:Codable{
-    let id, placeId: String
-    let imageUrl:String
-    let createAt, updateAt: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case placeId = "place_id"
-        case imageUrl = "image_url"
-        case createAt = "create_at"
-        case updateAt = "updated_at"
-    }
+    var id: String
+    var place_id: String
+    var image_url: String
+    var created_at: String
+    var updated_at: String
+}
+//    enum CodingKeys: String, CodingKey {
+//        case id
+//        case placeId = "place_id"
+//        case imageUrl = "image_url"
+//        case createAt = "create_at"
+//        case updateAt = "updated_at"
+//    }
    
+
+//MARK: POSTAVISIT
+
+struct PostAVisit: Codable {
+    var message: String
+    var status: String
+}
+
+//MARK: DeleteVisitbyPlaceID
+
+struct DeleteVisitbyID: Codable {
+    var message: String
+    var status: String
+}
+//MARK: Check Visit By Place ID
+struct CheckVisitbyID: Codable {
+    var message: String
+    var status: String
+}
+
+//MARK: Add Photo
+
+struct AddPhotoUploadMultipart: Codable {
+    var messageType: String
+    var message: String
+    var urls: [String]
+}
+
+// MARK: Map add place post
+struct AddPlace: Codable {
+    var place: String
+    var title: String
+    var description: String
+    var cover_image_url: String
+    var latitude: Double
+    var longitude: Double
 }

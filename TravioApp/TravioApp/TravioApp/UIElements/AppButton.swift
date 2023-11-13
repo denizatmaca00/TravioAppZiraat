@@ -24,8 +24,6 @@ enum ButtonBackgroundColor
 
 class AppButton: UIButton {
     
-    let poppins = UIFont(name: "Poppins-Bold", size: 16)
-    
     var buttonColor:ButtonBackgroundColor? = .disabled {
         didSet{
             defineBackgroundColor()
@@ -55,7 +53,7 @@ class AppButton: UIButton {
         self.layer.cornerRadius = 16
 
         //self.setTitle("Button", for: .normal)
-        self.titleLabel?.font = poppins
+        self.titleLabel?.font = .Fonts.mainButton.font
         self.setTitleColor(UIColor(named: "textColorReversed"), for: .normal)
         self.backgroundColor = UIColor(named: "backgroundColor")
         
