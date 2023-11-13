@@ -52,7 +52,9 @@ class PopularPageCellVC: UICollectionViewCell {
     public func configure(object:Place){
         title.text = object.title
         country.text = object.place
-        //Image.image = UIImage(named: object.cover_image_url)
+        if let url = URL(string: object.cover_image_url){
+            Image.kf.setImage(with: url)
+            }
     }
     
 
