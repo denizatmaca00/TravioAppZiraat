@@ -13,26 +13,53 @@
 // TODO: classları sayfa sayfa ayırın +
 // TODO: homevc uılar get tamamlansın +
 // TODO: map upload scrrolview +
+// TODO: map post networking+
+// TODO: map addPlaceden sonra reload+
+// TODO: editPrpfile put networking +
+// TODO: homevc uılar paddingler +
+// TODO: signup loading +
+// TODO: klavye +
+// TODO: signUp mvvme göre düzenle +
+// TODO: populervc uı backbutton, font, üst üste gelmesi +
 
-// TODO: signUp mvvme göre düzenle
+
+// proje nasıl daha iyi hale gelir fikirleri
 // TODO: labelheader uılabel sınıfı
 // TODO: leftBarItem bir tane yazılıp her yerden çekilebilir
 // TODO: color enumı eklenebilir
-// TODO: map post networking
+// TODO: stackview eklenmeli cardların içine
+
+//Deniz
 // TODO: map upload
-// TODO: editPrpfile put networking
+// TODO: map ftoğraflar için collectionciewi sağa sol ypmak gereliyor o
+// TODO: mapte kalkmıyor pin
 // TODO: editPrpfile label networking
 // TODO: editPrpfile changePhoto networking
-// TODO: signup loading
-// TODO: homevc uılar paddingler
-// TODO: populervc uı backbutton, font, üst üste gelmesi
-// TODO: stackview eklenmeli cardların içine
+
+//Aydın
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
+//TODO: HomeSettingsVC
+//TODO: Homeda detaya gidelicek
+
+//Ece
+//TODO: Popular 3 tane
+//TODO: Popularya da3 yandeden de detaya gidelicek
+//TODO: Popularya da3 yandeden de detaya gidelicek
+//TODO: detay sayfasında scrrol static ayarlanacak
+//TODO: detay sayfasında scrrol static ayarlanacak
+//TODO: detay sayfasında shadow ekleecek
+//TODO: security settings UI
+
+//TODO: tabbarın hangis sayfada olup olmaması
+//TODO: App DEfaults ne yapacak ?
+
+
 import UIKit
 
 class EditProfileVC: UIViewController {
     
     var viewModel = EditProfileVM()
+    var viewModelProfile = ProfileVM()
     
     private lazy var viewUsername = AppTextField(data: .fullname)
     private lazy var viewMail = AppTextField(data: .email)
@@ -54,14 +81,15 @@ class EditProfileVC: UIViewController {
     }()
     private lazy var labelName: UILabel = {
         let lbl = UILabel()
-        lbl.text = "Bruce Wills"
+//        lbl.text = viewModelProfile.profile.full_name
+        lbl.text = "bruce wills"
         lbl.textColor = UIColor(named: "settingsLabelColor")
         lbl.font = .Fonts.header24.font
         return lbl
     }()
     
-    private lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: "30 Ağustos 2023", alignment: .left)
-    private lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: "Admin", alignment: .left)
+     lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile.profile.created_at, alignment: .left)
+     lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile.profile.role, alignment: .left)
     
     
     private lazy var titleLabel: UILabel = {
@@ -102,42 +130,31 @@ class EditProfileVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        
+        viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
+                   // Update UI with the new profile data
+                   self?.labelName.text = updatedProfile.full_name
+            self?.labelDate.textLabel.text = updatedProfile.created_at
+                   self?.labelRole.textLabel.text = updatedProfile.role
+               }
     }
-    
     
     @objc func exitButtonTapped(){
         navigationController?.popViewController(animated: true)
     }
     
-    
     @objc func saveEditProfile() {
-        print("saved")
         guard let email = txtEmail.text,
               let full_name = txtUsername.text,
               let pp_url = imageView.image else { return }
         
-        viewModel.changeProfileInfo(profile: EditProfile(full_name: full_name, email: email, pp_url: pp_url.description))
-        print(full_name)
-        print("fndfjkghfjg")
+        viewModel.putEditProfileInfos(profile: EditProfile(full_name: full_name, email: email, pp_url: pp_url.description))
         labelName.text = full_name
+        viewModelProfile.profile.full_name = full_name
+        
         
     }
-    
-    //    @objc func saveEditProfile() {
-    //        guard let full_name = txtUsername.text else {return}
-    //        let email = txtEmail.text ?? ""
-    //        let pp_url = "https://example.com/deneme.png"
-    //
-    //        viewModel.getEditProfileInfos(full_name: full_name, email: email, pp_url: pp_url){ [weak self] (result: Result<Messages,Error>) in
-    //            switch result {
-    //            case .success:
-    //               print("oldu")
-    //            case .failure(let error):
-    //                print("Profile Update Error:")
-    //            }
-    //        }
-    //}
-    
+        
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, exitButton)

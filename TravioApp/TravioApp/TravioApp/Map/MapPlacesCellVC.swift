@@ -7,7 +7,12 @@
 import UIKit
 import SnapKit
 
+protocol MapPresentCellDelegate: AnyObject {
+    func presentImagePicker()
+}
+
 class MapPlacesCellVC: UICollectionViewCell {
+    
     
     var viewModel = MapVM()
     
@@ -15,23 +20,19 @@ class MapPlacesCellVC: UICollectionViewCell {
         didSet {
             placeName.text = visitCellViewModel?.placeName
             cityName.text = visitCellViewModel?.city
+            ImageHelper().setImage(imageURL: visitCellViewModel!.image, imageView: imageLocation)
+
         }
     }
     
     private lazy var cellView: UIView = {
         let view = UIView()
         view.isUserInteractionEnabled = true
+        view.layer.cornerRadius = 16
         return view
     }()
     
-    
-    
-    
-    
-    
-    
-    
-    lazy var placeName: UILabel = {
+      lazy var placeName: UILabel = {
         let pn = UILabel()
         pn.textColor = .white
         pn.font = .Fonts.header24.font
@@ -59,8 +60,10 @@ class MapPlacesCellVC: UICollectionViewCell {
     private lazy var imageLocation: UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "sultanahmet")
-        img.contentMode = .scaleToFill
+        //img.contentMode = .scaleToFill
         img.isUserInteractionEnabled = true
+        img.layer.cornerRadius = 16
+        img.layer.masksToBounds = true
         return img
     }()
     
@@ -91,10 +94,7 @@ class MapPlacesCellVC: UICollectionViewCell {
             make.leading.equalToSuperview().offset(18)
         }
          imageLocation.snp.makeConstraints { make in
-            make.top.equalTo(cellView)
-            make.bottom.equalTo(cellView)
-            make.trailing.equalTo(cellView)
-            make.leading.equalTo(cellView)
+             make.edges.equalTo(cellView)
         }
         
         placeName.snp.makeConstraints { make in

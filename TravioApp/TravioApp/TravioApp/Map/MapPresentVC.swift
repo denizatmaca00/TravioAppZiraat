@@ -7,7 +7,17 @@
 
 import UIKit
 
-class MapPresentVC: UIViewController {
+class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
+    func presentImagePicker() {
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    
+    var latitude: Double?
+       var longitude: Double?
+    var updateMapClosure: (() -> Void)?
+
+    let viewModel = MapPresentVM()
     
     private lazy var mapAddTitle = AppTextField(data: .presentMapTitle)
     // private lazy var mapAddDescription = AppTextField(data: .presentMapDescription)
@@ -25,14 +35,15 @@ class MapPresentVC: UIViewController {
         return lbl
         
     }()
-    private lazy var textFieldDesciption: UITextView = {
-        let textField = UITextView()
-        // textField.numberOfLines = 0
-        textField.font = .Fonts.textFieldText.font
-        textField.text = "Lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lore İpsum lorem İpsum lorem İpsum"
-        textField.backgroundColor = .white
-        return textField
-    }()
+
+    private lazy var textFieldDescription: UITextView = {
+            let textView = UITextView()
+            textView.font = .systemFont(ofSize: 16)
+            textView.text = "Lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lore İpsum lorem İpsum lorem İpsum"
+            textView.textColor = UIColor.lightGray
+            textView.delegate = self
+            return textView
+        }()
     
     private lazy var btnAddPlace: UIButton = {
         let b = AppButton()
@@ -73,27 +84,67 @@ class MapPresentVC: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
+    private lazy var imagePicker: UIImagePickerController = {
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.sourceType = .camera
+            picker.allowsEditing = false
+            return picker
+        }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+
     }
     
-    
     @objc func btnAddPlaceTapped() {
-        print("eklendi")
         print(txtTitle.text!)
         //print(txtDescription.text!)
         print(txtLocation.text!)
-        
-        
+        print(self.latitude)
+        print(self.longitude)
+ 
+        viewModel.postAddNewPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "http.png", latitude: latitude!, longitude: longitude!, completion: { [weak self] result in
+            switch result {
+            case .success(let response):
+                if let messages = response.message {
+                    print(messages)
+                    print(response.message)
+                    print(self!.latitude)
+                    print(self!.longitude)
+                    // presenti dismiss et mapi reload et
+                    self!.dismiss(animated: true)
+                    self?.updateMapClosure?()
+
+                    }
+            case .failure(let error):
+                print("Error: \(error)")
+
+            }
+        })
+        MapVC().initVM()
     }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+            if textView.textColor == UIColor.lightGray {
+                textView.text = nil
+                textView.textColor = UIColor.black
+            }
+        }
+
+//        func textViewDidEndEditing(_ textView: UITextView) {
+//            if textView.text.isEmpty {
+//                textView.text = "Placeholder metni"
+//                textView.textColor = UIColor.lightGray
+//            }
+//        }
     
     func setupViews() {
         
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
         self.view.addSubviews(stackViewMain, imageCollectionView ,btnAddPlace)
-        stackView.addArrangedSubviews(titleDescrpition,textFieldDesciption)
+        stackView.addArrangedSubviews(titleDescrpition,textFieldDescription)
         
         stackViewMain.addArrangedSubviews(mapAddTitle,stackView, mapAddLocation)
         
@@ -107,10 +158,16 @@ class MapPresentVC: UIViewController {
             lbl.top.equalTo(stackView).offset(8)
             lbl.leading.equalToSuperview().offset(12)
         })
-        textFieldDesciption.snp.makeConstraints({tf in
-            tf.top.equalTo(titleDescrpition.snp.bottom).offset(8)
-            tf.height.equalTo(185)
-        })
+//        textFieldDesciption.snp.makeConstraints({tf in
+//            tf.top.equalTo(titleDescrpition.snp.bottom).offset(8)
+//            tf.height.equalTo(185)
+//        })
+        textFieldDescription.snp.makeConstraints { make in
+            make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
+                   // make.leading.equalTo(view).offset(20)
+                   // make.trailing.equalTo(view).offset(-20)
+            make.height.equalTo(185)
+                }
         
         stackViewMain.snp.makeConstraints { stack in
             stack.leading.equalToSuperview().offset(24)
@@ -150,6 +207,50 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         return CGSize(width: 270, height: 154)
     }
 }
+
+extension MapPresentVC: UIImagePickerControllerDelegate{
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let pickedImage = info[.originalImage] as? UIImage {
+            // Seçilen fotoğrafı işleyebilirsin yine
+
+            handlePickedImage(pickedImage)
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    func handlePickedImage(_ image: UIImage) {
+        // Seçilen fotoğrafı işleyecek
+        // imageview içine koysan daha iyi olaiblir
+        
+        // Daha sonra bu fotoğrafı API'ye yükle
+        uploadPhoto(image: image)
+    }
+
+    func uploadPhoto(image: UIImage) {
+        // Fotoğrafı API'ye yüklemek için kullanıcı tanımlı bir fonksiyon
+        // Önce fotoğrafı bir veriye dönüştürüp, ardından bu veriyi kullanarak API çağrısı yapabilirsiniz
+        // API çağrısını gerçekleştiren bir fonksiyonunuz varsa, onu kullanabilirsiniz
+        let uploadRouter = Router.uploadAddPhoto(params: ["yourParam": "value"])
+
+        NetworkingHelper.shared.uploadPhoto(image: image, urlRequest: uploadRouter) { (result: Result<AddPhotoUploadMultipart, Error>) in
+            switch result {
+            case .success(let uploadResult):
+                //  yüklendi
+                print("Upload success: \(uploadResult)")
+            case .failure(let error):
+                // Hata 
+                print("Upload failure: \(error)")
+            }
+        }
+
+    }
+
+}
+ 
 
 #if DEBUG
 import SwiftUI

@@ -83,8 +83,7 @@ class PopularPlaceVC: UIViewController {
     }
     
     @objc func backPage(){
-        let hvc = HomeVC()
-        navigationController?.pushViewController(hvc, animated: true)
+        navigationController?.popViewController(animated: true)
      }
     override func viewDidLoad(){
         super.viewDidLoad()

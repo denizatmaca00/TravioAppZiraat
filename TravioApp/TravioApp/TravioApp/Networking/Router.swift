@@ -18,16 +18,16 @@ enum Router {
     case deleteVisit(id: String)
     //case postVisit(id: String, params: Parameters)
     case postVisit(params:Parameters)
-
     
-//    case deletePlace(id: String)
-//    case putPlace(id: String, params: Parameters)
+    
+    //    case deletePlace(id: String)
+    //    case putPlace(id: String, params: Parameters)
     case getPlaceByID(id:String)
     //galeryAllGaleryByID;
     case getAllGaleryByID(id:String)
     case putEditProfile(params: Parameters)
     case getProfile
-
+    
     case getAVisitByID(id:String)
     case checkVisitByID(id:String)
     case getPopularPlaces
@@ -35,9 +35,13 @@ enum Router {
     case getNewPlaces
     case getNewPlacesLimits(limit: Parameters)
     case getHomeAllPlacesForUser
-//    var token:String{
-//        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
-//    }
+    case uploadAddPhoto(params: Parameters)
+    case postAddPlace(params: Parameters)
+    
+    
+    //    var token:String{
+    //        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
+    //    }
     
     var baseURL:String {
         return "https://ios-class-2f9672c5c549.herokuapp.com"
@@ -49,8 +53,8 @@ enum Router {
             return "/v1/auth/register"
         case .user:
             return "/v1/auth/login"
-//        case .visits:
-//            return "/v1/visits?page=1&limit=10"
+            //        case .visits:
+            //            return "/v1/visits?page=1&limit=10"
         case .places:
             return "/v1/places"
         case .postVisit:
@@ -63,8 +67,8 @@ enum Router {
             return "/v1/places/popular"
         case .getNewPlaces, .getNewPlacesLimits:
             return "/v1/places/last"
-      
-        // delete and update cases
+            
+            // delete and update cases
         case .deleteVisit(let visitId):
             return "/v1/visits/\(visitId)"
         case .postVisit:
@@ -82,17 +86,19 @@ enum Router {
             return "/v1/visits/user/\(id)"
         case.getHomeAllPlacesForUser:
             return"/v1/places/user"
-        
-
-
-
+        case .uploadAddPhoto:
+            return "/upload"
+        case .postAddPlace:
+            return "/v1/places"
+            
+            
             
         }
     }
     
     var method:HTTPMethod {
         switch self {
-        case .register, .user, .postVisit:
+        case .register, .user, .postVisit, .uploadAddPhoto, .postAddPlace:
             return .post
         case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID, .checkVisitByID, .getProfile, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits, .getHomeAllPlacesForUser:
             return .get
@@ -104,19 +110,19 @@ enum Router {
     }
     
     var headers: HTTPHeaders {
-            var baseHeaders: HTTPHeaders = [:]
-
+        var baseHeaders: HTTPHeaders = [:]
+        
         if let token = KeychainHelper.shared.getToken(){
-        baseHeaders["Authorization"] = "Bearer " + token
+            baseHeaders["Authorization"] = "Bearer " + token
         }
-            switch self {
-            case .register, .user, .getPlaceByID, .getAllGaleryByID, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits:
-                return [:]
-            case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile, .getHomeAllPlacesForUser :
-                print(baseHeaders)
-                return baseHeaders
-            }
+        switch self {
+        case .register, .user, .getPlaceByID, .getAllGaleryByID, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits, .uploadAddPhoto:
+            return [:]
+        case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile, .getHomeAllPlacesForUser, .postAddPlace :
+            print(baseHeaders)
+            return baseHeaders
         }
+    }
     
     var parameters:Parameters? {
         switch self {
@@ -127,7 +133,7 @@ enum Router {
         case .places, .visits:
             return nil
             
-        // delete and post cases
+            // delete and post cases
         case .deleteVisit:
             return nil
         case .putEditProfile(let params):
@@ -138,8 +144,12 @@ enum Router {
             return params
         case .getNewPlacesLimits(let params):
             return params
-
-    
+        case .uploadAddPhoto(let params):
+            return params
+        case .postAddPlace(let params):
+            return params
+            
+            
         default: return [:]
         }
     }
@@ -157,7 +167,7 @@ extension Router:URLRequestConvertible {
             switch method {
             case .put, .post:
                 return JSONEncoding.default
-
+                
             default:
                 return URLEncoding.default
             }

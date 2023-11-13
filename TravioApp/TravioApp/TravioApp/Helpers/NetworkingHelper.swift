@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import UIKit
 
 
 class NetworkingHelper {
@@ -29,5 +30,30 @@ class NetworkingHelper {
             }
         }
     }
+    
+    func uploadPhoto<T: Decodable>(image: UIImage, urlRequest: Router, callback: @escaping Callback<T>) {
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+            let conversionError = NSError(domain: "YourAppDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Fotoğrafın veriye dönüştürülmesi başarısız oldu"])
+            callback(.failure(conversionError))
+            return
+        }
+
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(imageData, withName: "photo", fileName: "photo.jpg", mimeType: "image/jpeg")
+                // Diğer gerekli verileri de ekleyebilirsiniz
+            },
+            to: urlRequest as! URLConvertible
+        )
+        .responseDecodable(of: T.self) { response in
+            switch response.result {
+            case .success(let result):
+                callback(.success(result))
+            case .failure(let error):
+                callback(.failure(error))
+            }
+        }
+    }
+    
 
 }
