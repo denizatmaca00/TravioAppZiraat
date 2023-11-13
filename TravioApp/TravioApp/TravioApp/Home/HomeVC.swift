@@ -276,15 +276,21 @@ extension HomeVC:UICollectionViewDataSource {
         if indexPath.section == 0{
             header.setTitle(titleText: "Popular Places")
             header.btnTapAction = {
-                let popularPlacesVC:UIViewController = PopularPlaceVC()
-                // burada hepsi aslında tek bir vcye gidecek hepsi popoularvc ye ve verilerin değişik aktarılması burada yapılacak bence
-                //initFetchPopularHomeAll() bu fonksiyon burada çalışacak
+                let data = self.viewModel.popularPlaces
+                
+                let popularPlacesVC = PopularPlaceVC()
+                popularPlacesVC.viewModel.fetchPopularPlaces(data: data)
+                
                 self.navigationController?.pushViewController(popularPlacesVC, animated: true)
             }
         }else if indexPath.section == 1 {
             header.setTitle(titleText: "New Places")
             header.btnTapAction = {
-                let popularPlacesVC:UIViewController = MapVC()
+                let data = self.viewModel.popularPlaces
+                
+                let popularPlacesVC = PopularPlaceVC()
+                popularPlacesVC.viewModel.fetchPopularPlaces(data: data)
+                
                 // initFetchNewHomeAll() bu da burada
                 self.navigationController?.pushViewController(popularPlacesVC, animated: true)
             }

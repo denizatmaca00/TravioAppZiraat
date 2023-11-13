@@ -63,6 +63,7 @@
 		EC4023E02B0101990016FA3A /* LocationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4023DF2B0101990016FA3A /* LocationHelper.swift */; };
 		EC4023E22B0151870016FA3A /* LandingPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4023E12B0151870016FA3A /* LandingPageVC.swift */; };
 		EC4023E42B0166020016FA3A /* AppActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4023E32B0166020016FA3A /* AppActivityIndicator.swift */; };
+		EC4023E62B0200F90016FA3A /* PopularPlacesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4023E52B0200F90016FA3A /* PopularPlacesVM.swift */; };
 		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
 		ECA5F9DE2AFBBB2700D8E80F /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5F9DD2AFBBB2700D8E80F /* HomeVM.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
@@ -131,6 +132,7 @@
 		EC4023DF2B0101990016FA3A /* LocationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHelper.swift; sourceTree = "<group>"; };
 		EC4023E12B0151870016FA3A /* LandingPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageVC.swift; sourceTree = "<group>"; };
 		EC4023E32B0166020016FA3A /* AppActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppActivityIndicator.swift; sourceTree = "<group>"; };
+		EC4023E52B0200F90016FA3A /* PopularPlacesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlacesVM.swift; sourceTree = "<group>"; };
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		ECA5F9DD2AFBBB2700D8E80F /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */,
+				EC4023E52B0200F90016FA3A /* PopularPlacesVM.swift */,
 				5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */,
 			);
 			path = PopularPlaces;
@@ -521,6 +524,7 @@
 				0FB39D0E2AF39B7D002C5DF7 /* SettingsCollectionCell.swift in Sources */,
 				EC4023E02B0101990016FA3A /* LocationHelper.swift in Sources */,
 				EC00441A2AF43819001540A5 /* HelpAndSupportVM.swift in Sources */,
+				EC4023E62B0200F90016FA3A /* PopularPlacesVM.swift in Sources */,
 				0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */,
 				0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */,
 				0FDFAAEC2AF3D90E00F4FA61 /* TableViewCell.swift in Sources */,

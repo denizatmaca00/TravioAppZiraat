@@ -1,17 +1,20 @@
 //
-//  
+//
 //  PopularPlaceVC.swift
 //  TravioApp
 //
 //  Created by Ece Poyraz on 2.11.2023.
 //
 //
+
 import UIKit
 import TinyConstraints
 import SnapKit
 
 
 class PopularPlaceVC: UIViewController {
+    
+    var viewModel = PopularPlacesVM()
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -26,6 +29,7 @@ class PopularPlaceVC: UIViewController {
         wlcLabel.font = .Fonts.pageHeader32.font
         return wlcLabel
     }()
+    
     private lazy var uıView:UIView = {
         let uv = UIView()
         uv.layer.backgroundColor = UIColor(named: "viewBackgroundColor")?.cgColor
@@ -34,7 +38,7 @@ class PopularPlaceVC: UIViewController {
         uv.layer.maskedCorners = [.layerMinXMinYCorner]
         return uv
     }()
-
+    
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "backgroundColor")
@@ -42,6 +46,7 @@ class PopularPlaceVC: UIViewController {
         view.layer.maskedCorners = [.layerMinXMinYCorner]
         return view
     }()
+    
     private lazy var sortAscending:UIButton = {
         let up = UIButton()
         up.setImage(UIImage(named: "sortAscending"), for: .normal)
@@ -55,6 +60,7 @@ class PopularPlaceVC: UIViewController {
         bck.addTarget(self, action: #selector(backPage), for: .touchUpInside )
         return bck
     }()
+    
     private lazy var collectionView:UICollectionView = {
         let layoutcv = UICollectionViewFlowLayout()
         layoutcv.scrollDirection = .vertical
@@ -73,30 +79,36 @@ class PopularPlaceVC: UIViewController {
         cv.addSubview(sortAscending)
         return cv
     }()
+    
     @objc func sortDescending(){
         sortAscending.setImage(UIImage(named: "sortDescending"), for: .normal)
         sortAscending.addTarget(self, action: #selector(sortAscendingBack), for: .touchUpInside)
     }
+    
     @objc func sortAscendingBack(){
         sortAscending.setImage(UIImage(named: "sortAscending"), for: .normal)
         sortAscending.addTarget(self, action: #selector(sortDescending), for: .touchUpInside)
     }
     
     @objc func backPage(){
-        let hvc = HomeVC()
-        navigationController?.pushViewController(hvc, animated: true)
-     }
+        //let hvc = HomeVC()
+        //navigationController?.pushViewController(hvc, animated: true)
+        navigationController?.popViewController(animated: true)
+    }
+    
     override func viewDidLoad(){
         super.viewDidLoad()
         titleLabel.isHidden = false
         sortAscending.isHidden = false
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
-       setupViews()
+        setupViews()
     }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         tabBarController?.tabBar.isHidden = true
     }
+    
     func setupViews() {
         self.view.backgroundColor = .white
         self.view.addSubview(backgroundView)
@@ -106,7 +118,7 @@ class PopularPlaceVC: UIViewController {
         
         self.view.addSubview(titleLabel)
         self.view.addSubview(backButton)
-//        self.view.addSubview(collectionView)
+        //        self.view.addSubview(collectionView)
         self.view.addSubviews()
         setupLayout()
     }
@@ -138,9 +150,9 @@ class PopularPlaceVC: UIViewController {
         sortAscending.width(40)
         sortAscending.topToSuperview(offset:10,usingSafeArea: true)
         sortAscending.trailingToSuperview(offset:40)
-  
+        
     }
-  
+    
 }
 
 extension PopularPlaceVC:UICollectionViewDelegateFlowLayout{
@@ -149,26 +161,25 @@ extension PopularPlaceVC:UICollectionViewDelegateFlowLayout{
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (collectionView.frame.width - 20), height: (collectionView.frame.height/6.5))
-
+        
     }
 }
 
 
-    extension PopularPlaceVC:UICollectionViewDataSource {
-        
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return 10
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCell", for: indexPath) as! PopularPageCellVC
-                
-            let data = VisitCellViewModel(image: URL(string: "sultanahmet")!, placeName: "Rome", city: "Colleseum")
-            cell.configure(object: data)
-                
-                return cell
-            }
+extension PopularPlaceVC:UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.numberOfCells ?? 10
     }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCell", for: indexPath) as! PopularPageCellVC
+        
+        let object = viewModel.cellViewModels[indexPath.row]
+        cell.configure(data: object)
+        return cell
+    }
+}
 
 #if DEBUG
 import SwiftUI
@@ -176,7 +187,7 @@ import SwiftUI
 @available(iOS 13, *)
 struct PopularPlaceVC_Preview: PreviewProvider {
     static var previews: some View{
-         
+        
         PopularPlaceVC().showPreview()
     }
 }

@@ -11,34 +11,41 @@ import TinyConstraints
 import SnapKit
 
 class PopularPageCellVC: UICollectionViewCell {
-    private lazy var PopularView: UIView = {
+    
+    private lazy var popularView: UIView = {
         let pv = UIView()
         pv.layer.cornerRadius = 10
-        pv.backgroundColor = .white
+        pv.backgroundColor = .green
         return pv
     }()
-    private lazy var Image: UIImageView = {
+    
+    private lazy var imageView: UIImageView = {
         let img = UIImageView()
-        img.contentMode = .scaleAspectFill
         img.image = UIImage(named: "sultanahmet")
+        img.layer.cornerRadius = 16
+        img.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         return img
     }()
+    
     private lazy var title:UILabel = {
         let t = UILabel()
         t.text = "Colleseum"
         t.font = .Fonts.header24.font
         return t
     }()
+    
     private lazy var country: UILabel = {
         let c = UILabel()
         c.font = .Fonts.label14.font
         c.text = "Rome"
         return c
     }()
+    
     private lazy var icon:UIImageView = {
         let i = UIImageView(image: UIImage(named: "popularpin"))
         return i
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -48,48 +55,45 @@ class PopularPageCellVC: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(object:VisitCellViewModel){
-        
-        
+    public func configure(data:VisitCellViewModel){
+        country.text = data.placeName
+        title.text = data.city
+        ImageHelper().setImage(imageURL: data.image, imageView: imageView)
     }
-    
 
     func setupViews() {
-        PopularView.addSubviews(Image,title,country,icon)
-        self.contentView.addSubview(PopularView)
+        self.contentView.addSubview(popularView)
+        popularView.addSubviews(imageView,title,country,icon)
         setupLayout()
     }
     
     func setupLayout() {
         
-        PopularView.height(100)
-        PopularView.width(342)
-        PopularView.leadingToSuperview(offset:20)
-        PopularView.topToSuperview(offset:20)
+        popularView.height(89)
+        popularView.width(342)
+        popularView.leadingToSuperview(offset:20)
+        popularView.topToSuperview(offset:20)
         
-        Image.heightToSuperview()
-        Image.width(90)
-        Image.topToSuperview()
-        Image.leading(to: PopularView, offset: 26)
+        imageView.heightToSuperview()
+        imageView.width(90)
+        imageView.leadingToSuperview()
+        imageView.topToSuperview()
      
+        title.top(to: popularView,offset: 20)
+        title.leadingToTrailing(of: imageView, offset: 6)
+        title.width(to: popularView)
         
-        title.height(36)
-        title.width(131)
-        title.top(to: PopularView,offset: 20)
-        title.leadingToTrailing(of: Image, offset: 35)
-        
-        icon.height(10)
-        icon.width(10)
-        icon.top(to: title,offset: 30)
+        icon.height(12)
+        icon.width(9)
+        icon.topToBottom(of: title, offset: 3)
+        icon.bottom(to: popularView, offset: -22)
         icon.leading(to: title)
         
-        country.height(20)
-        country.width(46)
-        country.top(to: title, offset: 25)
-        country.leadingToTrailing(of: icon, offset: 5)
+        country.top(to: icon, offset: -3)
+        country.leadingToTrailing(of: icon, offset: 6)
+        country.width(to: popularView)
         
     }
-  
 }
 
 #if DEBUG
