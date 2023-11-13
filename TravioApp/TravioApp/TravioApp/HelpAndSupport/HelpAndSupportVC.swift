@@ -78,6 +78,13 @@ class HelpAndSupportVC: UIViewController {
         initVM()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selectedIndexPath, animated: animated)
+        }
+    }
+    
     //MARK: -- Component Actions
     
     @objc func backButtonTapped(){
@@ -166,6 +173,7 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    /*
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //
@@ -210,17 +218,52 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
         // Create animation for cell
         self.tableView.performBatchUpdates(nil)
     }
+    */
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let lastSelectedIndexPath = lastSelectedIndexPath{
+            makeCellUnselected(in: tableView, on: selectedIndexPath)
+            guard lastSelectedIndexPath != indexPath else {
+                tableView.deselectRow(at: lastSelectedIndexPath, animated: true)
+                self.lastSelectedIndexPath = nil
+                return
+            }
+        }
+        // highlight cell
+        makeCellSelected(in: tableView, on: indexPath)
+        lastSelectedIndexPath = indexPath
+    }
     
+    func makeCellSelected(in tableView: UITableView, on indexPath: IndexPath){
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? DropCell{
+            if (indexPath.row == 0) || (indexPath.row == 1) || (indexPath.row == 2) {
+                print("+selected \(indexPath)")
+                cell.toExpand.toggle()
+                cell.layer.borderWidth = 2.0
+                cell.layer.borderColor = UIColor.red.cgColor
+                cell.layer.shadowOffset = CGSize.init(width: 0.5, height: 0.5)
+            }
+        }
+    }
+    
+    func makeCellUnselected(in tableView: UITableView, on indexPath: IndexPath){
+        if let cell = tableView.cellForRow(at: indexPath) as? DropCell{
+            print("--deselected \(indexPath)")
+            cell.toExpand.toggle()
+            cell.layer.borderWidth = 0.1
+            cell.layer.borderColor = UIColor.lightGray.cgColor
+        }
+    }
     
     // On deselect cell
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
-        guard let faqItem = tableView.cellForRow(at: indexPath) as? DropCell else {return}
-//        faqItem.isSelected.toggle()
-        
-        self.tableView.beginUpdates()
-        self.tableView.deselectRow(at: indexPath, animated: true)
-        self.tableView.endUpdates()
+//        guard let faqItem = tableView.cellForRow(at: indexPath) as? DropCell else {return}
+////        faqItem.isSelected.toggle()
+//        
+//        self.tableView.beginUpdates()
+//        self.tableView.deselectRow(at: indexPath, animated: true)
+//        self.tableView.endUpdates()
 //        guard let faqItem = tableView.cellForRow(at: indexPath) as? DropCell else {return}
 //        tableView.beginUpdates()
 //        UIView.animate(withDuration: 0.3, animations: {faqItem.dropView.alpha = 0})
