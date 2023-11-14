@@ -101,21 +101,21 @@ class PopularPlaceVC: UIViewController {
         }
         viewModel.fetch(array: viewModel.popularArray )
     }
-//    func initNewPlace(){
-//        viewModel.reloadNewPopular = { [weak self] () in
-//            DispatchQueue.main.async {
-//                self?.collectionView.reloadData()
-//            }
-//            
-//        }
-//    }
-//    func initAllPlace(){
-//        viewModel.reloadAllPopular = {[weak self] () in
-//            DispatchQueue.main.async {
-//                self?.collectionView.reloadData()
-//            }
-//        }
-//    }
+    func initNewPlace(){
+        viewModel.reloadNewPopular = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+            
+        }
+    }
+    func initAllPlace(){
+        viewModel.reloadAllPopular = {[weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         tabBarController?.tabBar.isHidden = true
