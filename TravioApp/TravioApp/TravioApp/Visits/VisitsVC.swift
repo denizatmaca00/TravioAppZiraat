@@ -162,9 +162,8 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // refresh table when scrolled
-        //        initVM()
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return self.tabBarController?.tabBar.frame.size.height ?? 83.0
     }
 }
 
