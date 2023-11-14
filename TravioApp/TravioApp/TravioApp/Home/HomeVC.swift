@@ -179,36 +179,35 @@ extension HomeVC {
     func makeSliderLayoutSection() -> NSCollectionLayoutSection {
         
         // header adjustments
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .fractionalHeight(0.052))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(20))
         
         let headerElement = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         
-        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 12, bottom:-15+2, trailing: 16)
+        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 0, bottom:0, trailing: 16)
         
         headerElement.pinToVisibleBounds = false
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -48-24, bottom: 0, trailing: 0)
         
-        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .fractionalHeight(0.35))
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(280), heightDimension: .estimated(178))
         
-        let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [item] )
-        
-        //        layoutGroup.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .flexible(0), top: nil, trailing: nil, bottom: nil) // changing .flexible() changes distance between horizontal cells
+        let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [item])
         
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
+        
+        layoutSection.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 20, trailing: 16)
+        
+        layoutSection.interGroupSpacing = 16
+        
         // set/show headers
         layoutSection.boundarySupplementaryItems = [headerElement]
         
-        layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
-
-        
-        
+        layoutSection.orthogonalScrollingBehavior = .groupPaging
         
         return layoutSection
     }
