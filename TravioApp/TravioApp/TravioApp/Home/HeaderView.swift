@@ -78,10 +78,10 @@ class HeaderView: UICollectionReusableView {
         })
         
         btnSeeAll.snp.makeConstraints({ btn in
-            btn.centerY.equalTo(lblSectionTitle).offset(4)
-            btn.trailing.equalToSuperview()
+            btn.top.equalTo(lblSectionTitle.snp.top).offset(1)
+            btn.trailing.equalToSuperview().offset(16)
             btn.height.equalToSuperview()
-            btn.width.equalTo(btnSeeAll.frame.width)
+//            btn.width.equalTo(btnSeeAll.frame.width)
 
         })
     }
