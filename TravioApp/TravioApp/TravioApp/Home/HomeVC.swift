@@ -79,7 +79,7 @@ class HomeVC: UIViewController {
     }
     
     //MARK: -- Private Methods
-
+    
     func initPopularVM() {
         viewModel.reloadPopularClosure = { [weak self] () in
             DispatchQueue.main.async {
@@ -241,65 +241,62 @@ extension HomeVC:UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
-            let object = viewModel.popularPlaces[indexPath.row]
-            
-            cell.configure(object:object)
-            return cell
-        }
-        else if indexPath.section == 1{
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
-            let object = viewModel.newPlaces[indexPath.row]
-            
-            cell.configure(object:object)
-            return cell
-            
-        }
-        else{
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
-            let object = viewModel.allPlaces[indexPath.row]
-            
-            cell.configure(object:object)
-            return cell
-        }
         
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("Cell not found")}
+        
+        switch indexPath.section {
+        case 0:
+            let object = viewModel.popularPlaces[indexPath.row]
+            cell.configure(object:object)
+        case 1:
+            let object = viewModel.newPlaces[indexPath.row]
+            cell.configure(object:object)
+        case 2:
+            let object = viewModel.allPlaces[indexPath.row]
+            cell.configure(object:object)
+        default:
+            break
+        }
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseId, for: indexPath) as! HeaderView
         
-        if indexPath.section == 0 {
-            header.setTitle(titleText: "Popular Places")
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseId, for: indexPath) as! HeaderView
+        let vc = PopularPlaceVC()
+        
+        switch indexPath.section {
+        case 0:
+            let title = "Popular Places"
+            header.setTitle(titleText: title)
             header.btnTapAction = {
                 
-                let vc = PopularPlaceVC()
-                vc.titleLabel.text = "Popular Places"
+                vc.titleLabel.text = title
                 vc.viewModel.getPopularPlace()
                 
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-        }else if indexPath.section == 1 {
-            header.setTitle(titleText: "New Places")
+        case 1:
+            let title = "New Places"
+            header.setTitle(titleText: title)
             header.btnTapAction = {
                 
-                let vc = PopularPlaceVC()
-                vc.titleLabel.text = "New Places"
+                vc.titleLabel.text = title
                 vc.viewModel.newPlace()
                 
                 self.navigationController?.pushViewController(vc, animated: true)
-                
             }
-        }else{
+        case 2:
             header.setTitle(titleText: "My Added Places")
             header.btnTapAction = {
                 
-                let vc = PopularPlaceVC()
                 vc.titleLabel.text = "My Added Places"
                 vc.viewModel.allPlaceforUser()
                 
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+        default:
+            break
         }
         
         return header
