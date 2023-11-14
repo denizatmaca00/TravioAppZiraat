@@ -59,7 +59,8 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         p.pageIndicatorTintColor = UIColor(patternImage: UIImage(named: "pageControl")!)
         p.pageIndicatorTintColor = UIColor.lightGray
         p.currentPageIndicatorTintColor = UIColor.black
-        //p.backgroundColor = UIColor.green
+       // p.backgroundColor = UIColor.white
+        p.tintColor = UIColor.white
         return p
     }()
     private var scrollView:UIScrollView = {
@@ -227,13 +228,13 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         imageCollection.edgesToSuperview(excluding: .bottom, insets: .left(0) + .right(0) + .top(0))
         imageCollection.height(249)
         
-        saveBtn.topToSuperview(offset:30)
+        saveBtn.topToSuperview(offset:20, usingSafeArea: true)
         saveBtn.top(to: imageCollection,offset:50)
         saveBtn.trailingToSuperview(offset:15)
         saveBtn.height(40)
         saveBtn.width(40)
         
-        backButton.topToSuperview(offset:30)
+        backButton.topToSuperview(offset:20,usingSafeArea: true)
         backButton.leadingToSuperview(offset: 20)
         backButton.height(40)
         backButton.width(40)
