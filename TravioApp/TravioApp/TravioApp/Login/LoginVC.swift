@@ -99,8 +99,6 @@ class LoginVC: UIViewController {
     
     @objc func btnLoginTapped() {
         
-        viewModel.isLoading = true
-        
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
         
@@ -137,6 +135,8 @@ class LoginVC: UIViewController {
     }
     
     func setupLayout() {
+        let limits = self.view.safeAreaLayoutGuide.snp
+        
         contentViewBig.snp.makeConstraints ({ view in
             view.height.equalToSuperview().multipliedBy(0.7)
             view.leading.equalToSuperview()
@@ -173,9 +173,9 @@ class LoginVC: UIViewController {
         })
         
         imageView.snp.makeConstraints({ img in
-            img.top.equalToSuperview().offset(54).constraint.isActive = true
-            img.leading.equalToSuperview().offset(120)
-            img.trailing.equalToSuperview().offset(-121)
+            img.top.equalTo(limits.top)
+            img.centerX.equalToSuperview()
+            
         })
     }
 }
