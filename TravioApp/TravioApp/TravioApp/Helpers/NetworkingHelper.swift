@@ -31,17 +31,19 @@ class NetworkingHelper {
         }
     }
     
-    func uploadPhoto<T: Decodable>(image: UIImage, urlRequest: Router, callback: @escaping Callback<T>) {
-        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
-            let conversionError = NSError(domain: "YourAppDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Fotoğrafın veriye dönüştürülmesi başarısız oldu"])
-            callback(.failure(conversionError))
-            return
+    func uploadPhoto<T: Decodable>(images: [UIImage], urlRequest: Router, callback: @escaping Callback<T>) {
+        var  imageDataArray: [Data] = []
+        
+        for image in images{
+            guard let imageData = image.jpegData(compressionQuality: 1) else {continue}
+            imageDataArray.append(imageData)
         }
 
         AF.upload(
             multipartFormData: { multipartFormData in
-                multipartFormData.append(imageData, withName: "photo", fileName: "photo.jpg", mimeType: "image/jpeg")
-                // Diğer gerekli verileri de ekleyebilirsiniz
+                for(index, imageData) in imageDataArray.enumerated(){
+                    multipartFormData.append(imageData, withName: "file", fileName: "image\(index).jpg", mimeType: "image/jpeg")
+                }
             },
             to: urlRequest as! URLConvertible
         )

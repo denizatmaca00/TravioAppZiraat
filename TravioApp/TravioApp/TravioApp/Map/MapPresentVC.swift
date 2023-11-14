@@ -8,10 +8,6 @@
 import UIKit
 
 class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
-    func presentImagePicker() {
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
     
     var latitude: Double?
        var longitude: Double?
@@ -87,11 +83,14 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     private lazy var imagePicker: UIImagePickerController = {
             let picker = UIImagePickerController()
             picker.delegate = self
-            picker.sourceType = .camera
-            picker.allowsEditing = false
+            picker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
+
             return picker
         }()
-    
+
+  
+            
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -197,9 +196,9 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath)
         
-        // Görsel içeriği yükleme
-        
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -227,29 +226,30 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
         // imageview içine koysan daha iyi olaiblir
         
         // Daha sonra bu fotoğrafı API'ye yükle
-        uploadPhoto(image: image)
+      //  uploadPhoto(image: image)
     }
 
-    func uploadPhoto(image: UIImage) {
-        // Fotoğrafı API'ye yüklemek için kullanıcı tanımlı bir fonksiyon
-        // Önce fotoğrafı bir veriye dönüştürüp, ardından bu veriyi kullanarak API çağrısı yapabilirsiniz
-        // API çağrısını gerçekleştiren bir fonksiyonunuz varsa, onu kullanabilirsiniz
-        let uploadRouter = Router.uploadAddPhoto(params: ["yourParam": "value"])
-
-        NetworkingHelper.shared.uploadPhoto(image: image, urlRequest: uploadRouter) { (result: Result<AddPhotoUploadMultipart, Error>) in
-            switch result {
-            case .success(let uploadResult):
-                //  yüklendi
-                print("Upload success: \(uploadResult)")
-            case .failure(let error):
-                // Hata 
-                print("Upload failure: \(error)")
-            }
-        }
-
-    }
+//    func uploadPhoto(image: UIImage) {
+//        // Fotoğrafı API'ye yüklemek için kullanıcı tanımlı bir fonksiyon
+//        // Önce fotoğrafı bir veriye dönüştürüp, ardından bu veriyi kullanarak API çağrısı yapabilirsiniz
+//        // API çağrısını gerçekleştiren bir fonksiyonunuz varsa, onu kullanabilirsiniz
+//        let uploadRouter = Router.uploadAddPhoto(params: ["yourParam": "value"])
+//
+//        NetworkingHelper.shared.uploadPhoto(image: image, urlRequest: uploadRouter) { (result: Result<AddPhotoUploadMultipart, Error>) in
+//            switch result {
+//            case .success(let uploadResult):
+//                //  yüklendi
+//                print("Upload success: \(uploadResult)")
+//            case .failure(let error):
+//                // Hata
+//                print("Upload failure: \(error)")
+//            }
+//        }
+//
+//    }
 
 }
+
  
 
 #if DEBUG

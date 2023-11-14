@@ -63,7 +63,7 @@
 
 import UIKit
 
-class EditProfileVC: UIViewController {
+class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var viewModel = EditProfileVM()
     var viewModelProfile = ProfileVM()
@@ -72,18 +72,29 @@ class EditProfileVC: UIViewController {
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var txtUsername = viewUsername.getTFAsObject()
     private lazy var txtEmail = viewMail.getTFAsObject()
+    var imagesDatas:[UIImage] = []
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
+        imageView.layer.cornerRadius = 60
+        imageView.layer.masksToBounds = true
         return imageView
     }()
+    func  imagePicker (){
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        present(picker, animated: true)
+    }
+    
+    
     private lazy var changePhotoButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("Change Photo", for: .normal)
         btn.setTitleColor(UIColor(named: "editProfileColor"), for: .normal)
         btn.titleLabel?.font = .Fonts.textFieldText.font
-        //btn.addTarget(self, action: #selector(changePhotoTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(changePhotoTapped), for: .touchUpInside)
         return btn
     }()
     private lazy var labelName: UILabel = {
@@ -135,22 +146,24 @@ class EditProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         setupViews()
         initVM()
         
     }
+    @objc func changePhotoTapped(){
+        imagePicker()
+    }
+    
     func initVM(){
         viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
-                    self?.labelName.text = updatedProfile.full_name
+            self?.labelName.text = updatedProfile.full_name
             self?.labelDate.textLabel.text = updatedProfile.created_at.extractDate()
-            print(updatedProfile.created_at.extractDate())
             self?.labelRole.textLabel.text = updatedProfile.role
             self?.txtUsername.text = updatedProfile.full_name
             self?.txtEmail.text = updatedProfile.email
-//                    self?.imageView.image = UIImage(named: profile.pp_url)
-                }
-                
+        }
+        
         viewModelProfile.getProfileInfos(completion: {result in })
     }
     
@@ -162,10 +175,20 @@ class EditProfileVC: UIViewController {
     
     @objc func saveEditProfile() {
         guard let email = txtEmail.text,
-              let full_name = txtUsername.text,
-              let pp_url = imageView.image else { return }
+              let full_name = txtUsername.text else { return }
         
-        viewModel.putEditProfileInfos(profile: EditProfile(full_name: full_name, email: email, pp_url: pp_url.description))
+              let pp_url = imageView.image
+        guard let imageData = imageView.image?.jpegData(compressionQuality: 0.8) else {
+                print("Error converting image to data")
+                return
+            }
+
+            let base64Image = imageData.base64EncodedString()
+
+            let profile = EditProfile(full_name: full_name, email: email, pp_url: base64Image)
+
+        
+        viewModel.putEditProfileInfos(profile: EditProfile(full_name: full_name, email: email, pp_url: pp_url!.description))
         labelName.text = full_name
         viewModelProfile.profile.full_name = full_name
         
@@ -241,6 +264,16 @@ class EditProfileVC: UIViewController {
             btn.height.equalTo(54)
             
         })
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage{
+            imageView.image = selectedImage
+            imagesDatas.append(selectedImage)
+            dismiss(animated: true, completion: nil)
+            
+            viewModel.putEditProfileInfos(profile: EditProfile(full_name: txtUsername.text ?? "", email: txtEmail.text ?? "", pp_url: selectedImage.description))
+        }
     }
 }
 
