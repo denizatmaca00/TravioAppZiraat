@@ -15,7 +15,7 @@ class HomeVM{
     var newPlaces:[Place] = []
     var allPlaces:[Place] = []
     
-    
+    var sectionsArray:[[Place]] = []
    
     var popularCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
@@ -66,6 +66,7 @@ class HomeVM{
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
+            self.sectionsArray[0] = self.popularPlaces
         }
     }
     
@@ -92,8 +93,10 @@ class HomeVM{
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
+            self.sectionsArray[1] = self.newPlaces
         }
     }
+    
     func initFetchAllForUserHomeAll(){
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getHomeAllPlacesForUser) {(result:Result<PlacesDataStatus, Error>) in
             print("getAllPlacesLimits:")
@@ -104,6 +107,7 @@ class HomeVM{
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
+            self.sectionsArray[2] = self.allPlaces
         }
     }
      
@@ -118,6 +122,7 @@ class HomeVM{
         
         self.popularCellViewModels = viewModels
     }
+    
     func fetchNewPlaces(news: [Place]) {
         self.newPlaces = news
         
@@ -129,6 +134,7 @@ class HomeVM{
         
         self.newCellViewModels = viewModels
     }
+    
     func fetchAllPlacesForUser(allForUsers: [Place]) {
         self.allPlaces = allForUsers
         

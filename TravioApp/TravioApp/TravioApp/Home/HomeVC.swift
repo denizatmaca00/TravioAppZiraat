@@ -122,7 +122,7 @@ class HomeVC: UIViewController {
         
         setupLayout()
         
-        //        viewModel.sectionsArray = [popularPlaces, newPlaces]
+        viewModel.sectionsArray = [viewModel.popularPlaces, viewModel.newPlaces, viewModel.allPlaces]
     }
     
     func setupLayout() {
@@ -244,6 +244,8 @@ extension HomeVC:UICollectionViewDataSource {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("Cell not found")}
         
+        cell.contentView.isUserInteractionEnabled = false
+        
         switch indexPath.section {
         case 0:
             let object = viewModel.popularPlaces[indexPath.row]
@@ -263,6 +265,7 @@ extension HomeVC:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseId, for: indexPath) as! HeaderView
+        
         let vc = PopularPlaceVC()
         
         switch indexPath.section {
@@ -298,21 +301,24 @@ extension HomeVC:UICollectionViewDataSource {
         default:
             break
         }
-        
         return header
     }
 }
 
-extension HomeVC:UICollectionViewDelegateFlowLayout
+extension HomeVC:UICollectionViewDelegate
 {
-    // item büyüklüklerini ayarlamak içni gerekli
+    // used for adjusting item sizes
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (collectionView.frame.width - 10) * 1,
                       height: (collectionView.frame.height - 10 ) * 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
+        let placeId = viewModel.sectionsArray[indexPath.section][indexPath.row].id
+        let vc = DetailVC()
+        vc.viewModel.placeIdtest = placeId
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -327,8 +333,3 @@ struct HomeVC_Preview: PreviewProvider {
     }
 }
 #endif
-
-// AutoLayout ile kısıtlamalar tanımıyoruz ve bunlara göre farklı ekranlarda aynı sonuç alıyoruz. Bunu da genelde superview ile yapıyoruz.
-
-// layout'daki genişliği neye göre vereceğiz?
-
