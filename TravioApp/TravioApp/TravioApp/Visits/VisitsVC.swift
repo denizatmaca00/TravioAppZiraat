@@ -91,6 +91,7 @@ class VisitsVC: UIViewController {
     }
     
     func setupLayout() {
+        //let tabBarHeight:CGFloat = self.tabBarController?.tabBar.frame.size.height ?? 83.0
         
         // Add here the setup for layout
         lblHeader.snp.makeConstraints({l in
@@ -112,7 +113,7 @@ class VisitsVC: UIViewController {
             tv.top.equalToSuperview().offset(45)
             tv.leading.equalToSuperview()
             tv.trailing.equalToSuperview()
-            tv.height.equalToSuperview()
+            tv.bottom.equalToSuperview()
             
         })
     }
