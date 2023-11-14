@@ -50,14 +50,20 @@ class CustomVisitCell: UITableViewCell {
     private lazy var imageLocation:UIImageView = {
         var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 344, height: 219))
         imageView.image = UIImage(named: "sultanahmet")
+        backgroundColor = UIColor(named: "viewBackgroundColor")
         imageView.layer.cornerRadius = 16
         imageView.layer.masksToBounds = true
+        
+        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.layer.shadowRadius = 20
+        imageView.layer.shadowOpacity = 0.15
         return imageView
     }()
     
     // used to adjust distance between cells
     private lazy var viewSeperator:UIView = {
         let v = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        v.isHidden = true
         return v
     }()
     
@@ -80,6 +86,7 @@ class CustomVisitCell: UITableViewCell {
     
     func setupViews() {
         self.selectionStyle = .none
+        self.backgroundColor = UIColor(named: "viewBackgroundColor")
         self.contentView.addSubviews(imageLocation, placeName,iconLocation,cityName)
         setupLayout()
     }
