@@ -37,7 +37,7 @@ class VisitsVC: UIViewController {
     private lazy var tableView:UITableView = {
         let tv = UITableView()
         tv.separatorStyle = .none
-        tv.backgroundColor = UIColor(named: "viewBackgroundColor")
+        tv.backgroundColor = .clear
         tv.register(CustomVisitCell.self, forCellReuseIdentifier: CustomVisitCell.reuseIdentifier)
         tv.delegate = self
         tv.dataSource = self
@@ -110,7 +110,7 @@ class VisitsVC: UIViewController {
         })
         
         tableView.snp.makeConstraints({ tv in
-            tv.top.equalToSuperview().offset(45)
+            tv.top.equalToSuperview()
             tv.leading.equalToSuperview()
             tv.trailing.equalToSuperview()
             tv.bottom.equalToSuperview()
@@ -143,23 +143,34 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-
-        return (tableView.frame.width - (24 * 2)) * 0.6377 + 16
-        //return (219+16)
+        let baseWidth = CGFloat(self.tableView.frame.width)
+        let imageHeight = CGFloat(219)
+        let imageWidth = CGFloat(344)
+        let imageRatio = CGFloat(imageHeight / imageWidth)
+        let cellSpacerHeight = CGFloat(16)
+        let horizontalPadding = CGFloat(24 * 2)
+        
+        let relativeWidth = CGFloat(CGFloat(baseWidth - horizontalPadding) * imageRatio) + cellSpacerHeight
+        
+        return relativeWidth
     }
     
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        // here navigation to placeDetail page will be implemented
-        //navigationController?.pushViewController(DetailVC(), animated: true)
-        print(indexPath.row)
-        return indexPath
-    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
        //tıklndığının placeidsini detailpagee gönder.
         let vc = DetailVC()
         vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
         viewModel.getaVisitbyID()
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 25
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
