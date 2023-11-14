@@ -194,7 +194,7 @@ extension HomeVC {
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(280), heightDimension: .estimated(178))
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(280), heightDimension: .estimated(178)) 
         
         let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [item])
         
