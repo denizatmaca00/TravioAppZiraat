@@ -21,6 +21,7 @@
 // TODO: klavye +
 // TODO: signUp mvvme göre düzenle +
 // TODO: populervc uı backbutton, font, üst üste gelmesi +
+// TODO: editPrpfile label networking +
 
 
 // proje nasıl daha iyi hale gelir fikirleri
@@ -31,13 +32,14 @@
 // TODO:
 // TODO: dark mode hiç yok onu yapmak lazım
 // TODO: benim teliefonumda home kaydı
+// TODO: benim teliefonumda home kaydı
 
 //Deniz
 // TODO: map upload
 // TODO: map ftoğraflar için collectionciewi sağa sol ypmak gereliyor o
-// TODO: mapte kalkmıyor pin
-// TODO: editPrpfile label networking
+// TODO: mapte pin kalkmıyor
 // TODO: editPrpfile changePhoto networking
+// TODO: settinsteki isim ve foto muhtelemen put işleminden sonra değişmeyecek ona bak
 
 //Aydın
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
@@ -53,6 +55,7 @@
 //TODO: detay sayfasında scrrol static ayarlanacak
 //TODO: detay sayfasında shadow ekleecek
 //TODO: security settings UI
+//TODO: popularda kayma da sıkıntı var
 
 //TODO: tabbarın hangis sayfada olup olmaması
 //TODO: App DEfaults ne yapacak ?
@@ -85,15 +88,15 @@ class EditProfileVC: UIViewController {
     }()
     private lazy var labelName: UILabel = {
         let lbl = UILabel()
-//        lbl.text = viewModelProfile.profile.full_name
+        //        lbl.text = viewModelProfile.profile.full_name
         lbl.text = "bruce wills"
         lbl.textColor = UIColor(named: "settingsLabelColor")
         lbl.font = .Fonts.header24.font
         return lbl
     }()
     
-     lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile.profile.created_at, alignment: .left)
-     lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile.profile.role, alignment: .left)
+    lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile.profile.created_at, alignment: .left)
+    lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile.profile.role, alignment: .left)
     
     
     private lazy var titleLabel: UILabel = {
@@ -132,16 +135,26 @@ class EditProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         setupViews()
+        initVM()
         
-        viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
-                   // Update UI with the new profile data
-                   self?.labelName.text = updatedProfile.full_name
-            self?.labelDate.textLabel.text = updatedProfile.created_at
-                   self?.labelRole.textLabel.text = updatedProfile.role
-               }
     }
+    func initVM(){
+        viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
+                    self?.labelName.text = updatedProfile.full_name
+            self?.labelDate.textLabel.text = updatedProfile.created_at.extractDate()
+            print(updatedProfile.created_at.extractDate())
+            self?.labelRole.textLabel.text = updatedProfile.role
+            self?.txtUsername.text = updatedProfile.full_name
+            self?.txtEmail.text = updatedProfile.email
+//                    self?.imageView.image = UIImage(named: profile.pp_url)
+                }
+                
+        viewModelProfile.getProfileInfos(completion: {result in })
+    }
+    
+    
     
     @objc func exitButtonTapped(){
         navigationController?.popViewController(animated: true)
@@ -158,7 +171,7 @@ class EditProfileVC: UIViewController {
         
         
     }
-        
+    
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, exitButton)

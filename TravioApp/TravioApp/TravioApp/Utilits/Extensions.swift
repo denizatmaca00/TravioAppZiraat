@@ -503,3 +503,27 @@ extension UIWindow {
         }
     }
 }
+
+// MARK: date
+extension String {
+    func formatDate() -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" // Bu, ISO 8601 tarih formatına göredir. Eğer farklı bir format varsa, ona göre ayarlayın.
+
+        if let date = dateFormatter.date(from: self) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "yyyy-MM-dd" // İstenilen tarih formatını ayarlayın
+            let formattedDateString = outputFormatter.string(from: date)
+            return formattedDateString
+        }
+
+        return nil
+    }
+}
+
+extension String {
+    func extractDate() -> String? {
+        let endIndex = self.index(self.startIndex, offsetBy: 10)
+        return String(self.prefix(upTo: endIndex))
+    }
+}

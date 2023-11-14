@@ -53,7 +53,7 @@ class SettingsVC: UIViewController {
     }()
     private lazy var label: UILabel = {
         let lbl = UILabel()
-        lbl.text = "İsim Soyisim"
+        lbl.text = ""
         lbl.textColor = UIColor(named: "settingsLabelColor")
         lbl.font = .Fonts.profileNameTitle.font
         return lbl
