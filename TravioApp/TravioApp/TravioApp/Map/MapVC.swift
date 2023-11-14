@@ -19,11 +19,12 @@ class MapVC: UIViewController {
     }()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         viewModel.fetchAndShowPlaces()
-        setupViews()
         viewModel.map.delegate = self
+
+        setupViews()
         setupTapGestureRecognizer()
+        super.viewDidLoad()
 
        // initVM()
     }

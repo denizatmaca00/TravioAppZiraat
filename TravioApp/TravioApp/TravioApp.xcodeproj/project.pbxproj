@@ -52,6 +52,7 @@
 		5E388FDF2AF04392002ABDBD /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E388FDE2AF04392002ABDBD /* DetailVC.swift */; };
 		5E3CC0842AF4D86F007FCFD5 /* SecuritySettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */; };
 		5E45C4142AF832FC00399873 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5E45C4132AF832FC00399873 /* Kingfisher */; };
+		5EB8B2922B020D1F007BB08A /* PopularPlaceVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB8B2912B020D1F007BB08A /* PopularPlaceVM.swift */; };
 		5EDD08222AF3BD94002072BC /* PopularPlaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */; };
 		5EDD08242AF3BDCB002072BC /* PopularPageCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */; };
 		EC0044182AF4330A001540A5 /* DropCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0044172AF4330A001540A5 /* DropCell.swift */; };
@@ -121,6 +122,7 @@
 		5E388FDC2AF041CA002ABDBD /* DetailPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPageCell.swift; sourceTree = "<group>"; };
 		5E388FDE2AF04392002ABDBD /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingVC.swift; sourceTree = "<group>"; };
+		5EB8B2912B020D1F007BB08A /* PopularPlaceVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlaceVM.swift; sourceTree = "<group>"; };
 		5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlaceVC.swift; sourceTree = "<group>"; };
 		5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPageCellVC.swift; sourceTree = "<group>"; };
 		EC0044172AF4330A001540A5 /* DropCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCell.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			children = (
 				5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */,
 				5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */,
+				5EB8B2912B020D1F007BB08A /* PopularPlaceVM.swift */,
 			);
 			path = PopularPlaces;
 			sourceTree = "<group>";
@@ -547,6 +550,7 @@
 				EC0044182AF4330A001540A5 /* DropCell.swift in Sources */,
 				EC4023DE2B00CBF20016FA3A /* ImageHelper.swift in Sources */,
 				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
+				5EB8B2922B020D1F007BB08A /* PopularPlaceVM.swift in Sources */,
 				EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */,
 				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
 				5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */,
@@ -709,7 +713,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bilgeAdam.TravioApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.denizatmaca078.TravioApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -738,7 +742,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.bilgeAdam.TravioApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.denizatmaca078.TravioApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

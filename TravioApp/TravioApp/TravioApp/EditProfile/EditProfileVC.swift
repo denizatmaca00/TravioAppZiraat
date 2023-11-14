@@ -28,6 +28,9 @@
 // TODO: leftBarItem bir tane yazılıp her yerden çekilebilir
 // TODO: color enumı eklenebilir
 // TODO: stackview eklenmeli cardların içine
+// TODO:
+// TODO: dark mode hiç yok onu yapmak lazım
+// TODO: benim teliefonumda home kaydı
 
 //Deniz
 // TODO: map upload
@@ -40,6 +43,7 @@
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
 //TODO: HomeSettingsVC
 //TODO: Homeda detaya gidelicek
+//TODO: indicatörde loginde yanlış girip alerti kapatınca indicatör takılı kalıyor.
 
 //Ece
 //TODO: Popular 3 tane

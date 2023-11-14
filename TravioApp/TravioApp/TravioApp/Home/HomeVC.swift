@@ -275,24 +275,36 @@ extension HomeVC:UICollectionViewDataSource {
         if indexPath.section == 0{
             header.setTitle(titleText: "Popular Places")
             header.btnTapAction = {
-                let popularPlacesVC:UIViewController = PopularPlaceVC()
+               // let vc = popularPlacesVC:UIViewController = PopularPlaceVC()
                 // burada hepsi aslında tek bir vcye gidecek hepsi popoularvc ye ve verilerin değişik aktarılması burada yapılacak bence
                 //initFetchPopularHomeAll() bu fonksiyon burada çalışacak
-                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+               // let vc = popularPlacesVC()
+                //vc.viewModel.getPopularPlace()
+                let vcc = PopularPlaceVC()
+                vcc.viewModel.getPopularPlace()
+                //self.viewModel.initFetchNewHomeAll()
+                self.navigationController?.pushViewController(vcc, animated: true)
             }
         }else if indexPath.section == 1 {
             header.setTitle(titleText: "New Places")
             header.btnTapAction = {
-                let popularPlacesVC:UIViewController = MapVC()
+                //let popularPlacesVC:UIViewController = MapVC()
                 // initFetchNewHomeAll() bu da burada
-                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+                let vc = PopularPlaceVC()
+                vc.titleLabel.text = "New Places"
+                vc.viewModel.newPlace()
+                self.navigationController?.pushViewController(vc, animated: true)
+                
             }
         }else{
             header.setTitle(titleText: "My Added Places")
             header.btnTapAction = {
                 let popularPlacesVC:UIViewController = SettingsVC()
-                //initFetchAllForUserHomeAll() bu da burada 
-                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+                //initFetchAllForUserHomeAll() bu da burada
+                let vc = PopularPlaceVC()
+                vc.titleLabel.text = "My Added Places"
+                vc.viewModel.allPlaceforUser()
+                self.navigationController?.pushViewController(vc, animated: true)
             }
         }
         

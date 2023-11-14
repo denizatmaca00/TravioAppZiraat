@@ -145,8 +145,7 @@ class LoginVC: UIViewController {
         })
         
         welcomeLabel.snp.makeConstraints ({ lbl in
-            lbl.leading.equalToSuperview().offset(82)
-            lbl.trailing.equalToSuperview().offset(-82)
+            lbl.centerX.equalToSuperview()
             lbl.top.equalTo(contentViewBig).offset(64)
         })
         
