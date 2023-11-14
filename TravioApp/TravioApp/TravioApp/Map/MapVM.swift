@@ -15,6 +15,7 @@ class MapVM {
     let map = MKMapView()
     
     var places: [Place] = []
+    var place: Place = Place(id: "", creator: "", place: "", title: "", description: "", cover_image_url: "", latitude: 0, longitude: 0, created_at: "", updated_at: "")
     
     var showPinClosure: (() -> Void)?
     var showAlertClosure: ((String, String) -> Void)?
@@ -46,6 +47,8 @@ class MapVM {
             }
         }
     }
+
+
     
     func fetchPlacesForCollectionCell(){
         NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<PlacesDataStatus, Error>) in

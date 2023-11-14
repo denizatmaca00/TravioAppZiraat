@@ -1,7 +1,11 @@
 import UIKit
 import MapKit
 
-class MapVC: UIViewController {
+protocol ViewRemoveDelegate {
+    func dismissPresentRemovePin()
+}
+
+class MapVC: UIViewController, ViewRemoveDelegate {
     
     let viewModel = MapVM()
     var selectedAnnotation: MKAnnotation?
@@ -17,7 +21,7 @@ class MapVC: UIViewController {
         collectionView.register(MapPlacesCellVC.self, forCellWithReuseIdentifier: "Cell")
         return collectionView
     }()
-    
+   
     override func viewDidLoad() {
         viewModel.fetchAndShowPlaces()
         viewModel.map.delegate = self
@@ -26,13 +30,10 @@ class MapVC: UIViewController {
         setupTapGestureRecognizer()
         super.viewDidLoad()
 
-       // initVM()
+        initVM()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-       initVM()
-    }
+    
     
     func initVM() {
         viewModel.reloadTableViewClosure = { [weak self] () in
@@ -45,7 +46,7 @@ class MapVC: UIViewController {
     
     func setupViews() {
         self.view.addSubview(viewModel.map)
-        self.view.addSubview(collectionView)
+        self.view.addSubviews(collectionView)
         setupLayout()
     }
     
@@ -66,38 +67,38 @@ class MapVC: UIViewController {
     }
     
     @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        if gestureRecognizer.state == .began {
-            let touchPoint = gestureRecognizer.location(in: viewModel.map)
-            let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
-            
-            // Eğer önceki bir seçili pin varsa, onu kaldır
-            if let existingAnnotation = selectedAnnotation {
-                viewModel.map.removeAnnotation(existingAnnotation)
-            }
-            
-            // Eğer önceki bir seçili pin varsa, seçili pin'i kaldır ama çalışmıyor
-            deselectSelectedAnnotation()
+            if gestureRecognizer.state == .began {
+                let touchPoint = gestureRecognizer.location(in: viewModel.map)
+                let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
 
-            let newAnnotation = CustomAnnotation(
-                title: "Yeni Pin",
-                subtitle: "Açıklama",
-                coordinate: coordinate,
-                logoImage: UIImage(named: "pinLogo")
-            )
-            viewModel.map.addAnnotation(newAnnotation)
-            
-            // Yeni pin'i seçili olarak işaretle
-            selectedAnnotation = newAnnotation
-            
-            let vc = MapPresentVC()
-            vc.latitude = coordinate.latitude
-            vc.longitude = coordinate.longitude
-            
-            vc.updateMapClosure = { [weak self] in
-                self?.initVM()}
-            self.present(vc, animated: true, completion: nil)
+                let newAnnotation = CustomAnnotation(
+                    title: "Yeni Pin",
+                    subtitle: "Açıklama",
+                    coordinate: coordinate,
+                    logoImage: UIImage(named: "pinLogo")
+                )
+                viewModel.map.addAnnotation(newAnnotation)
+
+                selectedAnnotation = newAnnotation
+
+                let vc = MapPresentVC()
+                vc.latitude = coordinate.latitude
+                vc.longitude = coordinate.longitude
+                vc.delegate = self
+                vc.updateMapClosure = { [weak self] in
+                    self?.initVM()
+                }
+                self.present(vc, animated: true, completion: nil)
+            }
         }
-    }
+
+    func dismissPresentRemovePin() {
+         if let selectedAnnotation = selectedAnnotation {
+             viewModel.map.removeAnnotation(selectedAnnotation)
+             self.selectedAnnotation = nil
+         }
+        initVM()
+     }
 
 }
 
@@ -136,24 +137,12 @@ extension MapVC: MKMapViewDelegate {
 
         selectCollectionViewCell(at: index)
 
-        if annotation === selectedAnnotation {
-            deselectSelectedAnnotation()
-        }
     }
-
-    func deselectSelectedAnnotation() {
-        if let selectedAnnotation = selectedAnnotation {
-            viewModel.map.removeAnnotation(selectedAnnotation)
-            self.selectedAnnotation = nil
-        }
-    }
-
-
+  
     func selectCollectionViewCell(at index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
-
 
 }
 

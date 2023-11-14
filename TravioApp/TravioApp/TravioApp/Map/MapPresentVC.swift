@@ -7,15 +7,21 @@
 
 import UIKit
 
-class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
+class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate, ViewRemoveDelegate {
+    
+    var latitude: Double?
+        var longitude: Double?
+        var updateMapClosure: (() -> Void)?
+        var delegate: ViewRemoveDelegate?
+    
+    func dismissPresentRemovePin() {
+        self.dismiss(animated: true) {
+            self.delegate?.dismissPresentRemovePin()
+        }
+    }
     func presentImagePicker() {
         present(imagePicker, animated: true, completion: nil)
     }
-    
-    
-    var latitude: Double?
-       var longitude: Double?
-    var updateMapClosure: (() -> Void)?
 
     let viewModel = MapPresentVM()
     
@@ -98,26 +104,17 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         setupViews()
 
     }
+
     
     @objc func btnAddPlaceTapped() {
-        print(txtTitle.text!)
-        //print(txtDescription.text!)
-        print(txtLocation.text!)
-        print(self.latitude)
-        print(self.longitude)
- 
         viewModel.postAddNewPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "http.png", latitude: latitude!, longitude: longitude!, completion: { [weak self] result in
             switch result {
             case .success(let response):
                 if let messages = response.message {
-                    print(messages)
-                    print(response.message)
-                    print(self!.latitude)
-                    print(self!.longitude)
                     // presenti dismiss et mapi reload et
-                    self!.dismiss(animated: true)
-                    self?.updateMapClosure?()
-
+                    self?.dismiss(animated: true) {
+                                       self?.updateMapClosure?()
+                                   }
                     }
             case .failure(let error):
                 print("Error: \(error)")
@@ -126,19 +123,13 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         })
         MapVC().initVM()
     }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
             if textView.textColor == UIColor.lightGray {
                 textView.text = nil
                 textView.textColor = UIColor.black
             }
         }
-
-//        func textViewDidEndEditing(_ textView: UITextView) {
-//            if textView.text.isEmpty {
-//                textView.text = "Placeholder metni"
-//                textView.textColor = UIColor.lightGray
-//            }
-//        }
     
     func setupViews() {
         
@@ -158,14 +149,9 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
             lbl.top.equalTo(stackView).offset(8)
             lbl.leading.equalToSuperview().offset(12)
         })
-//        textFieldDesciption.snp.makeConstraints({tf in
-//            tf.top.equalTo(titleDescrpition.snp.bottom).offset(8)
-//            tf.height.equalTo(185)
-//        })
+
         textFieldDescription.snp.makeConstraints { make in
             make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
-                   // make.leading.equalTo(view).offset(20)
-                   // make.trailing.equalTo(view).offset(-20)
             make.height.equalTo(185)
                 }
         
@@ -226,14 +212,13 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
         // Seçilen fotoğrafı işleyecek
         // imageview içine koysan daha iyi olaiblir
         
-        // Daha sonra bu fotoğrafı API'ye yükle
+        // Daha sonra bu fotoğrafı API'ye yükleyeceksin
         uploadPhoto(image: image)
     }
 
     func uploadPhoto(image: UIImage) {
         // Fotoğrafı API'ye yüklemek için kullanıcı tanımlı bir fonksiyon
         // Önce fotoğrafı bir veriye dönüştürüp, ardından bu veriyi kullanarak API çağrısı yapabilirsiniz
-        // API çağrısını gerçekleştiren bir fonksiyonunuz varsa, onu kullanabilirsiniz
         let uploadRouter = Router.uploadAddPhoto(params: ["yourParam": "value"])
 
         NetworkingHelper.shared.uploadPhoto(image: image, urlRequest: uploadRouter) { (result: Result<AddPhotoUploadMultipart, Error>) in

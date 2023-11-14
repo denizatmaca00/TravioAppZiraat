@@ -95,6 +95,8 @@ class DetailVM{
             }
         }
     }
+
+    
     func checkVisitbyPlaceID(){
         guard let id = placeIdtest  else {return}
         print(id)
