@@ -10,7 +10,7 @@ import UIKit
 import TinyConstraints
 import SnapKit
 
-class SecuritySettingVC: UIViewController {
+class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     //background color
     private lazy var uıView: AppView = {
         let uv = AppView()
@@ -52,7 +52,10 @@ class SecuritySettingVC: UIViewController {
         let cptxt = UILabel()
         cptxt.text = "Privacy"
         cptxt.font = .Fonts.cityText16.font
+        cptxt.layer.backgroundColor = UIColor.blue.cgColor
         cptxt.textColor = UIColor(named: "backgroundColor")
+       // cptxt.layer.backgroundColor = UIColor.red.cgColor
+        //cptxt.textColor = .red
         return cptxt
     }()
 
@@ -67,7 +70,19 @@ class SecuritySettingVC: UIViewController {
             s.isEnabled = true
             return s
         }()
+    //scroll view
+    private lazy var scrollView:UIScrollView = {
+       let sw = UIScrollView()
+        sw.isScrollEnabled = true
+        sw.layer.backgroundColor = UIColor.red.cgColor
+        sw.showsVerticalScrollIndicator = true
+       // sw.contentSize = CGSize(width: sw.frame.size.width, height: 600)
+        //sw.contentSize = CGSize(width: sw.frame.size.width, height: sw.frame.maxY + 50)
 
+        return sw
+    }()
+    
+    //stackview1
     private lazy var stackViewPasswordChange: UIStackView = {
         let svp = UIStackView()
         svp.backgroundColor = UIColor(named: "viewBackgroundColor")
@@ -77,6 +92,8 @@ class SecuritySettingVC: UIViewController {
         svp.distribution = .fill
         return svp
     }()
+    
+    //stackview2
     private lazy var stackViewPrivacy: UIStackView = {
         let sp = UIStackView()
         sp.backgroundColor = UIColor(named: "viewBackgroundColor")
@@ -108,28 +125,34 @@ class SecuritySettingVC: UIViewController {
         self.view.addSubview(mainTitle)
         self.view.addSubview(backButton)
         self.view.addSubview(changePasswordTitle)
-   
+        
+        uıView.addSubview(stackViewPasswordChange)
         stackViewPasswordChange.addArrangedSubview(passwordTextField)
         stackViewPasswordChange.addArrangedSubview(confirmPassword)
-        self.view.addSubview(stackViewPasswordChange)
         
-        self.view.addSubview(privacyTitle)
         
+        uıView.addSubview(scrollView)
+        scrollView.addSubview(privacyTitle)
+        scrollView.addSubview(stackViewPrivacy)
+        scrollView.addSubview(saveButon)
         stackViewPrivacy.addArrangedSubview(camera)
         stackViewPrivacy.addArrangedSubview(photoLibrary)
         stackViewPrivacy.addArrangedSubview(location)
-        self.view.addSubview(stackViewPrivacy)
-        
-        self.view.addSubview(saveButon)
-     
         setupLayout()
     }
     
     func setupLayout() {
         backgroundView.edgesToSuperview()
-        uıView.topToSuperview(offset:125)
-        uıView.edgesToSuperview(excluding: .bottom,usingSafeArea: true)
-        uıView.height(800)
+        uıView.top(to: backgroundView, offset: 150)
+        //uıView.edgesToSuperview(excluding: .bottom)
+        //uıView.edgesToSuperview(excluding: .bottom, usingSafeArea: true)
+        //uıView.height(800)
+        uıView.leadingToSuperview()
+        uıView.trailingToSuperview()
+        uıView.snp.makeConstraints({ uı in
+            uı.bottom.equalToSuperview()
+            
+        })
         //security setting
         mainTitle.topToSuperview(offset:70)
         mainTitle.height(48)
@@ -153,26 +176,41 @@ class SecuritySettingVC: UIViewController {
         stackViewPasswordChange.trailingToSuperview(offset:20)
         stackViewPasswordChange.topToBottom(of: changePasswordTitle,offset: 20)
         stackViewPasswordChange.height(170)
-
+        
         stackViewPasswordChange.addArrangedSubview(passwordTextField)
         stackViewPasswordChange.addArrangedSubview(confirmPassword)
+
         
-        privacyTitle.topToBottom(of: stackViewPasswordChange, offset: 10)
+        scrollView.leadingToSuperview()
+        scrollView.trailingToSuperview()
+        scrollView.topToBottom(of: stackViewPasswordChange, offset: 10)
+        scrollView.bottomToSuperview()
+        //scrollView.height(1500)
+//        scrollView.contentInsetAdjustmentBehavior = .never
+        //scrollView.contentSize = CGSize(width: view.frame.width, height: 1500 )
+        //scrollView.height(600)
+//        scrollView.snp.makeConstraints({ s in
+//            s.bottom.equalToSuperview().offset(-30)
+//        })
+        
         privacyTitle.height(20)
-        privacyTitle.width(236)
-        privacyTitle.leading(to: changePasswordTitle)
-        
-        stackViewPrivacy.leadingToSuperview(offset:20)
-        stackViewPrivacy.trailingToSuperview(offset:20)
-        stackViewPrivacy.topToBottom(of: privacyTitle,offset: 20)
+        privacyTitle.trailing(to: stackViewPrivacy)
+        privacyTitle.leading(to: stackViewPrivacy)
+        privacyTitle.topToSuperview(offset:20)
+
+        stackViewPrivacy.trailing(to: stackViewPasswordChange)
+        stackViewPrivacy.topToBottom(of: privacyTitle,offset: 10)
         stackViewPrivacy.height(266)
-        
-        saveButon.bottomToSuperview(offset:20,usingSafeArea: true)
+        stackViewPrivacy.leadingToSuperview(offset:20)
+
+        saveButon.topToBottom(of: stackViewPrivacy, offset: 50)
         saveButon.height(54)
-        saveButon.trailingToSuperview(offset:24)
-        saveButon.leadingToSuperview(offset:24)
- 
-    
+        saveButon.trailing(to: stackViewPrivacy)
+        saveButon.leading(to: stackViewPrivacy)
+        //saveButon.bottomToSuperview(offset: 20)
+        saveButon.snp.makeConstraints({s in
+            s.bottom.equalToSuperview().offset(-30)
+        })
     }
   
 }
@@ -188,3 +226,19 @@ struct SecuritySettingVC_Preview: PreviewProvider {
     }
 }
 #endif
+
+
+//        stackViewPrivacy.leadingToSuperview()
+//        stackViewPrivacy.trailingToSuperview()
+//        saveButon.snp.makeConstraints({ btn in
+//            btn.top.equalTo(stackViewPrivacy.snp.bottom).offset(50)
+//            btn.width.equalTo(342)
+//            btn.height.equalTo(54)
+//            btn.bottom.equalToSuperview().offset(-10)
+//
+//        })
+       // saveButon.leading(to: stackViewPrivacy)
+//        saveButon.trailingToSuperview(offset:24)
+//        saveButon.leadingToSuperview(offset:24)
+      
+ 

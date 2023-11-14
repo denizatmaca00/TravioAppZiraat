@@ -68,6 +68,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         s.isScrollEnabled = true
         s.showsVerticalScrollIndicator = true
         s.contentSize = CGSize(width: s.frame.size.width, height: 1000)
+       // s.layer.backgroundColor = UIColor.red.cgColor
         return s
     }()
     private var centerText:UILabel = {
