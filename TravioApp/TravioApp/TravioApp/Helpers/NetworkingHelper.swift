@@ -45,7 +45,9 @@ class NetworkingHelper {
                     multipartFormData.append(imageData, withName: "file", fileName: "image\(index).jpg", mimeType: "image/jpeg")
                 }
             },
-            to: urlRequest as! URLConvertible
+            to: urlRequest.baseURL + urlRequest.path,
+            method: urlRequest.method,
+            headers: urlRequest.headers
         )
         .responseDecodable(of: T.self) { response in
             switch response.result {

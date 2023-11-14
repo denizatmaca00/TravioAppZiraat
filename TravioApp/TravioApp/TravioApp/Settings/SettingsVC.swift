@@ -103,7 +103,8 @@ class SettingsVC: UIViewController {
     
     @objc func editProfileTapped() {
         let vc = EditProfileVC()
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.present(vc, animated: true)
+        //self.navigationController?.pushViewController(vc, animated: true)
         print("edit")
     }
     

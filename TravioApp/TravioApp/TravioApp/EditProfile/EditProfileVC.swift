@@ -170,7 +170,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     
     
     @objc func exitButtonTapped(){
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true)
+       // navigationController?.popViewController(animated: true)
     }
     
     @objc func saveEditProfile() {
@@ -178,19 +179,13 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
               let full_name = txtUsername.text else { return }
         
               let pp_url = imageView.image
-        guard let imageData = imageView.image?.jpegData(compressionQuality: 0.8) else {
-                print("Error converting image to data")
-                return
-            }
 
-            let base64Image = imageData.base64EncodedString()
-
-            let profile = EditProfile(full_name: full_name, email: email, pp_url: base64Image)
 
         
         viewModel.putEditProfileInfos(profile: EditProfile(full_name: full_name, email: email, pp_url: pp_url!.description))
         labelName.text = full_name
         viewModelProfile.profile.full_name = full_name
+        imageView.image = pp_url
         
         
     }
@@ -207,7 +202,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         let limits = self.view.safeAreaLayoutGuide.snp
         
         titleLabel.snp.makeConstraints({ lbl in
-            lbl.top.equalToSuperview().offset(60)
+            lbl.top.equalToSuperview().offset(30)
             lbl.leading.equalToSuperview().offset(20)
         })
         
