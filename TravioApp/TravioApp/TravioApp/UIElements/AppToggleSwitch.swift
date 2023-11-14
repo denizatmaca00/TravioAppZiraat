@@ -22,16 +22,6 @@ class AppToggleSwitch: UIView{
                 return "Location"
             }
         }
-        var placeholder: String {
-            switch self {
-            case .camera:
-                return " "
-            case .libraryPhoto:
-                return " "
-            case .Location:
-                return " "
-            }
-        }
     }
     private var dataPrivacy: PrivacyData?
     
