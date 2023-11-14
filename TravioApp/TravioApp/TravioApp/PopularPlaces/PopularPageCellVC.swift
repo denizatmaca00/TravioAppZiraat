@@ -9,6 +9,7 @@
 import UIKit
 import TinyConstraints
 import SnapKit
+import Kingfisher
 
 class PopularPageCellVC: UICollectionViewCell {
     private lazy var PopularView: UIView = {
@@ -19,8 +20,12 @@ class PopularPageCellVC: UICollectionViewCell {
     }()
     private lazy var Image: UIImageView = {
         let img = UIImageView()
-        img.contentMode = .scaleAspectFill
+        img.contentMode = .scaleToFill
+        img.layer.cornerRadius = 10
         img.image = UIImage(named: "sultanahmet")
+        img.clipsToBounds = true
+        img.layer.masksToBounds = true
+        img.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
         return img
     }()
     private lazy var title:UILabel = {
@@ -48,9 +53,12 @@ class PopularPageCellVC: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(object:VisitCellViewModel){
-        
-        
+    public func configure(object:Place){
+        title.text = object.title
+        country.text = object.place
+        if let url = URL(string: object.cover_image_url){
+            Image.kf.setImage(with: url)
+            }
     }
     
 
@@ -70,22 +78,22 @@ class PopularPageCellVC: UICollectionViewCell {
         Image.heightToSuperview()
         Image.width(90)
         Image.topToSuperview()
-        Image.leading(to: PopularView, offset: 26)
+        Image.leadingToSuperview()
      
         
         title.height(36)
-        title.width(131)
+        title.width(160)
         title.top(to: PopularView,offset: 20)
         title.leadingToTrailing(of: Image, offset: 35)
         
-        icon.height(10)
-        icon.width(10)
-        icon.top(to: title,offset: 30)
+        icon.height(12)
+        icon.width(9)
+        icon.topToBottom(of: title, offset: 3)
         icon.leading(to: title)
         
         country.height(20)
-        country.width(46)
-        country.top(to: title, offset: 25)
+        country.width(70)
+        country.centerY(to: icon)
         country.leadingToTrailing(of: icon, offset: 5)
         
     }

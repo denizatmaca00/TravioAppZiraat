@@ -50,6 +50,7 @@ class CustomVisitCell: UITableViewCell {
     private lazy var imageLocation:UIImageView = {
         var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 344, height: 219))
         imageView.image = UIImage(named: "sultanahmet")
+        imageView.backgroundColor = .clear
         imageView.layer.cornerRadius = 16
         imageView.layer.masksToBounds = true
         return imageView
@@ -58,6 +59,7 @@ class CustomVisitCell: UITableViewCell {
     // used to adjust distance between cells
     private lazy var viewSeperator:UIView = {
         let v = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 16))
+        v.isHidden = true
         return v
     }()
     
@@ -80,6 +82,13 @@ class CustomVisitCell: UITableViewCell {
     
     func setupViews() {
         self.selectionStyle = .none
+        self.backgroundColor = .clear
+        self.clipsToBounds = false
+        
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 20
+        self.layer.shadowOpacity = 0.15
+        
         self.contentView.addSubviews(imageLocation, placeName,iconLocation,cityName)
         setupLayout()
     }
@@ -120,13 +129,6 @@ class CustomVisitCell: UITableViewCell {
         imageLocation.centerXToSuperview()
         
     }
-    
-    //    func setUserText(userPlaceText: String, userCountryText: String, img:String ) {
-    //        placeName.text = userPlaceText
-    //        cityName.text = userCountryText
-    //        imageLocation.image = UIImage(systemName: img)
-    //    }
-    
 }
 
 #if DEBUG

@@ -22,7 +22,7 @@ class TabBarVC: UITabBarController {
         
         self.viewControllers = setupTabControllers()
         // tab bar default view
-        self.selectedIndex = 1
+        self.selectedIndex = 0
         // text color of Tab Bar elements
         self.tabBar.tintColor = UIColor(named: "backgroundColor")
         // image color of Tab Bar elements when not selected
@@ -55,7 +55,6 @@ class TabBarVC: UITabBarController {
         let mapNC = UINavigationController(rootViewController: mapVC)
         let mapImage = UIImage(named:"map")
         let mapSelectedImage = UIImage(named: "map")?.withRenderingMode(.automatic)
-
         mapVC.tabBarItem = UITabBarItem(title: "Map", image: mapImage, selectedImage: mapSelectedImage)
         
         let menuVC = SettingsVC()

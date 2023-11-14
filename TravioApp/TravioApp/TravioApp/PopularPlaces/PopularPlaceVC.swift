@@ -12,14 +12,14 @@ import SnapKit
 
 
 class PopularPlaceVC: UIViewController {
-    
+    var viewModel = PopularPlaceVM()
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
         return imageView
     }()
     
-    private lazy var titleLabel: UILabel = {
+     lazy var titleLabel: UILabel = {
         let wlcLabel = UILabel()
         wlcLabel.text = "Popular Places"
         wlcLabel.textColor = .white
@@ -87,10 +87,34 @@ class PopularPlaceVC: UIViewController {
      }
     override func viewDidLoad(){
         super.viewDidLoad()
+        initAllForUserVM()
         titleLabel.isHidden = false
         sortAscending.isHidden = false
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
        setupViews()
+    }
+    func initAllForUserVM() {
+        viewModel.reloadPopularClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+        viewModel.fetch(array: viewModel.popularArray )
+    }
+    func initNewPlace(){
+        viewModel.reloadNewPopular = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+            
+        }
+    }
+    func initAllPlace(){
+        viewModel.reloadAllPopular = {[weak self] () in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -156,16 +180,16 @@ extension PopularPlaceVC:UICollectionViewDelegateFlowLayout{
     extension PopularPlaceVC:UICollectionViewDataSource {
         
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return 10
+            print(viewModel.popularArray.count)
+            return viewModel.popularArray.count
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCell", for: indexPath) as! PopularPageCellVC
-                
-            let data = VisitCellViewModel(image: URL(string: "sultanahmet")!, placeName: "Rome", city: "Colleseum")
-            cell.configure(object: data)
-                
-                return cell
+            let deneme = viewModel.popularArray[indexPath.row]
+            print(deneme)
+            cell.configure(object: deneme)
+            return cell
             }
     }
 

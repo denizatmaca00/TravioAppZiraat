@@ -13,7 +13,7 @@ import SnapKit
 class HomeVC: UIViewController {
     
     let viewModel:HomeVM = HomeVM()
-
+    
     //MARK: -- Properties
     
     private lazy var imgLogo: UIImageView = {
@@ -40,6 +40,13 @@ class HomeVC: UIViewController {
         return lbl
     }()
     
+    //MARK: -- Views
+    
+    private lazy var contentViewBig : UIView = {
+        let view = AppView()
+        return view
+    }()
+    
     private lazy var collectionView:UICollectionView = {
         let layout = makeCollectionViewLayout()
         
@@ -53,23 +60,25 @@ class HomeVC: UIViewController {
         return cv
     }()
     
-    //MARK: -- Views
-    
-    private lazy var contentViewBig : UIView = {
-        let view = AppView()
-        return view
-    }()
-    
     //MARK: -- Life Cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         initPopularVM()
         initNewsVM()
         initAllForUserVM()
-
+        
         setupViews()
     }
+    
+    //MARK: -- Component Actions
+    
+    @objc private func btnSeeAllTapped(sender:UIButton!){
+        print(sender.tag)
+    }
+    
+    //MARK: -- Private Methods
     
     func initPopularVM() {
         viewModel.reloadPopularClosure = { [weak self] () in
@@ -77,39 +86,29 @@ class HomeVC: UIViewController {
                 self?.collectionView.reloadData()
             }
         }
-        
         viewModel.initFetchPopularHomeLimits(limit: 10)
     }
+    
     func initNewsVM() {
         viewModel.reloadNewPlacesClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
             }
         }
-
         viewModel.initFetchNewHomeLimits(limit: 10)
-        
     }
+    
     func initAllForUserVM() {
         viewModel.reloadAllForUserPlacesClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
             }
         }
-
         viewModel.initFetchAllForUserHomeAll()
-        
-    }
-
-    
-    //MARK: -- Component Actions
-    
-    //MARK: -- Private Methods
-    @objc private func btnSeeAllTapped(sender:UIButton!){
-        print(sender.tag)
     }
     
     //MARK: -- UI Methods
+    
     func setupViews() {
         // Add here the setup for the UI
         
@@ -123,7 +122,7 @@ class HomeVC: UIViewController {
         
         setupLayout()
         
-//        viewModel.sectionsArray = [popularPlaces, newPlaces]
+        //        viewModel.sectionsArray = [popularPlaces, newPlaces]
     }
     
     func setupLayout() {
@@ -171,44 +170,40 @@ class HomeVC: UIViewController {
     }
 }
 
-// last places kısmını 10 sayfa ile limitleyeceğiz, horizontal slide edilen yerde o limiti kullanacağız. Max. 20 gelebiliyor
-
-// Extension for CollectionViewLayout
 extension HomeVC {
     
     func makeSliderLayoutSection() -> NSCollectionLayoutSection {
         
         // header adjustments
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95), heightDimension: .fractionalHeight(0.052))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(20))
         
         let headerElement = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         
-        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 12, bottom:-15+2, trailing: 16)
+        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 0, bottom:0, trailing: 16)
         
         headerElement.pinToVisibleBounds = false
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: -48-24, bottom: 0, trailing: 0)
         
-        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .fractionalHeight(0.35))
+        let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .estimated(280), heightDimension: .estimated(178))
         
-        let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [item] )
-        
-        //        layoutGroup.edgeSpacing = NSCollectionLayoutEdgeSpacing(leading: .flexible(0), top: nil, trailing: nil, bottom: nil) // changing .flexible() changes distance between horizontal cells
+        let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [item])
         
         let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
+        
+        layoutSection.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 20, trailing: 16)
+        
+        layoutSection.interGroupSpacing = 16
+        
         // set/show headers
         layoutSection.boundarySupplementaryItems = [headerElement]
         
-        layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
-
-        
-        
+        layoutSection.orthogonalScrollingBehavior = .groupPaging
         
         return layoutSection
     }
@@ -219,8 +214,8 @@ extension HomeVC {
             
             [weak self] sectionIndex, environment in
             
-                       return self?.makeSliderLayoutSection()
-         
+            return self?.makeSliderLayoutSection()
+            
         }
     }
 }
@@ -240,68 +235,69 @@ extension HomeVC:UICollectionViewDataSource {
         }
         else{
             return viewModel.allPlaces.count
-
+            
         }
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-                if indexPath.section == 0 {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
-                    let object = viewModel.popularPlaces[indexPath.row]
         
-                    cell.configure(object:object)
-                    return cell
-                }
-                else if indexPath.section == 1{
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
-                    let object = viewModel.newPlaces[indexPath.row]
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("Cell not found")}
         
-                    cell.configure(object:object)
-                    return cell
-        
-                }
-                else{
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("cell not found")}
-                    let object = viewModel.allPlaces[indexPath.row]
-        
-                    cell.configure(object:object)
-                    return cell
-                }
-
+        switch indexPath.section {
+        case 0:
+            let object = viewModel.popularPlaces[indexPath.row]
+            cell.configure(object:object)
+        case 1:
+            let object = viewModel.newPlaces[indexPath.row]
+            cell.configure(object:object)
+        case 2:
+            let object = viewModel.allPlaces[indexPath.row]
+            cell.configure(object:object)
+        default:
+            break
+        }
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseId, for: indexPath) as! HeaderView
-        if indexPath.section == 0{
-            header.setTitle(titleText: "Popular Places")
+        let vc = PopularPlaceVC()
+        
+        switch indexPath.section {
+        case 0:
+            let title = "Popular Places"
+            header.setTitle(titleText: title)
             header.btnTapAction = {
-                let popularPlacesVC:UIViewController = PopularPlaceVC()
-                // burada hepsi aslında tek bir vcye gidecek hepsi popoularvc ye ve verilerin değişik aktarılması burada yapılacak bence
-                //initFetchPopularHomeAll() bu fonksiyon burada çalışacak
-                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+                
+                vc.titleLabel.text = title
+                vc.viewModel.getPopularPlace()
+                
+                self.navigationController?.pushViewController(vc, animated: true)
             }
-        }else if indexPath.section == 1 {
-            header.setTitle(titleText: "New Places")
+        case 1:
+            let title = "New Places"
+            header.setTitle(titleText: title)
             header.btnTapAction = {
-                let popularPlacesVC:UIViewController = MapVC()
-                // initFetchNewHomeAll() bu da burada
-                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+                
+                vc.titleLabel.text = title
+                vc.viewModel.newPlace()
+                
+                self.navigationController?.pushViewController(vc, animated: true)
             }
-        }else{
+        case 2:
             header.setTitle(titleText: "My Added Places")
             header.btnTapAction = {
-                let popularPlacesVC:UIViewController = SettingsVC()
-                //initFetchAllForUserHomeAll() bu da burada 
-                self.navigationController?.pushViewController(popularPlacesVC, animated: true)
+                
+                vc.titleLabel.text = "My Added Places"
+                vc.viewModel.allPlaceforUser()
+                
+                self.navigationController?.pushViewController(vc, animated: true)
             }
+        default:
+            break
         }
-        
-        // define closure for SeeAll Button
-//        header.btnTapAction = {
-//            print("closureTap")
-//
-//        }
         
         return header
     }

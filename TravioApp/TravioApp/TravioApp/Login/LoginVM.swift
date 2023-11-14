@@ -26,9 +26,9 @@ class LoginVM{
         self.isLoading = true
         
         let paramsPost = ["email": email, "password": password]
-
+        
         NetworkingHelper.shared.dataFromRemote(urlRequest: .user(params: paramsPost)) { (result: Result<Tokens, Error>) in
-            self.isLoading = false
+            
             switch result {
                 case .success(let response):
                 KeychainHelper.shared.setToken(param: response)
@@ -36,6 +36,7 @@ class LoginVM{
                 case .failure(let error):
                     completion(.failure(error))
             }
+            self.isLoading = false
         }
     }
 

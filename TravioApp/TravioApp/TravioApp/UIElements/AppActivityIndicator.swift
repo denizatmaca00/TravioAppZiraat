@@ -30,20 +30,47 @@ extension UIViewController {
     func showIndicator(){
         let viewBlur = AppActivityIndicator().viewBlur
         viewBlur.frame = self.view.frame
+        viewBlur.restorationIdentifier = "indicatorView"
         
         let indicatorLoading = AppActivityIndicator().activityIndicator
         indicatorLoading.center = self.view.center
         
-        self.view.addSubviews(viewBlur)
         viewBlur.contentView.addSubview(indicatorLoading)
         
+        self.view.addSubviews(viewBlur)
         indicatorLoading.startAnimating()
     }
     
     func hideIndicator(){
-        let viewBlur = AppActivityIndicator().viewBlur
-        let indicatorLoading = AppActivityIndicator().activityIndicator
-        viewBlur.removeFromSuperview()
-        indicatorLoading.removeFromSuperview()
+        for view in self.view.subviews{
+            if(view.restorationIdentifier == "indicatorView"){
+                view.removeFromSuperview()
+            }
+        }
     }
+    
+//    backup toggle function
+//    func toggleIndicator(_ isEnable:Bool){
+//        let viewBlur = AppActivityIndicator().viewBlur
+//        viewBlur.frame = self.view.frame
+//        viewBlur.restorationIdentifier = "indicatorView"
+//        
+//        let indicatorLoading = AppActivityIndicator().activityIndicator
+//        indicatorLoading.center = self.view.center
+//        
+//        viewBlur.contentView.addSubview(indicatorLoading)
+//        
+//        if isEnable{
+//            self.view.addSubviews(viewBlur)
+//            indicatorLoading.startAnimating()
+//        }
+//        
+//        if !isEnable{
+//            for view in self.view.subviews{
+//                if(view.restorationIdentifier == "indicatorView"){
+//                    view.removeFromSuperview()
+//                }
+//            }
+//        }
+//    }
 }
