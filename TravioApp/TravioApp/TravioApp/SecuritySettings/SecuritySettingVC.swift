@@ -58,33 +58,15 @@ class SecuritySettingVC: UIViewController {
 
     private lazy var passwordTextField = AppTextField(data: .placeHolderEmpty)
     private lazy var confirmPassword = AppTextField(data: .passwordConfirmEmpty)
-    private lazy var camera = SecurityLabel(data: .camera)
-    private lazy var photoLibrary = SecurityLabel(data: .libraryPhoto)
-    private lazy var location = SecurityLabel(data: .Location)
+    private lazy var camera = AppToggleSwitch(data: .camera)
+    private lazy var photoLibrary = AppToggleSwitch(data: .libraryPhoto)
+    private lazy var location = AppToggleSwitch(data: .Location)
     private lazy var saveButon: UIButton = {
         let s = AppButton()
             s.setTitle("Sign Up", for: .normal)
             s.isEnabled = true
             return s
         }()
-    lazy var switchBtnfirst: UISwitch = {
-        let sw = UISwitch()
-        sw.height(31)
-        sw.width(51)
-        return sw
-    }()
-    lazy var switchBtnsecond: UISwitch = {
-        let sw = UISwitch()
-        sw.height(31)
-        sw.width(51)
-        return sw
-    }()
-    lazy var switchBtnthird: UISwitch = {
-        let sw = UISwitch()
-        sw.height(31)
-        sw.width(51)
-        return sw
-    }()
 
     private lazy var stackViewPasswordChange: UIStackView = {
         let svp = UIStackView()
@@ -134,11 +116,8 @@ class SecuritySettingVC: UIViewController {
         self.view.addSubview(privacyTitle)
         
         stackViewPrivacy.addArrangedSubview(camera)
-        camera.addSubview(switchBtnfirst)
         stackViewPrivacy.addArrangedSubview(photoLibrary)
-        photoLibrary.addSubview(switchBtnsecond)
         stackViewPrivacy.addArrangedSubview(location)
-        location.addSubview(switchBtnthird)
         self.view.addSubview(stackViewPrivacy)
         
         self.view.addSubview(saveButon)
@@ -187,15 +166,6 @@ class SecuritySettingVC: UIViewController {
         stackViewPrivacy.trailingToSuperview(offset:20)
         stackViewPrivacy.topToBottom(of: privacyTitle,offset: 20)
         stackViewPrivacy.height(266)
-        
-        switchBtnfirst.topToSuperview(offset:10, usingSafeArea: true)
-        switchBtnfirst.trailingToSuperview(offset:20)
-        
-        switchBtnsecond.topToSuperview(offset:10, usingSafeArea: true)
-        switchBtnsecond.trailingToSuperview(offset:20)
-        
-        switchBtnthird.topToSuperview(offset:10, usingSafeArea: true)
-        switchBtnthird.trailingToSuperview(offset:20)
         
         saveButon.bottomToSuperview(offset:20,usingSafeArea: true)
         saveButon.height(54)
