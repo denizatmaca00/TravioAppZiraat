@@ -147,7 +147,7 @@ struct CheckVisitbyID: Codable {
 
 //MARK: Add Photo
 
-struct AddPhotoUploadMultipart: Codable {
+struct AddPhotoUploadMultipartMessages: Codable {
     var messageType: String
     var message: String
     var urls: [String]

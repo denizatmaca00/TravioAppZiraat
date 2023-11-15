@@ -22,6 +22,7 @@
 // TODO: signUp mvvme göre düzenle +
 // TODO: populervc uı backbutton, font, üst üste gelmesi +
 // TODO: editPrpfile label networking +
+// TODO: editPrpfile changePhoto networking + 
 
 
 // proje nasıl daha iyi hale gelir fikirleri
@@ -33,12 +34,16 @@
 // TODO: dark mode hiç yok onu yapmak lazım
 // TODO: benim teliefonumda home kaydı
 // TODO: benim teliefonumda home kaydı
+// TODO: otomatik düzeltme ve büyük  harf
+// TODO: homevc gölge ekle
+// TODO: popularvc gölge ekle
+// TODO: popularvc detaya gidecek
+// TODO: detayvc de pin olaak map gitmeyecek
 
 //Deniz
 // TODO: map upload
 // TODO: map ftoğraflar için collectionciewi sağa sol ypmak gereliyor o
 // TODO: mapte pin kalkmıyor
-// TODO: editPrpfile changePhoto networking
 // TODO: settinsteki isim ve foto muhtelemen put işleminden sonra değişmeyecek ona bak
 
 //Aydın
@@ -62,22 +67,22 @@
 
 
 import UIKit
+import Kingfisher
 
 class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var viewModel = EditProfileVM()
     var viewModelProfile = ProfileVM()
-    
+
     private lazy var viewUsername = AppTextField(data: .fullname)
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var txtUsername = viewUsername.getTFAsObject()
     private lazy var txtEmail = viewMail.getTFAsObject()
-    var imagesDatas:[UIImage] = []
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
-        imageView.layer.cornerRadius = 60
+        imageView.layer.cornerRadius = 65
         imageView.layer.masksToBounds = true
         return imageView
     }()
@@ -162,6 +167,9 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             self?.labelRole.textLabel.text = updatedProfile.role
             self?.txtUsername.text = updatedProfile.full_name
             self?.txtEmail.text = updatedProfile.email
+            let url = URL(string: updatedProfile.pp_url)
+            print("gelen image url: \(url)")
+            ImageHelper().setImage(imageURL: url!, imageView: self!.imageView)
         }
         
         viewModelProfile.getProfileInfos(completion: {result in })
@@ -171,23 +179,16 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     
     @objc func exitButtonTapped(){
         dismiss(animated: true)
-       // navigationController?.popViewController(animated: true)
     }
     
     @objc func saveEditProfile() {
         guard let email = txtEmail.text,
               let full_name = txtUsername.text else { return }
+        viewModel.editProfile = EditProfile(full_name: full_name, email: email, pp_url: "")
+        guard let image = imageView.image else { return }
         
-              let pp_url = imageView.image
-
-
-        
-        viewModel.putEditProfileInfos(profile: EditProfile(full_name: full_name, email: email, pp_url: pp_url!.description))
-        labelName.text = full_name
-        viewModelProfile.profile.full_name = full_name
-        imageView.image = pp_url
-        
-        
+        viewModel.editProfilePhotoUpload(photo: image)
+        dismiss(animated: true)
     }
     
     func setupViews() {
@@ -264,10 +265,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage{
             imageView.image = selectedImage
-            imagesDatas.append(selectedImage)
+            viewModel.imagesDatas.append(selectedImage)
             dismiss(animated: true, completion: nil)
-            
-            viewModel.putEditProfileInfos(profile: EditProfile(full_name: txtUsername.text ?? "", email: txtEmail.text ?? "", pp_url: selectedImage.description))
         }
     }
 }
