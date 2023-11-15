@@ -7,37 +7,23 @@
 
 import UIKit
 
-class MapPresentCellVC: UICollectionViewCell, UIImagePickerControllerDelegate {
+class MapPresentCellVC: UICollectionViewCell {
 
-
-    var viewModel = MapPresentVM()
-    
-    var visitCellViewModel: VisitCellViewModel? {
-        didSet {
-            
-        }
-    }
-    
-    private lazy var cellView: UIImageView = {
-        let view = UIImageView()
-        let img = UIImage(named: "sultanahmet")
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 16
-        return view
-    }()
+    var viewModel = MapVM()
  
-    private lazy var addPhotoIcon: UIImageView = {
-        let img = UIImageView()
-        img.image = UIImage(named: "addPhoto")
-        img.contentMode = .scaleAspectFit
-        return img
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 269, height: 215))
+        imageView.layer.cornerRadius = 16
+        imageView.image = UIImage(named: "addPhoto")
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }()
     
-    lazy var addPhotoBtn: UILabel = {
+    private lazy var lblAddPhoto: UILabel = {
         let lbl = UILabel()
         lbl.text = "Add Photo"
         lbl.font = .Fonts.textFieldText.font
-        lbl.textColor = UIColor(named: "inactiveButtonColor")
+        lbl.textColor = .systemGray
         return lbl
     }()
     
@@ -47,46 +33,26 @@ class MapPresentCellVC: UICollectionViewCell, UIImagePickerControllerDelegate {
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupViews()
+        fatalError("init(coder:) has not been implemented")
     }
 
     func setupViews() {
         
-        self.addSubviews(cellView)
-        cellView.addSubviews(addPhotoIcon, addPhotoBtn)
+        self.contentView.addSubviews(imageView, lblAddPhoto)
         
         setupLayout()
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImage = info[.originalImage] as? UIImage{
-            cellView.image = selectedImage
-            viewModel.imageData.append(selectedImage)
-            
-            print("avemaria \(selectedImage)")
-        }
-    }
-    
-    func setImage(){
-        
-    }
-    
     func setupLayout() {
 
-        cellView.snp.makeConstraints { make in
-            make.height.equalTo(180)
-            make.leading.equalToSuperview().offset(24)
-            make.width.equalTo(270)
-        }
-        addPhotoIcon.snp.makeConstraints { make in
-            make.top.equalTo(cellView).offset(79)
+        imageView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
             make.height.equalTo(35)
-            make.centerX.equalTo(cellView)
+            make.centerX.equalToSuperview()
         }
-        addPhotoBtn.snp.makeConstraints({lbl in
-            lbl.top.equalTo(addPhotoIcon.snp.bottom)
-            lbl.centerX.equalTo(cellView)
+        lblAddPhoto.snp.makeConstraints({lbl in
+            lbl.top.equalTo(imageView.snp.bottom)
+            lbl.centerX.equalTo(imageView)
         })
     }
 }
