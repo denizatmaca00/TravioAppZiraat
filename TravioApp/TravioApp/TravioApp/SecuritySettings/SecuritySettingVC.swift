@@ -5,7 +5,7 @@
 //
 //  Created by Ece Poyraz on 3.11.2023.
 //
-//
+//Constrait ciddi refactor edilecektir. :)
 import UIKit
 import TinyConstraints
 import SnapKit
@@ -81,7 +81,7 @@ var viewModel = SecuritySettingsVM()
        let sw = UIScrollView()
         sw.isScrollEnabled = true
         sw.showsVerticalScrollIndicator = true
-       
+        //sw.layer.backgroundColor = UIColor.red.cgColor
         return sw
     }()
     
@@ -135,17 +135,19 @@ var viewModel = SecuritySettingsVM()
         self.view.addSubview(uıView)
         self.view.addSubview(mainTitle)
         self.view.addSubview(backButton)
-        self.view.addSubview(changePasswordTitle)
+        //self.view.addSubview(changePasswordTitle)
         
-        uıView.addSubview(stackViewPasswordChange)
-        stackViewPasswordChange.addArrangedSubview(passwordTextField)
-        stackViewPasswordChange.addArrangedSubview(confirmPassword)
-        
-        
+        //uıView.addSubview(stackViewPasswordChange)
         uıView.addSubview(scrollView)
+        scrollView.addSubview(changePasswordTitle)
+        scrollView.addSubview(stackViewPasswordChange)
         scrollView.addSubview(privacyTitle)
         scrollView.addSubview(stackViewPrivacy)
         scrollView.addSubview(saveButon)
+        
+        stackViewPasswordChange.addArrangedSubview(passwordTextField)
+        stackViewPasswordChange.addArrangedSubview(confirmPassword)
+      
         stackViewPrivacy.addArrangedSubview(camera)
         stackViewPrivacy.addArrangedSubview(photoLibrary)
         stackViewPrivacy.addArrangedSubview(location)
@@ -177,37 +179,54 @@ var viewModel = SecuritySettingsVM()
         backButton.leadingToSuperview(offset:20)
         
 
+
+        
+        scrollView.leadingToSuperview(offset:10)
+       // scrollView.trailingToSuperview(offset:1600)
+        scrollView.topToSuperview(offset:10)
+        scrollView.snp.makeConstraints({s in
+            s.trailing.equalToSuperview().offset(-2)
+        })
+//        scrollView.topToBottom(of: stackViewPasswordChange, offset: 10)
+        scrollView.bottomToSuperview()
+        //scrollView.edgesToSuperview()
+
+        
         //changed password title
-        changePasswordTitle.top(to: uıView, offset: 44)
+        changePasswordTitle.top(to: scrollView, offset: 10)
+       // changePasswordTitle.topToSuperview(offset:20)
         changePasswordTitle.height(20)
-        changePasswordTitle.width(236)
-        changePasswordTitle.leadingToSuperview(offset:24)
+        //changePasswordTitle.width(236)
+        changePasswordTitle.width(346)
+        changePasswordTitle.leadingToSuperview(offset:20)
         
         
         stackViewPasswordChange.leadingToSuperview(offset:20)
-        stackViewPasswordChange.trailingToSuperview(offset:20)
+        //stackViewPasswordChange.trailingToSuperview(offset:20)
+//        stackViewPasswordChange.snp.makeConstraints({s in
+//            s.trailing.equalToSuperview().offset(-70)
+//        })
+        stackViewPasswordChange.trailing(to: changePasswordTitle)
         stackViewPasswordChange.topToBottom(of: changePasswordTitle,offset: 20)
         stackViewPasswordChange.height(170)
         
-        stackViewPasswordChange.addArrangedSubview(passwordTextField)
-        stackViewPasswordChange.addArrangedSubview(confirmPassword)
-
-        
-        scrollView.leadingToSuperview()
-        scrollView.trailingToSuperview()
-        scrollView.topToBottom(of: stackViewPasswordChange, offset: 10)
-        scrollView.bottomToSuperview()
-
-        
+//        stackViewPasswordChange.addArrangedSubview(passwordTextField)
+//        stackViewPasswordChange.addArrangedSubview(confirmPassword)
+//
+        //privacy
         privacyTitle.height(20)
         privacyTitle.trailing(to: stackViewPrivacy)
         privacyTitle.leading(to: stackViewPrivacy)
-        privacyTitle.topToSuperview(offset:20)
+        privacyTitle.topToBottom(of: stackViewPasswordChange,offset: 10)
 
-        stackViewPrivacy.trailing(to: stackViewPasswordChange)
+        //stackViewPrivacy.trailing(to: stackViewPasswordChange)
         stackViewPrivacy.topToBottom(of: privacyTitle,offset: 10)
         stackViewPrivacy.height(266)
         stackViewPrivacy.leadingToSuperview(offset:20)
+        stackViewPrivacy.trailing(to: changePasswordTitle)
+//        stackViewPrivacy.snp.makeConstraints({s in
+//            s.trailing.equalToSuperview().offset(-70)
+//        })
 
         saveButon.topToBottom(of: stackViewPrivacy, offset: 50)
         saveButon.height(54)
