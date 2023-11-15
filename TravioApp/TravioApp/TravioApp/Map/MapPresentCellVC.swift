@@ -7,10 +7,10 @@
 
 import UIKit
 
-class MapPresentCellVC: UICollectionViewCell {
+class MapPresentCellVC: UICollectionViewCell, UIImagePickerControllerDelegate {
 
 
-    var viewModel = MapVM()
+    var viewModel = MapPresentVM()
     
     var visitCellViewModel: VisitCellViewModel? {
         didSet {
@@ -18,9 +18,9 @@ class MapPresentCellVC: UICollectionViewCell {
         }
     }
     
-    private lazy var cellView: UIView = {
-        let view = UIView()
-        view.isUserInteractionEnabled = true
+    private lazy var cellView: UIImageView = {
+        let view = UIImageView()
+        let img = UIImage(named: "sultanahmet")
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         return view
@@ -33,14 +33,12 @@ class MapPresentCellVC: UICollectionViewCell {
         return img
     }()
     
-    lazy var addPhotoBtn: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("Add Photo", for: .normal)
-        btn.setTitleColor(UIColor(named: "inactiveButtonColor"), for: .normal)
-        btn.titleLabel?.font = .Fonts.textFieldText.font
-//        btn.addTarget(self, action: #selector(addPhotoButtonTapped), for: .touchUpInside)
-        
-        return btn
+    lazy var addPhotoBtn: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "Add Photo"
+        lbl.font = .Fonts.textFieldText.font
+        lbl.textColor = UIColor(named: "inactiveButtonColor")
+        return lbl
     }()
     
     override init(frame: CGRect) {
@@ -59,6 +57,19 @@ class MapPresentCellVC: UICollectionViewCell {
         cellView.addSubviews(addPhotoIcon, addPhotoBtn)
         
         setupLayout()
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage{
+            cellView.image = selectedImage
+            viewModel.imageData.append(selectedImage)
+            
+            print("avemaria \(selectedImage)")
+        }
+    }
+    
+    func setImage(){
+        
     }
     
     func setupLayout() {

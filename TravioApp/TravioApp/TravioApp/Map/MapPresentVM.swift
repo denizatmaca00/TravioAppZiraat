@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class MapPresentVM{
     //AddPlace
@@ -16,6 +17,8 @@ class MapPresentVM{
             self.updateLoadingStatus?()
         }
     }
+    
+    var imageData:[UIImage] = []
     
    // var showAlertClosure: ((String, String) -> Void)?
     
