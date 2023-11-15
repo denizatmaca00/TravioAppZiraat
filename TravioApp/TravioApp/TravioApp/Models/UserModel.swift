@@ -39,10 +39,13 @@ struct Tokens: Codable {
     var accessToken: String
     var refreshToken: String
 }
-
+//put password 
 struct Messages: Codable {
     var message: String?
     var status: String?
+}
+struct Password:Codable {
+    var new_password:String?
 }
 
 class CustomAnnotation: NSObject, MKAnnotation {

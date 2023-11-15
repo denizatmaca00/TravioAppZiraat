@@ -37,7 +37,8 @@ enum Router {
     case getHomeAllPlacesForUser
     case uploadAddPhoto(params: Parameters)
     case postAddPlace(params: Parameters)
-    
+    //password change
+    case putPassword(params:Parameters)
     
     //    var token:String{
     //        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
@@ -90,9 +91,8 @@ enum Router {
             return "/upload"
         case .postAddPlace:
             return "/v1/places"
-            
-            
-            
+        case .putPassword:
+            return "v1/change-password"
         }
     }
     
@@ -104,7 +104,7 @@ enum Router {
             return .get
         case .deleteVisit:
             return .delete
-        case .putEditProfile:
+        case .putEditProfile, .putPassword:
             return .put
         }
     }
@@ -118,8 +118,8 @@ enum Router {
         switch self {
         case .register, .user, .getPlaceByID, .getAllGaleryByID, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits, .uploadAddPhoto:
             return [:]
-        case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile, .getHomeAllPlacesForUser, .postAddPlace :
-            print(baseHeaders)
+        case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile, .getHomeAllPlacesForUser, .postAddPlace, .putPassword :
+            //print(baseHeaders)
             return baseHeaders
         }
     }
@@ -148,8 +148,8 @@ enum Router {
             return params
         case .postAddPlace(let params):
             return params
-            
-            
+        case .putPassword(let params):
+            return params
         default: return [:]
         }
     }

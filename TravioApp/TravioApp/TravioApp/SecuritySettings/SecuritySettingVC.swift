@@ -11,6 +11,9 @@ import TinyConstraints
 import SnapKit
 
 class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
+    
+    
+var viewModel = SecuritySettingsVM()
     //background color
     private lazy var uıView: AppView = {
         let uv = AppView()
@@ -68,17 +71,17 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         let s = AppButton()
             s.setTitle("Sign Up", for: .normal)
             s.isEnabled = true
+        s.addTarget(self, action: #selector(updatePassword), for: .touchUpInside)
             return s
         }()
+    private lazy var passwordGet = passwordTextField.getTFAsObject()
+    private lazy var passwordConfirM = confirmPassword.getTFAsObject()
     //scroll view
     private lazy var scrollView:UIScrollView = {
        let sw = UIScrollView()
         sw.isScrollEnabled = true
-        //sw.layer.backgroundColor = UIColor.red.cgColor
         sw.showsVerticalScrollIndicator = true
-       // sw.contentSize = CGSize(width: sw.frame.size.width, height: 600)
-        //sw.contentSize = CGSize(width: sw.frame.size.width, height: sw.frame.maxY + 50)
-
+       
         return sw
     }()
     
@@ -103,7 +106,15 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         sp.distribution = .fill
         return sp
     }()
-    
+    @objc func updatePassword(){
+        //burada put network tetikle.
+        //burada textfieldden gelen texti burada password olarak ver.
+        var passwordText = passwordGet.text
+        var confirmText = passwordConfirM.text
+        if passwordText == confirmText {
+            viewModel.putPassword(password: Password(new_password: passwordText))
+        }
+    }
     @objc func backPage(){
         let hvc = SettingsVC()
         navigationController?.pushViewController(hvc, animated: true)
@@ -156,8 +167,9 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         //security setting
         mainTitle.topToSuperview(offset:70)
         mainTitle.height(48)
-        mainTitle.width(241)
-        mainTitle.centerXToSuperview()
+        mainTitle.trailingToSuperview()
+        mainTitle.leadingToTrailing(of: backButton, offset: 24)
+
         //backbtn
         backButton.centerY(to: mainTitle)
         backButton.height(40)
@@ -185,13 +197,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         scrollView.trailingToSuperview()
         scrollView.topToBottom(of: stackViewPasswordChange, offset: 10)
         scrollView.bottomToSuperview()
-        //scrollView.height(1500)
-//        scrollView.contentInsetAdjustmentBehavior = .never
-        //scrollView.contentSize = CGSize(width: view.frame.width, height: 1500 )
-        //scrollView.height(600)
-//        scrollView.snp.makeConstraints({ s in
-//            s.bottom.equalToSuperview().offset(-30)
-//        })
+
         
         privacyTitle.height(20)
         privacyTitle.trailing(to: stackViewPrivacy)

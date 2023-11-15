@@ -53,6 +53,7 @@
 		5E3CC0842AF4D86F007FCFD5 /* SecuritySettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */; };
 		5E45C4142AF832FC00399873 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5E45C4132AF832FC00399873 /* Kingfisher */; };
 		5E5EC5D72B036B34008697DA /* AppToggleSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5EC5D62B036B34008697DA /* AppToggleSwitch.swift */; };
+		5E71BC2A2B04A344003690A4 /* SecuritySettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E71BC292B04A344003690A4 /* SecuritySettingsVM.swift */; };
 		5EB8B2922B020D1F007BB08A /* PopularPlaceVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB8B2912B020D1F007BB08A /* PopularPlaceVM.swift */; };
 		5EDD08222AF3BD94002072BC /* PopularPlaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */; };
 		5EDD08242AF3BDCB002072BC /* PopularPageCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */; };
@@ -124,6 +125,7 @@
 		5E388FDE2AF04392002ABDBD /* DetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingVC.swift; sourceTree = "<group>"; };
 		5E5EC5D62B036B34008697DA /* AppToggleSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToggleSwitch.swift; sourceTree = "<group>"; };
+		5E71BC292B04A344003690A4 /* SecuritySettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVM.swift; sourceTree = "<group>"; };
 		5EB8B2912B020D1F007BB08A /* PopularPlaceVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlaceVM.swift; sourceTree = "<group>"; };
 		5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlaceVC.swift; sourceTree = "<group>"; };
 		5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPageCellVC.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */,
+				5E71BC292B04A344003690A4 /* SecuritySettingsVM.swift */,
 			);
 			path = SecuritySettings;
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 				0FF6D4632AF1367500AA1339 /* SignUpVM.swift in Sources */,
 				ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */,
 				EC00441E2AFAC6D0001540A5 /* ExpandableViewCell.swift in Sources */,
+				5E71BC2A2B04A344003690A4 /* SecuritySettingsVM.swift in Sources */,
 				0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */,
 				5E388FDB2AEFEDBB002ABDBD /* DetailVM.swift in Sources */,
 				0F9A80C62AF8E51100B47142 /* AboutUsVC.swift in Sources */,
