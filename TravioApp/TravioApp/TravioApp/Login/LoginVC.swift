@@ -21,7 +21,7 @@ class LoginVC: UIViewController {
     private lazy var welcomeLabel: UILabel = {
         let wlcLabel = UILabel()
         wlcLabel.text = "Welcome to Travio"
-        wlcLabel.textColor = .black
+        wlcLabel.textColor = UIColor(named: "settingsLabelColor")
         wlcLabel.font = .Fonts.title24.font
         return wlcLabel
     }()
@@ -37,6 +37,13 @@ class LoginVC: UIViewController {
         stackViews.axis = .vertical
         stackViews.spacing = 24
         return stackViews
+    }()
+    
+    private lazy var stackViewSignUp: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.spacing = 2
+        return sv
     }()
     
     private lazy var loginBtn : UIButton = {
@@ -79,7 +86,7 @@ class LoginVC: UIViewController {
             self?.showAlert(title: title, message: message){
                 
             }
-        }//didsete ekelyeeğim
+        }
         viewModel.updateLoadingStatus = { [weak self] (isLoading) in
             DispatchQueue.main.async {
                 switch self!.viewModel.isLoading{
@@ -109,13 +116,13 @@ class LoginVC: UIViewController {
                 navigationController?.pushViewController(vc, animated: true)
             case .failure(_):
                 if email.isEmpty && password.isEmpty {
-                    viewModel.showAlertClosure?("Hata", "Email ve şifre alanları boş bırakılmaz")
+                    viewModel.showAlertClosure?("Hata", "Email and password cannot be empty")
                 }else if email.isEmpty {
-                    viewModel.showAlertClosure?("Hata", "Email alanı boş bırakılmaz")
+                    viewModel.showAlertClosure?("Hata", "Email cannot be empty")
                 }else if password.isEmpty{
-                    viewModel.showAlertClosure?("Hata", "Şifre alanı boş bırakılmaz")
+                    viewModel.showAlertClosure?("Hata", "Password cannot be empty")
                 }else{
-                    viewModel.showAlertClosure?("Hata", "Email veya şifre hatalı")
+                    viewModel.showAlertClosure?("Hata", "Email or password is wrong")
                 }
             }
         }
@@ -131,9 +138,10 @@ class LoginVC: UIViewController {
         self.view.addSubview(imageView)
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubview(contentViewBig)
-        contentViewBig.addSubviews(welcomeLabel, stackViewMain, loginBtn, lblSignUp, btnSignUp)
+        contentViewBig.addSubviews(welcomeLabel, stackViewMain, loginBtn, stackViewSignUp)
         
         stackViewMain.addArrangedSubviews(viewMail, viewPass)
+        stackViewSignUp.addArrangedSubviews(lblSignUp, btnSignUp)
         setupLayout()
     }
     
@@ -165,20 +173,14 @@ class LoginVC: UIViewController {
             btn.height.equalTo(54)
         })
         
-        lblSignUp.snp.makeConstraints({lbl in
-            lbl.bottom.equalTo(contentViewBig).inset(21)
-            lbl.leading.equalTo(contentViewBig).inset(74)
-        })
-        
-        btnSignUp.snp.makeConstraints({btn in
-            btn.leading.equalTo(lblSignUp.snp.trailing).offset(2)
-            btn.centerY.equalTo(lblSignUp)
+        stackViewSignUp.snp.makeConstraints({ sv in
+            sv.centerX.equalToSuperview()
+            sv.bottom.equalTo(contentViewBig).inset(21)
         })
         
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(limits.top)
             img.centerX.equalToSuperview()
-            
         })
     }
 }
