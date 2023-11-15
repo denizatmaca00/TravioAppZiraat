@@ -38,12 +38,20 @@ class HelpAndSupportVC: UIViewController {
         return lbl
     }()
     
-    private lazy var leftBarButton: UIBarButtonItem = {
-        let leftBarButton = UIBarButtonItem()
+//    private lazy var leftBarButton: UIBarButtonItem = {
+//        let leftBarButton = UIBarButtonItem()
+//        leftBarButton.tintColor = .white
+//        leftBarButton.image = UIImage(named: "leftArrow")
+//        leftBarButton.target = self
+//        leftBarButton.action = #selector(backButtonTapped)
+//        return leftBarButton
+//    }()
+    
+    private lazy var leftBarButton: UIButton = {
+        let leftBarButton = UIButton()
         leftBarButton.tintColor = .white
-        leftBarButton.image = UIImage(named: "leftArrow")
-        leftBarButton.target = self
-        leftBarButton.action = #selector(backButtonTapped)
+        leftBarButton.setImage(UIImage(named: "leftArrow"), for: .normal)
+        leftBarButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return leftBarButton
     }()
     
@@ -72,7 +80,7 @@ class HelpAndSupportVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupViews()
         
         initVM()
@@ -88,6 +96,7 @@ class HelpAndSupportVC: UIViewController {
     //MARK: -- Component Actions
     
     @objc func backButtonTapped(){
+        print("annen")
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -114,7 +123,7 @@ class HelpAndSupportVC: UIViewController {
         
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         
-        self.navigationItem.leftBarButtonItem = leftBarButton
+        //self.navigationItem.leftBarButtonItem = leftBarButton
         
         self.view.addSubviews(lblHeader, contentViewBig)
         contentViewBig.addSubviews(lblPageTitle, tableView)
@@ -148,6 +157,14 @@ class HelpAndSupportVC: UIViewController {
             lbl.leading.equalToSuperview().offset(72)
             
         })
+        
+//        self.view.addSubview(leftBarButton)
+//        leftBarButton.snp.makeConstraints({btn in
+//            btn.width.equalTo(24)
+//            btn.height.equalTo(21)
+//            btn.centerY.equalTo(lblHeader)
+//            btn.leading.equalToSuperview().offset(24)
+//        })
         
         lblPageTitle.snp.makeConstraints({ lbl in
             lbl.top.equalToSuperview().offset(44)
