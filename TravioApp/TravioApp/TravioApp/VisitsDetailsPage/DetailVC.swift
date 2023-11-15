@@ -28,20 +28,11 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         cv.register(DetailPageCell.self, forCellWithReuseIdentifier: "detailCell")
         return cv
     }()
-//    private lazy var saveBtn:UIButton = {
-//        let sb = UIButton()
-//        //sb.setImage(UIImage(named: "save"), for: .normal)
-//        sb.image
-//        sb.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
-//        return sb
-//    }()
         private lazy var saveBtn:UIImageView = {
             let sb = UIImageView()
-            //sb.setImage(UIImage(named: "save"), for: .normal)
             let tapgesture = UITapGestureRecognizer(target: self, action: #selector(buttonSave))
             sb.isUserInteractionEnabled = true
             sb.addGestureRecognizer(tapgesture)
-            //sb.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
             return sb
         }()
     private lazy var backButton:UIButton = {
@@ -53,13 +44,9 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     
     private lazy var pageControl:UIPageControl = {
         let p = UIPageControl()
-        //p.numberOfPages = 3
-        // p.currentPage = 0
-        // p.setCurrentPageIndicatorImage(UIImage(named: "pageControl"), forPage: 2)
         p.pageIndicatorTintColor = UIColor(patternImage: UIImage(named: "pageControl")!)
         p.pageIndicatorTintColor = UIColor.lightGray
         p.currentPageIndicatorTintColor = UIColor.black
-       // p.backgroundColor = UIColor.white
         p.tintColor = UIColor.white
         return p
     }()
@@ -68,7 +55,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         s.isScrollEnabled = true
         s.showsVerticalScrollIndicator = true
         s.contentSize = CGSize(width: s.frame.size.width, height: 1000)
-       // s.layer.backgroundColor = UIColor.red.cgColor
         return s
     }()
     private var centerText:UILabel = {
@@ -127,14 +113,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }
     @objc func buttonSave(){
         var testtt = DetailVM()
-       // saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
-        //print("tıklandı")
-       // saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
-        //eğer myvisit sayfasında bu placeidye ait olan eklendiyse çalıştırma.
-        //detail.placeid myvisit sayfasında varsa çalıştırma.
-        
-        //viewModel.checkVisitbyPlaceID()
-       // viewModel.postVisit()
         if saveBtn.image == UIImage(named: "savefill") {
             viewModel.deleteVisitbyPlceID()
             saveBtn.image = UIImage(named: "save")
@@ -143,14 +121,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
             saveBtn.image = UIImage(named: "savefill")
         }
     }
-//
-//    @objc func refreshButton(){
-//        saveBtn.setImage(UIImage(named: "save"), for: .normal)
-//        saveBtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
-//        //viewModel.deleteVisitbyPlceID()
-//        //viewModel.checkVisitbyPlaceID()
-//    }
-//
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.checkVisitbyPlaceID()

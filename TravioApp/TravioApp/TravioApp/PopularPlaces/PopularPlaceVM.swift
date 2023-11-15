@@ -11,7 +11,6 @@ import Alamofire
 
 class PopularPlaceVM{
     
-   // var popularArray:[Place] = []
     var popularCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
             reloadPopularClosure?()
@@ -35,14 +34,12 @@ class PopularPlaceVM{
     var reloadPopularClosure: (()->())?
     var popularArray:[Place] = []
     
-    //var popularAllData: PlacesDataStatus?
     //POPULAR PLACE
     func getPopularPlace(){
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getPopularPlaces){
             (result:Result<PlacesDataStatus,Error>) in
             switch result{
             case .success(let data):
-                //self.popularAllData?.status = data.status
                 self.fetch(array: data.data.places)
                 print(data.data.places)
             case .failure(let failure):

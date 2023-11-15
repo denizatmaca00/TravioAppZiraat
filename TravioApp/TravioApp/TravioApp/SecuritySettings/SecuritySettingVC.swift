@@ -117,8 +117,9 @@ var viewModel = SecuritySettingsVM()
                 self.showAlert(title: title, message: message)
             }
         }else {
+            viewModel.putPassword(password: Password(new_password: passwordText))
             viewModel.passwordChangeAlertClosure = {title, message in
-                self.showAlert(title: "hata", message: "hata eşleşmiyor")
+                self.showAlert(title: "Error", message: "Password Not Matching")
             }
         }
     }

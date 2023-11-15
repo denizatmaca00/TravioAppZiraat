@@ -10,7 +10,6 @@ import UIKit
 
 class SecuritySettingsVM{
     
-    //var paramsPassword:Password?
     var passwordChangeClosure: ((Password)->())?
     var passwordChangeAlertClosure: ((String,String)->Void)?
     func putPassword(password:Password){
