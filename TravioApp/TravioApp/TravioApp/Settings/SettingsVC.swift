@@ -84,7 +84,7 @@ class SettingsVC: UIViewController {
     
     @objc func logOutButtonTapped() {
         //KeychainHelper.shared.delete("Travio", account: "asd")
-
+        
         loginVM.logout { result in
             switch result {
             case .success:
@@ -99,7 +99,7 @@ class SettingsVC: UIViewController {
             //bir tane showAlert olabilir
         }
     }
-
+    
     
     @objc func editProfileTapped() {
         let vc = EditProfileVC()
@@ -108,9 +108,9 @@ class SettingsVC: UIViewController {
     }
     
     private lazy var contentViewBig: AppView = {
-            let view = AppView()
-            return view
-        }()
+        let view = AppView()
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,10 +122,10 @@ class SettingsVC: UIViewController {
     
     func initVM(){
         profileViewModel.profileUpdateClosure = { [weak self] profile in
-                    self?.label.text = profile.full_name
-                    self?.imageView.image = UIImage(named: profile.pp_url)
-                }
-                
+            self?.label.text = profile.full_name
+            self?.imageView.image = UIImage(named: profile.pp_url)
+        }
+        
         profileViewModel.getProfileInfos(completion: {result in })
     }
     
@@ -245,30 +245,33 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedSection = indexPath.section
-    switch selectedSection {
+        switch selectedSection {
         case 0:
             let vc = SecuritySettingVC()
             navigationController?.pushViewController(vc, animated: true)
-        // diğer caseleri de burada değerlendiririm.
-//        case 1:
-//            let appDefaultsVC = AppDefaultsVC()
-//            navigationController?.pushViewController(appDefaultsVC, animated: true)
-//        case 2:
-//            let myAddedPlacesVC = MyAddedPlacesVC()
-//            navigationController?.pushViewController(myAddedPlacesVC, animated: true)
-    case 4:
-        let vc = AboutUsVC()
-        navigationController?.pushViewController(vc, animated: true)
-    case 5:
-        let vc = TermsOfUseVC()
-        navigationController?.pushViewController(vc, animated: true)
-        
+            // diğer caseleri de burada değerlendiririm.
+            //        case 1:
+            //            let appDefaultsVC = AppDefaultsVC()
+            //            navigationController?.pushViewController(appDefaultsVC, animated: true)
+            //        case 2:
+            //            let myAddedPlacesVC = MyAddedPlacesVC()
+            //            navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+        case 3:
+            let vc = HelpAndSupportVC()
+            navigationController?.pushViewController(vc, animated: true)
+        case 4:
+            let vc = AboutUsVC()
+            navigationController?.pushViewController(vc, animated: true)
+        case 5:
+            let vc = TermsOfUseVC()
+            navigationController?.pushViewController(vc, animated: true)
+            
         default:
             break
         }
-            tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
-
+    
 }
 
 

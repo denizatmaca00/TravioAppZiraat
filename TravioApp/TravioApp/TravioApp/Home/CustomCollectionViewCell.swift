@@ -82,7 +82,13 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     func setupViews() {
         
-        self.isUserInteractionEnabled = true
+        self.backgroundColor = .clear
+        self.clipsToBounds = false
+        
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 20
+        self.layer.shadowOpacity = 0.15
+        
         self.contentView.addSubviews(imgPlace, lblPlace, imgPinIcon, lblCity)
 
         setupLayout()

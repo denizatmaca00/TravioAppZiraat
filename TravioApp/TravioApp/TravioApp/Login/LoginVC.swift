@@ -123,6 +123,9 @@ class LoginVC: UIViewController {
     
     func setupViews() {
         
+        txtEmail.keyboardType = .emailAddress
+        txtEmail.autocorrectionType = .no
+        txtEmail.autocapitalizationType = .none
         txtPassword.isSecureTextEntry = true
         
         self.view.addSubview(imageView)
