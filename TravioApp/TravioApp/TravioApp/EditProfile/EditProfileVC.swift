@@ -4,26 +4,6 @@
 //
 //  Created by web3406 on 11/6/23.
 //
-// TODO: Labellar için bir UIEelements yazılablir +
-// TODO: contentViewBig her sayfada kullnaılıyor onu da düzenlemek lazım +
-// TODO: profile networking +
-// TODO: delegate silinsin eğer kullanılmıyorsa +
-// TODO: signUp çıkan başarılı alertten sonra direkt logine aktar +
-// TODO: fontlar enumdan beslensin --> signup font size +
-// TODO: classları sayfa sayfa ayırın +
-// TODO: homevc uılar get tamamlansın +
-// TODO: map upload scrrolview +
-// TODO: map post networking+
-// TODO: map addPlaceden sonra reload+
-// TODO: editPrpfile put networking +
-// TODO: homevc uılar paddingler +
-// TODO: signup loading +
-// TODO: klavye +
-// TODO: signUp mvvme göre düzenle +
-// TODO: populervc uı backbutton, font, üst üste gelmesi +
-// TODO: editPrpfile label networking +
-// TODO: editPrpfile changePhoto networking + 
-
 
 // proje nasıl daha iyi hale gelir fikirleri
 // TODO: labelheader uılabel sınıfı
@@ -32,25 +12,19 @@
 // TODO: stackview eklenmeli cardların içine
 // TODO:
 // TODO: dark mode hiç yok onu yapmak lazım
-// TODO: benim teliefonumda home kaydı
-// TODO: benim teliefonumda home kaydı
-// TODO: otomatik düzeltme ve büyük  harf
-// TODO: homevc gölge ekle
-// TODO: popularvc gölge ekle
-// TODO: popularvc detaya gidecek
-// TODO: detayvc de pin olaak map gitmeyecek
+
 
 //Deniz
-// TODO: map upload
+
 // TODO: map ftoğraflar için collectionciewi sağa sol ypmak gereliyor o
 // TODO: mapte pin kalkmıyor
 // TODO: settinsteki isim ve foto muhtelemen put işleminden sonra değişmeyecek ona bak
+// TODO: popularvc detaya gidecek
 
 //Aydın
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
-//TODO: HomeSettingsVC
-//TODO: Homeda detaya gidelicek
-//TODO: indicatörde loginde yanlış girip alerti kapatınca indicatör takılı kalıyor.
+//TODO: HelpandSupportVC
+// TODO: map upload
 
 //Ece
 //TODO: Popular 3 tane
@@ -61,6 +35,8 @@
 //TODO: detay sayfasında shadow ekleecek
 //TODO: security settings UI
 //TODO: popularda kayma da sıkıntı var
+// TODO: popularvc gölge ekle
+// TODO: detayvc de pin olaak map gitmeyecek
 
 //TODO: tabbarın hangis sayfada olup olmaması
 //TODO: App DEfaults ne yapacak ?

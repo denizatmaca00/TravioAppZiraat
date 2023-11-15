@@ -96,6 +96,7 @@ class AppTextField: UIView {
         let textField = UITextField()
         textField.font = .Fonts.textFieldText.font
         textField.placeholder = data?.placeholder
+        textField.textColor = UIColor(named: "textColor")
         return textField
     }()
 
