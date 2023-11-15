@@ -52,7 +52,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         let cptxt = UILabel()
         cptxt.text = "Privacy"
         cptxt.font = .Fonts.cityText16.font
-        cptxt.layer.backgroundColor = UIColor.blue.cgColor
+        //cptxt.layer.backgroundColor = UIColor.blue.cgColor
         cptxt.textColor = UIColor(named: "backgroundColor")
        // cptxt.layer.backgroundColor = UIColor.red.cgColor
         //cptxt.textColor = .red
@@ -74,7 +74,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     private lazy var scrollView:UIScrollView = {
        let sw = UIScrollView()
         sw.isScrollEnabled = true
-        sw.layer.backgroundColor = UIColor.red.cgColor
+        //sw.layer.backgroundColor = UIColor.red.cgColor
         sw.showsVerticalScrollIndicator = true
        // sw.contentSize = CGSize(width: sw.frame.size.width, height: 600)
         //sw.contentSize = CGSize(width: sw.frame.size.width, height: sw.frame.maxY + 50)
