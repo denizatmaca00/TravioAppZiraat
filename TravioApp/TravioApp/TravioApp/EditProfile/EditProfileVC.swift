@@ -167,9 +167,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             self?.labelRole.textLabel.text = updatedProfile.role
             self?.txtUsername.text = updatedProfile.full_name
             self?.txtEmail.text = updatedProfile.email
-            let url = URL(string: updatedProfile.pp_url)
-            print("gelen image url: \(url)")
-            ImageHelper().setImage(imageURL: url!, imageView: self!.imageView)
+            guard let url = URL(string: updatedProfile.pp_url) else {return}
+            ImageHelper().setImage(imageURL: url, imageView: self!.imageView)
         }
         
         viewModelProfile.getProfileInfos(completion: {result in })

@@ -128,8 +128,9 @@ class SettingsVC: UIViewController {
     func initVM(){
         profileViewModel.profileUpdateClosure = { [weak self] profile in
             self?.label.text = profile.full_name
-            let url = URL(string: profile.pp_url)
-            ImageHelper().setImage(imageURL: url!, imageView: self!.imageView)
+            guard let url = URL(string: profile.pp_url) else {return}
+            ImageHelper().setImage(imageURL: url, imageView: self!.imageView)
+           
         }
         
         profileViewModel.getProfileInfos(completion: {result in })
