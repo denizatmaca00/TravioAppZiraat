@@ -135,6 +135,11 @@ class SignUpVC: UIViewController {
     }
     
     func setupViews() {
+        txtUsername.autocapitalizationType  = .words
+        
+        txtEmail.keyboardType = .emailAddress
+        txtEmail.autocorrectionType = .no
+        txtEmail.autocapitalizationType = .none
         
         txtPassword.isSecureTextEntry = true
         txtPasswordConfirm.isSecureTextEntry = true
