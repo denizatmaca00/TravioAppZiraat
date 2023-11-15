@@ -128,8 +128,12 @@ class SettingsVC: UIViewController {
     func initVM(){
         profileViewModel.profileUpdateClosure = { [weak self] profile in
             self?.label.text = profile.full_name
+<<<<<<< HEAD
+            self?.imageView.image = UIImage(named: profile.pp_url)
+=======
             let url = URL(string: profile.pp_url)
             ImageHelper().setImage(imageURL: url!, imageView: self!.imageView)
+>>>>>>> sprint4/editPRofileLabelNetworking
         }
         
         profileViewModel.getProfileInfos(completion: {result in })
@@ -262,9 +266,12 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             //        case 2:
             //            let myAddedPlacesVC = MyAddedPlacesVC()
             //            navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+<<<<<<< HEAD
         case 3:
             let vc = HelpAndSupportVC()
             navigationController?.pushViewController(vc, animated: true)
+=======
+>>>>>>> sprint4/editPRofileLabelNetworking
         case 4:
             let vc = AboutUsVC()
             navigationController?.pushViewController(vc, animated: true)

@@ -8,8 +8,7 @@
 import UIKit
 
 class MapPresentCellVC: UICollectionViewCell {
-    
-    weak var delegate: MapPresentCellDelegate?
+
 
     var viewModel = MapVM()
     
@@ -39,7 +38,7 @@ class MapPresentCellVC: UICollectionViewCell {
         btn.setTitle("Add Photo", for: .normal)
         btn.setTitleColor(UIColor(named: "inactiveButtonColor"), for: .normal)
         btn.titleLabel?.font = .Fonts.textFieldText.font
-        btn.addTarget(self, action: #selector(addPhotoButtonTapped), for: .touchUpInside)
+//        btn.addTarget(self, action: #selector(addPhotoButtonTapped), for: .touchUpInside)
         
         return btn
     }()
@@ -53,10 +52,7 @@ class MapPresentCellVC: UICollectionViewCell {
         super.init(coder: coder)
         setupViews()
     }
-    @objc func addPhotoButtonTapped() {
-           delegate?.presentImagePicker()
-        print("add photo butonuna basıldı mı")
-       }
+
     func setupViews() {
         
         self.addSubviews(cellView)

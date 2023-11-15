@@ -21,6 +21,8 @@
 // TODO: klavye +
 // TODO: signUp mvvme göre düzenle +
 // TODO: populervc uı backbutton, font, üst üste gelmesi +
+// TODO: editPrpfile label networking +
+// TODO: editPrpfile changePhoto networking + 
 
 
 // proje nasıl daha iyi hale gelir fikirleri
@@ -31,13 +33,18 @@
 // TODO:
 // TODO: dark mode hiç yok onu yapmak lazım
 // TODO: benim teliefonumda home kaydı
+// TODO: benim teliefonumda home kaydı
+// TODO: otomatik düzeltme ve büyük  harf
+// TODO: homevc gölge ekle
+// TODO: popularvc gölge ekle
+// TODO: popularvc detaya gidecek
+// TODO: detayvc de pin olaak map gitmeyecek
 
 //Deniz
 // TODO: map upload
 // TODO: map ftoğraflar için collectionciewi sağa sol ypmak gereliyor o
-// TODO: mapte kalkmıyor pin
-// TODO: editPrpfile label networking
-// TODO: editPrpfile changePhoto networking
+// TODO: mapte pin kalkmıyor
+// TODO: settinsteki isim ve foto muhtelemen put işleminden sonra değişmeyecek ona bak
 
 //Aydın
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
@@ -53,18 +60,20 @@
 //TODO: detay sayfasında scrrol static ayarlanacak
 //TODO: detay sayfasında shadow ekleecek
 //TODO: security settings UI
+//TODO: popularda kayma da sıkıntı var
 
 //TODO: tabbarın hangis sayfada olup olmaması
 //TODO: App DEfaults ne yapacak ?
 
 
 import UIKit
+import Kingfisher
 
-class EditProfileVC: UIViewController {
+class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var viewModel = EditProfileVM()
     var viewModelProfile = ProfileVM()
-    
+
     private lazy var viewUsername = AppTextField(data: .fullname)
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var txtUsername = viewUsername.getTFAsObject()
@@ -73,27 +82,37 @@ class EditProfileVC: UIViewController {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
+        imageView.layer.cornerRadius = 65
+        imageView.layer.masksToBounds = true
         return imageView
     }()
+    func  imagePicker (){
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        present(picker, animated: true)
+    }
+    
+    
     private lazy var changePhotoButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("Change Photo", for: .normal)
         btn.setTitleColor(UIColor(named: "editProfileColor"), for: .normal)
         btn.titleLabel?.font = .Fonts.textFieldText.font
-        //btn.addTarget(self, action: #selector(changePhotoTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(changePhotoTapped), for: .touchUpInside)
         return btn
     }()
     private lazy var labelName: UILabel = {
         let lbl = UILabel()
-//        lbl.text = viewModelProfile.profile.full_name
+        //        lbl.text = viewModelProfile.profile.full_name
         lbl.text = "bruce wills"
         lbl.textColor = UIColor(named: "settingsLabelColor")
         lbl.font = .Fonts.header24.font
         return lbl
     }()
     
-     lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile.profile.created_at, alignment: .left)
-     lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile.profile.role, alignment: .left)
+    lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile.profile.created_at, alignment: .left)
+    lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile.profile.role, alignment: .left)
     
     
     private lazy var titleLabel: UILabel = {
@@ -134,31 +153,44 @@ class EditProfileVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        initVM()
         
-        viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
-                   // Update UI with the new profile data
-                   self?.labelName.text = updatedProfile.full_name
-            self?.labelDate.textLabel.text = updatedProfile.created_at
-                   self?.labelRole.textLabel.text = updatedProfile.role
-               }
+    }
+    @objc func changePhotoTapped(){
+        imagePicker()
     }
     
+    func initVM(){
+        viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
+            self?.labelName.text = updatedProfile.full_name
+            self?.labelDate.textLabel.text = updatedProfile.created_at.extractDate()
+            self?.labelRole.textLabel.text = updatedProfile.role
+            self?.txtUsername.text = updatedProfile.full_name
+            self?.txtEmail.text = updatedProfile.email
+            let url = URL(string: updatedProfile.pp_url)
+            print("gelen image url: \(url)")
+            ImageHelper().setImage(imageURL: url!, imageView: self!.imageView)
+        }
+        
+        viewModelProfile.getProfileInfos(completion: {result in })
+    }
+    
+    
+    
     @objc func exitButtonTapped(){
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true)
     }
     
     @objc func saveEditProfile() {
         guard let email = txtEmail.text,
-              let full_name = txtUsername.text,
-              let pp_url = imageView.image else { return }
+              let full_name = txtUsername.text else { return }
+        viewModel.editProfile = EditProfile(full_name: full_name, email: email, pp_url: "")
+        guard let image = imageView.image else { return }
         
-        viewModel.putEditProfileInfos(profile: EditProfile(full_name: full_name, email: email, pp_url: pp_url.description))
-        labelName.text = full_name
-        viewModelProfile.profile.full_name = full_name
-        
-        
+        viewModel.editProfilePhotoUpload(photo: image)
+        dismiss(animated: true)
     }
-        
+    
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, exitButton)
@@ -171,7 +203,7 @@ class EditProfileVC: UIViewController {
         let limits = self.view.safeAreaLayoutGuide.snp
         
         titleLabel.snp.makeConstraints({ lbl in
-            lbl.top.equalToSuperview().offset(60)
+            lbl.top.equalToSuperview().offset(30)
             lbl.leading.equalToSuperview().offset(20)
         })
         
@@ -228,6 +260,14 @@ class EditProfileVC: UIViewController {
             btn.height.equalTo(54)
             
         })
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage{
+            imageView.image = selectedImage
+            viewModel.imagesDatas.append(selectedImage)
+            dismiss(animated: true, completion: nil)
+        }
     }
 }
 

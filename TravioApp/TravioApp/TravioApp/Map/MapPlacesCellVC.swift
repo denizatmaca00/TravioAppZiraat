@@ -7,9 +7,7 @@
 import UIKit
 import SnapKit
 
-protocol MapPresentCellDelegate: AnyObject {
-    func presentImagePicker()
-}
+
 
 class MapPlacesCellVC: UICollectionViewCell {
     
