@@ -38,15 +38,6 @@ class HelpAndSupportVC: UIViewController {
         return lbl
     }()
     
-//    private lazy var leftBarButton: UIBarButtonItem = {
-//        let leftBarButton = UIBarButtonItem()
-//        leftBarButton.tintColor = .white
-//        leftBarButton.image = UIImage(named: "leftArrow")
-//        leftBarButton.target = self
-//        leftBarButton.action = #selector(backButtonTapped)
-//        return leftBarButton
-//    }()
-    
     private lazy var leftBarButton: UIButton = {
         let leftBarButton = UIButton()
         leftBarButton.tintColor = .white
@@ -97,7 +88,6 @@ class HelpAndSupportVC: UIViewController {
     //MARK: -- Component Actions
     
     @objc func backButtonTapped(){
-        print("annen")
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -118,7 +108,6 @@ class HelpAndSupportVC: UIViewController {
     func setupViews() {
         // Add here the setup for the UI
         
-        //        tableView.allowsSelection = true
         tableView.allowsMultipleSelection = false
         
         self.view.backgroundColor = UIColor(named: "backgroundColor")
@@ -183,8 +172,8 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
         //        guard let cell = tableView.cellForRow(at: indexPath) as? DropCell else { fatalError("cell does not exist") }
         let cellViewModel = viewModel.getCellViewModel(idx: indexPath)
         cell.dropCellViewModel = cellViewModel
-//        cell.animate()
         cell.dropCellViewModel?.isExpanded = false
+        
         return cell
     }
     
@@ -244,36 +233,48 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
 //            }
 //        }
         // Create animation for cell
-        self.tableView.performBatchUpdates(nil)
+        self.tableView.performBatchUpdates(nil, completion: nil)
         
         switch self.lastSelectedIndexPath {
         case nil:
-            print("selecting cell \(indexPath.row) yo")
+            print("selecting cell \(indexPath.row)")
             self.tableView.beginUpdates()
             makeCellSelected(in: tableView, on: indexPath)
-            self.tableView.selectRow(at: lastSelectedIndexPath, animated: true, scrollPosition: .none)
+            //self.tableView.selectRow(at: lastSelectedIndexPath, animated: true, scrollPosition: .none)
             self.lastSelectedIndexPath = indexPath
             self.tableView.endUpdates()
             
-        case lastSelectedIndexPath:
-            print("deselecting cell \(indexPath.row) yo")
-            makeCellUnselected(in: tableView, on: self.lastSelectedIndexPath!)
+        case indexPath:
+            print("deselecting cell \(indexPath.row), last: \(lastSelectedIndexPath)")
+            
             self.tableView.beginUpdates()
-            tableView.deselectRow(at: lastSelectedIndexPath!, animated: true)
-            tableView.reloadRows(at: [self.lastSelectedIndexPath!], with: .automatic)
-            self.tableView.endUpdates()
+            makeCellUnselected(in: tableView, on: self.lastSelectedIndexPath!)
+//            tableView.deselectRow(at: lastSelectedIndexPath!, animated: true)
+            //self.tableView.deselectRow(at: indexPath, animated: true)
             self.lastSelectedIndexPath = nil
+            self.tableView.endUpdates()
+            
         default:
-            print("wth")
+            // case when another cell is alreayd at open state and it is not the currently clicked cell
+            print("\(lastSelectedIndexPath)")
+            
+            self.tableView.beginUpdates()
+            makeCellUnselected(in: tableView, on: self.lastSelectedIndexPath!)
+            self.lastSelectedIndexPath = nil
+            self.tableView.endUpdates()
+            
+            //self.tableView.deselectRow(at: lastSelectedIndexPath!, animated: true)
         }
     }
     
+    func makeElseDeselected(in tableView:UITableView, on indexPath: IndexPath){
+        
+    }
     
     func makeCellSelected(in tableView: UITableView, on indexPath: IndexPath){
         
         if let cell = tableView.cellForRow(at: indexPath) as? DropCell{
             if (indexPath.row == 0) || (indexPath.row == 1) || (indexPath.row == 2) {
-                print("+selected \(indexPath)")
                 cell.toExpand.toggle()
                 cell.layer.borderWidth = 2.0
                 cell.layer.borderColor = UIColor.red.cgColor
@@ -284,7 +285,6 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     
     func makeCellUnselected(in tableView: UITableView, on indexPath: IndexPath){
         if let cell = tableView.cellForRow(at: indexPath) as? DropCell{
-            print("--deselected \(indexPath)")
             cell.toExpand.toggle()
             cell.layer.borderWidth = 0.1
             cell.layer.borderColor = UIColor.lightGray.cgColor
@@ -294,10 +294,14 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     // On deselect cell
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
+        // Create animation for cell
+        self.tableView.performBatchUpdates(nil)
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
         print("------")
         
 //        guard let faqItem = tableView.cellForRow(at: indexPath) as? DropCell else {return}
-////        faqItem.isSelected.toggle()
+//        faqItem.isSelected.toggle()
 //        
 //        self.tableView.beginUpdates()
 //        self.tableView.deselectRow(at: indexPath, animated: true)
@@ -331,11 +335,7 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if lastSelectedIndexPath == indexPath { return UITableView.automaticDimension }
-        else{
-            return 75
-        }
-        //return UITableView.automaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

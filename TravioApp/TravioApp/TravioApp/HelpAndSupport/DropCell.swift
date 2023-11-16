@@ -18,7 +18,7 @@ class DropCell: UITableViewCell {
     
     var toExpand = false {
         didSet{
-            toggleCellData(data: "")
+            toggleCellData()
         }
     }
     
@@ -28,8 +28,6 @@ class DropCell: UITableViewCell {
             lblDescription.text = dropCellViewModel?.description
         }
     }
-    
-    var setHeightClosure: ()-> CGFloat = {return 73}
     
     private lazy var lblHeader: UILabel = {
         let lbl = UILabel()
@@ -47,18 +45,29 @@ class DropCell: UITableViewCell {
         lbl.textColor = UIColor(named: "textColor")
         lbl.isHidden = true
         lbl.numberOfLines = 0
-        lbl.sizeToFit()
         return lbl
     }()
     
     //MARK: -- Views
+    
+    private lazy var viewContainer:UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        self.clipsToBounds = true
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 16
+        //self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 16
+        self.layer.shadowOpacity = 1
+        return view
+    }()
     
     private lazy var stackView:UIStackView = {
         let sv = UIStackView()
         sv.axis = .vertical
         sv.distribution = .fillEqually
         sv.alignment = .center
-        sv.spacing = 22
         return sv
     }()
     
@@ -93,10 +102,11 @@ class DropCell: UITableViewCell {
         })
     }
     
-    func toggleCellData(data:String){
+    /// Toggle function to make cell show or hide to create expand-collapse effect
+    func toggleCellData(){
         lblDescription.isHidden = !toExpand
         
-        imgDropButton.image = (!toExpand ?
+        imgDropButton.image = (toExpand ?
                                UIImage(systemName: "chevron.up") :
                                 UIImage(systemName: "chevron.down"))?
             .withRenderingMode(.alwaysOriginal)
@@ -107,42 +117,53 @@ class DropCell: UITableViewCell {
     private func setupViews() {
         // Add here the setup for the UI
         self.selectionStyle = .none
-        self.backgroundColor = .systemGray4
-        self.clipsToBounds = true
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 16
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 16
-        self.layer.shadowOpacity = 1
-        self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
+        self.backgroundColor = .clear
         
-        self.contentView.addSubview(stackView)
-        stackView.addSubviews(lblHeader, imgDropButton, lblDescription)
+        self.contentView.addSubviews(viewContainer, viewSeperator)
+        viewContainer.addSubviews(stackView, imgDropButton)
+        stackView.addArrangedSubviews(lblHeader, lblDescription)
         
         setupLayout()
     }
     
     private func setupLayout() {
         // Add here the setup for layout
-        stackView.snp.makeConstraints({ sv in
+        viewContainer.snp.makeConstraints({ sv in
             sv.top.equalToSuperview()
-            sv.bottom.equalToSuperview()
+//            sv.bottom.equalToSuperview()
             sv.leading.equalToSuperview()
             sv.trailing.equalToSuperview()
             
         })
         
+        stackView.snp.makeConstraints({ sv in
+            sv.top.equalToSuperview().offset(16)
+            sv.bottom.equalToSuperview().inset(15)
+            sv.leading.equalToSuperview().offset(12)
+            sv.trailing.equalToSuperview()
+            
+        })
+        
+        viewSeperator.backgroundColor = .green
+
+        viewSeperator.snp.makeConstraints({view in
+            view.top.equalTo(viewContainer.snp.bottom)
+            view.bottom.equalToSuperview()
+            view.width.equalToSuperview()
+            view.height.equalTo(self.viewSeperator.frame.height)
+        })
+        
         lblHeader.snp.makeConstraints({lbl in
-            lbl.top.equalToSuperview().offset(16)
-            lbl.leading.equalToSuperview().offset(12)
-            lbl.trailing.equalToSuperview().offset(-46)
+            lbl.top.equalToSuperview()
+            lbl.leading.equalToSuperview()
+            lbl.trailing.equalToSuperview().inset(46)
             
         })
         
         lblDescription.snp.makeConstraints({ lbl in
             lbl.top.equalTo(lblHeader.snp.bottom)
-            lbl.bottom.equalToSuperview().offset(-16)
-            lbl.leading.equalTo(lblHeader.snp.leading)
+            lbl.bottom.equalToSuperview()
+            lbl.leading.equalToSuperview()
             lbl.trailing.equalToSuperview().offset(-15)
             
         })
