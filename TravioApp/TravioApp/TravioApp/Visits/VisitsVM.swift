@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 class VisitsVM{
+    
     var id: Visit?
     var favorites: [Visit] = []
     
-
-     var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
+    var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
             reloadTableViewClosure?()
             numberOfCells = cellViewModels.count
@@ -22,15 +22,15 @@ class VisitsVM{
     }
     
     var numberOfCells:Int?
-//    {
-//        return cellViewModels.count
-//    }
+    //    {
+    //        return cellViewModels.count
+    //    }
     
     // this will be filled on VisitsVC to populate tableView with updated data
     var reloadTableViewClosure: (()->())?
     
+    /// Here places will be fetchED from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
     func initFetch(){
-        // here places will be fetchED from the server using .visits for VisitsVC and will be used to fill favorites:[Place/Visit] array
         
         NetworkingHelper.shared.dataFromRemote(urlRequest: .visits) {(result:Result<VisitsDataStatus, Error>) in
             
@@ -48,8 +48,8 @@ class VisitsVM{
         guard let idplace = id?.place_id  else {return}
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getAVisitByID(id: idplace)){(result:Result<VisitsDataStatus,Error>) in
             switch result{
-            case .success(let success):
-                print(success.status)
+            case .success(_):
+                break
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
@@ -69,18 +69,9 @@ class VisitsVM{
         
         self.cellViewModels = viewModels
     }
-
+    
+    /// Converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell to show inside each vistsCell
     private func createCellViewModel(favorite:Visit) -> VisitCellViewModel{
-    // converts info contained in "MyVisits" and adapts to CellViewModel for each VisitCell to show inside each vistsCell
-       // guard let te = favorite.place.cover_image_url else {return VisitCellViewModel}
-        // "sultanahmet"
-        //URL(string: imageURL.place.cover_image_url)
-//        func configure(imageURL:Visit){
-//            if let url = URL(string: favorite.place.cover_image_url){
-//                //self.image.imageFrom(url: url)
-//                //resmi indir ve görğntülerim
-//                 imageLocation.kf.setImage(with: url)
-//            }}
         
         let imgUrl = URL(string: favorite.place.cover_image_url)!
         let cvm = VisitCellViewModel(image:imgUrl,
