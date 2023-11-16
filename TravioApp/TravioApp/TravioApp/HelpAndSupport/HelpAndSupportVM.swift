@@ -34,9 +34,9 @@ class HelpAndSupportVM: UIViewController {
         cellViewModels.count
     }
     
-    var cellHeight:CGFloat{
-        DropCell().dropView.frame.height
-    }
+//    var cellHeight:CGFloat{
+//        DropCell().dropView.frame.height
+//    }
     
     //MARK: -- Views
     

@@ -15,7 +15,7 @@ class HelpAndSupportVC: UIViewController {
     //MARK: -- Properties
     
     var expandedIndexPaths:[IndexPath] = [IndexPath]()
-    var selectedIndexPath: IndexPath = IndexPath(row: 0, section: 0)
+    var selectedIndexPath: IndexPath? //= IndexPath(row: 0, section: 0)
     var lastSelectedIndexPath: IndexPath?
     
     private let viewModel:HelpAndSupportVM = {
@@ -67,6 +67,7 @@ class HelpAndSupportVC: UIViewController {
         tv.rowHeight = UITableView.automaticDimension
         tv.estimatedRowHeight = 73*4
         tv.separatorStyle = .none
+        tv.backgroundColor = .clear
         //        tv.allowsSelection = true
         //        tv.allowsMultipleSelection = false
         
@@ -118,12 +119,9 @@ class HelpAndSupportVC: UIViewController {
         // Add here the setup for the UI
         
         //        tableView.allowsSelection = true
-        //        tableView.allowsMultipleSelection = false
-        
+        tableView.allowsMultipleSelection = false
         
         self.view.backgroundColor = UIColor(named: "backgroundColor")
-        
-        //self.navigationItem.leftBarButtonItem = leftBarButton
         
         self.view.addSubviews(lblHeader, contentViewBig)
         contentViewBig.addSubviews(lblPageTitle, tableView)
@@ -158,13 +156,13 @@ class HelpAndSupportVC: UIViewController {
             
         })
         
-//        self.view.addSubview(leftBarButton)
-//        leftBarButton.snp.makeConstraints({btn in
-//            btn.width.equalTo(24)
-//            btn.height.equalTo(21)
-//            btn.centerY.equalTo(lblHeader)
-//            btn.leading.equalToSuperview().offset(24)
-//        })
+        self.view.addSubview(leftBarButton)
+        leftBarButton.snp.makeConstraints({btn in
+            btn.width.equalTo(24)
+            btn.height.equalTo(21)
+            btn.centerY.equalTo(lblHeader)
+            btn.leading.equalToSuperview().offset(24)
+        })
         
         lblPageTitle.snp.makeConstraints({ lbl in
             lbl.top.equalToSuperview().offset(44)
@@ -237,18 +235,39 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     }
     */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let lastSelectedIndexPath = lastSelectedIndexPath{
-            makeCellUnselected(in: tableView, on: selectedIndexPath)
-            guard lastSelectedIndexPath != indexPath else {
-                tableView.deselectRow(at: lastSelectedIndexPath, animated: true)
-                self.lastSelectedIndexPath = nil
-                return
-            }
+//        if let lastSelectedIndexPath = lastSelectedIndexPath{
+//            makeCellUnselected(in: tableView, on: lastSelectedIndexPath)
+//            guard lastSelectedIndexPath != indexPath else {
+//                tableView.deselectRow(at: lastSelectedIndexPath, animated: true)
+//                self.lastSelectedIndexPath = nil
+//                return
+//            }
+//        }
+        // Create animation for cell
+        self.tableView.performBatchUpdates(nil)
+        
+        switch self.lastSelectedIndexPath {
+        case nil:
+            print("selecting cell \(indexPath.row) yo")
+            self.tableView.beginUpdates()
+            makeCellSelected(in: tableView, on: indexPath)
+            self.tableView.selectRow(at: lastSelectedIndexPath, animated: true, scrollPosition: .none)
+            self.lastSelectedIndexPath = indexPath
+            self.tableView.endUpdates()
+            
+        case lastSelectedIndexPath:
+            print("deselecting cell \(indexPath.row) yo")
+            makeCellUnselected(in: tableView, on: self.lastSelectedIndexPath!)
+            self.tableView.beginUpdates()
+            tableView.deselectRow(at: lastSelectedIndexPath!, animated: true)
+            tableView.reloadRows(at: [self.lastSelectedIndexPath!], with: .automatic)
+            self.tableView.endUpdates()
+            self.lastSelectedIndexPath = nil
+        default:
+            print("wth")
         }
-        // highlight cell
-        makeCellSelected(in: tableView, on: indexPath)
-        lastSelectedIndexPath = indexPath
     }
+    
     
     func makeCellSelected(in tableView: UITableView, on indexPath: IndexPath){
         
@@ -274,6 +293,8 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     
     // On deselect cell
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        print("------")
         
 //        guard let faqItem = tableView.cellForRow(at: indexPath) as? DropCell else {return}
 ////        faqItem.isSelected.toggle()
@@ -310,10 +331,11 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if selectedIndexPath == indexPath { return UITableView.automaticDimension }
+        if lastSelectedIndexPath == indexPath { return UITableView.automaticDimension }
         else{
-            return 73+12
+            return 75
         }
+        //return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
