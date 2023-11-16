@@ -117,9 +117,6 @@ class DropCell: UITableViewCell {
         self.clipsToBounds = true
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 16
-        self.layer.borderColor = UIColor.black.cgColor
-//        self.layer.shadowRadius = 40
-//        self.layer.shadowOpacity = 0.15
         self.contentView.addSubviews(viewContainer)
         viewContainer.addSubviews(stackView, imgDropButton)
         stackView.addArrangedSubviews(lblHeader, lblDescription)
