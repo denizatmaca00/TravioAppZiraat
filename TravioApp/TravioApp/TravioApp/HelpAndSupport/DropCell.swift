@@ -86,24 +86,22 @@ class DropCell: UITableViewCell {
         lbl.font = .Fonts.descriptionText.font
         lbl.textColor = UIColor(named: "textColor")
         lbl.isHidden = true
-        lbl.numberOfLines = -1
+        lbl.numberOfLines = 0
         lbl.sizeToFit()
         return lbl
     }()
     
     //MARK: -- Views
     
-    lazy var dropView:UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray3 //UIColor(named: "viewBackgroundColor")
-        view.clipsToBounds = true
-        view.layer.cornerRadius = 16
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.shadowRadius = 16
-        view.layer.shadowOpacity = 1
-        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
-        return view
+    private lazy var stackView:UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .vertical
+        sv.distribution = .fillEqually
+        sv.alignment = .center
+        sv.spacing = 22
+        return sv
     }()
+    
     private lazy var viewSeperator:UIView = {
         let v = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 12))
         return v
@@ -111,8 +109,6 @@ class DropCell: UITableViewCell {
     
     private lazy var imgDropButton:UIImageView = {
         let imgView = UIImageView(image: UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysOriginal))
-        //let img = UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysOriginal)
-        //imgView.image = img
         
         return imgView
     }()
@@ -138,35 +134,34 @@ class DropCell: UITableViewCell {
     private func setupViews() {
         // Add here the setup for the UI
         self.selectionStyle = .none
-        self.addSubviews(dropView)
-        dropView.addSubviews(lblHeader, imgDropButton, lblDescription)
-//        dropView.addSubview(viewSeperator)
+        self.backgroundColor = .systemGray
+        self.clipsToBounds = true
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 16
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 16
+        self.layer.shadowOpacity = 1
+        self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
+        
+        self.contentView.addSubview(stackView)
+        stackView.addSubviews(lblHeader, imgDropButton, lblDescription)
         
         setupLayout()
     }
     
     private func setupLayout() {
         // Add here the setup for layout
-        dropView.snp.makeConstraints({ dv in
-            dv.top.equalToSuperview()
-            dv.bottom.equalToSuperview().offset(-viewSeperator.frame.height)
-            dv.leading.equalToSuperview()
-            dv.trailing.equalToSuperview()
+        
+        stackView.snp.makeConstraints({ sv in
+            sv.top.equalToSuperview()
+            sv.bottom.equalToSuperview()
+            sv.leading.equalToSuperview()
+            sv.trailing.equalToSuperview()
             
         })
         
-//        dropView.addSubview(viewSeperator)
-//        viewSeperator.snp.makeConstraints({ view in
-//            view.leading.equalToSuperview()
-//            view.trailing.equalToSuperview()
-//            view.top.equalTo(dropView.snp.bottom)
-//            view.bottom.equalToSuperview()
-//            
-//        })
-        
         lblHeader.snp.makeConstraints({lbl in
             lbl.top.equalToSuperview().offset(16)
-            lbl.bottom.equalTo(lblDescription.snp.top).offset(-12)
             lbl.leading.equalToSuperview().offset(12)
             lbl.trailing.equalToSuperview().offset(-46)
             
@@ -181,8 +176,6 @@ class DropCell: UITableViewCell {
         })
         
         imgDropButton.snp.makeConstraints({ img in
-//            img.top.equalTo(lblHeader.snp.bottom)
-//            img.bottom.equalTo(lblHeader.snp.bottom).offset(-lblHeader.frame.height/1.3)
             img.centerY.equalTo(lblHeader.snp.centerY)
             img.trailing.equalToSuperview().offset(-18.37)
             
