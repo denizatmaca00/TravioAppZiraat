@@ -169,7 +169,7 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DropCell.reuseIdentifier, for: indexPath) as? DropCell else{
             fatalError("cell does not exist")}
-        //        guard let cell = tableView.cellForRow(at: indexPath) as? DropCell else { fatalError("cell does not exist") }
+        
         let cellViewModel = viewModel.getCellViewModel(idx: indexPath)
         cell.dropCellViewModel = cellViewModel
         cell.dropCellViewModel?.isExpanded = false
@@ -276,9 +276,6 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
         if let cell = tableView.cellForRow(at: indexPath) as? DropCell{
             if (indexPath.row == 0) || (indexPath.row == 1) || (indexPath.row == 2) {
                 cell.toExpand.toggle()
-                cell.layer.borderWidth = 2.0
-                cell.layer.borderColor = UIColor.red.cgColor
-                cell.layer.shadowOffset = CGSize.init(width: 0.5, height: 0.5)
             }
         }
     }
@@ -286,8 +283,6 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     func makeCellUnselected(in tableView: UITableView, on indexPath: IndexPath){
         if let cell = tableView.cellForRow(at: indexPath) as? DropCell{
             cell.toExpand.toggle()
-            cell.layer.borderWidth = 0.1
-            cell.layer.borderColor = UIColor.lightGray.cgColor
         }
     }
     
@@ -298,7 +293,6 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
         self.tableView.performBatchUpdates(nil)
         self.tableView.beginUpdates()
         self.tableView.endUpdates()
-        print("------")
         
 //        guard let faqItem = tableView.cellForRow(at: indexPath) as? DropCell else {return}
 //        faqItem.isSelected.toggle()
