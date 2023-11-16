@@ -6,67 +6,27 @@
 //  Created by Aydın Erol on 2.11.2023.
 //
 //
+
 import UIKit
-import TinyConstraints
 import SnapKit
 
 class DropCell: UITableViewCell {
     
+    //MARK: -- Properties
+    
     static let reuseIdentifier = "ExpandableCell"
+    
     var toExpand = false {
         didSet{
             toggleCellData(data: "")
         }
     }
-    override var isSelected: Bool{
-        didSet{
-//            print("isSelected changed to \(isSelected)")
-//            imgDropButton.image = (self.isSelected ?
-//                                   UIImage(systemName: "chevron.up") :
-//                                    UIImage(systemName: "chevron.down"))?
-//                .withRenderingMode(.alwaysOriginal)
-//            lblDescription.isHidden = (self.isSelected ? false : true)
-        }
-    }
-    //MARK: -- Properties
-    
-//    var isExpanded:Bool = false
     
     var dropCellViewModel:DropCellViewModel? {
         didSet{
             lblHeader.text = dropCellViewModel?.title
             lblDescription.text = dropCellViewModel?.description
-            //lblDescription.text = (!dropCellViewModel!.isExpanded ? dropCellViewModel?.description : "")
-//            lblDescription.text = (!dropCellViewModel!.isExpanded ? dropCellViewModel?.description : "")
-//            lblDescription.isHidden = !dropCellViewModel!.isExpanded
-//            print("DidSet of DropCell: \(!dropCellViewModel!.isExpanded)")
-//            imgDropButton.image = (!dropCellViewModel!.isExpanded ? UIImage(systemName: "chevron.up") : UIImage(systemName: "chevron.down"))?.withRenderingMode(.alwaysOriginal)
-//            
         }
-    }
-    
-    func animate() {
-        UIView.animate(withDuration: 0.5, delay: 0.3, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
-            self.contentView.layoutIfNeeded()
-        })
-    }
-    
-    
-    func toggleCellData(data:String){
-        //let isExpanded = dropCellViewModel?.isExpanded
-        // ucuncude burası false kalıyor
-        lblDescription.isHidden = !toExpand
-//        lblDescription.text = (!isExpanded! ? data : "")
-        
-        print("Function of DropCell: \(!toExpand)")
-//        imgDropButton.image = (self.isSelected ?
-//                                           UIImage(systemName: "chevron.up") :
-//                                            UIImage(systemName: "chevron.down"))? .withRenderingMode(.alwaysOriginal)
-        
-        imgDropButton.image = (!toExpand ?
-                               UIImage(systemName: "chevron.up") :
-                                UIImage(systemName: "chevron.down"))?
-            .withRenderingMode(.alwaysOriginal)
     }
     
     var setHeightClosure: ()-> CGFloat = {return 73}
@@ -82,7 +42,7 @@ class DropCell: UITableViewCell {
     
     private lazy var lblDescription: UILabel = {
         let lbl = UILabel()
-        lbl.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+        lbl.text = "Lorem Ipsum"
         lbl.font = .Fonts.descriptionText.font
         lbl.textColor = UIColor(named: "textColor")
         lbl.isHidden = true
@@ -125,16 +85,29 @@ class DropCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: -- Component Actions
-    
     //MARK: -- Private Methods
+    
+    func animate() {
+        UIView.animate(withDuration: 0.5, delay: 0.3, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
+            self.contentView.layoutIfNeeded()
+        })
+    }
+    
+    func toggleCellData(data:String){
+        lblDescription.isHidden = !toExpand
+        
+        imgDropButton.image = (!toExpand ?
+                               UIImage(systemName: "chevron.up") :
+                                UIImage(systemName: "chevron.down"))?
+            .withRenderingMode(.alwaysOriginal)
+    }
     
     //MARK: -- UI Methods
     
     private func setupViews() {
         // Add here the setup for the UI
         self.selectionStyle = .none
-        self.backgroundColor = .systemGray
+        self.backgroundColor = .systemGray4
         self.clipsToBounds = true
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 16
@@ -151,7 +124,6 @@ class DropCell: UITableViewCell {
     
     private func setupLayout() {
         // Add here the setup for layout
-        
         stackView.snp.makeConstraints({ sv in
             sv.top.equalToSuperview()
             sv.bottom.equalToSuperview()
