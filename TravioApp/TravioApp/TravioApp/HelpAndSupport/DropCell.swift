@@ -53,13 +53,9 @@ class DropCell: UITableViewCell {
     private lazy var viewContainer:UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        self.clipsToBounds = true
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 16
-        //self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 16
-        self.layer.shadowOpacity = 1
+        view.clipsToBounds = true
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 16
         return view
     }()
     
@@ -118,8 +114,13 @@ class DropCell: UITableViewCell {
         // Add here the setup for the UI
         self.selectionStyle = .none
         self.backgroundColor = .clear
-        
-        self.contentView.addSubviews(viewContainer, viewSeperator)
+        self.clipsToBounds = true
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 16
+        self.layer.borderColor = UIColor.black.cgColor
+//        self.layer.shadowRadius = 40
+//        self.layer.shadowOpacity = 0.15
+        self.contentView.addSubviews(viewContainer)
         viewContainer.addSubviews(stackView, imgDropButton)
         stackView.addArrangedSubviews(lblHeader, lblDescription)
         
@@ -130,7 +131,7 @@ class DropCell: UITableViewCell {
         // Add here the setup for layout
         viewContainer.snp.makeConstraints({ sv in
             sv.top.equalToSuperview()
-//            sv.bottom.equalToSuperview()
+            sv.bottom.equalToSuperview().inset(12)
             sv.leading.equalToSuperview()
             sv.trailing.equalToSuperview()
             
@@ -142,15 +143,6 @@ class DropCell: UITableViewCell {
             sv.leading.equalToSuperview().offset(12)
             sv.trailing.equalToSuperview()
             
-        })
-        
-        viewSeperator.backgroundColor = .green
-
-        viewSeperator.snp.makeConstraints({view in
-            view.top.equalTo(viewContainer.snp.bottom)
-            view.bottom.equalToSuperview()
-            view.width.equalToSuperview()
-            view.height.equalTo(self.viewSeperator.frame.height)
         })
         
         lblHeader.snp.makeConstraints({lbl in
