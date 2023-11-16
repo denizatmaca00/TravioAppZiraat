@@ -22,7 +22,6 @@ class ProfileVM {
                 self.profileUpdateClosure?(profile)
                 completion(.success(profile))
 //                self.editProfileVC?.updateUI(with: profile)
-                print(profile)
             case .failure(let error):
                 print("Hata oluştu: \(error)")
                 completion(.failure(error))

@@ -99,21 +99,12 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     }
     
     @objc func btnAddPlaceTapped() {
-        print(txtTitle.text!)
-        //print(txtDescription.text!)
-        print(txtLocation.text!)
-        print(self.latitude)
-        print(self.longitude)
+       
  
         viewModel.postAddNewPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "http.png", latitude: latitude!, longitude: longitude!, completion: { [weak self] result in
             switch result {
             case .success(let response):
                 if let messages = response.message {
-                    print(messages)
-                    print(response.message)
-                    print(self!.latitude)
-                    print(self!.longitude)
-                    // presenti dismiss et mapi reload et
                     self!.dismiss(animated: true)
                     self?.updateMapClosure?()
 
@@ -132,12 +123,6 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
             }
         }
 
-//        func textViewDidEndEditing(_ textView: UITextView) {
-//            if textView.text.isEmpty {
-//                textView.text = "Placeholder metni"
-//                textView.textColor = UIColor.lightGray
-//            }
-//        }
     
     func setupViews() {
         

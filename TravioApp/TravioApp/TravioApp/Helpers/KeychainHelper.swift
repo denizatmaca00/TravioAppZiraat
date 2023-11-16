@@ -68,7 +68,6 @@ final class KeychainHelper {
     }
     
 //    func isUserLoggedIn() -> Bool {
-//        print("şu an burası getToken ve muhtelemen girmeyecek")
 //           return getToken() != nil
 //       }
     
@@ -110,7 +109,6 @@ final class KeychainHelper {
             
             SecItemUpdate(query, attributesToUpdate)
         }
-        //     print(token)
         return token
     }
     

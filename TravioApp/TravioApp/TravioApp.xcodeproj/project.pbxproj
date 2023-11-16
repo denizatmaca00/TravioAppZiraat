@@ -707,7 +707,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4472ZFW3R5;
+				DEVELOPMENT_TEAM = PVB65SRUST;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravioApp/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "allow app to know your current location";
@@ -721,7 +721,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ecepoyraz00.TravioApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.denizatmaca078.TravioApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -736,7 +736,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4472ZFW3R5;
+				DEVELOPMENT_TEAM = PVB65SRUST;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravioApp/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "allow app to know your current location";
@@ -750,7 +750,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ecepoyraz00.TravioApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.denizatmaca078.TravioApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

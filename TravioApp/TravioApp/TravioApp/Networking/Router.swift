@@ -54,8 +54,6 @@ enum Router {
             return "/v1/auth/register"
         case .user:
             return "/v1/auth/login"
-            //        case .visits:
-            //            return "/v1/visits?page=1&limit=10"
         case .places:
             return "/v1/places"
         case .postVisit:
@@ -119,7 +117,6 @@ enum Router {
         case .register, .user, .getPlaceByID, .getAllGaleryByID, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits, .uploadAddPhoto:
             return [:]
         case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile, .getHomeAllPlacesForUser, .postAddPlace, .putPassword :
-            //print(baseHeaders)
             return baseHeaders
         }
     }
