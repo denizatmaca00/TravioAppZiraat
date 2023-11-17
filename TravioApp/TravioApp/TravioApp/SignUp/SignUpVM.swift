@@ -38,6 +38,8 @@ class SignUpVM{
                 completion(.failure(error))
                 self.showAlertClosure?("Error", error.localizedDescription)
             }
+            self.isLoading = false
+
         }
     }
 }

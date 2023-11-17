@@ -112,9 +112,6 @@ class AppTextField: UIView {
         return stackView
     }()
 
-//    public func getLoginTextFieldText() -> String? {
-//        return loginTextField.text
-//   }
     public func getTFAsObject()->UITextField{
         return textField
     }
@@ -132,8 +129,7 @@ class AppTextField: UIView {
     
     private func setupViews() {
  
-        stackView.addArrangedSubview(titleLbl)
-        stackView.addArrangedSubview(textField)
+        stackView.addArrangedSubviews(titleLbl, textField)
         
         addSubview(stackView)
         setupLayout()

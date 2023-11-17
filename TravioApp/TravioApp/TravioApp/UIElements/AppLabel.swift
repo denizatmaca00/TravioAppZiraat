@@ -58,8 +58,7 @@ class AppLabel: UIView {
         textLabel.text = text
         
         viewWithBorder.backgroundColor = .white
-        viewWithBorder.addSubview(iconImageView)
-        viewWithBorder.addSubview(textLabel)
+        viewWithBorder.addSubviews(iconImageView, textLabel)
         addSubview(viewWithBorder)
         
         setupConstraints(updatedAlignment)

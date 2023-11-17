@@ -19,7 +19,7 @@
 // TODO: map ftoğraflar için collectionciewi sağa sol ypmak gereliyor o
 // TODO: mapte pin kalkmıyor
 // TODO: settinsteki isim ve foto muhtelemen put işleminden sonra değişmeyecek ona bak
-// TODO: popularvc detaya gidecek
+// TODO: popularvc detaya gidecek +
 
 //Aydın
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
@@ -42,33 +42,36 @@
 //TODO: App DEfaults ne yapacak ?
 
 
+
 import UIKit
 import Kingfisher
 
 class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var viewModel = EditProfileVM()
+    
     var viewModelProfile = ProfileVM()
-
+    
     private lazy var viewUsername = AppTextField(data: .fullname)
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var txtUsername = viewUsername.getTFAsObject()
     private lazy var txtEmail = viewMail.getTFAsObject()
     
+    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
-        imageView.layer.cornerRadius = 65
+        imageView.layer.cornerRadius = 60
         imageView.layer.masksToBounds = true
         return imageView
     }()
+    
     func  imagePicker (){
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.sourceType = .photoLibrary
         present(picker, animated: true)
     }
-    
     
     private lazy var changePhotoButton: UIButton = {
         let btn = UIButton()
@@ -78,9 +81,9 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         btn.addTarget(self, action: #selector(changePhotoTapped), for: .touchUpInside)
         return btn
     }()
+    
     private lazy var labelName: UILabel = {
         let lbl = UILabel()
-        //        lbl.text = viewModelProfile.profile.full_name
         lbl.text = "bruce wills"
         lbl.textColor = UIColor(named: "settingsLabelColor")
         lbl.font = .Fonts.header24.font
@@ -89,6 +92,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     
     lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile.profile.created_at, alignment: .left)
     lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile.profile.role, alignment: .left)
+    
     
     
     private lazy var titleLabel: UILabel = {
@@ -127,10 +131,37 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupViews()
         initVM()
+        viewModel.indicatorUpdateClosure = { [weak self] isLoading in
+            DispatchQueue.main.async {
+                switch isLoading{
+                case true:
+                    self?.showIndicator()
+                case false:
+                    self?.hideIndicator()
+                }
+            }
+        }
         
+        
+        viewModel.showAlertClosure = { [weak self] title, message in
+            self?.showAlert(title: title, message: message){
+                
+            }
+        }
+        
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        presentingViewController?.viewWillAppear(true)
+        initVM()
+        
+        viewModel.showAlertClosure = { [weak self] title, message in
+            self?.showAlert(title: title, message: message){
+                
+            }
+        }
     }
     @objc func changePhotoTapped(){
         imagePicker()
@@ -145,25 +176,29 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             self?.txtEmail.text = updatedProfile.email
             guard let url = URL(string: updatedProfile.pp_url) else {return}
             ImageHelper().setImage(imageURL: url, imageView: self!.imageView)
+            self?.viewModel.profile = updatedProfile
         }
         
         viewModelProfile.getProfileInfos(completion: {result in })
     }
-    
-    
     
     @objc func exitButtonTapped(){
         dismiss(animated: true)
     }
     
     @objc func saveEditProfile() {
+        
         guard let email = txtEmail.text,
               let full_name = txtUsername.text else { return }
         viewModel.editProfile = EditProfile(full_name: full_name, email: email, pp_url: "")
         guard let image = imageView.image else { return }
-        
+
         viewModel.editProfilePhotoUpload(photo: image)
-        dismiss(animated: true)
+            self.showAlert(title: "Notification", message: "Updated Successfully", completion: {
+            self.dismiss(animated: true)
+        })
+        viewModelProfile.getProfileInfos(completion: {result in})
+        
     }
     
     func setupViews() {
@@ -190,9 +225,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(contentViewBig).offset(24)
-            img.leading.equalTo(contentViewBig).offset(135)
-            img.trailing.equalTo(contentViewBig).offset(-135)
-            img.height.equalTo(120)
+            img.centerX.equalToSuperview()
+            img.height.width.equalTo(120)
         })
         
         changePhotoButton.snp.makeConstraints({ btn in

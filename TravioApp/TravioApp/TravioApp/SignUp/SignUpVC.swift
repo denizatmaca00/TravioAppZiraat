@@ -116,7 +116,6 @@ class SignUpVC: UIViewController {
                 case .success(let response):
                     if let messages = response.message {
                         self?.showAlert(title: "Notification", message: messages) {
-                            // Kapatma işlemi için LoginVC'ye geri dön
                             self?.navigationController?.popViewController(animated: true)
                         }
                     }

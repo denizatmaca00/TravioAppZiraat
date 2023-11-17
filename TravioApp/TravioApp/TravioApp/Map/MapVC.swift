@@ -44,8 +44,7 @@ class MapVC: UIViewController {
     }
     
     func setupViews() {
-        self.view.addSubview(viewModel.map)
-        self.view.addSubview(collectionView)
+        self.view.addSubviews(viewModel.map,collectionView)
         setupLayout()
     }
     

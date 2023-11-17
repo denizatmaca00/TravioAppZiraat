@@ -43,14 +43,11 @@ class AboutUsVC: UIViewController {
     }
     
     func setupLayout() {
-        let limits = self.view.safeAreaLayoutGuide.snp
-        
         leftBarButton.snp.makeConstraints({ btn in
             btn.centerY.equalTo(titleLabel)
             btn.leading.equalToSuperview().offset(24)
             btn.height.width.equalTo(20)
         })
-        
         titleLabel.snp.makeConstraints({ lbl in
             lbl.top.equalToSuperview().offset(60)
             lbl.leading.equalTo(leftBarButton.snp.trailing).offset(24)

@@ -17,7 +17,7 @@ class LoginVM{
             self.updateLoadingStatus?(isLoading)
         }
     }
-    
+
     var showAlertClosure: ((String, String) -> Void)?
     
     var updateLoadingStatus: ( (Bool)->Void )?

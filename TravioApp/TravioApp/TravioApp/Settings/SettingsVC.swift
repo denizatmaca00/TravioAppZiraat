@@ -18,8 +18,10 @@ import UIKit
 
 class SettingsVC: UIViewController {
     
+    
     let loginVM = LoginVM()
     var profileViewModel = ProfileVM()
+    var editViewModel = EditProfileVM()
     
     let cellArray: [SettingsCell] = [
         SettingsCell(iconName: "profile", label: "Security Settings", iconArrow: "buttonArrow"),
@@ -45,13 +47,13 @@ class SettingsVC: UIViewController {
         return tableView
     }()
     
-    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
-        imageView.layer.cornerRadius = 65
+        imageView.layer.cornerRadius = 60
         imageView.layer.masksToBounds = true
         return imageView
+        // burası değişecek güncellenecek
     }()
     private lazy var label: UILabel = {
         let lbl = UILabel()
@@ -59,6 +61,8 @@ class SettingsVC: UIViewController {
         lbl.textColor = UIColor(named: "settingsLabelColor")
         lbl.font = .Fonts.profileNameTitle.font
         return lbl
+        // burası değişecek güncellenecek
+
     }()
     private lazy var settingsLabel: UILabel = {
         let lbl = UILabel()
@@ -74,9 +78,9 @@ class SettingsVC: UIViewController {
         btn.setTitleColor(UIColor(named: "editProfileColor"), for: .normal)
         btn.titleLabel?.font = .Fonts.descriptionLabel.font
         btn.addTarget(self, action: #selector(editProfileTapped), for: .touchUpInside)
-        
         return btn
     }()
+    
     private lazy var logOutButton: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(named: "logOut"), for: .normal)
@@ -101,41 +105,54 @@ class SettingsVC: UIViewController {
             //bir tane showAlert olabilir
         }
     }
-    
+    let vc = EditProfileVC()
     
     @objc func editProfileTapped() {
-        let vc = EditProfileVC()
         self.present(vc, animated: true)
-        //self.navigationController?.pushViewController(vc, animated: true)
-        print("edit")
+        
     }
+    
+
     
     private lazy var contentViewBig: AppView = {
         let view = AppView()
         return view
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       initVM()
+    }
+    
+    func initVM() {
+        editViewModel.profileUpdateClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.label.text = self?.profileViewModel.profile.full_name
+                self?.imageView.image = self?.editViewModel.imagesDatas.first
+            }
+        }
+        profileViewModel.getProfileInfos(completion: {result in})
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
-        // self.navigationController?.isNavigationBarHidden = true
         setupViews()
-        initVM()
-        
+        initVMFirstFetch()
     }
-   
-    
-    func initVM(){
+    func initVMFirstFetch(){
         profileViewModel.profileUpdateClosure = { [weak self] profile in
             self?.label.text = profile.full_name
             guard let url = URL(string: profile.pp_url) else {return}
-            ImageHelper().setImage(imageURL: url, imageView: self!.imageView)
-           
+            guard let img = self?.imageView else {return}
+            ImageHelper().setImage(imageURL: url, imageView: img)
+
         }
-        
+
         profileViewModel.getProfileInfos(completion: {result in })
     }
-    
+
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig,tableView, settingsLabel, logOutButton)
@@ -144,13 +161,11 @@ class SettingsVC: UIViewController {
     }
     
     func setupLayout() {
-        let limits = self.view.safeAreaLayoutGuide.snp
         
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(contentViewBig).offset(24)
-            img.leading.equalTo(contentViewBig).offset(135)
-            img.trailing.equalTo(contentViewBig).offset(-135)
-            img.height.equalTo(120)
+            img.centerX.equalToSuperview()
+            img.height.width.equalTo(120)
         })
         label.snp.makeConstraints({ lbl in
             lbl.top.equalTo(imageView.snp.bottom).offset(8)
