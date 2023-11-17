@@ -9,6 +9,7 @@
 import UIKit
 import TinyConstraints
 import SnapKit
+import AVFoundation
 
 class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     
@@ -64,10 +65,88 @@ var viewModel = SecuritySettingsVM()
 
     private lazy var passwordTextField = AppTextField(data: .placeHolderEmpty)
     private lazy var confirmPassword = AppTextField(data: .passwordConfirmEmpty)
-    private lazy var camera = AppToggleSwitch(data: .camera)
+    private lazy var camera: AppToggleSwitch = {
+        let toggleSwitch = AppToggleSwitch(data: .camera)
+        toggleSwitch.toggleSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
+        return toggleSwitch
+    }()
+    
+    @objc private func switchValueChanged() {
+
+
+        if camera.toggleSwitch.isOn {
+               // Switch açık durumda
+               print("Switch is ON")
+            //daha önce edilmişse bunu
+               redirectToAppSettings()
+            //autorized edilmemişse bunu
+               //requestCameraPermission()
+           } else {
+               // Switch kapalı durumda
+               print("Switch is OFF")
+               redirectToAppSettings()
+               //requestCameraPermission()
+           }
+       }
+    
+    //eğer toggle switch on ise kamera settinge gitmesini istedim, telefondan kapatacağım
+     func redirectToAppSettings() {
+            let alertController = UIAlertController(
+                title: "Camera Access Required",
+                message: "To enable camera access, please go to Settings and turn on Camera for this app.",
+                preferredStyle: .alert
+            )
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alertController.addAction(cancelAction)
+
+            let openSettingsAction = UIAlertAction(title: "Open Settings", style: .default) { _ in
+                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                    if UIApplication.shared.canOpenURL(settingsURL) {
+                        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                    }
+                }
+            }
+            alertController.addAction(openSettingsAction)
+
+            present(alertController, animated: true, completion: nil)
+        }
+
+    //sayfa açıldığında kontrol eder camera izin statusunu
+    func cameraPermission(){
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:
+            self.camera.toggleSwitch.isOn = true
+        print("zaten izin verilmiş.")
+        case .notDetermined:
+        print("not")
+            self.camera.toggleSwitch.isOn = false
+        default:
+            self.camera.toggleSwitch.isOn = false
+        }
+    }
+    
+    //ilk erişim izini autorized edilmemişse
+    func requestCameraPermission() {
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            if granted {
+                //kamera erişim izni
+                print(" kamera erişim izni ")
+                //self.camera.toggleSwitch.isOn = true
+                self.redirectToAppSettings()
+            } else {
+                // Kullanıcı kamera erişim iznini reddetti.
+                print("Kullanıcı kamera erişim iznini reddetti.")
+            }
+        }
+    }
+    
     private lazy var photoLibrary = AppToggleSwitch(data: .libraryPhoto)
     private lazy var location = AppToggleSwitch(data: .Location)
-    private lazy var saveButon: UIButton = {
+//    private lazy var toggle1
+   
+    private lazy var saveButon: AppButton = {
         let s = AppButton()
             s.setTitle("Sign Up", for: .normal)
             s.isEnabled = true
@@ -133,17 +212,19 @@ var viewModel = SecuritySettingsVM()
 
     
     @objc func backPage(){
-        let hvc = SettingsVC()
-        navigationController?.pushViewController(hvc, animated: true)
+        navigationController?.popViewController(animated: true)
      }
 
     override func viewDidLoad() {
         super.viewDidLoad()
        // viewBack.isHidden = false
+       cameraPermission()
        setupViews()
        
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidLoad()
+       }
     func setupViews() {
         // Add here the setup for the UI
        // self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
