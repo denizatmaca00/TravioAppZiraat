@@ -10,6 +10,8 @@ import UIKit
 import TinyConstraints
 import SnapKit
 import AVFoundation
+import Photos
+
 
 class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     
@@ -70,10 +72,13 @@ var viewModel = SecuritySettingsVM()
         toggleSwitch.toggleSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
         return toggleSwitch
     }()
-    
+    private lazy var photoLibrary: AppToggleSwitch = {
+        let ts = AppToggleSwitch(data: .libraryPhoto)
+        ts.toggleSwitch.addTarget(self, action: #selector(switchLibrary), for: .valueChanged)
+        return ts
+    }()
+    private lazy var location = AppToggleSwitch(data: .Location)
     @objc private func switchValueChanged() {
-
-
         if camera.toggleSwitch.isOn {
                // Switch açık durumda
                print("Switch is ON")
@@ -88,7 +93,6 @@ var viewModel = SecuritySettingsVM()
                //requestCameraPermission()
            }
        }
-    
     //eğer toggle switch on ise kamera settinge gitmesini istedim, telefondan kapatacağım
      func redirectToAppSettings() {
             let alertController = UIAlertController(
@@ -96,7 +100,6 @@ var viewModel = SecuritySettingsVM()
                 message: "To enable camera access, please go to Settings and turn on Camera for this app.",
                 preferredStyle: .alert
             )
-
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alertController.addAction(cancelAction)
 
@@ -108,10 +111,22 @@ var viewModel = SecuritySettingsVM()
                 }
             }
             alertController.addAction(openSettingsAction)
-
             present(alertController, animated: true, completion: nil)
         }
-
+    //ilk erişim izini autorized edilmemişse
+    func requestCameraPermission() {
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            if granted {
+                //kamera erişim izni
+                print(" kamera erişim izni ")
+                //self.camera.toggleSwitch.isOn = true
+                self.redirectToAppSettings()
+            } else {
+                // Kullanıcı kamera erişim iznini reddetti.
+                print("Kullanıcı kamera erişim iznini reddetti.")
+            }
+        }
+    }
     //sayfa açıldığında kontrol eder camera izin statusunu
     func cameraPermission(){
         let status = AVCaptureDevice.authorizationStatus(for: .video)
@@ -127,26 +142,62 @@ var viewModel = SecuritySettingsVM()
         }
     }
     
-    //ilk erişim izini autorized edilmemişse
-    func requestCameraPermission() {
-        AVCaptureDevice.requestAccess(for: .video) { granted in
+    @objc private func switchLibrary(){
+        if photoLibrary.toggleSwitch.isOn {
+            print("photo library on")
+            //fonk çağır
+            photoLibraryToAppSettings()
+        }else {
+            print("photo library off")
+            //func çağır.
+            photoLibraryToAppSettings()
+        }
+    }
+    //photo library
+    func photoLibraryToAppSettings(){
+        let alert = UIAlertController(
+            title: "Photo Library Required", message: "To enable Photo Library access, please go to Settings and turn on Photo Library for this app.", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+        alert.addAction(cancel)
+        
+        let openSetting = UIAlertAction(title: "open settings", style: .default){ dene in
+            if let settingUrl = URL(string: UIApplication.openSettingsURLString){
+                if UIApplication.shared.canOpenURL(settingUrl){
+                    UIApplication.shared.open(settingUrl, options: [:], completionHandler: nil)
+                }
+            }
+        }
+        alert.addAction(openSetting)
+        present(alert, animated: true, completion: nil)
+    }
+    // photolibrary permission
+    func photoLibraryPermission(){
+        PHPhotoLibrary.requestAuthorization{ status in
+            switch status {
+            case .authorized:
+                self.photoLibrary.toggleSwitch.isOn = true
+                print("izin verildi.")
+            case .notDetermined:
+                self.photoLibrary.toggleSwitch.isOn = true
+                print("zaten izin verilmiş")
+            default:
+                self.photoLibrary.toggleSwitch.isOn = false
+            }
+        }
+    }
+    func requestPhotoLibraryPermission(){
+        AVCaptureDevice.requestAccess(for: .audio){ granted in
             if granted {
-                //kamera erişim izni
-                print(" kamera erişim izni ")
-                //self.camera.toggleSwitch.isOn = true
-                self.redirectToAppSettings()
-            } else {
-                // Kullanıcı kamera erişim iznini reddetti.
-                print("Kullanıcı kamera erişim iznini reddetti.")
+                print("library izni")
+                self.photoLibraryToAppSettings()
+            }else {
+                print("kullanıcı library erişim iznini reddetti.")
             }
         }
     }
     
-    private lazy var photoLibrary = AppToggleSwitch(data: .libraryPhoto)
-    private lazy var location = AppToggleSwitch(data: .Location)
-//    private lazy var toggle1
-   
-    private lazy var saveButon: AppButton = {
+ //signup button
+    private lazy var signupButton: AppButton = {
         let s = AppButton()
             s.setTitle("Sign Up", for: .normal)
             s.isEnabled = true
@@ -188,8 +239,8 @@ var viewModel = SecuritySettingsVM()
     @objc func updatePassword(){
         //burada put network tetikle.
         //burada textfieldden gelen texti burada password olarak ver.
-        var passwordText = passwordGet.text
-        var confirmText = passwordConfirM.text
+        let passwordText = passwordGet.text
+        let confirmText = passwordConfirM.text
         if passwordText == confirmText {
             viewModel.putPassword(password: Password(new_password: passwordText))
             viewModel.passwordChangeAlertClosure = {title, message in
@@ -219,6 +270,7 @@ var viewModel = SecuritySettingsVM()
         super.viewDidLoad()
        // viewBack.isHidden = false
        cameraPermission()
+       photoLibraryPermission()
        setupViews()
        
     }
@@ -241,7 +293,7 @@ var viewModel = SecuritySettingsVM()
         scrollView.addSubview(stackViewPasswordChange)
         scrollView.addSubview(privacyTitle)
         scrollView.addSubview(stackViewPrivacy)
-        scrollView.addSubview(saveButon)
+        scrollView.addSubview(signupButton)
         
         stackViewPasswordChange.addArrangedSubview(passwordTextField)
         stackViewPasswordChange.addArrangedSubview(confirmPassword)
@@ -326,12 +378,12 @@ var viewModel = SecuritySettingsVM()
 //            s.trailing.equalToSuperview().offset(-70)
 //        })
 
-        saveButon.topToBottom(of: stackViewPrivacy, offset: 50)
-        saveButon.height(54)
-        saveButon.trailing(to: stackViewPrivacy)
-        saveButon.leading(to: stackViewPrivacy)
+        signupButton.topToBottom(of: stackViewPrivacy, offset: 50)
+        signupButton.height(54)
+        signupButton.trailing(to: stackViewPrivacy)
+        signupButton.leading(to: stackViewPrivacy)
         //saveButon.bottomToSuperview(offset: 20)
-        saveButon.snp.makeConstraints({s in
+        signupButton.snp.makeConstraints({s in
             s.bottom.equalToSuperview().offset(-30)
         })
     }
