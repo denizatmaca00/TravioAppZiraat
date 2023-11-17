@@ -48,6 +48,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         return b
         
     }()
+    
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -67,6 +68,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         stackViews.spacing = 16
         return stackViews
     }()
+    
     private lazy var imageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -80,17 +82,6 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
-    private lazy var imagePicker: UIImagePickerController = {
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
-
-            return picker
-        }()
-
-  
-            
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +90,6 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     }
     
     @objc func btnAddPlaceTapped() {
-       
  
         viewModel.postAddNewPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "http.png", latitude: latitude!, longitude: longitude!, completion: { [weak self] result in
             switch result {
@@ -116,6 +106,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         })
         MapVC().initVM()
     }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
             if textView.textColor == UIColor.lightGray {
                 textView.text = nil
@@ -179,11 +170,19 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? MapPresentCellVC else {fatalError("Cell is not found")}
+        
+        viewModel.dismissClosure = {self.dismiss(animated: true)}
         
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? MapPresentCellVC else {fatalError("Cell is not found")}
+        //show picker view
+        cell.presentClosure = { picker in self.present(picker, animated: true)}
+        
+        cell.imagePicker()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -192,27 +191,27 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     }
 }
 
-extension MapPresentVC: UIImagePickerControllerDelegate{
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[.originalImage] as? UIImage {
-            // Seçilen fotoğrafı işleyebilirsin yine
-
-            handlePickedImage(pickedImage)
-        }
-        picker.dismiss(animated: true, completion: nil)
-    }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-
-    func handlePickedImage(_ image: UIImage) {
-        // Seçilen fotoğrafı işleyecek
-        // imageview içine koysan daha iyi olaiblir
-        
-        // Daha sonra bu fotoğrafı API'ye yükle
-      //  uploadPhoto(image: image)
-    }
+//extension MapPresentCellVC: UIImagePickerControllerDelegate{
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//        if let pickedImage = info[.originalImage] as? UIImage {
+//            // Seçilen fotoğrafı işleyebilirsin yine
+//
+//            handlePickedImage(pickedImage)
+//        }
+//        picker.dismiss(animated: true, completion: nil)
+//    }
+//
+//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//        picker.dismiss(animated: true, completion: nil)
+//    }
+//
+//    func handlePickedImage(_ image: UIImage) {
+//        // Seçilen fotoğrafı işleyecek
+//        // imageview içine koysan daha iyi olaiblir
+//        
+//        // Daha sonra bu fotoğrafı API'ye yükle
+//      //  uploadPhoto(image: image)
+//    }
 
 //    func uploadPhoto(image: UIImage) {
 //        // Fotoğrafı API'ye yüklemek için kullanıcı tanımlı bir fonksiyon
@@ -233,7 +232,7 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
 //
 //    }
 
-}
+//}
 
  
 
