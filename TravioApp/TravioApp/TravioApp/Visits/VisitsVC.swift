@@ -42,9 +42,6 @@ class VisitsVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         
-//        let refreshControl = UIRefreshControl()
-//        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
-//        tv.refreshControl = refreshControl
         return tv
     }()
     
@@ -91,8 +88,6 @@ class VisitsVC: UIViewController {
     }
     
     func setupLayout() {
-        //let tabBarHeight:CGFloat = self.tabBarController?.tabBar.frame.size.height ?? 83.0
-        
         // Add here the setup for layout
         lblHeader.snp.makeConstraints({l in
             l.top.equalToSuperview().offset(48)
@@ -155,17 +150,18 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
         return relativeWidth
     }
     
+    /// Push to DetailVC related to cell data
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       //tıklndığının placeidsini detailpagee gönder.
         let vc = DetailVC()
         vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
         viewModel.getaVisitbyID()
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = .clear
+        
         return headerView
     }
     

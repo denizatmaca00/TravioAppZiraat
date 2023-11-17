@@ -113,8 +113,25 @@ var viewModel = SecuritySettingsVM()
         var confirmText = passwordConfirM.text
         if passwordText == confirmText {
             viewModel.putPassword(password: Password(new_password: passwordText))
+            viewModel.passwordChangeAlertClosure = {title, message in
+                self.showAlert(title: title, message: message)
+            }
+        }else {
+            viewModel.putPassword(password: Password(new_password: passwordText))
+            viewModel.passwordChangeAlertClosure = {title, message in
+                self.showAlert(title: "Error", message: "Password Not Matching")
+            }
         }
     }
+    func showAlert(title:String,message:String){
+
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+         let okAction = UIAlertAction(title: "OK", style: .default)
+         alertController.addAction(okAction)
+         present(alertController, animated: true)
+    }
+
+    
     @objc func backPage(){
         let hvc = SettingsVC()
         navigationController?.pushViewController(hvc, animated: true)

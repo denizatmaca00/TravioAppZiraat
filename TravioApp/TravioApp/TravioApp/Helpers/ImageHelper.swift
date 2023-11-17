@@ -33,13 +33,8 @@ class ImageHelper{
         imageView.kf.setImage(with: imageURL, placeholder: imgPlaceholder, options: kfOptions) { result in
             switch result{
             case .success(_):
-                //print(value.cacheType)
-                //print(value.source)
                 return
-                //imageView.image = value.image
-            case .failure(_): //let error case
-                //print("image not found on: \(imageURL)")
-                //imageView.image = imgPlaceholder
+            case .failure(_):
                 return
             }
         }
@@ -60,7 +55,6 @@ class ImageHelper{
             case .success(let value):
                 imageView.image = value.image
             case .failure(_): //let error case
-                //print("image not found on: \(imageURL)")
                 imageView.image = self.imgPlaceholder
                 return
             }

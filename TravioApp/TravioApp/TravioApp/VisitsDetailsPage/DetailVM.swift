@@ -14,7 +14,7 @@ class DetailVM{
     var id:String?
     var placeIdtest:String?{
         didSet{
-            print("saflfşskşfdsklşfdks\(placeIdtest)")
+            print(placeIdtest)
         }
     }
     var checkSuccessID: (()->())?
@@ -72,7 +72,7 @@ class DetailVM{
                 self.postData = result
                 print(self.postData)
             case .failure(let failure):
-                print("hatahatahatahata\(failure.localizedDescription)")
+                print(failure.localizedDescription)
             }
         }
     }
@@ -103,26 +103,10 @@ class DetailVM{
             switch result {
             case .success(let success):
                 self.successCheckIdResponse = success.message
-               
             case .failure(let failure):
                 self.errorCheckIdResponse = failure.localizedDescription
             }
         }
     }
 }
-//func checkVisitbyPlaceID(){
-//    guard let id = placeIdtest  else {return}
-//    print(id)
-//    NetworkingHelper.shared.dataFromRemote(urlRequest: Router.checkVisitByID(id: id)){
-//        (result:Result<CheckVisitbyID,Error>) in
-//        switch result {
-//        case .success(let success):
-//            print(message)
-//            if success.status == "success" {
-////                    self.deleteVisitbyPlceID()
-//                successCheckIdResponse()
-//            }
-//        case .failure(let failure):
-//            self.postVisit()
-//        }
-//    }
+

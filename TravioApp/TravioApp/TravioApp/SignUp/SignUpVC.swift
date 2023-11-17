@@ -121,8 +121,7 @@ class SignUpVC: UIViewController {
                         }
                     }
                 case .failure(let error):
-                    print("Error: \(error)")
-                    self?.viewModel.showAlertClosure?("Yanlış", error.localizedDescription)
+                    self?.viewModel.showAlertClosure?("Error", error.localizedDescription)
                 }
             }
         }

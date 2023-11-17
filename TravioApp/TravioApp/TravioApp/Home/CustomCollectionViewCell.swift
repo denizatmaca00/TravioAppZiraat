@@ -25,10 +25,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         // round corners of the image
         imageView.layer.cornerRadius = 16
         imageView.layer.masksToBounds = true
-     
-        let tappedGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-        imageView.addGestureRecognizer(tappedGesture)
-        imageView.isUserInteractionEnabled = true
+
         return imageView
     }()
     
@@ -66,11 +63,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc func imageTapped(){
-     //detail page opens
-        print("tappedByGesture")
     }
 
     func configure(object:Place){

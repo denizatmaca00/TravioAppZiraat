@@ -16,6 +16,17 @@ class HomeVC: UIViewController {
     
     //MARK: -- Properties
     
+    //MARK: -- Views
+    
+    private lazy var stackViewLogo: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.distribution = .fillProportionally
+        //sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }()
+    
     private lazy var imgLogo: UIImageView = {
         let imageView = UIImageView()
         let image = UIImage(named: "pinLogo")
@@ -23,24 +34,12 @@ class HomeVC: UIViewController {
         return imageView
     }()
     
-    //    private lazy var imgHeader: UIImageView = {
-    //        let imageView = UIImageView()
-    //        let image = UIImage(named: "travioHeader")?.withRenderingMode(.automatic)
-    //        imageView.image = image
-    //        return imageView
-    //    }()
-    
-    private lazy var lblHeader:UILabel = {
-        let lbl = UILabel()
-        
-        lbl.text = "travio"
-        lbl.font = UIFont(name: "Poppins-Medium", size: 28)
-        lbl.textColor = UIColor(named: "textColorReversed")
-        
-        return lbl
+    private lazy var lblHeader: UIImageView = {
+        let imageView = UIImageView()
+        let image = UIImage(named: "travioLabel")?.withRenderingMode(.automatic)
+        imageView.image = image
+        return imageView
     }()
-    
-    //MARK: -- Views
     
     private lazy var contentViewBig : UIView = {
         let view = AppView()
@@ -116,7 +115,8 @@ class HomeVC: UIViewController {
         
         self.navigationItem.setHidesBackButton(true, animated: false)
         
-        self.view.addSubviews(imgLogo, lblHeader, contentViewBig)
+        self.view.addSubviews(stackViewLogo, contentViewBig)
+        stackViewLogo.addArrangedSubviews(imgLogo, lblHeader)
         
         contentViewBig.addSubviews(collectionView)
         
@@ -126,33 +126,17 @@ class HomeVC: UIViewController {
     }
     
     func setupLayout() {
+        let limits = self.view.safeAreaLayoutGuide.snp
+        
         // Add here the setup for layout
-        
-        imgLogo.snp.makeConstraints({ img in
-            img.leading.equalToSuperview().offset(16)
-            img.top.equalToSuperview().offset(50)
-            img.height.equalTo(62)
-            img.width.equalTo(66)
+        stackViewLogo.snp.makeConstraints({sv in            
+            sv.leading.equalToSuperview().offset(16)
+            sv.top.equalTo(limits.top)
             
         })
-        
-        //        imgHeader.snp.makeConstraints({ lbl in
-        //
-        //            lbl.leading.equalTo(imgLogo.snp.trailing)
-        //            lbl.centerY.equalTo(imgLogo.snp.centerY)
-        //            lbl.height.equalTo(28)
-        //            lbl.width.equalTo(102)
-        //        })
-        
-        lblHeader.snp.makeConstraints({ lbl in
-            
-            lbl.leading.equalTo(imgLogo.snp.trailing)
-            lbl.centerY.equalTo(imgLogo.snp.centerY)
-            
-        })
-        
+
         contentViewBig.snp.makeConstraints({cv in
-            cv.top.equalToSuperview().offset(125)
+            cv.top.equalTo(stackViewLogo.snp.bottom).offset(35)
             cv.bottom.equalToSuperview()
             cv.leading.equalToSuperview().offset(1)
             cv.width.equalToSuperview()
@@ -160,7 +144,6 @@ class HomeVC: UIViewController {
         })
         
         collectionView.snp.makeConstraints({ cv in
-            
             cv.top.equalTo(contentViewBig.snp.top).offset(55)
             cv.bottom.equalTo(contentViewBig.snp.bottom)
             cv.leading.equalTo(contentViewBig.snp.leading)
@@ -329,7 +312,7 @@ import SwiftUI
 struct HomeVC_Preview: PreviewProvider {
     static var previews: some View{
         
-        HomeVC().showPreview()
+        HomeVC().showPreview().ignoresSafeArea(.all)
     }
 }
 #endif

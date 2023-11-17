@@ -38,17 +38,8 @@ class DetailPageCell: UICollectionViewCell {
     
     func configure(imageURL:Image){
         if let url = URL(string: imageURL.image_url){
-            //resmi indir ve görğntülerim
             image.kf.setImage(with: url)
             }
     }
-//    func configure(imageURL: Image) {
-//        if let url = URL(string: imageURL.image_url) {
-//            if let imageData = try? Data(contentsOf: url) {
-//                let image = UIImage(data: imageData)
-//                self.image.image = image
-//            }
-//        }
-//    }
 }
-// self.image.imageFrom(url: url)
+
