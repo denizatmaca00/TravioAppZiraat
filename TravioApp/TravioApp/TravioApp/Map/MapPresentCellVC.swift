@@ -9,11 +9,20 @@ import UIKit
 
 class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     
+    // Cell Identifiers
+    
+    static let reuseIdentifier: String = "ImageCell"
+    
+    // View Model
     
     var viewModel = MapPresentVM()
     
+    // Closures
+    
     var presentClosure:((UIImagePickerController)->Void)?
     var dismissClosure:(()->Void)?
+    
+    // Cell UI Elements
     
     private lazy var cellView: UIImageView = {
         let view = UIImageView()
@@ -37,6 +46,18 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         return btn
     }()
     
+    // Private Functions
+    
+    func fillCellWith(image:UIImage){
+        self.cellView.image = image
+        addPhotoBtn.isHidden = true
+        addPhotoIcon.isHidden = true
+        
+        self.isUserInteractionEnabled = false
+    }
+    
+    // Inits
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -47,20 +68,27 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         setupViews()
     }
     
-    func imagePicker (){
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.sourceType = .photoLibrary
-        presentClosure!(picker)
-    }
+    // UI Setup
     
     func setupViews() {
+
+        /// Create background shadow for cell
+        self.layer.shadowOpacity = 0.10
+        self.layer.shadowRadius = 16
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.masksToBounds = true
+        
+        self.layer.cornerRadius = 16
+        self.clipsToBounds = true
         
         self.addSubviews(cellView)
+        
         cellView.addSubviews(addPhotoIcon, addPhotoBtn)
         
         setupLayout()
     }
+    
+    // UI Layout
     
     func setupLayout() {
         
@@ -80,29 +108,6 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
             lbl.top.equalTo(addPhotoIcon.snp.bottom)
             lbl.centerX.equalTo(cellView)
         })
-    }
-}
-
-extension MapPresentCellVC:UIImagePickerControllerDelegate{
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImage = info[.originalImage] as? UIImage{
-            cellView.image = selectedImage
-            viewModel.imageData.append(selectedImage)
-            dismissClosure!()
-        }
-    }
-    
-    func handlePickedImage(_ image: UIImage) {
-        // Seçilen fotoğrafı işleyecek
-        // imageview içine koysan daha iyi olaiblir
-        
-        // Daha sonra bu fotoğrafı API'ye yükle
-        //  uploadPhoto(image: image)
     }
 }
 
