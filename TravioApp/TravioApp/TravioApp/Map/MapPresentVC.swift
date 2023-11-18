@@ -9,11 +9,12 @@ import UIKit
 
 class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
     
-    var latitude: Double?
-       var longitude: Double?
-    var updateMapClosure: (() -> Void)?
-
     let viewModel = MapPresentVM()
+    
+    var latitude: Double?
+    var longitude: Double?
+    
+    var updateMapClosure: (() -> Void)?
     
     private lazy var mapAddTitle = AppTextField(data: .presentMapTitle)
     // private lazy var mapAddDescription = AppTextField(data: .presentMapDescription)
@@ -31,15 +32,15 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         return lbl
         
     }()
-
+    
     private lazy var textFieldDescription: UITextView = {
-            let textView = UITextView()
-            textView.font = .systemFont(ofSize: 16)
-            textView.text = "Lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lore İpsum lorem İpsum lorem İpsum"
-            textView.textColor = UIColor.lightGray
-            textView.delegate = self
-            return textView
-        }()
+        let textView = UITextView()
+        textView.font = .systemFont(ofSize: 16)
+        textView.text = "Lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lore İpsum lorem İpsum lorem İpsum"
+        textView.textColor = UIColor.lightGray
+        textView.delegate = self
+        return textView
+    }()
     
     private lazy var btnAddPlace: UIButton = {
         let b = AppButton()
@@ -77,7 +78,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(MapPresentCellVC.self, forCellWithReuseIdentifier: "ImageCell")
+        collectionView.register(MapPresentCellVC.self, forCellWithReuseIdentifier: MapPresentCellVC.reuseIdentifier)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
@@ -86,34 +87,53 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-
+        
+        viewModel.dismissClosure = {
+            self.dismiss(animated: true)
+        }
+        
+        /// Initiate activity indicator view to be initiated via updateLoadingStatus closure
+        viewModel.updateLoadingStatus = { [weak self] (isLoading) in
+            DispatchQueue.main.async {
+                switch self!.viewModel.isLoading{
+                case true:
+                    self?.showIndicator()
+                case false:
+                    self?.hideIndicator()
+                }
+            }
+        }
     }
     
     @objc func btnAddPlaceTapped() {
- 
-        viewModel.postAddNewPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "http.png", latitude: latitude!, longitude: longitude!, completion: { [weak self] result in
-            switch result {
-            case .success(let response):
-                if let messages = response.message {
-                    self!.dismiss(animated: true)
-                    self?.updateMapClosure?()
-
-                    }
-            case .failure(let error):
-                print("Error: \(error)")
-
-            }
-        })
-        MapVC().initVM()
+        
+        let placeInfo = AddPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "http.png", latitude: latitude!, longitude: longitude!)
+        
+        viewModel.placeInfo = placeInfo
+        
+        self.viewModel.savePlace()
+        // this needs to be updated, it creates new instance
+        //MapVC().initVM()
+    }
+    
+    private lazy var imagePicker:UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        return picker
+    }()
+    
+    func initPicker (){
+        viewModel.picker = imagePicker
+        present(viewModel.picker!, animated: true)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-            if textView.textColor == UIColor.lightGray {
-                textView.text = nil
-                textView.textColor = UIColor.black
-            }
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
         }
-
+    }
     
     func setupViews() {
         
@@ -133,16 +153,13 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
             lbl.top.equalTo(stackView).offset(8)
             lbl.leading.equalToSuperview().offset(12)
         })
-//        textFieldDesciption.snp.makeConstraints({tf in
-//            tf.top.equalTo(titleDescrpition.snp.bottom).offset(8)
-//            tf.height.equalTo(185)
-//        })
+        
         textFieldDescription.snp.makeConstraints { make in
             make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
-                   // make.leading.equalTo(view).offset(20)
-                   // make.trailing.equalTo(view).offset(-20)
+            // make.leading.equalTo(view).offset(20)
+            // make.trailing.equalTo(view).offset(-20)
             make.height.equalTo(185)
-                }
+        }
         
         stackViewMain.snp.makeConstraints { stack in
             stack.leading.equalToSuperview().offset(24)
@@ -156,33 +173,37 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
             btn.leading.equalToSuperview().offset(24)
             btn.height.equalTo(54)
         })
+        
         imageCollectionView.snp.makeConstraints ({ make in
             make.top.equalTo(stackViewMain.snp.bottom).offset(-16)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(btnAddPlace.snp.top).offset(-16)
-        })// dosya yükle limkleri al iki işlem
+        })
     }
 }
+
 extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-      
         return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? MapPresentCellVC else {fatalError("Cell is not found")}
-        
-        viewModel.dismissClosure = {self.dismiss(animated: true)}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapPresentCellVC.reuseIdentifier, for: indexPath) as? MapPresentCellVC else {fatalError("Cell is not found")}
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as? MapPresentCellVC else {fatalError("Cell is not found")}
-        //show picker view
-        cell.presentClosure = { picker in self.present(picker, animated: true)}
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MapPresentCellVC else {return}
         
-        cell.imagePicker()
+        // show picker view
+        self.initPicker()
+        viewModel.reloadCollectionViewClosure = {
+            DispatchQueue.main.async {
+                self.imageCollectionView.reloadData()
+            }
+            self.viewModel.fetchData(in: cell, with: indexPath)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -191,50 +212,31 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     }
 }
 
-//extension MapPresentCellVC: UIImagePickerControllerDelegate{
-//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//        if let pickedImage = info[.originalImage] as? UIImage {
-//            // Seçilen fotoğrafı işleyebilirsin yine
-//
-//            handlePickedImage(pickedImage)
-//        }
-//        picker.dismiss(animated: true, completion: nil)
-//    }
-//
-//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-//        picker.dismiss(animated: true, completion: nil)
-//    }
-//
-//    func handlePickedImage(_ image: UIImage) {
-//        // Seçilen fotoğrafı işleyecek
-//        // imageview içine koysan daha iyi olaiblir
-//        
-//        // Daha sonra bu fotoğrafı API'ye yükle
-//      //  uploadPhoto(image: image)
-//    }
+extension MapPresentVC: UIImagePickerControllerDelegate{
+    
+    func pickerCloseEvents(_ picker: UIImagePickerController){
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        print("*FILTER* Finising selection on VC")
+        if let selectedImage = info[.originalImage] as? UIImage{
+            print("*FILTER*finished image picking on VC")
+            viewModel.imageData.append(selectedImage)
+            viewModel.lastImage = selectedImage
+            pickerCloseEvents(picker)
+            
+            viewModel.reloadCollectionViewClosure!()
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        pickerCloseEvents(picker)
+    }
+}
 
-//    func uploadPhoto(image: UIImage) {
-//        // Fotoğrafı API'ye yüklemek için kullanıcı tanımlı bir fonksiyon
-//        // Önce fotoğrafı bir veriye dönüştürüp, ardından bu veriyi kullanarak API çağrısı yapabilirsiniz
-//        // API çağrısını gerçekleştiren bir fonksiyonunuz varsa, onu kullanabilirsiniz
-//        let uploadRouter = Router.uploadAddPhoto(params: ["yourParam": "value"])
-//
-//        NetworkingHelper.shared.uploadPhoto(image: image, urlRequest: uploadRouter) { (result: Result<AddPhotoUploadMultipart, Error>) in
-//            switch result {
-//            case .success(let uploadResult):
-//                //  yüklendi
-//                print("Upload success: \(uploadResult)")
-//            case .failure(let error):
-//                // Hata
-//                print("Upload failure: \(error)")
-//            }
-//        }
-//
-//    }
 
-//}
-
- 
 
 #if DEBUG
 import SwiftUI
