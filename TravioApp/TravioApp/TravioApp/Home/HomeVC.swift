@@ -249,7 +249,7 @@ extension HomeVC:UICollectionViewDataSource {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseId, for: indexPath) as! HeaderView
         
-        let vc = PopularPlaceVC()
+        let vc = SeeAllVC()
         
         switch indexPath.section {
         case 0:
