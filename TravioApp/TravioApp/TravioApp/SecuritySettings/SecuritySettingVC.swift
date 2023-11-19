@@ -9,6 +9,10 @@
 import UIKit
 import TinyConstraints
 import SnapKit
+import AVFoundation
+import Photos
+import CoreLocation
+
 
 class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     
@@ -64,10 +68,43 @@ var viewModel = SecuritySettingsVM()
 
     private lazy var passwordTextField = AppTextField(data: .placeHolderEmpty)
     private lazy var confirmPassword = AppTextField(data: .passwordConfirmEmpty)
-    private lazy var camera = AppToggleSwitch(data: .camera)
-    private lazy var photoLibrary = AppToggleSwitch(data: .libraryPhoto)
-    private lazy var location = AppToggleSwitch(data: .Location)
-    private lazy var saveButon: UIButton = {
+    private lazy var camera: AppToggleSwitch = {
+        let toggleSwitch = AppToggleSwitch(data: .camera)
+        toggleSwitch.toggleSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
+        return toggleSwitch
+    }()
+    private lazy var photoLibrary: AppToggleSwitch = {
+        let ts = AppToggleSwitch(data: .libraryPhoto)
+        ts.toggleSwitch.addTarget(self, action: #selector(switchLibrary), for: .valueChanged)
+        return ts
+    }()
+    private lazy var location : AppToggleSwitch = {
+        let ts = AppToggleSwitch(data: .Location)
+        ts.toggleSwitch.addTarget(self, action: #selector(switchLocation), for: .valueChanged)
+        return ts
+    }()
+    @objc private func switchLibrary(){
+        if photoLibrary.toggleSwitch.isOn {
+            print("photo library on")
+            //fonk çağır
+            viewModel.photoLibraryToAppSettings()
+        }else {
+            print("photo library off")
+            //func çağır.
+            viewModel.photoLibraryToAppSettings()
+        }
+    }
+   //location
+    @objc private func switchLocation(){
+        if location.toggleSwitch.isOn {
+            viewModel.locationToAppSettings()
+        }else {
+            viewModel.locationToAppSettings()
+        }
+    }
+
+ //signup button
+    private lazy var signupButton: AppButton = {
         let s = AppButton()
             s.setTitle("Sign Up", for: .normal)
             s.isEnabled = true
@@ -109,8 +146,8 @@ var viewModel = SecuritySettingsVM()
     @objc func updatePassword(){
         //burada put network tetikle.
         //burada textfieldden gelen texti burada password olarak ver.
-        var passwordText = passwordGet.text
-        var confirmText = passwordConfirM.text
+        let passwordText = passwordGet.text
+        let confirmText = passwordConfirM.text
         if passwordText == confirmText {
             viewModel.putPassword(password: Password(new_password: passwordText))
             viewModel.passwordChangeAlertClosure = {title, message in
@@ -130,37 +167,80 @@ var viewModel = SecuritySettingsVM()
          alertController.addAction(okAction)
          present(alertController, animated: true)
     }
-
     
+    @objc private func switchValueChanged() {
+        if camera.toggleSwitch.isOn {
+               print("Switch is ON")
+            viewModel.redirectToAppSettings()
+           } else {
+               print("Switch is OFF")
+               viewModel.redirectToAppSettings()
+           }
+       }
+
     @objc func backPage(){
-        let hvc = SettingsVC()
-        navigationController?.pushViewController(hvc, animated: true)
+        navigationController?.popViewController(animated: true)
      }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       // viewBack.isHidden = false
-       setupViews()
-       
+        // viewBack.isHidden = false
+        viewModel.locationPermission()
+        viewModel.requestCameraPermission()
+        viewModel.requestPhotoLibraryPermission()
+        setupViews()
+        //alert
+        viewModel.presentClosure = { [weak self] alertController in
+            self?.present(alertController, animated: true, completion: nil)
+        }
+        viewModel.checkPermission = {[weak self] () in
+            self?.camera.toggleSwitch.isOn = true
+        }
+        viewModel.checkPermissionLibrary = {[weak self] () in
+            self?.photoLibrary.toggleSwitch.isOn = true
+        }
+        viewModel.checkPermissionLocation = {[weak self] () in
+            self?.location.toggleSwitch.isOn = true
+        }
     }
+  
+    override func viewWillAppear(_ animated: Bool) {
+        refreshSettings()
+       }
+    
+    func refreshSettings(){
 
+        if viewModel.checkPermissionStatus == true {
+            viewModel.checkPermission?()
+        }else {
+            self.photoLibrary.toggleSwitch.isOn = false
+        }
+        //photo library
+        if viewModel.checkPermissionLibraryStatus == true {
+            viewModel.checkPermissionLibrary?()
+        }else {
+            self.photoLibrary.toggleSwitch.isOn = false
+        }
+        //location
+        if viewModel.checkPermissionLocationStatus == true {
+            viewModel.checkPermissionLocation?()
+        }else {
+            self.location.toggleSwitch.isOn = false
+        }
+        
+    }
     func setupViews() {
-        // Add here the setup for the UI
-       // self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
-        //self.view.addSubviews()
         self.view.addSubview(backgroundView)
         self.view.addSubview(uıView)
         self.view.addSubview(mainTitle)
         self.view.addSubview(backButton)
-        //self.view.addSubview(changePasswordTitle)
         
-        //uıView.addSubview(stackViewPasswordChange)
         uıView.addSubview(scrollView)
         scrollView.addSubview(changePasswordTitle)
         scrollView.addSubview(stackViewPasswordChange)
         scrollView.addSubview(privacyTitle)
         scrollView.addSubview(stackViewPrivacy)
-        scrollView.addSubview(saveButon)
+        scrollView.addSubview(signupButton)
         
         stackViewPasswordChange.addArrangedSubview(passwordTextField)
         stackViewPasswordChange.addArrangedSubview(confirmPassword)
@@ -174,9 +254,6 @@ var viewModel = SecuritySettingsVM()
     func setupLayout() {
         backgroundView.edgesToSuperview()
         uıView.top(to: backgroundView, offset: 150)
-        //uıView.edgesToSuperview(excluding: .bottom)
-        //uıView.edgesToSuperview(excluding: .bottom, usingSafeArea: true)
-        //uıView.height(800)
         uıView.leadingToSuperview()
         uıView.trailingToSuperview()
         uıView.snp.makeConstraints({ uı in
@@ -194,42 +271,25 @@ var viewModel = SecuritySettingsVM()
         backButton.height(40)
         backButton.height(40)
         backButton.leadingToSuperview(offset:20)
-        
-
-
-        
+    
         scrollView.leadingToSuperview(offset:10)
-       // scrollView.trailingToSuperview(offset:1600)
         scrollView.topToSuperview(offset:10)
         scrollView.snp.makeConstraints({s in
             s.trailing.equalToSuperview().offset(-2)
         })
-//        scrollView.topToBottom(of: stackViewPasswordChange, offset: 10)
         scrollView.bottomToSuperview()
-        //scrollView.edgesToSuperview()
-
-        
         //changed password title
         changePasswordTitle.top(to: scrollView, offset: 10)
-       // changePasswordTitle.topToSuperview(offset:20)
         changePasswordTitle.height(20)
-        //changePasswordTitle.width(236)
         changePasswordTitle.width(346)
         changePasswordTitle.leadingToSuperview(offset:20)
         
         
         stackViewPasswordChange.leadingToSuperview(offset:20)
-        //stackViewPasswordChange.trailingToSuperview(offset:20)
-//        stackViewPasswordChange.snp.makeConstraints({s in
-//            s.trailing.equalToSuperview().offset(-70)
-//        })
         stackViewPasswordChange.trailing(to: changePasswordTitle)
         stackViewPasswordChange.topToBottom(of: changePasswordTitle,offset: 20)
         stackViewPasswordChange.height(170)
         
-//        stackViewPasswordChange.addArrangedSubview(passwordTextField)
-//        stackViewPasswordChange.addArrangedSubview(confirmPassword)
-//
         //privacy
         privacyTitle.height(20)
         privacyTitle.trailing(to: stackViewPrivacy)
@@ -241,16 +301,12 @@ var viewModel = SecuritySettingsVM()
         stackViewPrivacy.height(266)
         stackViewPrivacy.leadingToSuperview(offset:20)
         stackViewPrivacy.trailing(to: changePasswordTitle)
-//        stackViewPrivacy.snp.makeConstraints({s in
-//            s.trailing.equalToSuperview().offset(-70)
-//        })
 
-        saveButon.topToBottom(of: stackViewPrivacy, offset: 50)
-        saveButon.height(54)
-        saveButon.trailing(to: stackViewPrivacy)
-        saveButon.leading(to: stackViewPrivacy)
-        //saveButon.bottomToSuperview(offset: 20)
-        saveButon.snp.makeConstraints({s in
+        signupButton.topToBottom(of: stackViewPrivacy, offset: 50)
+        signupButton.height(54)
+        signupButton.trailing(to: stackViewPrivacy)
+        signupButton.leading(to: stackViewPrivacy)
+        signupButton.snp.makeConstraints({s in
             s.bottom.equalToSuperview().offset(-30)
         })
     }
@@ -268,19 +324,5 @@ struct SecuritySettingVC_Preview: PreviewProvider {
     }
 }
 #endif
-
-
-//        stackViewPrivacy.leadingToSuperview()
-//        stackViewPrivacy.trailingToSuperview()
-//        saveButon.snp.makeConstraints({ btn in
-//            btn.top.equalTo(stackViewPrivacy.snp.bottom).offset(50)
-//            btn.width.equalTo(342)
-//            btn.height.equalTo(54)
-//            btn.bottom.equalToSuperview().offset(-10)
-//
-//        })
-       // saveButon.leading(to: stackViewPrivacy)
-//        saveButon.trailingToSuperview(offset:24)
-//        saveButon.leadingToSuperview(offset:24)
-      
+ 
  
