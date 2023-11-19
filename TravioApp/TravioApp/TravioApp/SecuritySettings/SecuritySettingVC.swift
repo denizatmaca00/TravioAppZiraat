@@ -11,6 +11,7 @@ import TinyConstraints
 import SnapKit
 import AVFoundation
 import Photos
+import CoreLocation
 
 
 class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
@@ -77,125 +78,31 @@ var viewModel = SecuritySettingsVM()
         ts.toggleSwitch.addTarget(self, action: #selector(switchLibrary), for: .valueChanged)
         return ts
     }()
-    private lazy var location = AppToggleSwitch(data: .Location)
-    @objc private func switchValueChanged() {
-        if camera.toggleSwitch.isOn {
-               // Switch açık durumda
-               print("Switch is ON")
-            //daha önce edilmişse bunu
-               redirectToAppSettings()
-            //autorized edilmemişse bunu
-               //requestCameraPermission()
-           } else {
-               // Switch kapalı durumda
-               print("Switch is OFF")
-               redirectToAppSettings()
-               //requestCameraPermission()
-           }
-       }
-    //eğer toggle switch on ise kamera settinge gitmesini istedim, telefondan kapatacağım
-     func redirectToAppSettings() {
-            let alertController = UIAlertController(
-                title: "Camera Access Required",
-                message: "To enable camera access, please go to Settings and turn on Camera for this app.",
-                preferredStyle: .alert
-            )
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            alertController.addAction(cancelAction)
-
-            let openSettingsAction = UIAlertAction(title: "Open Settings", style: .default) { _ in
-                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                    if UIApplication.shared.canOpenURL(settingsURL) {
-                        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-                    }
-                }
-            }
-            alertController.addAction(openSettingsAction)
-            present(alertController, animated: true, completion: nil)
-        }
-    //ilk erişim izini autorized edilmemişse
-    func requestCameraPermission() {
-        AVCaptureDevice.requestAccess(for: .video) { granted in
-            if granted {
-                //kamera erişim izni
-                print(" kamera erişim izni ")
-                //self.camera.toggleSwitch.isOn = true
-                self.redirectToAppSettings()
-            } else {
-                // Kullanıcı kamera erişim iznini reddetti.
-                print("Kullanıcı kamera erişim iznini reddetti.")
-            }
-        }
-    }
-    //sayfa açıldığında kontrol eder camera izin statusunu
-    func cameraPermission(){
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        switch status {
-        case .authorized:
-            self.camera.toggleSwitch.isOn = true
-        print("zaten izin verilmiş.")
-        case .notDetermined:
-        print("not")
-            self.camera.toggleSwitch.isOn = false
-        default:
-            self.camera.toggleSwitch.isOn = false
-        }
-    }
-    
+    private lazy var location : AppToggleSwitch = {
+        let ts = AppToggleSwitch(data: .Location)
+        ts.toggleSwitch.addTarget(self, action: #selector(switchLocation), for: .valueChanged)
+        return ts
+    }()
     @objc private func switchLibrary(){
         if photoLibrary.toggleSwitch.isOn {
             print("photo library on")
             //fonk çağır
-            photoLibraryToAppSettings()
+            viewModel.photoLibraryToAppSettings()
         }else {
             print("photo library off")
             //func çağır.
-            photoLibraryToAppSettings()
+            viewModel.photoLibraryToAppSettings()
         }
     }
-    //photo library
-    func photoLibraryToAppSettings(){
-        let alert = UIAlertController(
-            title: "Photo Library Required", message: "To enable Photo Library access, please go to Settings and turn on Photo Library for this app.", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
-        alert.addAction(cancel)
-        
-        let openSetting = UIAlertAction(title: "open settings", style: .default){ dene in
-            if let settingUrl = URL(string: UIApplication.openSettingsURLString){
-                if UIApplication.shared.canOpenURL(settingUrl){
-                    UIApplication.shared.open(settingUrl, options: [:], completionHandler: nil)
-                }
-            }
-        }
-        alert.addAction(openSetting)
-        present(alert, animated: true, completion: nil)
-    }
-    // photolibrary permission
-    func photoLibraryPermission(){
-        PHPhotoLibrary.requestAuthorization{ status in
-            switch status {
-            case .authorized:
-                self.photoLibrary.toggleSwitch.isOn = true
-                print("izin verildi.")
-            case .notDetermined:
-                self.photoLibrary.toggleSwitch.isOn = true
-                print("zaten izin verilmiş")
-            default:
-                self.photoLibrary.toggleSwitch.isOn = false
-            }
+   //location
+    @objc private func switchLocation(){
+        if location.toggleSwitch.isOn {
+            viewModel.locationToAppSettings()
+        }else {
+            viewModel.locationToAppSettings()
         }
     }
-    func requestPhotoLibraryPermission(){
-        AVCaptureDevice.requestAccess(for: .audio){ granted in
-            if granted {
-                print("library izni")
-                self.photoLibraryToAppSettings()
-            }else {
-                print("kullanıcı library erişim iznini reddetti.")
-            }
-        }
-    }
-    
+
  //signup button
     private lazy var signupButton: AppButton = {
         let s = AppButton()
@@ -260,34 +167,74 @@ var viewModel = SecuritySettingsVM()
          alertController.addAction(okAction)
          present(alertController, animated: true)
     }
-
     
+    @objc private func switchValueChanged() {
+        if camera.toggleSwitch.isOn {
+               print("Switch is ON")
+            viewModel.redirectToAppSettings()
+           } else {
+               print("Switch is OFF")
+               viewModel.redirectToAppSettings()
+           }
+       }
+
     @objc func backPage(){
         navigationController?.popViewController(animated: true)
      }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       // viewBack.isHidden = false
-       cameraPermission()
-       photoLibraryPermission()
-       setupViews()
-       
+        // viewBack.isHidden = false
+        viewModel.locationPermission()
+        viewModel.requestCameraPermission()
+        viewModel.requestPhotoLibraryPermission()
+        setupViews()
+        //alert
+        viewModel.presentClosure = { [weak self] alertController in
+            self?.present(alertController, animated: true, completion: nil)
+        }
+        viewModel.checkPermission = {[weak self] () in
+            self?.camera.toggleSwitch.isOn = true
+        }
+        viewModel.checkPermissionLibrary = {[weak self] () in
+            self?.photoLibrary.toggleSwitch.isOn = true
+        }
+        viewModel.checkPermissionLocation = {[weak self] () in
+            self?.location.toggleSwitch.isOn = true
+        }
     }
+  
     override func viewWillAppear(_ animated: Bool) {
-        super.viewDidLoad()
+        refreshSettings()
        }
+    
+    func refreshSettings(){
+
+        if viewModel.checkPermissionStatus == true {
+            viewModel.checkPermission?()
+        }else {
+            self.photoLibrary.toggleSwitch.isOn = false
+        }
+        //photo library
+        if viewModel.checkPermissionLibraryStatus == true {
+            viewModel.checkPermissionLibrary?()
+        }else {
+            self.photoLibrary.toggleSwitch.isOn = false
+        }
+        //location
+        if viewModel.checkPermissionLocationStatus == true {
+            viewModel.checkPermissionLocation?()
+        }else {
+            self.location.toggleSwitch.isOn = false
+        }
+        
+    }
     func setupViews() {
-        // Add here the setup for the UI
-       // self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
-        //self.view.addSubviews()
         self.view.addSubview(backgroundView)
         self.view.addSubview(uıView)
         self.view.addSubview(mainTitle)
         self.view.addSubview(backButton)
-        //self.view.addSubview(changePasswordTitle)
         
-        //uıView.addSubview(stackViewPasswordChange)
         uıView.addSubview(scrollView)
         scrollView.addSubview(changePasswordTitle)
         scrollView.addSubview(stackViewPasswordChange)
@@ -307,9 +254,6 @@ var viewModel = SecuritySettingsVM()
     func setupLayout() {
         backgroundView.edgesToSuperview()
         uıView.top(to: backgroundView, offset: 150)
-        //uıView.edgesToSuperview(excluding: .bottom)
-        //uıView.edgesToSuperview(excluding: .bottom, usingSafeArea: true)
-        //uıView.height(800)
         uıView.leadingToSuperview()
         uıView.trailingToSuperview()
         uıView.snp.makeConstraints({ uı in
@@ -327,42 +271,25 @@ var viewModel = SecuritySettingsVM()
         backButton.height(40)
         backButton.height(40)
         backButton.leadingToSuperview(offset:20)
-        
-
-
-        
+    
         scrollView.leadingToSuperview(offset:10)
-       // scrollView.trailingToSuperview(offset:1600)
         scrollView.topToSuperview(offset:10)
         scrollView.snp.makeConstraints({s in
             s.trailing.equalToSuperview().offset(-2)
         })
-//        scrollView.topToBottom(of: stackViewPasswordChange, offset: 10)
         scrollView.bottomToSuperview()
-        //scrollView.edgesToSuperview()
-
-        
         //changed password title
         changePasswordTitle.top(to: scrollView, offset: 10)
-       // changePasswordTitle.topToSuperview(offset:20)
         changePasswordTitle.height(20)
-        //changePasswordTitle.width(236)
         changePasswordTitle.width(346)
         changePasswordTitle.leadingToSuperview(offset:20)
         
         
         stackViewPasswordChange.leadingToSuperview(offset:20)
-        //stackViewPasswordChange.trailingToSuperview(offset:20)
-//        stackViewPasswordChange.snp.makeConstraints({s in
-//            s.trailing.equalToSuperview().offset(-70)
-//        })
         stackViewPasswordChange.trailing(to: changePasswordTitle)
         stackViewPasswordChange.topToBottom(of: changePasswordTitle,offset: 20)
         stackViewPasswordChange.height(170)
         
-//        stackViewPasswordChange.addArrangedSubview(passwordTextField)
-//        stackViewPasswordChange.addArrangedSubview(confirmPassword)
-//
         //privacy
         privacyTitle.height(20)
         privacyTitle.trailing(to: stackViewPrivacy)
@@ -374,15 +301,11 @@ var viewModel = SecuritySettingsVM()
         stackViewPrivacy.height(266)
         stackViewPrivacy.leadingToSuperview(offset:20)
         stackViewPrivacy.trailing(to: changePasswordTitle)
-//        stackViewPrivacy.snp.makeConstraints({s in
-//            s.trailing.equalToSuperview().offset(-70)
-//        })
 
         signupButton.topToBottom(of: stackViewPrivacy, offset: 50)
         signupButton.height(54)
         signupButton.trailing(to: stackViewPrivacy)
         signupButton.leading(to: stackViewPrivacy)
-        //saveButon.bottomToSuperview(offset: 20)
         signupButton.snp.makeConstraints({s in
             s.bottom.equalToSuperview().offset(-30)
         })
@@ -401,19 +324,5 @@ struct SecuritySettingVC_Preview: PreviewProvider {
     }
 }
 #endif
-
-
-//        stackViewPrivacy.leadingToSuperview()
-//        stackViewPrivacy.trailingToSuperview()
-//        saveButon.snp.makeConstraints({ btn in
-//            btn.top.equalTo(stackViewPrivacy.snp.bottom).offset(50)
-//            btn.width.equalTo(342)
-//            btn.height.equalTo(54)
-//            btn.bottom.equalToSuperview().offset(-10)
-//
-//        })
-       // saveButon.leading(to: stackViewPrivacy)
-//        saveButon.trailingToSuperview(offset:24)
-//        saveButon.leadingToSuperview(offset:24)
-      
+ 
  
