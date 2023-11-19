@@ -92,7 +92,7 @@ class MapVC: UIViewController {
             vc.latitude = coordinate.latitude
             vc.longitude = coordinate.longitude
             
-            vc.updateMapClosure = { [weak self] in
+            vc.viewModel.updateMapClosure = { [weak self] in
                 self?.initVM()}
             self.present(vc, animated: true, completion: nil)
         }

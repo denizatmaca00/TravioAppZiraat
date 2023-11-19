@@ -7,25 +7,30 @@
 
 import UIKit
 
-class MapPresentCellVC: UICollectionViewCell {
-
-
-    var viewModel = MapVM()
+class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     
-    var visitCellViewModel: VisitCellViewModel? {
-        didSet {
-            
-        }
-    }
+    // Cell Identifiers
     
-    private lazy var cellView: UIView = {
-        let view = UIView()
-        view.isUserInteractionEnabled = true
+    static let reuseIdentifier: String = "ImageCell"
+    
+    // View Model
+    
+    var viewModel = MapPresentVM()
+    
+    // Closures
+    
+    var presentClosure:((UIImagePickerController)->Void)?
+    var dismissClosure:(()->Void)?
+    
+    // Cell UI Elements
+    
+    private lazy var cellView: UIImageView = {
+        let view = UIImageView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         return view
     }()
- 
+    
     private lazy var addPhotoIcon: UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "addPhoto")
@@ -38,10 +43,20 @@ class MapPresentCellVC: UICollectionViewCell {
         btn.setTitle("Add Photo", for: .normal)
         btn.setTitleColor(UIColor(named: "inactiveButtonColor"), for: .normal)
         btn.titleLabel?.font = .Fonts.textFieldText.font
-//        btn.addTarget(self, action: #selector(addPhotoButtonTapped), for: .touchUpInside)
-        
         return btn
     }()
+    
+    // Private Functions
+    
+    func fillCellWith(image:UIImage){
+        self.cellView.image = image
+        addPhotoBtn.isHidden = true
+        addPhotoIcon.isHidden = true
+        
+        self.isUserInteractionEnabled = false
+    }
+    
+    // Inits
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,27 +67,43 @@ class MapPresentCellVC: UICollectionViewCell {
         super.init(coder: coder)
         setupViews()
     }
-
+    
+    // UI Setup
+    
     func setupViews() {
+
+        /// Create background shadow for cell
+        self.layer.shadowOpacity = 0.10
+        self.layer.shadowRadius = 16
+        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.masksToBounds = true
+        
+        self.layer.cornerRadius = 16
+        self.clipsToBounds = true
         
         self.addSubviews(cellView)
+        
         cellView.addSubviews(addPhotoIcon, addPhotoBtn)
         
         setupLayout()
     }
     
+    // UI Layout
+    
     func setupLayout() {
-
+        
         cellView.snp.makeConstraints { make in
             make.height.equalTo(180)
             make.leading.equalToSuperview().offset(24)
             make.width.equalTo(270)
         }
+        
         addPhotoIcon.snp.makeConstraints { make in
             make.top.equalTo(cellView).offset(79)
             make.height.equalTo(35)
             make.centerX.equalTo(cellView)
         }
+        
         addPhotoBtn.snp.makeConstraints({lbl in
             lbl.top.equalTo(addPhotoIcon.snp.bottom)
             lbl.centerX.equalTo(cellView)
@@ -86,7 +117,8 @@ import SwiftUI
 @available(iOS 13, *)
 struct MapPresentCellVC_Preview: PreviewProvider {
     static var previews: some View{
-
+        
+        MapPresentVC().showPreview().ignoresSafeArea(.all)
         MapPresentCellVC().showPreview()
     }
 }
