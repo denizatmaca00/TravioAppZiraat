@@ -119,7 +119,7 @@ class PopularPlaceVC: UIViewController {
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        tabBarController?.tabBar.isHidden = true
+     //   tabBarController?.tabBar.isHidden = true
     }
     func setupViews() {
         self.view.backgroundColor = .white
