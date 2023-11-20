@@ -60,6 +60,9 @@ class VisitsVC: UIViewController {
         super.viewWillAppear(animated)
         initVM()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
     
     //MARK: -- Component Actions
     

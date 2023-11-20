@@ -43,18 +43,18 @@ class HomeVM{
     var reloadAllForUserPlacesClosure: (()->())?
     
     
-    func initFetchPopularHomeAll(){
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .getPopularPlaces) {(result:Result<PlacesDataStatus, Error>) in
-            
-            switch result {
-            case .success(let success):
-                self.fetchVisits(populars: success.data.places)
-                
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-    }
+//    func initFetchPopularHomeAll(){
+//        NetworkingHelper.shared.dataFromRemote(urlRequest: .getPopularPlaces) {(result:Result<PlacesDataStatus, Error>) in
+//
+//            switch result {
+//            case .success(let success):
+//                self.fetchVisits(populars: success.data.places)
+//
+//            case .failure(let failure):
+//                print(failure.localizedDescription)
+//            }
+//        }
+//    }
     
     func initFetchPopularHomeLimits(limit: Int) {
         let params = ["limit":"\(limit)"]
@@ -70,17 +70,17 @@ class HomeVM{
         }
     }
     
-    func initFetchNewHomeAll(){
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .getNewPlaces) {(result:Result<PlacesDataStatus, Error>) in
-            switch result {
-            case .success(let success):
-                self.fetchNewPlaces(news: success.data.places)
-                
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-    }
+//    func initFetchNewHomeAll(){
+//        NetworkingHelper.shared.dataFromRemote(urlRequest: .getNewPlaces) {(result:Result<PlacesDataStatus, Error>) in
+//            switch result {
+//            case .success(let success):
+//                self.fetchNewPlaces(news: success.data.places)
+//                
+//            case .failure(let failure):
+//                print(failure.localizedDescription)
+//            }
+//        }
+//    }
     
     func initFetchNewHomeLimits(limit: Int) {
         let params = ["limit":"\(limit)"]

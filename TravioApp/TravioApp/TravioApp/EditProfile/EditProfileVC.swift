@@ -162,7 +162,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     func initVM(){
         viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
             self?.labelName.text = updatedProfile.full_name
-            self?.labelDate.textLabel.text = updatedProfile.created_at.extractDate()
+            self?.labelDate.textLabel.text = updatedProfile.created_at.formatDate()
             self?.labelRole.textLabel.text = updatedProfile.role
             self?.txtUsername.text = updatedProfile.full_name
             self?.txtEmail.text = updatedProfile.email

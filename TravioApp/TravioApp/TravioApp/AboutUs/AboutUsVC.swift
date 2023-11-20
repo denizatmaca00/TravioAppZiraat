@@ -26,11 +26,14 @@ class AboutUsVC: UIViewController {
          leftBarButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return leftBarButton
     }()
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
+        view.backgroundColor = UIColor(named: "backgroundColor")
+
         super.viewDidLoad()
-        
         setupViews()
     }
+
     
     @objc func backButtonTapped(){
         navigationController?.popViewController(animated: true)
@@ -43,6 +46,7 @@ class AboutUsVC: UIViewController {
     }
     
     func setupLayout() {
+        
         leftBarButton.snp.makeConstraints({ btn in
             btn.centerY.equalTo(titleLabel)
             btn.leading.equalToSuperview().offset(24)
@@ -56,10 +60,12 @@ class AboutUsVC: UIViewController {
             view.height.equalToSuperview().multipliedBy(0.8)
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
-            view.bottom.equalToSuperview()
-        })
+            view.bottom.equalToSuperview()        })
     }
 }
+
+
+
 #if DEBUG
 import SwiftUI
 
