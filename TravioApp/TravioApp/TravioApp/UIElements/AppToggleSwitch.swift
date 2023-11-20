@@ -5,6 +5,7 @@
 //  Created by Ece Poyraz on 14.11.2023.
 //
 import UIKit
+import TinyConstraints
 
 class AppToggleSwitch: UIView{
     enum PrivacyData {
@@ -80,12 +81,8 @@ class AppToggleSwitch: UIView{
         stackView.edgesToSuperview()
         stackView.height(74)
         
-        toggleSwitch.trailingToSuperview(offset:-10)
-
         titleLbl.height(21)
-        titleLbl.width(100)
+        titleLbl.width(95)
         titleLbl.leadingToSuperview(offset:10)
-        
-        
     }
 }
