@@ -5,14 +5,6 @@
 //  Created by web3406 on 11/2/23.
 //
 
-import UIKit
-
-//
-//  SettingsVC.swift
-//  TravioApp
-//
-//  Created by web3406 on 11/2/23.
-//
 
 import UIKit
 
@@ -22,7 +14,8 @@ class SettingsVC: UIViewController {
     let loginVM = LoginVM()
     var profileViewModel = ProfileVM()
     var editViewModel = EditProfileVM()
-    
+    var viewModelSeeAll = SeeAllVM()
+
     let cellArray: [SettingsCell] = [
         SettingsCell(iconName: "profile", label: "Security Settings", iconArrow: "buttonArrow"),
         SettingsCell(iconName: "appDefault", label: "App Defaults", iconArrow: "buttonArrow"),
@@ -121,6 +114,8 @@ class SettingsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+
        initVM()
     }
     
@@ -140,6 +135,9 @@ class SettingsVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         setupViews()
         initVMFirstFetch()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     func initVMFirstFetch(){
         profileViewModel.profileUpdateClosure = { [weak self] profile in
@@ -249,22 +247,28 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         switch selectedSection {
         case 0:
             let vc = SecuritySettingVC()
+            vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
-            // diğer caseleri de burada değerlendiririm.
             //        case 1:
             //            let appDefaultsVC = AppDefaultsVC()
             //            navigationController?.pushViewController(appDefaultsVC, animated: true)
-            //        case 2:
-            //            let myAddedPlacesVC = MyAddedPlacesVC()
-            //            navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+        case 2:
+            let myAddedPlacesVC = SeeAllVC()
+            myAddedPlacesVC.viewModel.allPlaceforUser()
+            self.navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+                        
         case 3:
             let vc = HelpAndSupportVC()
+            vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         case 4:
             let vc = AboutUsVC()
+            vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         case 5:
             let vc = TermsOfUseVC()
+            vc.hidesBottomBarWhenPushed = true
+
             navigationController?.pushViewController(vc, animated: true)
             
         default:
