@@ -33,7 +33,6 @@ class MapVM {
                 self.places = places.data.places
                 
                 if let firstPlace = self.places.first {
-                    // Eğer yer varsa, haritayı ilk yerin koordinatlarına odaklıcak burası
                     let coordinate = CLLocationCoordinate2D(latitude: firstPlace.latitude, longitude: firstPlace.longitude)
                     let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
                     self.map.setRegion(region, animated: true)
@@ -41,7 +40,6 @@ class MapVM {
                 
                 completion(.success(places))
             case .failure(let error):
-                print("Hata oluştu: \(error)")
                 completion(.failure(error))
             }
         }
@@ -63,7 +61,6 @@ class MapVM {
             switch result {
             case .success(let dataPlaces):
                 let places = dataPlaces.data.places
-                print("Toplam yer sayısı: \(places.count)")
                 
                 for place in places {
                     let title = place.title

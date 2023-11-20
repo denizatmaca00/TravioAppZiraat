@@ -17,7 +17,7 @@ class LoginVM{
             self.updateLoadingStatus?(isLoading)
         }
     }
-    
+
     var showAlertClosure: ((String, String) -> Void)?
     
     var updateLoadingStatus: ( (Bool)->Void )?
@@ -50,7 +50,6 @@ class LoginVM{
         } else {
             // Kullanıcı zaten oturum açık değilse hata döndür
             let error = NSError(domain: "Logout Error", code: 401, userInfo: nil)
-            print("zaten açık değil")
             completion(.failure(error))
         }
     }

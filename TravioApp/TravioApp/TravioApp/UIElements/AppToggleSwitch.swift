@@ -70,8 +70,7 @@ class AppToggleSwitch: UIView{
     
     private func setupViews() {
  
-        stackView.addArrangedSubview(titleLbl)
-        stackView.addArrangedSubview(toggleSwitch)
+        stackView.addArrangedSubviews(titleLbl, toggleSwitch)
 
         addSubview(stackView)
         setupLayout()

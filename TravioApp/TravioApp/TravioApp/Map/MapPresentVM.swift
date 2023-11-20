@@ -31,10 +31,7 @@ class MapPresentVM{
             switch result {
                 case .success(let response):
                     completion(.success(response))
-                print("başraılı")
                 case .failure(let error):
-                print("hatahata")
-
                     completion(.failure(error))
             }
         }

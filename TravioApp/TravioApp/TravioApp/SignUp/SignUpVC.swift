@@ -116,13 +116,11 @@ class SignUpVC: UIViewController {
                 case .success(let response):
                     if let messages = response.message {
                         self?.showAlert(title: "Notification", message: messages) {
-                            // Kapatma işlemi için LoginVC'ye geri dön
                             self?.navigationController?.popViewController(animated: true)
                         }
                     }
                 case .failure(let error):
-                    print("Error: \(error)")
-                    self?.viewModel.showAlertClosure?("Yanlış", error.localizedDescription)
+                    self?.viewModel.showAlertClosure?("Error", error.localizedDescription)
                 }
             }
         }

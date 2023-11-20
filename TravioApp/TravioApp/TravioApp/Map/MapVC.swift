@@ -44,8 +44,7 @@ class MapVC: UIViewController {
     }
     
     func setupViews() {
-        self.view.addSubview(viewModel.map)
-        self.view.addSubview(collectionView)
+        self.view.addSubviews(viewModel.map,collectionView)
         setupLayout()
     }
     
@@ -163,11 +162,8 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.tappedCellMap(at: indexPath)
-        print("ldfkhlfh")
-        //map didselect cell id detail sayfasına iletilecek.
         let vc = DetailVC()
-        let deger = vc.viewModel.placeIdtest = viewModel.places[indexPath.row].id
-        print(deger)
+        vc.viewModel.placeIdtest = viewModel.places[indexPath.row].id
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -182,38 +178,6 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 }
 
-
-//extension MapVC: CLLocationManagerDelegate{
-//
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        let mUserLocation:CLLocation = locations[0] as CLLocation
-//        let center = CLLocationCoordinate2D(latitude: mUserLocation.coordinate.latitude, longitude: mUserLocation.coordinate.longitude)
-//        let mRegion = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-//        map.setRegion(mRegion, animated: true)
-//
-//        // kullnıcının şimdiki konumunu alıp pin bırakacak olan bu diyor medium
-//        let mkAnnotation: MKPointAnnotation = MKPointAnnotation()
-//        mkAnnotation.coordinate = CLLocationCoordinate2DMake(mUserLocation.coordinate.latitude, mUserLocation.coordinate.longitude)
-//        mkAnnotation.title = self.setUsersClosestLocation(mLattitude: mUserLocation.coordinate.latitude, mLongitude: mUserLocation.coordinate.longitude)
-//        map.addAnnotation(mkAnnotation)
-//    }
-//    func setUsersClosestLocation(mLattitude: CLLocationDegrees, mLongitude: CLLocationDegrees) -> String {
-//        let geoCoder = CLGeocoder()
-//        let location = CLLocation(latitude: mLattitude, longitude: mLongitude)
-//
-//        geoCoder.reverseGeocodeLocation(location) { (placemarks, error) in
-//            if let placemark = placemarks?.first {
-//                if let name = placemark.name,
-//                   let city = placemark.locality {
-//                    self.currentLocationStr = "\(name), \(city)"
-//                }
-//            }
-//        }
-//        return currentLocationStr
-//    }
-//
-//
-//}
 #if DEBUG
 import SwiftUI
 

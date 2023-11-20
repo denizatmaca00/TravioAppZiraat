@@ -53,20 +53,17 @@ class DropCell: UITableViewCell {
     private lazy var viewContainer:UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        self.clipsToBounds = true
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 16
-        //self.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 16
-        self.layer.shadowOpacity = 1
+        view.clipsToBounds = true
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 16
         return view
     }()
     
     private lazy var stackView:UIStackView = {
         let sv = UIStackView()
         sv.axis = .vertical
-        sv.distribution = .fillEqually
+        sv.distribution = .equalCentering
+        sv.spacing = 12+10
         sv.alignment = .center
         return sv
     }()
@@ -118,9 +115,14 @@ class DropCell: UITableViewCell {
         // Add here the setup for the UI
         self.selectionStyle = .none
         self.backgroundColor = .clear
+        self.clipsToBounds = true
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 16
         
-        self.contentView.addSubviews(viewContainer, viewSeperator)
+        self.contentView.addSubviews(viewContainer)
+        
         viewContainer.addSubviews(stackView, imgDropButton)
+        
         stackView.addArrangedSubviews(lblHeader, lblDescription)
         
         setupLayout()
@@ -130,9 +132,10 @@ class DropCell: UITableViewCell {
         // Add here the setup for layout
         viewContainer.snp.makeConstraints({ sv in
             sv.top.equalToSuperview()
-//            sv.bottom.equalToSuperview()
-            sv.leading.equalToSuperview()
-            sv.trailing.equalToSuperview()
+            /// creates spacing between cells
+            sv.bottom.equalToSuperview().inset(12)
+            sv.leading.equalToSuperview().offset(24)
+            sv.trailing.equalToSuperview().inset(24)
             
         })
         
@@ -144,33 +147,21 @@ class DropCell: UITableViewCell {
             
         })
         
-        viewSeperator.backgroundColor = .green
-
-        viewSeperator.snp.makeConstraints({view in
-            view.top.equalTo(viewContainer.snp.bottom)
-            view.bottom.equalToSuperview()
-            view.width.equalToSuperview()
-            view.height.equalTo(self.viewSeperator.frame.height)
-        })
-        
         lblHeader.snp.makeConstraints({lbl in
-            lbl.top.equalToSuperview()
             lbl.leading.equalToSuperview()
             lbl.trailing.equalToSuperview().inset(46)
             
         })
         
         lblDescription.snp.makeConstraints({ lbl in
-            lbl.top.equalTo(lblHeader.snp.bottom)
-            lbl.bottom.equalToSuperview()
             lbl.leading.equalToSuperview()
-            lbl.trailing.equalToSuperview().offset(-15)
+            lbl.trailing.equalToSuperview().inset(15)
             
         })
         
         imgDropButton.snp.makeConstraints({ img in
             img.centerY.equalTo(lblHeader.snp.centerY)
-            img.trailing.equalToSuperview().offset(-18.37)
+            img.trailing.equalToSuperview().inset(18.37)
             
         })
     }
