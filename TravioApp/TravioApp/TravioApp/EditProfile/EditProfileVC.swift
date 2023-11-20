@@ -8,29 +8,22 @@
 // proje nasıl daha iyi hale gelir fikirleri
 // TODO: labelheader uılabel sınıfı
 // TODO: leftBarItem bir tane yazılıp her yerden çekilebilir
-// TODO: color enumı eklenebilir
 // TODO: stackview eklenmeli cardların içine
-// TODO:
 // TODO: dark mode hiç yok onu yapmak lazım
 
 
 //Deniz
 
-// TODO: map ftoğraflar için collectionciewi sağa sol ypmak gereliyor o
-// TODO: mapte pin kalkmıyor
-// TODO: settinsteki isim ve foto muhtelemen put işleminden sonra değişmeyecek ona bak
-// TODO: popularvc detaya gidecek +
+// TODO: mapte pin kalkmıyor uzun basınca öncekini kladırıyor.
+// internet
 
 //Aydın
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
-//TODO: HelpandSupportVC
 // TODO: map upload
 
 //Ece
 //TODO: Popular 3 tane
 //TODO: Popularya da3 yandeden de detaya gidelicek
-//TODO: Popularya da3 yandeden de detaya gidelicek
-//TODO: detay sayfasında scrrol static ayarlanacak
 //TODO: detay sayfasında scrrol static ayarlanacak
 //TODO: detay sayfasında shadow ekleecek
 //TODO: security settings UI
@@ -39,7 +32,6 @@
 // TODO: detayvc de pin olaak map gitmeyecek
 
 //TODO: tabbarın hangis sayfada olup olmaması
-//TODO: App DEfaults ne yapacak ?
 
 
 

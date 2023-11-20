@@ -206,27 +206,6 @@ class SettingsVC: UIViewController {
     
 }
 
-//extension SettingsVC: UITableViewDelegate, UITableViewDataSource{
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return cellArray.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SettingsCollectionCell
-//        let cellData = cellArray[indexPath.row]
-//        cell.configure(data: cellData)
-//        cell.setupViews()
-//        cell.setupLayout()
-//        cell.backgroundColor =  UIColor(named: "viewBackgroundColor")
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//           return 54
-//       }
-//
-//}
-
 extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     
     
