@@ -14,7 +14,9 @@ class DetailPageCell: UICollectionViewCell {
   
     private lazy var image:UIImageView = {
         let i = UIImageView()
-        i.contentMode = .scaleAspectFill
+        //i.contentMode = .scaleAspectFit
+        //i.layer.backgroundColor = UIColor.blue.cgColor
+       // i.clipsToBounds = true
         return i
     }()
     
@@ -33,7 +35,10 @@ class DetailPageCell: UICollectionViewCell {
         
     }
     func setupLayout(){
-        image.edgesToSuperview()
+        image.topToSuperview(offset:-30)
+        image.leadingToSuperview()
+        image.trailingToSuperview()
+        image.height(249)
     }
     
     func configure(imageURL:Image){
@@ -41,5 +46,6 @@ class DetailPageCell: UICollectionViewCell {
             image.kf.setImage(with: url)
             }
     }
+    
 }
 
