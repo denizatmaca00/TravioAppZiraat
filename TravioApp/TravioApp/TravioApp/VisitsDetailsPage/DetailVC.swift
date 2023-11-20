@@ -85,7 +85,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }()
     private lazy var mapButton:UIButton = {
         let mb = UIButton()
-       // mb.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
         mb.clipsToBounds = true
         mb.layer.cornerRadius = 16
         mb.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
@@ -103,10 +102,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     @objc func back(){
         navigationController?.popViewController(animated: true)
         }
-//    @objc func mapButtonTapped(){
-//        let vc = MapVC()
-//        navigationController?.pushViewController(vc, animated: true)
-//    }
     @objc func buttonSave(){
         var testtt = DetailVM()
         if saveBtn.image == UIImage(named: "savefill") {
@@ -149,17 +144,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         })
         
     }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        addGradientLayer()
-    }
-    private lazy var gradientLayer: CAGradientLayer = {
-        let layer = CAGradientLayer()
-        layer.frame = imageCollection.bounds
-        gradientLayer.colors = [UIColor.clear.cgColor, UIColor.black.withAlphaComponent(0.5).cgColor]
-        layer.locations = [0.5, 1.0]
-        return layer
-    }()
+
     func configurePage(place:Place){
         centerText.text = place.place
 //        var date = viewModel.dateFormatterx(dateString: place.created_at)
@@ -188,17 +173,13 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
             }
         }
     }
-    private func addGradientLayer() {
-        imageCollection.layer.addSublayer(gradientLayer)
-        imageCollection.layer.insertSublayer(gradientLayer, at: 0)
-    }
+    
     func setupViews(){
         self.view.backgroundColor = .white
         view.addSubview(imageCollection)
         view.addSubview(saveBtn)
         view.addSubview(backButton)
         view.addSubview(pageControl)
-       // view.addSubview(shadowView)
         view.addSubview(scrollView)
         scrollView.addSubview(centerText)
         scrollView.addSubview(dateText)
@@ -209,7 +190,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }
     
     func setupLayout(){
-//        imageCollection.edgesToSuperview(excluding: .bottom, insets: .left(0) + .right(0) + .top(0))
+        
         imageCollection.topToSuperview(offset:0)
         imageCollection.leadingToSuperview()
         imageCollection.trailingToSuperview()
@@ -231,12 +212,8 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         pageControl.leadingToSuperview(offset:20)
         pageControl.height(64)
         pageControl.width(24)
-        
-//        shadowView.topToBottom(of: pageControl, offset: 10)
-//        shadowView.height(40)
-//        shadowView.widthToSuperview()
 
-        scrollView.topToBottom(of: imageCollection, offset:40)
+        scrollView.topToBottom(of: imageCollection, offset:10)
         scrollView.leadingToSuperview()
         scrollView.trailingToSuperview()
         scrollView.bottomToSuperview()
