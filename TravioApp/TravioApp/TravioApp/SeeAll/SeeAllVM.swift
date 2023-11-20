@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Alamofire
 
-class PopularPlaceVM{
+class SeeAllVM{
     
     var popularCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
@@ -89,5 +89,21 @@ class PopularPlaceVM{
                                      placeName: array.place,
                                      city: array.title)
         return cvm
+    }
+    func sortPlace(getSortType: sortType) {
+        if !popularArray.isEmpty  {
+            var newSort = popularArray
+            switch getSortType {
+            case .AToZ:
+                newSort.sort(by: { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending })
+                self.popularArray = newSort
+                print(popularArray)
+            case .ZToA:
+                newSort.sort(by: { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedDescending })
+                self.popularArray = newSort
+                print(popularArray)
+
+            }
+        }
     }
 }

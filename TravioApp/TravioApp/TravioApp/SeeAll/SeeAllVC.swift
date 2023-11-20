@@ -10,10 +10,13 @@ import UIKit
 import TinyConstraints
 import SnapKit
 
-
-class PopularPlaceVC: UIViewController {
-    var viewModel = PopularPlaceVM()
-    let viewModelHome:HomeVM = HomeVM()
+enum sortType{
+    case AToZ
+    case ZToA
+}
+class SeeAllVC: UIViewController {
+    
+    var viewModel = SeeAllVM()
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
@@ -64,7 +67,7 @@ class PopularPlaceVC: UIViewController {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layoutcv)
         cv.contentInset = UIEdgeInsets(top: 20, left: 10, bottom: 0, right: 10)
-        cv.register(PopularPageCellVC.self, forCellWithReuseIdentifier: "popularCell")
+        cv.register(SeeAllCellVC.self, forCellWithReuseIdentifier: "SeeAllCell")
         cv.isPagingEnabled = true
         cv.dataSource = self
         cv.delegate = self
@@ -77,10 +80,14 @@ class PopularPlaceVC: UIViewController {
     @objc func sortDescending(){
         sortAscending.setImage(UIImage(named: "sortDescending"), for: .normal)
         sortAscending.addTarget(self, action: #selector(sortAscendingBack), for: .touchUpInside)
+        viewModel.sortPlace(getSortType: .AToZ)
+        initAllForUserVM()
     }
     @objc func sortAscendingBack(){
         sortAscending.setImage(UIImage(named: "sortAscending"), for: .normal)
         sortAscending.addTarget(self, action: #selector(sortDescending), for: .touchUpInside)
+        viewModel.sortPlace(getSortType: .ZToA)
+        initAllForUserVM()
     }
     
     @objc func backPage(){
@@ -119,7 +126,7 @@ class PopularPlaceVC: UIViewController {
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-     //   tabBarController?.tabBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
     }
     func setupViews() {
         self.view.backgroundColor = .white
@@ -167,8 +174,10 @@ class PopularPlaceVC: UIViewController {
   
 }
 
-extension PopularPlaceVC:UICollectionViewDelegateFlowLayout{
-    
+extension SeeAllVC:UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath)
+    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (collectionView.frame.width - 20), height: (collectionView.frame.height/6.5))
 
@@ -176,36 +185,30 @@ extension PopularPlaceVC:UICollectionViewDelegateFlowLayout{
 }
 
 
-    extension PopularPlaceVC:UICollectionViewDataSource,UICollectionViewDelegate {
+    extension SeeAllVC:UICollectionViewDataSource {
         
         func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            print(viewModel.popularArray.count)
             return viewModel.popularArray.count
         }
         
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCell", for: indexPath) as! PopularPageCellVC
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SeeAllCell", for: indexPath) as! SeeAllCellVC
             let deneme = viewModel.popularArray[indexPath.row]
+            print(deneme)
             cell.configure(object: deneme)
             return cell
             }
-        
-        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let vc = DetailVC()
-            vc.viewModel.placeIdtest = viewModel.popularArray[indexPath.row].id
-            navigationController?.pushViewController(vc, animated: true)
-        }
-        
-        
     }
 
 #if DEBUG
 import SwiftUI
 
 @available(iOS 13, *)
-struct PopularPlaceVC_Preview: PreviewProvider {
+struct SeeAllVC_Preview: PreviewProvider {
     static var previews: some View{
          
-        PopularPlaceVC().showPreview()
+        SeeAllVC().showPreview()
     }
 }
 #endif
