@@ -110,6 +110,7 @@ class MapPlacesCellVC: UICollectionViewCell {
 
         cityName.snp.makeConstraints { make in
             make.leading.equalTo(iconLocation.snp.trailing).offset(6)
+            make.trailing.equalTo(cellView).offset(-1)
             make.centerY.equalTo(iconLocation)
             make.height.equalTo(18)
         }

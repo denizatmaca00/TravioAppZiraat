@@ -17,6 +17,7 @@ enum sortType{
 class SeeAllVC: UIViewController {
     
     var viewModel = SeeAllVM()
+    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")
@@ -25,7 +26,7 @@ class SeeAllVC: UIViewController {
     
      lazy var titleLabel: UILabel = {
         let wlcLabel = UILabel()
-        wlcLabel.text = "Popular Places"
+        wlcLabel.text = "My Added Places"
         wlcLabel.textColor = .white
         wlcLabel.font = .Fonts.pageHeader32.font
         return wlcLabel
@@ -101,6 +102,16 @@ class SeeAllVC: UIViewController {
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
        setupViews()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+
     func initAllForUserVM() {
         viewModel.reloadPopularClosure = { [weak self] () in
             DispatchQueue.main.async {
@@ -114,7 +125,6 @@ class SeeAllVC: UIViewController {
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
             }
-            
         }
     }
     func initAllPlace(){
@@ -124,10 +134,7 @@ class SeeAllVC: UIViewController {
             }
         }
     }
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        tabBarController?.tabBar.isHidden = true
-    }
+   
     func setupViews() {
         self.view.backgroundColor = .white
         self.view.addSubview(backgroundView)
@@ -145,8 +152,9 @@ class SeeAllVC: UIViewController {
     func setupLayout() {
         
         titleLabel.topToSuperview(offset:70)
+        titleLabel.leading(to: backButton, offset: 48)
+        titleLabel.trailingToSuperview(offset: -20)
         titleLabel.height(48)
-        titleLabel.width(241)
         titleLabel.centerXToSuperview()
         
         backButton.centerY(to: titleLabel)

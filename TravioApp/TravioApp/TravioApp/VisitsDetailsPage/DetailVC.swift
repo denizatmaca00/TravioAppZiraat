@@ -150,7 +150,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }
     func configurePage(place:Place){
         centerText.text = place.place
-        dateText.text = place.created_at
+        dateText.text = place.created_at.formatDate()
         byText.text = place.creator
         descText.text = place.description
         pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
