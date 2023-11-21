@@ -18,7 +18,7 @@ enum Router {
     case deleteVisit(id: String)
     //case postVisit(id: String, params: Parameters)
     case postVisit(params:Parameters)
-    
+
     
     //    case deletePlace(id: String)
     //    case putPlace(id: String, params: Parameters)
@@ -35,14 +35,11 @@ enum Router {
     case getNewPlaces
     case getNewPlacesLimits(limit: Parameters)
     case getHomeAllPlacesForUser
+    case postGalleryImage(params: Parameters) // used to create place-image couples
     case uploadAddPhoto(params: Parameters)
     case postAddPlace(params: Parameters)
     //password change
     case putPassword(params:Parameters)
-    
-    //    var token:String{
-    //        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJEZW5lbWUiLCJpZCI6IjAzNDhkYzFkLWYyY2ItNDk5ZC1iOTA0LTk5ODI2OTBmZWMxMCIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNjk4OTMwNjQ3fQ.fx4j9xmEYYn8-E2ilKJM2sqQku4fMiZdq70sxE1UCUY"
-    //    }
     
     var baseURL:String {
         return "https://ios-class-2f9672c5c549.herokuapp.com"
@@ -74,9 +71,15 @@ enum Router {
             return "/v1/visits"
         case .getPlaceByID(let id):
             return "/v1/places/\(id)"
+        
+        // GALLERY
+        case .postGalleryImage:
+            return "/v1/galleries"
             //get all galery by id
         case .getAllGaleryByID(let id):
             return "/v1/galleries/\(id)"
+
+        // VISITS
         case .visits:
             return "/v1/visits"
         case .getAVisitByID(let id):
@@ -85,6 +88,7 @@ enum Router {
             return "/v1/visits/user/\(id)"
         case.getHomeAllPlacesForUser:
             return"/v1/places/user"
+        
         case .uploadAddPhoto:
             return "/upload"
         case .postAddPlace:
@@ -96,7 +100,7 @@ enum Router {
     
     var method:HTTPMethod {
         switch self {
-        case .register, .user, .postVisit, .uploadAddPhoto, .postAddPlace:
+        case .register, .user, .postVisit, .uploadAddPhoto, .postAddPlace, .postGalleryImage:
             return .post
         case .places, .getPlaceByID, .getAllGaleryByID, .visits, .getAVisitByID, .checkVisitByID, .getProfile, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits, .getHomeAllPlacesForUser:
             return .get
@@ -116,7 +120,7 @@ enum Router {
         switch self {
         case .register, .user, .getPlaceByID, .getAllGaleryByID, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits, .uploadAddPhoto:
             return [:]
-        case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile, .getHomeAllPlacesForUser, .postAddPlace, .putPassword :
+        case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile, .getHomeAllPlacesForUser, .postAddPlace, .postGalleryImage, .putPassword :
             return baseHeaders
         }
     }
@@ -144,6 +148,8 @@ enum Router {
         case .uploadAddPhoto(let params):
             return params
         case .postAddPlace(let params):
+            return params
+        case .postGalleryImage(let params):
             return params
         case .putPassword(let params):
             return params
