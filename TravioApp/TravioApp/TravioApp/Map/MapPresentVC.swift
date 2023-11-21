@@ -13,6 +13,13 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     
     var latitude: Double?
     var longitude: Double?
+    var localName: String?{
+        didSet{
+            if localName!.count > 2{
+                mapAddLocation.textField.text = localName
+            }
+        }
+    }
     
     var updateMapClosure: (() -> Void)?
     
@@ -82,6 +89,11 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.getLocalName(latitude: self.latitude!, longitude: self.longitude!)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
