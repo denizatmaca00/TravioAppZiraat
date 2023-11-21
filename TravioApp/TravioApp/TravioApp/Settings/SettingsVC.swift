@@ -12,9 +12,10 @@ class SettingsVC: UIViewController {
     
     
     let loginVM = LoginVM()
-    var profileViewModel = ProfileVM()
-    var editViewModel = EditProfileVM()
-    var viewModelSeeAll = SeeAllVM()
+    let profileViewModel = ProfileVM()
+    let editViewModel = EditProfileVM()
+    let viewModelSeeAll = SeeAllVM()
+    let vc = EditProfileVC()
 
     let cellArray: [SettingsCell] = [
         SettingsCell(iconName: "profile", label: "Security Settings", iconArrow: "buttonArrow"),
@@ -98,15 +99,11 @@ class SettingsVC: UIViewController {
             //bir tane showAlert olabilir
         }
     }
-    let vc = EditProfileVC()
     
     @objc func editProfileTapped() {
         self.present(vc, animated: true)
-        
     }
-    
 
-    
     private lazy var contentViewBig: AppView = {
         let view = AppView()
         return view
@@ -115,8 +112,7 @@ class SettingsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
-
-       initVM()
+        initVM()
     }
     
     func initVM() {
@@ -129,15 +125,11 @@ class SettingsVC: UIViewController {
         profileViewModel.getProfileInfos(completion: {result in})
         
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         setupViews()
         initVMFirstFetch()
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
     func initVMFirstFetch(){
         profileViewModel.profileUpdateClosure = { [weak self] profile in

@@ -7,10 +7,14 @@
 
 import UIKit
 
-class AboutUsVC: UIViewController {
+class AboutUsVC: UIViewController, WKNavigationDelegate {
     private lazy var contentViewBig: AppView = {
         let view = AppView()
         return view
+    }()
+    private lazy var webView: WKWebView = {
+        let webView = WKWebView()
+        return webView
     }()
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
@@ -28,8 +32,8 @@ class AboutUsVC: UIViewController {
     }()
     override func viewDidLoad()
     {
+        loadWebView()
         view.backgroundColor = UIColor(named: "backgroundColor")
-
         super.viewDidLoad()
         setupViews()
     }
@@ -42,6 +46,7 @@ class AboutUsVC: UIViewController {
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, leftBarButton)
+        contentViewBig.addSubviews(webView)
         setupLayout()
     }
     
@@ -60,14 +65,59 @@ class AboutUsVC: UIViewController {
             view.height.equalToSuperview().multipliedBy(0.8)
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
-            view.bottom.equalToSuperview()        })
+            view.bottom.equalToSuperview()
+            
+        })
+        webView.snp.makeConstraints ({ make in
+            make.top.equalTo(contentViewBig)
+            make.leading.equalTo(contentViewBig)
+            make.trailing.equalTo(contentViewBig)
+            make.bottom.equalTo(contentViewBig)
+        })
+    }
+    func loadWebView() {
+        if let url = URL(string: "https://api.iosclass.live/about") {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
+    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        let backgroundColorCode = "document.body.style.backgroundColor = '#FFFFFF';"
+        webView.evaluateJavaScript(backgroundColorCode)
+
+        let jsCode = """
+            var style = document.createElement('style');
+            style.innerHTML = 'body { font-family: "Poppins", sans-serif; padding-top: 24px; }';
+            document.head.appendChild(style);
+        """
+        webView.evaluateJavaScript(jsCode)
+
+        let h1Styles = """
+            var h1Elements = document.querySelectorAll('h1');
+            for (var i = 0; i < h1Elements.length; i++) {
+                h1Elements[i].style.fontFamily = 'Poppins-Bold, sans-serif';
+                h1Elements[i].style.fontSize = '28px';
+                h1Elements[i].style.color = 'black';
+            }
+        """
+        webView.evaluateJavaScript(h1Styles)
+
+        let pStyles = """
+            var pElements = document.querySelectorAll('p');
+            for (var i = 0; i < pElements.length; i++) {
+                pElements[i].style.fontFamily = 'Poppins-Regular, sans-serif';
+                pElements[i].style.fontSize = '16px';
+                pElements[i].style.color = 'black';
+            }
+        """
+        webView.evaluateJavaScript(pStyles)
     }
 }
 
 
-
 #if DEBUG
 import SwiftUI
+import WebKit
 
 @available(iOS 13, *)
 struct AboutUsVC_Preview: PreviewProvider {

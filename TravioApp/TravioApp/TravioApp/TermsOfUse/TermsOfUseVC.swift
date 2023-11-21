@@ -7,10 +7,14 @@
 
 import UIKit
 
-class TermsOfUseVC: UIViewController {
+class TermsOfUseVC: UIViewController, WKNavigationDelegate {
     private lazy var contentViewBig: AppView = {
         let view = AppView()
         return view
+    }()
+    private lazy var webView: WKWebView = {
+        let webView = WKWebView()
+        return webView
     }()
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
@@ -26,22 +30,29 @@ class TermsOfUseVC: UIViewController {
          leftBarButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return leftBarButton
     }()
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidLoad()
+    {
         
+        view.backgroundColor = UIColor(named: "backgroundColor")
+        super.viewDidLoad()
         setupViews()
+        loadWebView()
+        applyCustomStyles()
     }
-    
+
     @objc func backButtonTapped(){
         navigationController?.popViewController(animated: true)
     }
+    
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, leftBarButton)
+        contentViewBig.addSubviews(webView)
         setupLayout()
     }
     
     func setupLayout() {
+        
         leftBarButton.snp.makeConstraints({ btn in
             btn.centerY.equalTo(titleLabel)
             btn.leading.equalToSuperview().offset(24)
@@ -56,11 +67,37 @@ class TermsOfUseVC: UIViewController {
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
             view.bottom.equalToSuperview()
+            
         })
+        webView.snp.makeConstraints ({ make in
+            make.top.equalTo(contentViewBig)
+            make.leading.equalTo(contentViewBig)
+            make.trailing.equalTo(contentViewBig)
+            make.bottom.equalTo(contentViewBig)
+        })
+    }
+    func loadWebView() {
+        if let url = URL(string: "https://api.iosclass.live/terms") {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
+    }
+    func applyCustomStyles() {
+        let script = """
+        var style = document.createElement('style');
+        style.innerHTML = 'p { font-family: "Poppins-Light", sans-serif !important; font-size: 8px !important; color: #333 !important; }';
+        document.head.appendChild(style);
+        """
+        let userScript = WKUserScript(source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        let userContentController = WKUserContentController()
+        userContentController.addUserScript(userScript)
+
+        webView.configuration.userContentController = userContentController
     }
 }
 #if DEBUG
 import SwiftUI
+import WebKit
 
 @available(iOS 13, *)
 struct TermsOfUseVC_Preview: PreviewProvider {
