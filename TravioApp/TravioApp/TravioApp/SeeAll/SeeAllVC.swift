@@ -101,6 +101,8 @@ class SeeAllVC: UIViewController {
         sortAscending.isHidden = false
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
        setupViews()
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 150, right: 0)
+
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -140,11 +142,9 @@ class SeeAllVC: UIViewController {
         self.view.addSubview(backgroundView)
         self.view.addSubview(uıView)
         uıView.addSubviews(collectionView,sortAscending)
-        //collectionView.addSubview(sortAscending)
         
         self.view.addSubview(titleLabel)
         self.view.addSubview(backButton)
-//        self.view.addSubview(collectionView)
         self.view.addSubviews()
         setupLayout()
     }
