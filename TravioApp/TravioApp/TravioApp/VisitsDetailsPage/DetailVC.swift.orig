@@ -28,20 +28,11 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         cv.register(DetailPageCell.self, forCellWithReuseIdentifier: "detailCell")
         return cv
     }()
-//    private lazy var saveBtn:UIButton = {
-//        let sb = UIButton()
-//        //sb.setImage(UIImage(named: "save"), for: .normal)
-//        sb.image
-//        sb.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
-//        return sb
-//    }()
         private lazy var saveBtn:UIImageView = {
             let sb = UIImageView()
-            //sb.setImage(UIImage(named: "save"), for: .normal)
             let tapgesture = UITapGestureRecognizer(target: self, action: #selector(buttonSave))
             sb.isUserInteractionEnabled = true
             sb.addGestureRecognizer(tapgesture)
-            //sb.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
             return sb
         }()
     private lazy var backButton:UIButton = {
@@ -50,16 +41,13 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         b.addTarget(self, action: #selector(back), for: .touchUpInside)
         return b
     }()
-    
     private lazy var pageControl:UIPageControl = {
         let p = UIPageControl()
-        //p.numberOfPages = 3
-        // p.currentPage = 0
-        // p.setCurrentPageIndicatorImage(UIImage(named: "pageControl"), forPage: 2)
         p.pageIndicatorTintColor = UIColor(patternImage: UIImage(named: "pageControl")!)
         p.pageIndicatorTintColor = UIColor.lightGray
         p.currentPageIndicatorTintColor = UIColor.black
-        //p.backgroundColor = UIColor.green
+        
+        p.tintColor = UIColor.white
         return p
     }()
     private var scrollView:UIScrollView = {
@@ -97,7 +85,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }()
     private lazy var mapButton:UIButton = {
         let mb = UIButton()
-        mb.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
         mb.clipsToBounds = true
         mb.layer.cornerRadius = 16
         mb.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
@@ -113,31 +100,10 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }()
     
     @objc func back(){
-        print("tıklandı back")
-        var denemee = MapVC()
-        navigationController?.pushViewController(denemee, animated: true)
-        //navigationController?.popViewController(animated: true)
-    }
-    @objc func mapButtonTapped(){
-        //mapvc ye gidecek.
-        let vc = MapVC()
-        navigationController?.pushViewController(vc, animated: true)
-    }
+        navigationController?.popViewController(animated: true)
+        }
     @objc func buttonSave(){
         var testtt = DetailVM()
-       // saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
-        //print("tıklandı")
-       // saveBtn.addTarget(self, action: #selector(refreshButton), for: .touchUpInside)
-        //eğer myvisit sayfasında bu placeidye ait olan eklendiyse çalıştırma.
-        //detail.placeid myvisit sayfasında varsa çalıştırma.
-<<<<<<< HEAD
-        viewModel.checkVisitbyPlaceID()
-        viewModel.postVisit()
-       
-=======
-        
-        //viewModel.checkVisitbyPlaceID()
-       // viewModel.postVisit()
         if saveBtn.image == UIImage(named: "savefill") {
             viewModel.deleteVisitbyPlceID()
             saveBtn.image = UIImage(named: "save")
@@ -145,18 +111,10 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
             viewModel.postVisit()
             saveBtn.image = UIImage(named: "savefill")
         }
->>>>>>> sprint3/PopularPlacesRefactor
     }
-//
-//    @objc func refreshButton(){
-//        saveBtn.setImage(UIImage(named: "save"), for: .normal)
-//        saveBtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
-//        //viewModel.deleteVisitbyPlceID()
-//        //viewModel.checkVisitbyPlaceID()
-//    }
-//
     override func viewDidLoad() {
         super.viewDidLoad()
+       // addGradientLayer()
         viewModel.checkVisitbyPlaceID()
         navigationController?.navigationBar.isHidden = true
         setupViews()
@@ -186,10 +144,17 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         })
         
     }
+
     func configurePage(place:Place){
         centerText.text = place.place
-        dateText.text = place.created_at
+<<<<<<< HEAD
+        dateText.text = place.created_at.formatDate()
         byText.text = place.creator
+=======
+//        var date = viewModel.dateFormatterx(dateString: place.created_at)
+//        dateText.text = date
+        byText.text = ("added by @\(place.creator)")
+>>>>>>> sprint5/DetailPageUpdate
         descText.text = place.description
         pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
         
@@ -213,6 +178,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
             }
         }
     }
+    
     func setupViews(){
         self.view.backgroundColor = .white
         view.addSubview(imageCollection)
@@ -225,32 +191,34 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(byText)
         scrollView.addSubview(mapButton)
         scrollView.addSubview(descText)
-        
         setupLayout()
     }
     
     func setupLayout(){
-        imageCollection.edgesToSuperview(excluding: .bottom, insets: .left(0) + .right(0) + .top(0))
+        
+        imageCollection.topToSuperview(offset:0)
+        imageCollection.leadingToSuperview()
+        imageCollection.trailingToSuperview()
         imageCollection.height(249)
         
-        saveBtn.topToSuperview(offset:30)
+        //saveBtn.top(to: imageCollection, offset:20)
         saveBtn.top(to: imageCollection,offset:50)
         saveBtn.trailingToSuperview(offset:15)
         saveBtn.height(40)
         saveBtn.width(40)
         
-        backButton.topToSuperview(offset:30)
+        backButton.top(to: imageCollection,offset:50)
         backButton.leadingToSuperview(offset: 20)
         backButton.height(40)
         backButton.width(40)
         
-        pageControl.topToSuperview(offset: 180) //offset ayarla.
+        pageControl.bottom(to: imageCollection)
         pageControl.centerXToSuperview()
         pageControl.leadingToSuperview(offset:20)
-        pageControl.height(100)
-        pageControl.width(50)
-        
-        scrollView.topToBottom(of: imageCollection, offset:0)
+        pageControl.height(64)
+        pageControl.width(24)
+
+        scrollView.topToBottom(of: imageCollection, offset:10)
         scrollView.leadingToSuperview()
         scrollView.trailingToSuperview()
         scrollView.bottomToSuperview()
