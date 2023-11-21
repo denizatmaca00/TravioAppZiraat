@@ -71,9 +71,9 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     private lazy var imageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = -8
+        layout.minimumLineSpacing = -24
   
-        layout.estimatedItemSize = CGSize(width: 270, height: 215)
+        layout.estimatedItemSize = CGSize(width: 270+48, height: 215)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
