@@ -33,6 +33,7 @@ class MapPlacesCellVC: UICollectionViewCell {
       lazy var placeName: UILabel = {
         let pn = UILabel()
         pn.textColor = .white
+        pn.adjustsFontSizeToFitWidth = true
         pn.font = .Fonts.header24.font
         pn.text = "PlaceName"
         pn.numberOfLines = 1
