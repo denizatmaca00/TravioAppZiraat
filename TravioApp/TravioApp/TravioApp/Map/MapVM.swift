@@ -74,7 +74,6 @@ class MapVM {
                         coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
                         logoImage: UIImage(named: "pinLogo")
                     )
-                    
                     self.map.addAnnotation(annotation)
                 }
             case .failure(let error):

@@ -83,8 +83,8 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         by.font = .Fonts.creatorText.font
         return by
     }()
-    private lazy var mapButton:UIButton = {
-        let mb = UIButton()
+    private lazy var mapButton:UIImageView = {
+        let mb = UIImageView()
         mb.clipsToBounds = true
         mb.layer.cornerRadius = 16
         mb.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
@@ -160,20 +160,46 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         // img.image_url
         let url = URL(string: img.image_url)
     }
-    func fetchMap(){
-        if let pinCoordinate = pinCoordinate{
+    func fetchMap() {
+        if let pinCoordinate = pinCoordinate {
             let mapSnapshotOptions = MKMapSnapshotter.Options()
             mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
-            mapSnapshotOptions.size = CGSize(width: 500, height: 500)
+            mapSnapshotOptions.size = CGSize(width: 300, height: 300)
             let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
             snapShotter.start { snapshot, error in
                 if let snapshot = snapshot {
                     let image = snapshot.image
-                    self.mapButton.setBackgroundImage(image, for: .normal)
                     
+                    if let annotationView = self.createPinImage() {
+                        let pinPoint = snapshot.point(for: pinCoordinate)
+                        
+                        let renderer = UIGraphicsImageRenderer(size: image.size)
+                        let combinedImage = renderer.image { _ in
+                            image.draw(at: .zero)
+                            annotationView.drawHierarchy(in: CGRect(x: pinPoint.x - annotationView.bounds.width / 2, y: pinPoint.y - annotationView.bounds.height / 2, width: annotationView.bounds.width, height: annotationView.bounds.height), afterScreenUpdates: true)
+                        }
+                        
+                        self.mapButton.image = combinedImage
+                    }
                 }
             }
         }
+    }
+
+    func createPinImage() -> MKAnnotationView? {
+        let annotationView = MKAnnotationView(annotation: nil, reuseIdentifier: "pinAnnotation")
+
+        let pinImage = UIImage(named: "pin")
+        annotationView.image = pinImage
+
+        let customImageView = UIImageView(image: UIImage(named: "pinLogo"))
+        customImageView.contentMode = .scaleAspectFill
+        customImageView.frame = CGRect(x: 0, y: 0, width: 26, height: 26)
+        annotationView.addSubview(customImageView)
+        
+        annotationView.bounds = CGRect(x: -2, y: -2, width: customImageView.bounds.width, height: customImageView.bounds.height * 1.5)
+
+        return annotationView
     }
     
     func setupViews(){
