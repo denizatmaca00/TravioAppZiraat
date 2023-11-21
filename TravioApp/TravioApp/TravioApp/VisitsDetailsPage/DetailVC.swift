@@ -14,7 +14,8 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     var mapView: MKMapView!
     var pinCoordinate: CLLocationCoordinate2D?
     var viewModel = DetailVM()
-    
+    let profilViewModel = ProfileVM()
+    var profileFullname : String?
     private lazy var imageCollection:UICollectionView = {
         let l = UICollectionViewFlowLayout()
         l.scrollDirection = .horizontal
@@ -28,13 +29,22 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         cv.register(DetailPageCell.self, forCellWithReuseIdentifier: "detailCell")
         return cv
     }()
-        private lazy var saveBtn:UIImageView = {
-            let sb = UIImageView()
-            let tapgesture = UITapGestureRecognizer(target: self, action: #selector(buttonSave))
-            sb.isUserInteractionEnabled = true
-            sb.addGestureRecognizer(tapgesture)
-            return sb
-        }()
+    private lazy var saveBtn:UIImageView = {
+        let sb = UIImageView()
+        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(buttonSave))
+        sb.isUserInteractionEnabled = true
+        sb.addGestureRecognizer(tapgesture)
+        return sb
+    }()
+    private lazy var deleteBtn:UIImageView = {
+        let sb = UIImageView()
+        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(deleteBtnTapped))
+        sb.isUserInteractionEnabled = true
+        sb.addGestureRecognizer(tapgesture)
+        sb.image = UIImage(systemName: "trash.fill")
+        sb.tintColor = UIColor(named: "backgroundColor")
+        return sb
+    }()
     private lazy var backButton:UIButton = {
         let b = UIButton()
         b.setImage(UIImage(named: "bckBtn"), for: .normal)
@@ -101,7 +111,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     
     @objc func back(){
         navigationController?.popViewController(animated: true)
-        }
+    }
     @objc func buttonSave(){
         var testtt = DetailVM()
         if saveBtn.image == UIImage(named: "savefill") {
@@ -112,12 +122,44 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
             saveBtn.image = UIImage(named: "savefill")
         }
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        profilViewModel.profileUpdateClosure
+        print(" burası willApear \(profileFullname)")
+    }
+    
+    @objc func deleteBtnTapped(){
+        var detailCreator = viewModel.creator?.creator
+        
+            if detailCreator == profileFullname {
+                addActionSheet {
+                    self.viewModel.deleteMyAdded()
+                    self.showAlert(title: "Notification", message: "Başarıyla Silindi") {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+            } else {
+                showAlert(title: "Hata", message: "Bu içeriği sadece ekleyen kişi silebilir.", completion: {})
+            }
+        
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-       // addGradientLayer()
+        // addGradientLayer()
         viewModel.checkVisitbyPlaceID()
         navigationController?.navigationBar.isHidden = true
         setupViews()
+        
+        viewModel.showAddActionClosure = { [weak self] title, message in
+            self?.addActionSheet(){
+            }
+        }
+        viewModel.showAddActionClosure = { [weak self] title, message in
+            self?.showAlert(title: title, message: message, completion: {
+            })
+        }
         
         viewModel.checkSuccessID = {[weak self] () in
             self?.saveBtn.image = UIImage(named: "savefill")
@@ -144,13 +186,13 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         })
         
     }
-
+    
     func configurePage(place:Place){
         centerText.text = place.place
         dateText.text = place.created_at.formatDate()
         byText.text = place.creator
-//        var date = viewModel.dateFormatterx(dateString: place.created_at)
-//        dateText.text = date
+        //        var date = viewModel.dateFormatterx(dateString: place.created_at)
+        //        dateText.text = date
         byText.text = ("added by @\(place.creator)")
         descText.text = place.description
         pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
@@ -178,16 +220,8 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     
     func setupViews(){
         self.view.backgroundColor = .white
-        view.addSubview(imageCollection)
-        view.addSubview(saveBtn)
-        view.addSubview(backButton)
-        view.addSubview(pageControl)
-        view.addSubview(scrollView)
-        scrollView.addSubview(centerText)
-        scrollView.addSubview(dateText)
-        scrollView.addSubview(byText)
-        scrollView.addSubview(mapButton)
-        scrollView.addSubview(descText)
+        view.addSubviews(imageCollection,deleteBtn,saveBtn,backButton,pageControl,scrollView)
+        scrollView.addSubviews(centerText, dateText, byText, mapButton, descText)
         setupLayout()
     }
     
@@ -204,6 +238,11 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         saveBtn.height(40)
         saveBtn.width(40)
         
+        deleteBtn.top(to: saveBtn,offset:5)
+        deleteBtn.trailingToSuperview(offset:65)
+        deleteBtn.height(30)
+        deleteBtn.width(30)
+        
         backButton.top(to: imageCollection,offset:50)
         backButton.leadingToSuperview(offset: 20)
         backButton.height(40)
@@ -214,7 +253,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         pageControl.leadingToSuperview(offset:20)
         pageControl.height(64)
         pageControl.width(24)
-
+        
         scrollView.topToBottom(of: imageCollection, offset:10)
         scrollView.leadingToSuperview()
         scrollView.trailingToSuperview()

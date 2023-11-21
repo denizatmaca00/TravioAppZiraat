@@ -24,5 +24,19 @@ extension UIViewController
         
         self.present(alert, animated: true, completion: nil)
     }
+    
+    func addActionSheet(deleteAction: @escaping () -> Void) {
+           let actionSheet = UIAlertController(title: "Seçim Yap", message: "Yapmak istediğiniz işleme dokunun.", preferredStyle: .actionSheet)
 
+           let deleteAction = UIAlertAction(title: "Eklediğim Konumu Sil", style: .destructive) { _ in
+               deleteAction() 
+           }
+
+           let cancelAction = UIAlertAction(title: "Vazgeç", style: .cancel)
+
+           actionSheet.addAction(deleteAction)
+           actionSheet.addAction(cancelAction)
+
+           present(actionSheet, animated: true, completion: nil)
+       }
 }

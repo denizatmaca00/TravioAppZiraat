@@ -17,9 +17,12 @@ class DetailVM{
             print(placeIdtest)
         }
     }
+    var creator : Place?
+
     var checkSuccessID: (()->())?
     var checkErrorID: (()->())?
-    
+    var showAddActionClosure: ((String, String) -> Void)?
+
     var successCheckIdResponse: String? {
         didSet{
             checkSuccessID?()
@@ -93,6 +96,18 @@ class DetailVM{
                 print(data)
             case .failure(let failure):
                 print("deletehatahatahata\(failure.localizedDescription)")
+            }
+        }
+    }
+     func deleteMyAdded(){
+        guard let id = placeIdtest  else {return}
+         NetworkingHelper.shared.dataFromRemote(urlRequest: .deleteMyAddedPlaceById(id: id)){
+            (result:Result<Messages,Error>) in
+            switch result {
+            case .success(let data):
+                print(data)
+            case .failure(let failure):
+                print("\(failure.localizedDescription)")
             }
         }
     }
