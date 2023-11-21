@@ -79,6 +79,7 @@ class DetailVM{
     func dateFormatter()->String{
         let dene = DateFormatter()
         dene.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+       // dene.dateFormat = "dd MMMM yyyy"
         let today = Date()
         let testttttt = dene.string(from: today)
         return testttttt

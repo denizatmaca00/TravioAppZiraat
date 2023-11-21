@@ -507,18 +507,19 @@ extension UIWindow {
 // MARK: date
 extension String {
     func formatDate() -> String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" // Bu, ISO 8601 tarih formatına göredir. Eğer farklı bir format varsa, ona göre ayarlayın.
+            let dateFormatter = ISO8601DateFormatter()
+            dateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+            
+            if let date = dateFormatter.date(from: self) {
+                let outputFormatter = DateFormatter()
+                outputFormatter.locale = Locale(identifier: "tr_TR")
+                outputFormatter.dateFormat = "dd MMMM yyyy" // Türkçe tarih formatını ayarlayın
+                let formattedDateString = outputFormatter.string(from: date)
+                return formattedDateString
+            }
 
-        if let date = dateFormatter.date(from: self) {
-            let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "yyyy-MM-dd" // İstenilen tarih formatını ayarlayın
-            let formattedDateString = outputFormatter.string(from: date)
-            return formattedDateString
+            return nil
         }
-
-        return nil
-    }
 }
 
 extension String {

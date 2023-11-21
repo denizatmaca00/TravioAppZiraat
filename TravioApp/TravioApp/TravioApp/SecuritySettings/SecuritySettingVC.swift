@@ -51,18 +51,16 @@ var viewModel = SecuritySettingsVM()
     private lazy var changePasswordTitle:UILabel = {
         let cptxt = UILabel()
         cptxt.text = "Change Password"
-        cptxt.font = .Fonts.cityText16.font
+        cptxt.font = .Fonts.mainButton.font
         cptxt.textColor = UIColor(named: "backgroundColor")
         return cptxt
     }()
     private lazy var privacyTitle:UILabel = {
         let cptxt = UILabel()
         cptxt.text = "Privacy"
-        cptxt.font = .Fonts.cityText16.font
+        cptxt.font = .Fonts.mainButton.font
         //cptxt.layer.backgroundColor = UIColor.blue.cgColor
         cptxt.textColor = UIColor(named: "backgroundColor")
-       // cptxt.layer.backgroundColor = UIColor.red.cgColor
-        //cptxt.textColor = .red
         return cptxt
     }()
 
@@ -70,6 +68,7 @@ var viewModel = SecuritySettingsVM()
     private lazy var confirmPassword = AppTextField(data: .passwordConfirmEmpty)
     private lazy var camera: AppToggleSwitch = {
         let toggleSwitch = AppToggleSwitch(data: .camera)
+        //toggleSwitch.layer.backgroundColor = UIColor.blue.cgColor
         toggleSwitch.toggleSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
         return toggleSwitch
     }()
@@ -203,10 +202,10 @@ var viewModel = SecuritySettingsVM()
             self?.location.toggleSwitch.isOn = true
         }
     }
-  
     override func viewWillAppear(_ animated: Bool) {
         refreshSettings()
-       }
+        super.viewWillAppear(animated)
+    }
     
     func refreshSettings(){
 
@@ -281,7 +280,8 @@ var viewModel = SecuritySettingsVM()
         //changed password title
         changePasswordTitle.top(to: scrollView, offset: 10)
         changePasswordTitle.height(20)
-        changePasswordTitle.width(346)
+        //changePasswordTitle.width(346)
+        changePasswordTitle.trailing(to: mainTitle, offset:-20)
         changePasswordTitle.leadingToSuperview(offset:20)
         
         

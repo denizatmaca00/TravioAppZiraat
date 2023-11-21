@@ -13,15 +13,20 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     
     var latitude: Double?
     var longitude: Double?
+    var localName: String?{
+        didSet{
+            if localName!.count > 2{
+                mapAddLocation.textField.text = localName
+            }
+        }
+    }
     
     var updateMapClosure: (() -> Void)?
     
     private lazy var mapAddTitle = AppTextField(data: .presentMapTitle)
-    // private lazy var mapAddDescription = AppTextField(data: .presentMapDescription)
     private lazy var mapAddLocation = AppTextField(data: .presentMapLocation)
     
     private lazy var txtTitle = mapAddTitle.getTFAsObject()
-    //   private lazy var txtDescription = mapAddDescription.getTFAsObject()
     private lazy var txtLocation = mapAddLocation.getTFAsObject()
     
     private lazy var titleDescrpition: UILabel = {
@@ -35,8 +40,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     
     private lazy var textFieldDescription: UITextView = {
         let textView = UITextView()
-        textView.font = .systemFont(ofSize: 16)
-        textView.text = "Lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lore İpsum lorem İpsum lorem İpsum"
+        textView.font = .Fonts.textFieldText.font
+        textView.text = "Description"
         textView.textColor = UIColor.lightGray
         textView.delegate = self
         return textView
@@ -73,8 +78,9 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     private lazy var imageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 16
-        
+        layout.minimumLineSpacing = -24
+  
+        layout.estimatedItemSize = CGSize(width: 270+48, height: 215)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -84,12 +90,24 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         return collectionView
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.getLocalName(latitude: self.latitude!, longitude: self.longitude!)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         
+        /// Closure to dismiss PresentVC
         viewModel.dismissClosure = {
             self.dismiss(animated: true)
+        }
+        
+        /// Initiate alert closure to present alerts
+        viewModel.showAlertClosure = { [weak self] title, message in
+            self?.showAlert(title: title, message: message){
+            }
         }
         
         /// Initiate activity indicator view to be initiated via updateLoadingStatus closure
@@ -107,13 +125,11 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     
     @objc func btnAddPlaceTapped() {
         
-        let placeInfo = AddPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "http.png", latitude: latitude!, longitude: longitude!)
+        let placeInfo = AddPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "", latitude: latitude!, longitude: longitude!)
         
         viewModel.placeInfo = placeInfo
         
         self.viewModel.savePlace()
-        // this needs to be updated, it creates new instance
-        //MapVC().initVM()
     }
     
     private lazy var imagePicker:UIImagePickerController = {
@@ -138,10 +154,12 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     func setupViews() {
         
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
-        self.view.addSubviews(stackViewMain, imageCollectionView ,btnAddPlace)
-        stackView.addArrangedSubviews(titleDescrpition,textFieldDescription)
         
-        stackViewMain.addArrangedSubviews(mapAddTitle,stackView, mapAddLocation)
+        self.view.addSubviews(stackViewMain, imageCollectionView, btnAddPlace)
+        
+        stackView.addArrangedSubviews(titleDescrpition, textFieldDescription)
+        
+        stackViewMain.addArrangedSubviews(mapAddTitle, stackView, mapAddLocation)
         
         setupLayout()
     }
@@ -156,15 +174,13 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         
         textFieldDescription.snp.makeConstraints { make in
             make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
-            // make.leading.equalTo(view).offset(20)
-            // make.trailing.equalTo(view).offset(-20)
-            make.height.equalTo(185)
+            make.leading.equalTo(view).offset(30)
         }
         
         stackViewMain.snp.makeConstraints { stack in
             stack.leading.equalToSuperview().offset(24)
             stack.trailing.equalToSuperview().offset(-24)
-            stack.top.equalToSuperview().offset(72)
+            stack.top.equalToSuperview().offset(40)
         }
         
         btnAddPlace.snp.makeConstraints({ btn in
@@ -175,7 +191,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         })
         
         imageCollectionView.snp.makeConstraints ({ make in
-            make.top.equalTo(stackViewMain.snp.bottom).offset(-16)
+            make.top.equalTo(mapAddLocation.snp.bottom).offset(16)
+            make.height.equalTo(215)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(btnAddPlace.snp.top).offset(-16)
         })
@@ -196,19 +213,16 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? MapPresentCellVC else {return}
         
-        // show picker view
+        /// initiate picker view from viewModel
         self.initPicker()
+        
+        /// initiate reload CV closure in viewModel
         viewModel.reloadCollectionViewClosure = {
             DispatchQueue.main.async {
                 self.imageCollectionView.reloadData()
             }
             self.viewModel.fetchData(in: cell, with: indexPath)
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // Görsel hücre boyutu
-        return CGSize(width: 270, height: 154)
     }
 }
 
@@ -220,13 +234,10 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        print("*FILTER* Finising selection on VC")
         if let selectedImage = info[.originalImage] as? UIImage{
-            print("*FILTER*finished image picking on VC")
-            viewModel.imageData.append(selectedImage)
+            viewModel.imageArray.append(selectedImage)
             viewModel.lastImage = selectedImage
             pickerCloseEvents(picker)
-            
             viewModel.reloadCollectionViewClosure!()
         }
     }

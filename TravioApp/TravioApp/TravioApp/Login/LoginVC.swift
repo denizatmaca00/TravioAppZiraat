@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import Network
 
 
 class LoginVC: UIViewController {
@@ -9,7 +10,10 @@ class LoginVC: UIViewController {
     
     private lazy var txtEmail = viewMail.getTFAsObject()
     private lazy var txtPassword = viewPass.getTFAsObject()
-    
+    private let monitor = NWPathMonitor()
+    private let queue = DispatchQueue(label: "NetworkMonitor")
+
+
     var viewModel = LoginVM()
     
     private lazy var imageView: UIImageView = {
@@ -81,7 +85,8 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         self.navigationController?.navigationBar.isHidden = true
-        
+        startMonitoringNetwork()
+
         viewModel.showAlertClosure = { [weak self] title, message in
             self?.showAlert(title: title, message: message){
                 
@@ -98,6 +103,37 @@ class LoginVC: UIViewController {
             }
         }
     }
+   
+
+    func startMonitoringNetwork() {
+        monitor.start(queue: queue)
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                print("İnternet bağlantısı var.")
+            } else {
+                print("İnternet bağlantısı yok.")
+                
+                // Ana ekranda bir uyarı göster
+                DispatchQueue.main.async {
+                    self.showNoInternetAlert()
+                }
+            }
+        }
+    }
+    
+    func showNoInternetAlert() {
+        let alert = UIAlertController(
+            title: "No Internet Connection",
+            message: "Please check your internet connection and try again.",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     
     @objc func btnSignUpTapped(){
         let vc = SignUpVC()
@@ -108,7 +144,10 @@ class LoginVC: UIViewController {
         
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
-        
+        guard monitor.currentPath.status == .satisfied else {
+            viewModel.showAlertClosure?("Error", "Not  Internet Connection")
+             return
+         }
         viewModel.sendLoginData(email: email, password: password) {[self]  result in
             switch result {
             case .success:

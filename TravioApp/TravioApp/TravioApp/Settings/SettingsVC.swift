@@ -5,14 +5,6 @@
 //  Created by web3406 on 11/2/23.
 //
 
-import UIKit
-
-//
-//  SettingsVC.swift
-//  TravioApp
-//
-//  Created by web3406 on 11/2/23.
-//
 
 import UIKit
 
@@ -20,9 +12,11 @@ class SettingsVC: UIViewController {
     
     
     let loginVM = LoginVM()
-    var profileViewModel = ProfileVM()
-    var editViewModel = EditProfileVM()
-    
+    let profileViewModel = ProfileVM()
+    let editViewModel = EditProfileVM()
+    let viewModelSeeAll = SeeAllVM()
+    let vc = EditProfileVC()
+
     let cellArray: [SettingsCell] = [
         SettingsCell(iconName: "profile", label: "Security Settings", iconArrow: "buttonArrow"),
         SettingsCell(iconName: "appDefault", label: "App Defaults", iconArrow: "buttonArrow"),
@@ -105,15 +99,11 @@ class SettingsVC: UIViewController {
             //bir tane showAlert olabilir
         }
     }
-    let vc = EditProfileVC()
     
     @objc func editProfileTapped() {
         self.present(vc, animated: true)
-        
     }
-    
 
-    
     private lazy var contentViewBig: AppView = {
         let view = AppView()
         return view
@@ -121,7 +111,8 @@ class SettingsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       initVM()
+        tabBarController?.tabBar.isHidden = false
+        initVM()
     }
     
     func initVM() {
@@ -134,7 +125,6 @@ class SettingsVC: UIViewController {
         profileViewModel.getProfileInfos(completion: {result in})
         
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
@@ -206,27 +196,6 @@ class SettingsVC: UIViewController {
     
 }
 
-//extension SettingsVC: UITableViewDelegate, UITableViewDataSource{
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return cellArray.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SettingsCollectionCell
-//        let cellData = cellArray[indexPath.row]
-//        cell.configure(data: cellData)
-//        cell.setupViews()
-//        cell.setupLayout()
-//        cell.backgroundColor =  UIColor(named: "viewBackgroundColor")
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//           return 54
-//       }
-//
-//}
-
 extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     
     
@@ -270,22 +239,28 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         switch selectedSection {
         case 0:
             let vc = SecuritySettingVC()
+            vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
-            // diğer caseleri de burada değerlendiririm.
             //        case 1:
             //            let appDefaultsVC = AppDefaultsVC()
             //            navigationController?.pushViewController(appDefaultsVC, animated: true)
-            //        case 2:
-            //            let myAddedPlacesVC = MyAddedPlacesVC()
-            //            navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+        case 2:
+            let myAddedPlacesVC = SeeAllVC()
+            myAddedPlacesVC.viewModel.allPlaceforUser()
+            self.navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+                        
         case 3:
             let vc = HelpAndSupportVC()
+            vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         case 4:
             let vc = AboutUsVC()
+            vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         case 5:
             let vc = TermsOfUseVC()
+            vc.hidesBottomBarWhenPushed = true
+
             navigationController?.pushViewController(vc, animated: true)
             
         default:

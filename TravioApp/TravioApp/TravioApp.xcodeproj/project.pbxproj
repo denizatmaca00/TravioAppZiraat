@@ -54,9 +54,9 @@
 		5E45C4142AF832FC00399873 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5E45C4132AF832FC00399873 /* Kingfisher */; };
 		5E5EC5D72B036B34008697DA /* AppToggleSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5EC5D62B036B34008697DA /* AppToggleSwitch.swift */; };
 		5E71BC2A2B04A344003690A4 /* SecuritySettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E71BC292B04A344003690A4 /* SecuritySettingsVM.swift */; };
-		5EB8B2922B020D1F007BB08A /* PopularPlaceVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB8B2912B020D1F007BB08A /* PopularPlaceVM.swift */; };
-		5EDD08222AF3BD94002072BC /* PopularPlaceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */; };
-		5EDD08242AF3BDCB002072BC /* PopularPageCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */; };
+		5EB8B2922B020D1F007BB08A /* SeeAllVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB8B2912B020D1F007BB08A /* SeeAllVM.swift */; };
+		5EDD08222AF3BD94002072BC /* SeeAllVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08212AF3BD94002072BC /* SeeAllVC.swift */; };
+		5EDD08242AF3BDCB002072BC /* SeeAllCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EDD08232AF3BDCB002072BC /* SeeAllCellVC.swift */; };
 		EC0044182AF4330A001540A5 /* DropCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0044172AF4330A001540A5 /* DropCell.swift */; };
 		EC00441A2AF43819001540A5 /* HelpAndSupportVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0044192AF43819001540A5 /* HelpAndSupportVM.swift */; };
 		EC00441C2AFA6CB9001540A5 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC00441B2AFA6CB9001540A5 /* AppFonts.swift */; };
@@ -124,9 +124,9 @@
 		5E3CC0832AF4D86F007FCFD5 /* SecuritySettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingVC.swift; sourceTree = "<group>"; };
 		5E5EC5D62B036B34008697DA /* AppToggleSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToggleSwitch.swift; sourceTree = "<group>"; };
 		5E71BC292B04A344003690A4 /* SecuritySettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVM.swift; sourceTree = "<group>"; };
-		5EB8B2912B020D1F007BB08A /* PopularPlaceVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlaceVM.swift; sourceTree = "<group>"; };
-		5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlaceVC.swift; sourceTree = "<group>"; };
-		5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPageCellVC.swift; sourceTree = "<group>"; };
+		5EB8B2912B020D1F007BB08A /* SeeAllVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllVM.swift; sourceTree = "<group>"; };
+		5EDD08212AF3BD94002072BC /* SeeAllVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllVC.swift; sourceTree = "<group>"; };
+		5EDD08232AF3BDCB002072BC /* SeeAllCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllCellVC.swift; sourceTree = "<group>"; };
 		EC0044172AF4330A001540A5 /* DropCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropCell.swift; sourceTree = "<group>"; };
 		EC0044192AF43819001540A5 /* HelpAndSupportVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVM.swift; sourceTree = "<group>"; };
 		EC00441B2AFA6CB9001540A5 /* AppFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFonts.swift; sourceTree = "<group>"; };
@@ -226,14 +226,14 @@
 			path = SecuritySettings;
 			sourceTree = "<group>";
 		};
-		0F216BF02AFBB51C0026734B /* PopularPlaces */ = {
+		0F216BF02AFBB51C0026734B /* SeeAll */ = {
 			isa = PBXGroup;
 			children = (
-				5EDD08212AF3BD94002072BC /* PopularPlaceVC.swift */,
-				5EDD08232AF3BDCB002072BC /* PopularPageCellVC.swift */,
-				5EB8B2912B020D1F007BB08A /* PopularPlaceVM.swift */,
+				5EDD08212AF3BD94002072BC /* SeeAllVC.swift */,
+				5EDD08232AF3BDCB002072BC /* SeeAllCellVC.swift */,
+				5EB8B2912B020D1F007BB08A /* SeeAllVM.swift */,
 			);
-			path = PopularPlaces;
+			path = SeeAll;
 			sourceTree = "<group>";
 		};
 		0F216BF12AFBB5450026734B /* HelpAndSupport */ = {
@@ -318,7 +318,7 @@
 				5E3CC0862AF65C99007FCFD5 /* VisitsDetailsPage */,
 				0F216BF22AFBB5770026734B /* Visits */,
 				0F216BEA2AFBB42E0026734B /* Map */,
-				0F216BF02AFBB51C0026734B /* PopularPlaces */,
+				0F216BF02AFBB51C0026734B /* SeeAll */,
 				0F216BEE2AFBB4C30026734B /* Settings */,
 				0F216BEF2AFBB4EE0026734B /* SecuritySettings */,
 				0F216BED2AFBB4B10026734B /* EditProfile */,
@@ -543,19 +543,19 @@
 				0FB39D0C2AF38A21002C5DF7 /* AppLabel.swift in Sources */,
 				ECFFD1CC2AEBD5CB0066E75C /* VisitsVM.swift in Sources */,
 				0F9A80CA2AFA11B100B47142 /* EditProfileVM.swift in Sources */,
-				5EDD08242AF3BDCB002072BC /* PopularPageCellVC.swift in Sources */,
+				5EDD08242AF3BDCB002072BC /* SeeAllCellVC.swift in Sources */,
 				EC00441C2AFA6CB9001540A5 /* AppFonts.swift in Sources */,
 				ECA5F9DE2AFBBB2700D8E80F /* HomeVM.swift in Sources */,
 				0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */,
 				EC0044182AF4330A001540A5 /* DropCell.swift in Sources */,
 				EC4023DE2B00CBF20016FA3A /* ImageHelper.swift in Sources */,
 				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
-				5EB8B2922B020D1F007BB08A /* PopularPlaceVM.swift in Sources */,
+				5EB8B2922B020D1F007BB08A /* SeeAllVM.swift in Sources */,
 				EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */,
 				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
 				5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */,
 				0F7A65132AFE1F060005FB70 /* MapPageLayout.swift in Sources */,
-				5EDD08222AF3BD94002072BC /* PopularPlaceVC.swift in Sources */,
+				5EDD08222AF3BD94002072BC /* SeeAllVC.swift in Sources */,
 				0F9A80C82AF8E70300B47142 /* TermsOfUseVC.swift in Sources */,
 				ECFFD1D42AF11E970066E75C /* HeaderView.swift in Sources */,
 				0F7A65152AFE48910005FB70 /* MapPresentCellVC.swift in Sources */,

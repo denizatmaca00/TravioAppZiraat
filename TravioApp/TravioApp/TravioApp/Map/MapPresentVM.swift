@@ -11,6 +11,11 @@ import UIKit
 class MapPresentVM{
     
     var placeInfo: AddPlace = AddPlace(place: "", title: "", description: "", cover_image_url: "", latitude: 0, longitude: 0)
+    var placeId:String = ""{
+        didSet{
+            self.postGalleryImage()
+        }
+    }
     
     var picker: UIImagePickerController?
     var lastImage:UIImage?
@@ -22,7 +27,7 @@ class MapPresentVM{
         }
     }
     
-    var imageData:[UIImage] = []
+    var imageArray:[UIImage] = []
     
     /// Used to present and dismiss acitivity indicator during wait for server data
     var isLoading:Bool = false {
@@ -32,7 +37,7 @@ class MapPresentVM{
     }
     
     // Closures
-    // var showAlertClosure: ((String, String) -> Void)?
+    var showAlertClosure: ((String, String) -> Void)?
     var reloadCollectionViewClosure: (()->())?
     var updateLoadingStatus: ( (Bool)->() )?
     var updateMapClosure: ( ()->Void )?
@@ -42,35 +47,33 @@ class MapPresentVM{
         cell.fillCellWith(image: lastImage!)
     }
     
-    /// Handles processes required to save a place
+    /// Handles security processes required to save a place
     /// Uploads photos stored inside imageData
-    /// Using
     func savePlace(){
         
         /// initial check for non-empty image data
-        if imageData.count > 0 {
-                /// upload photo
-                for photo in [imageData[0]]{
-                    uploadPhoto(photo: photo)
-                }
+        if imageArray.count > 0 {
+                uploadPhoto()
         }else{
-            print("No images found")
+            
         }
     }
     
-    private func uploadPhoto(photo: UIImage) {
+    private func uploadPhoto() {
         self.isLoading = true
         
-        let params = ["image_url": photo]
+        let params = ["file": ""] as [String : Any]
         
-        NetworkingHelper.shared.uploadPhoto(images: imageData, urlRequest: .uploadAddPhoto(params: params), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
+        NetworkingHelper.shared.uploadPhoto(images: imageArray, urlRequest: .uploadAddPhoto(params: params), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
+            
             switch result {
             case .success(let success):
                 self.imageURL = success.urls
-                print("URL:: \(success.urls)")
-            case .failure(let failure):
-                print("ERROR: \(failure)")
+                
+            case .failure(let error):
+                self.showAlertClosure?("Error", "Photos couldn't be uploaded: \(error.localizedDescription)")
             }
+            self.updateMapClosure?()
             self.isLoading = false
         })
     }
@@ -79,13 +82,12 @@ class MapPresentVM{
         postAddNewPlace(placeInfo: self.placeInfo, completion: { [weak self] result in
             switch result {
             case .success(let response):
-                if let messages = response.message {
-                    self!.dismissClosure?()
-                    self!.updateMapClosure?()
-                }
+                self?.placeId = response.message!
+                
             case .failure(let error):
-                print("Error: \(error)")
+                self!.showAlertClosure?("Error", "Posting place failed with error: \(error.localizedDescription)")
             }
+
         })
     }
     
@@ -99,29 +101,29 @@ class MapPresentVM{
             
             switch result {
             case .success(let response):
-                completion(.success(response))
+               self.placeId = response.message!
                 
             case .failure(let error):
-                completion(.failure(error))
+                self.showAlertClosure?("Error", "Photos couldn't be uploaded: \(error.localizedDescription)")
             }
             self.isLoading = false
         }
     }
-//    private func updatePlace(placeInfo:AddPlace ,completion: @escaping (Result<Messages, Error>) -> Void) {
-//        self.isLoading = true
-//        
-//        let paramsPost = ["place": placeInfo.place, "title": placeInfo.title, "description": placeInfo.description, "cover_image_url": placeInfo.cover_image_url, "latitude" : placeInfo.latitude, "longitude": placeInfo.longitude] as [String : Any]
-//        
-//        NetworkingHelper.shared.dataFromRemote(urlRequest: .postAddPlace(params: paramsPost)) { (result: Result<Messages, Error>) in
-//            
-//            switch result {
-//            case .success(let response):
-//                completion(.success(response))
-//                
-//            case .failure(let error):
-//                completion(.failure(error))
-//            }
-//            self.isLoading = false
-//        }
-//    }
+    
+    private func postGalleryImage(){
+        
+        for url in imageURL{
+            let params = ["place_id": placeId, "image_url": url]
+            
+            NetworkingHelper.shared.dataFromRemote(urlRequest: .postGalleryImage(params: params), callback: { (result: Result<Messages, Error>) in
+                switch result {
+                case .success(_):
+                    self.dismissClosure?()
+                    
+                case .failure(let error):
+                    self.showAlertClosure?("Error", "Posting images: \(error.localizedDescription)")
+                }
+            })
+        }
+    }
 }

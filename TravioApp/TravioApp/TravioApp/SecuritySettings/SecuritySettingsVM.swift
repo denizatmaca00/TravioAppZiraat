@@ -17,22 +17,10 @@ class SecuritySettingsVM{
     var presentClosure: ((UIAlertController) -> Void)?
     
     var checkPermission: (()->())?
-    var checkPermissionNon: (()->())?
     var checkPermissionLibrary: (()->())?
+    var checkPermissionLocation: (()->())?
     var checkPermissionStatus: Bool?
     var checkPermissionLocationStatus: Bool?
-    var checkPermissionLocation: (()->())?
-//    {
-////        didSet{
-////            checkPermission?()
-////        }
-//    }
-    var checkPermissionNonStatus: Bool?
-//    {
-////        didSet{
-////            checkPermissionLibrary?()
-////        }
-//    }
     var checkPermissionLibraryStatus: Bool?
     var passwordChangeClosure: ((Password)->())?
     var passwordChangeAlertClosure: ((String,String)->Void)?

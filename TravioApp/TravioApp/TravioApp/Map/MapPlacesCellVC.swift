@@ -33,6 +33,7 @@ class MapPlacesCellVC: UICollectionViewCell {
       lazy var placeName: UILabel = {
         let pn = UILabel()
         pn.textColor = .white
+        pn.adjustsFontSizeToFitWidth = true
         pn.font = .Fonts.header24.font
         pn.text = "PlaceName"
         pn.numberOfLines = 1
@@ -110,6 +111,7 @@ class MapPlacesCellVC: UICollectionViewCell {
 
         cityName.snp.makeConstraints { make in
             make.leading.equalTo(iconLocation.snp.trailing).offset(6)
+            make.trailing.equalTo(cellView).offset(-1)
             make.centerY.equalTo(iconLocation)
             make.height.equalTo(18)
         }

@@ -11,7 +11,7 @@ import TinyConstraints
 import SnapKit
 import Kingfisher
 
-class PopularPageCellVC: UICollectionViewCell {
+class SeeAllCellVC: UICollectionViewCell {
     private lazy var PopularView: UIView = {
         let pv = UIView()
         pv.layer.cornerRadius = 10
@@ -107,7 +107,7 @@ import SwiftUI
 struct PopularPageCellVC_Preview: PreviewProvider {
     static var previews: some View{
          
-        PopularPageCellVC().showPreview()
+        SeeAllCellVC().showPreview()
     }
 }
 #endif

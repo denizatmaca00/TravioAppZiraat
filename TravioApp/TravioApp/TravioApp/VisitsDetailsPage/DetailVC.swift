@@ -41,12 +41,12 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         b.addTarget(self, action: #selector(back), for: .touchUpInside)
         return b
     }()
-    
     private lazy var pageControl:UIPageControl = {
         let p = UIPageControl()
         p.pageIndicatorTintColor = UIColor(patternImage: UIImage(named: "pageControl")!)
         p.pageIndicatorTintColor = UIColor.lightGray
         p.currentPageIndicatorTintColor = UIColor.black
+        
         p.tintColor = UIColor.white
         return p
     }()
@@ -85,7 +85,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }()
     private lazy var mapButton:UIButton = {
         let mb = UIButton()
-        mb.addTarget(self, action: #selector(mapButtonTapped), for: .touchUpInside)
         mb.clipsToBounds = true
         mb.layer.cornerRadius = 16
         mb.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
@@ -103,10 +102,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     @objc func back(){
         navigationController?.popViewController(animated: true)
         }
-    @objc func mapButtonTapped(){
-        let vc = MapVC()
-        navigationController?.pushViewController(vc, animated: true)
-    }
     @objc func buttonSave(){
         var testtt = DetailVM()
         if saveBtn.image == UIImage(named: "savefill") {
@@ -119,6 +114,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+       // addGradientLayer()
         viewModel.checkVisitbyPlaceID()
         navigationController?.navigationBar.isHidden = true
         setupViews()
@@ -148,10 +144,14 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         })
         
     }
+
     func configurePage(place:Place){
         centerText.text = place.place
-        dateText.text = place.created_at
+        dateText.text = place.created_at.formatDate()
         byText.text = place.creator
+//        var date = viewModel.dateFormatterx(dateString: place.created_at)
+//        dateText.text = date
+        byText.text = ("added by @\(place.creator)")
         descText.text = place.description
         pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
         
@@ -175,6 +175,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
             }
         }
     }
+    
     func setupViews(){
         self.view.backgroundColor = .white
         view.addSubview(imageCollection)
@@ -187,32 +188,34 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(byText)
         scrollView.addSubview(mapButton)
         scrollView.addSubview(descText)
-        
         setupLayout()
     }
     
     func setupLayout(){
-        imageCollection.edgesToSuperview(excluding: .bottom, insets: .left(0) + .right(0) + .top(0))
+        
+        imageCollection.topToSuperview(offset:0)
+        imageCollection.leadingToSuperview()
+        imageCollection.trailingToSuperview()
         imageCollection.height(249)
         
-        saveBtn.topToSuperview(offset:20, usingSafeArea: true)
+        //saveBtn.top(to: imageCollection, offset:20)
         saveBtn.top(to: imageCollection,offset:50)
         saveBtn.trailingToSuperview(offset:15)
         saveBtn.height(40)
         saveBtn.width(40)
         
-        backButton.topToSuperview(offset:20,usingSafeArea: true)
+        backButton.top(to: imageCollection,offset:50)
         backButton.leadingToSuperview(offset: 20)
         backButton.height(40)
         backButton.width(40)
         
-        pageControl.topToSuperview(offset: 180) //offset ayarla.
+        pageControl.bottom(to: imageCollection)
         pageControl.centerXToSuperview()
         pageControl.leadingToSuperview(offset:20)
-        pageControl.height(100)
-        pageControl.width(50)
-        
-        scrollView.topToBottom(of: imageCollection, offset:0)
+        pageControl.height(64)
+        pageControl.width(24)
+
+        scrollView.topToBottom(of: imageCollection, offset:10)
         scrollView.leadingToSuperview()
         scrollView.trailingToSuperview()
         scrollView.bottomToSuperview()

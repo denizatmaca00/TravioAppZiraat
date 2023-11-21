@@ -28,6 +28,7 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         let view = UIImageView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
+        view.clipsToBounds = true
         return view
     }()
     
@@ -93,9 +94,13 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     func setupLayout() {
         
         cellView.snp.makeConstraints { make in
-            make.height.equalTo(180)
-            make.leading.equalToSuperview().offset(24)
+            make.top.equalToSuperview()
+//            make.bottom.equalToSuperview()
+            make.height.equalTo(215)
             make.width.equalTo(270)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().inset(24)
+            
         }
         
         addPhotoIcon.snp.makeConstraints { make in
