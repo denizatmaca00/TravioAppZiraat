@@ -33,8 +33,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     
     private lazy var textFieldDescription: UITextView = {
         let textView = UITextView()
-        textView.font = .systemFont(ofSize: 16)
-        textView.text = "Lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lorem İpsum lore İpsum lorem İpsum lorem İpsum"
+        textView.font = .Fonts.textFieldText.font
+        textView.text = "Description"
         textView.textColor = UIColor.lightGray
         textView.delegate = self
         return textView
@@ -71,8 +71,9 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     private lazy var imageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 16
-        
+        layout.minimumLineSpacing = -8
+  
+        layout.estimatedItemSize = CGSize(width: 270, height: 215)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -86,6 +87,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         super.viewDidLoad()
         setupViews()
         
+        /// Closure to dismiss PresentVC
         viewModel.dismissClosure = {
             self.dismiss(animated: true)
         }
@@ -93,7 +95,6 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         /// Initiate alert closure to present alerts
         viewModel.showAlertClosure = { [weak self] title, message in
             self?.showAlert(title: title, message: message){
-                
             }
         }
         
@@ -141,10 +142,12 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     func setupViews() {
         
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
-        self.view.addSubviews(stackViewMain, imageCollectionView ,btnAddPlace)
-        stackView.addArrangedSubviews(titleDescrpition,textFieldDescription)
         
-        stackViewMain.addArrangedSubviews(mapAddTitle,stackView, mapAddLocation)
+        self.view.addSubviews(stackViewMain, imageCollectionView, btnAddPlace)
+        
+        stackView.addArrangedSubviews(titleDescrpition, textFieldDescription)
+        
+        stackViewMain.addArrangedSubviews(mapAddTitle, stackView, mapAddLocation)
         
         setupLayout()
     }
@@ -159,15 +162,13 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         
         textFieldDescription.snp.makeConstraints { make in
             make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
-            // make.leading.equalTo(view).offset(20)
-            // make.trailing.equalTo(view).offset(-20)
-            make.height.equalTo(185)
+            make.leading.equalTo(view).offset(30)
         }
         
         stackViewMain.snp.makeConstraints { stack in
             stack.leading.equalToSuperview().offset(24)
             stack.trailing.equalToSuperview().offset(-24)
-            stack.top.equalToSuperview().offset(72)
+            stack.top.equalToSuperview().offset(40)
         }
         
         btnAddPlace.snp.makeConstraints({ btn in
@@ -178,7 +179,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         })
         
         imageCollectionView.snp.makeConstraints ({ make in
-            make.top.equalTo(stackViewMain.snp.bottom).offset(-16)
+            make.top.equalTo(mapAddLocation.snp.bottom).offset(16)
+            make.height.equalTo(215)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(btnAddPlace.snp.top).offset(-16)
         })
@@ -209,11 +211,6 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             }
             self.viewModel.fetchData(in: cell, with: indexPath)
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        /// Cell size
-        return CGSize(width: 270, height: 154)
     }
 }
 

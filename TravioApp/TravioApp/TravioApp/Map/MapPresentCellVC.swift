@@ -93,9 +93,10 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     func setupLayout() {
         
         cellView.snp.makeConstraints { make in
-            make.height.equalTo(180)
+            make.top.equalToSuperview()
             make.leading.equalToSuperview().offset(24)
-            make.width.equalTo(270)
+            make.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
         
         addPhotoIcon.snp.makeConstraints { make in
