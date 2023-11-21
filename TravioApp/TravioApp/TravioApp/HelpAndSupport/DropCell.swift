@@ -74,7 +74,8 @@ class DropCell: UITableViewCell {
     }()
     
     private lazy var imgDropButton:UIImageView = {
-        let imgView = UIImageView(image: UIImage(systemName: "chevron.down")?.withRenderingMode(.alwaysOriginal))
+        let image = UIImage(named: "expandChevron")?.withRenderingMode(.alwaysOriginal)
+        let imgView = UIImageView(image:image)
         
         return imgView
     }()
@@ -103,10 +104,8 @@ class DropCell: UITableViewCell {
     func toggleCellData(){
         lblDescription.isHidden = !toExpand
         
-        imgDropButton.image = (toExpand ?
-                               UIImage(systemName: "chevron.up") :
-                                UIImage(systemName: "chevron.down"))?
-            .withRenderingMode(.alwaysOriginal)
+            self.imgDropButton.transform = self.toExpand ?
+                                   CGAffineTransform(rotationAngle: CGFloat(Double.pi)) : CGAffineTransform(rotationAngle: CGFloat(-Double.zero))
     }
     
     //MARK: -- UI Methods
