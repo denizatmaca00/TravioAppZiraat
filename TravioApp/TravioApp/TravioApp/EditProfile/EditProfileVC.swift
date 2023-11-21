@@ -12,26 +12,23 @@
 // TODO: dark mode hiç yok onu yapmak lazım
 
 
-//Deniz
+//refactör
 
 // TODO: mapte pin kalkmıyor uzun basınca öncekini kladırıyor.
-// internet
+// TODO: mapte editProfile dispacch
+// TODO: map
+// internet test edilmedi ama yapıldı muhtelemen
 
-//Aydın
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
-// TODO: map upload
+// TODO: alertler eklenecek
+// TODO: indiciatorler eklenecek
 
 //Ece
-//TODO: Popular 3 tane
-//TODO: Popularya da3 yandeden de detaya gidelicek
 //TODO: detay sayfasında scrrol static ayarlanacak
-//TODO: detay sayfasında shadow ekleecek
-//TODO: security settings UI
-//TODO: popularda kayma da sıkıntı var
-// TODO: popularvc gölge ekle
-// TODO: detayvc de pin olaak map gitmeyecek
+// TODO: popularvc gölgeyi ayarla
+// TODO: popularvc tam sayı
 
-//TODO: tabbarın hangis sayfada olup olmaması
+
 
 
 
