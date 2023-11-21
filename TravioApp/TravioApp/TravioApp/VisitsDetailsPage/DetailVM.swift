@@ -51,6 +51,28 @@ class DetailVM{
             }
         }
     }
+    func getAPlaceCreator(complete: @escaping (String)->()) {
+        guard let placeId = placeIdtest else { return }
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .getPlaceByID(id: placeId)){ [weak self] (result:Result<PlaceIDDataStatus, Error>) in
+            switch result{
+            case .success(let result):
+                complete(result.data.place.creator)
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
+    func getAPlaceCreator2(completion: @escaping (Result<Place, Error>) -> Void) {
+            guard let placeId = placeIdtest else { return }
+            NetworkingHelper.shared.dataFromRemote(urlRequest: .getPlaceByID(id: placeId)) { (result: Result<PlaceIDDataStatus, Error>) in
+                switch result {
+                case .success(let place):
+                    completion(.success(place.data.place))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
     func getAllGaleryById(complete: @escaping ()->()){
          guard let placeId = placeIdtest else { return }
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getAllGaleryByID(id: placeId)) { [weak self] (result:Result<GalleryImage, Error>) in
@@ -58,7 +80,7 @@ class DetailVM{
                     case .success(let result):
                         self?.galeryData = result
                         complete()
-                        print("ececececececec\(self?.galeryData)")
+                     //   print("ececececececec\(self?.galeryData)")
                     case .failure(let failure):
                         print("hatahatahatahata\(failure.localizedDescription)")
                         
@@ -73,7 +95,7 @@ class DetailVM{
             switch result {
             case .success(let result):
                 self.postData = result
-                print(self.postData)
+                //print(self.postData)
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
@@ -93,19 +115,23 @@ class DetailVM{
             (result:Result<DeleteVisitbyID,Error>) in
             switch result {
             case .success(let data):
-                print(data)
+               // print(data)
+               print("")
             case .failure(let failure):
                 print("deletehatahatahata\(failure.localizedDescription)")
             }
         }
-    }
+    }// burası tamamen apiden siliyor
+    
+    
      func deleteMyAdded(){
         guard let id = placeIdtest  else {return}
          NetworkingHelper.shared.dataFromRemote(urlRequest: .deleteMyAddedPlaceById(id: id)){
             (result:Result<Messages,Error>) in
             switch result {
             case .success(let data):
-                print(data)
+                // print(data)
+                print("")
             case .failure(let failure):
                 print("\(failure.localizedDescription)")
             }

@@ -12,6 +12,13 @@ class ProfileVM {
     var profile: Profile = Profile(full_name: "", email: "", pp_url: "", role: "", created_at: "")
     
     var profileUpdateClosure: ((Profile) -> Void)?
+    
+    var profileUpdateClosure2: ((Profile) -> Void)? {
+        didSet {
+            profileUpdateClosure?(profile)
+            DetailVC().profileFullname = profile.full_name
+        }
+    }
     weak var editProfileVC: EditProfileVC?
 
     func getProfileInfos(completion: @escaping (Result<Profile, Error>) -> Void) {

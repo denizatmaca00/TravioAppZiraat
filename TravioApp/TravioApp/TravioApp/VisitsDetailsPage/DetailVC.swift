@@ -122,27 +122,33 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
             saveBtn.image = UIImage(named: "savefill")
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        profilViewModel.profileUpdateClosure
-        print(" burası willApear \(profileFullname)")
-    }
-    
     @objc func deleteBtnTapped(){
-        var detailCreator = viewModel.creator?.creator
-        
-            if detailCreator == profileFullname {
-                addActionSheet {
-                    self.viewModel.deleteMyAdded()
-                    self.showAlert(title: "Notification", message: "Başarıyla Silindi") {
-                        self.navigationController?.popViewController(animated: true)
+        do {
+            try profilViewModel.getProfileInfos { profileResult in
+                switch profileResult {
+                case .success(let profile):
+                    let detailCreator = self.deneme
+                    self.profileFullname = profile.full_name
+
+                    if detailCreator == self.profileFullname {
+                        self.addActionSheet {
+                            self.viewModel.deleteMyAdded()
+                            self.showAlert(title: "Notification", message: "Başarıyla Silindi") {
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                        }
+                    } else {
+                        self.showAlert(title: "Hata", message: "Bu içeriği sadece ekleyen kişi silebilir.", completion: {})
                     }
+                case .failure(let error):
+                    print("Hata oluştu: \(error)")
                 }
-            } else {
-                showAlert(title: "Hata", message: "Bu içeriği sadece ekleyen kişi silebilir.", completion: {})
             }
-        
+        } catch {
+            print("getProfileInfos fonksiyonu bir hata fırlattı: \(error)")
+        }
     }
+
     
     
     override func viewDidLoad() {
@@ -186,11 +192,12 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         })
         
     }
-    
+    var deneme: String?
     func configurePage(place:Place){
         centerText.text = place.place
         dateText.text = place.created_at.formatDate()
         byText.text = place.creator
+        deneme = place.creator
         //        var date = viewModel.dateFormatterx(dateString: place.created_at)
         //        dateText.text = date
         byText.text = ("added by @\(place.creator)")
