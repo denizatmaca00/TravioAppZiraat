@@ -17,11 +17,9 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     var updateMapClosure: (() -> Void)?
     
     private lazy var mapAddTitle = AppTextField(data: .presentMapTitle)
-    // private lazy var mapAddDescription = AppTextField(data: .presentMapDescription)
     private lazy var mapAddLocation = AppTextField(data: .presentMapLocation)
     
     private lazy var txtTitle = mapAddTitle.getTFAsObject()
-    //   private lazy var txtDescription = mapAddDescription.getTFAsObject()
     private lazy var txtLocation = mapAddLocation.getTFAsObject()
     
     private lazy var titleDescrpition: UILabel = {
@@ -92,6 +90,13 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
             self.dismiss(animated: true)
         }
         
+        /// Initiate alert closure to present alerts
+        viewModel.showAlertClosure = { [weak self] title, message in
+            self?.showAlert(title: title, message: message){
+                
+            }
+        }
+        
         /// Initiate activity indicator view to be initiated via updateLoadingStatus closure
         viewModel.updateLoadingStatus = { [weak self] (isLoading) in
             DispatchQueue.main.async {
@@ -107,13 +112,11 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     
     @objc func btnAddPlaceTapped() {
         
-        let placeInfo = AddPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "http.png", latitude: latitude!, longitude: longitude!)
+        let placeInfo = AddPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "", latitude: latitude!, longitude: longitude!)
         
         viewModel.placeInfo = placeInfo
         
         self.viewModel.savePlace()
-        // this needs to be updated, it creates new instance
-        //MapVC().initVM()
     }
     
     private lazy var imagePicker:UIImagePickerController = {
@@ -196,8 +199,10 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? MapPresentCellVC else {return}
         
-        // show picker view
+        /// initiate picker view from viewModel
         self.initPicker()
+        
+        /// initiate reload CV closure in viewModel
         viewModel.reloadCollectionViewClosure = {
             DispatchQueue.main.async {
                 self.imageCollectionView.reloadData()
@@ -207,7 +212,7 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // Görsel hücre boyutu
+        /// Cell size
         return CGSize(width: 270, height: 154)
     }
 }
@@ -220,13 +225,10 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        print("*FILTER* Finising selection on VC")
         if let selectedImage = info[.originalImage] as? UIImage{
-            print("*FILTER*finished image picking on VC")
-            viewModel.imageData.append(selectedImage)
+            viewModel.imageArray.append(selectedImage)
             viewModel.lastImage = selectedImage
             pickerCloseEvents(picker)
-            
             viewModel.reloadCollectionViewClosure!()
         }
     }
