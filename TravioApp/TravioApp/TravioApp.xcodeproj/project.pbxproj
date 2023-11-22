@@ -68,6 +68,12 @@
 		EC4023E42B0166020016FA3A /* AppActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4023E32B0166020016FA3A /* AppActivityIndicator.swift */; };
 		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
 		ECA5F9DE2AFBBB2700D8E80F /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5F9DD2AFBBB2700D8E80F /* HomeVM.swift */; };
+		ECC72A492B0E187300D03971 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A482B0E187300D03971 /* AppCoordinator.swift */; };
+		ECC72A4B2B0E189200D03971 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4A2B0E189200D03971 /* Coordinator.swift */; };
+		ECC72A4D2B0E18E200D03971 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */; };
+		ECC72A4F2B0E1A9F00D03971 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4E2B0E1A9F00D03971 /* MainViewModel.swift */; };
+		ECC72A512B0E2DD600D03971 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */; };
+		ECC72A532B0E33B900D03971 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A522B0E33B900D03971 /* MainViewController.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
 		ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */; };
 		ECC8C5DD2AEA8319001ED067 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */; };
@@ -138,6 +144,12 @@
 		EC4023E32B0166020016FA3A /* AppActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppActivityIndicator.swift; sourceTree = "<group>"; };
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
 		ECA5F9DD2AFBBB2700D8E80F /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
+		ECC72A482B0E187300D03971 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		ECC72A4A2B0E189200D03971 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		ECC72A4E2B0E1A9F00D03971 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
+		ECC72A522B0E33B900D03971 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
 		ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
@@ -307,6 +319,7 @@
 				EC4023E12B0151870016FA3A /* LandingPageVC.swift */,
 				0F78298D2AE912C100B2EBDE /* Fonts */,
 				5E388FC02AEA5151002ABDBD /* Networking */,
+				ECC72A472B0E180300D03971 /* Coordinators */,
 				0FF6D4592AEFC81A00AA1339 /* Helpers */,
 				0FF6D45D2AEFC8B800AA1339 /* UIElements */,
 				0FF6D45A2AEFC82B00AA1339 /* Models */,
@@ -414,6 +427,19 @@
 			path = VisitsDetailsPage;
 			sourceTree = "<group>";
 		};
+		ECC72A472B0E180300D03971 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				ECC72A482B0E187300D03971 /* AppCoordinator.swift */,
+				ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */,
+				ECC72A4A2B0E189200D03971 /* Coordinator.swift */,
+				ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */,
+				ECC72A4E2B0E1A9F00D03971 /* MainViewModel.swift */,
+				ECC72A522B0E33B900D03971 /* MainViewController.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -513,6 +539,7 @@
 				5E3CC0842AF4D86F007FCFD5 /* SecuritySettingVC.swift in Sources */,
 				0FD7E87F2AF50653001E09EB /* SpaceCell.swift in Sources */,
 				EC4023E22B0151870016FA3A /* LandingPageVC.swift in Sources */,
+				ECC72A492B0E187300D03971 /* AppCoordinator.swift in Sources */,
 				0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */,
 				0FF6D45C2AEFC89D00AA1339 /* PlaceModel.swift in Sources */,
 				5E388FDF2AF04392002ABDBD /* DetailVC.swift in Sources */,
@@ -527,6 +554,7 @@
 				ECFFD1CE2AEF874B0066E75C /* TabBarVC.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,
 				0FB39D0A2AF386E0002C5DF7 /* SettingsVC.swift in Sources */,
+				ECC72A512B0E2DD600D03971 /* AuthCoordinator.swift in Sources */,
 				EC4023E42B0166020016FA3A /* AppActivityIndicator.swift in Sources */,
 				0FB39D0E2AF39B7D002C5DF7 /* SettingsCollectionCell.swift in Sources */,
 				EC4023E02B0101990016FA3A /* LocationHelper.swift in Sources */,
@@ -534,9 +562,11 @@
 				EC00441A2AF43819001540A5 /* HelpAndSupportVM.swift in Sources */,
 				0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */,
 				0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */,
+				ECC72A4B2B0E189200D03971 /* Coordinator.swift in Sources */,
 				0FDFAAEC2AF3D90E00F4FA61 /* TableViewCell.swift in Sources */,
 				ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */,
 				ECFFD1D02AEFD3750066E75C /* HomeVC.swift in Sources */,
+				ECC72A4D2B0E18E200D03971 /* MainCoordinator.swift in Sources */,
 				5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */,
 				5E388FC22AEA5193002ABDBD /* UserModel.swift in Sources */,
 				EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */,
@@ -554,6 +584,7 @@
 				EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */,
 				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
 				5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */,
+				ECC72A532B0E33B900D03971 /* MainViewController.swift in Sources */,
 				0F7A65132AFE1F060005FB70 /* MapPageLayout.swift in Sources */,
 				5EDD08222AF3BD94002072BC /* SeeAllVC.swift in Sources */,
 				0F9A80C82AF8E70300B47142 /* TermsOfUseVC.swift in Sources */,
@@ -561,6 +592,7 @@
 				0F7A65152AFE48910005FB70 /* MapPresentCellVC.swift in Sources */,
 				0F9A80CC2AFA1AA900B47142 /* ProfileVM.swift in Sources */,
 				ECFFD1D22AEFD9380066E75C /* CustomCollectionViewCell.swift in Sources */,
+				ECC72A4F2B0E1A9F00D03971 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

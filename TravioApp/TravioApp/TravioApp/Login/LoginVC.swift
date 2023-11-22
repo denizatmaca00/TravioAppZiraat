@@ -2,20 +2,25 @@ import UIKit
 import SnapKit
 import Network
 
+protocol LoginViewControllerDelegate: AnyObject {
+    func didSuccessfullyLogin()
+}
 
 class LoginVC: UIViewController {
+    
+    weak var delegate: LoginViewControllerDelegate?    
+    
+    var viewModel = LoginVM()
     
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var viewPass = AppTextField(data: .password)
     
     private lazy var txtEmail = viewMail.getTFAsObject()
     private lazy var txtPassword = viewPass.getTFAsObject()
+    
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitor")
 
-
-    var viewModel = LoginVM()
-    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")

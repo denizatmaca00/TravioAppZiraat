@@ -8,9 +8,18 @@
 import Foundation
 import Alamofire
 
-class LoginVM{
+typealias TitleNavBar = (_ title: String) -> Void
+
+protocol LoginViewModelDelegate{
+    var titleUpdated: TitleNavBar {get set}
+}
+
+class LoginVM: LoginViewModelDelegate{
     
     var userInfo: LoginUser = LoginUser(email: "", password: "")
+    
+    weak var coordinator: AuthCoordinator?
+    var titleUpdated: TitleNavBar = { _ in}
     
     var isLoading:Bool = false {
         didSet{
@@ -53,5 +62,10 @@ class LoginVM{
             completion(.failure(error))
         }
     }
-    
+}
+
+extension LoginVM: LoginViewControllerDelegate {
+    func didSuccessfullyLogin(){
+        coordinator?.didAuthenticate()
+    }
 }
