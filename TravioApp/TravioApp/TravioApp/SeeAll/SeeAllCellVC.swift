@@ -14,7 +14,12 @@ import Kingfisher
 class SeeAllCellVC: UICollectionViewCell {
     private lazy var PopularView: UIView = {
         let pv = UIView()
-        pv.layer.cornerRadius = 10
+        pv.layer.cornerRadius = 16
+        pv.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
+        pv.layer.shadowOpacity = 0.15
+        pv.layer.shadowColor = UIColor.black.cgColor
+        //pv.layer.shadowOffset = .zero
+        pv.layer.shadowRadius = 10
         pv.backgroundColor = .white
         return pv
     }()
