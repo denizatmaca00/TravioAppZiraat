@@ -36,6 +36,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         pn.text = "PlaceName"
         pn.textColor = .white
         pn.numberOfLines = 1
+        pn.adjustsFontSizeToFitWidth = true
         return pn
     }()
     

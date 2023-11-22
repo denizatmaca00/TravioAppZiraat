@@ -67,11 +67,15 @@ class HomeVC: UIViewController {
         initPopularVM()
         initNewsVM()
         initAllForUserVM()
-        
         setupViews()
     }
 
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        initPopularVM()
+        initNewsVM()
+        initAllForUserVM()
+    }
 
     
     //MARK: -- Component Actions
@@ -262,7 +266,8 @@ extension HomeVC:UICollectionViewDataSource {
                 
                 vc.titleLabel.text = title
                 vc.viewModel.getPopularPlace()
-                
+                vc.hidesBottomBarWhenPushed = true
+
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         case 1:
@@ -272,7 +277,8 @@ extension HomeVC:UICollectionViewDataSource {
                 
                 vc.titleLabel.text = title
                 vc.viewModel.newPlace()
-                
+                vc.hidesBottomBarWhenPushed = true
+
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         case 2:
@@ -281,7 +287,8 @@ extension HomeVC:UICollectionViewDataSource {
                 
                 vc.titleLabel.text = "My Added Places"
                 vc.viewModel.allPlaceforUser()
-                
+                vc.hidesBottomBarWhenPushed = true
+
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         default:
