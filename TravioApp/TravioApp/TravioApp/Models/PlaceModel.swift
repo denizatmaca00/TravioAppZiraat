@@ -84,20 +84,12 @@ struct PlaceData: Codable {
     var place: Place
 }
 
-
-
 // MARK: Details View Model
 
 struct DetailsCellViewModel{
     let desc:String
     let placeName:String
     let coordinates:String
-    
-}
-
-struct ReturnMessage:Codable {
-    var message:String
-    var status:String
 }
 
 //MARK: Get All Gallery by PlaceID
@@ -116,33 +108,6 @@ struct Image:Codable{
     var image_url: String
     var created_at: String
     var updated_at: String
-}
-//    enum CodingKeys: String, CodingKey {
-//        case id
-//        case placeId = "place_id"
-//        case imageUrl = "image_url"
-//        case createAt = "create_at"
-//        case updateAt = "updated_at"
-//    }
-   
-
-//MARK: POSTAVISIT
-
-struct PostAVisit: Codable {
-    var message: String
-    var status: String
-}
-
-//MARK: DeleteVisitbyPlaceID
-
-struct DeleteVisitbyID: Codable {
-    var message: String
-    var status: String
-}
-//MARK: Check Visit By Place ID
-struct CheckVisitbyID: Codable {
-    var message: String
-    var status: String
 }
 
 //MARK: Add Photo

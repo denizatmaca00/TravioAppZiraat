@@ -117,7 +117,6 @@ var viewModel = SecuritySettingsVM()
        let sw = UIScrollView()
         sw.isScrollEnabled = true
         sw.showsVerticalScrollIndicator = true
-        //sw.layer.backgroundColor = UIColor.red.cgColor
         return sw
     }()
     

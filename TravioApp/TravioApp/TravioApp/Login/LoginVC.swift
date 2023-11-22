@@ -110,11 +110,7 @@ class LoginVC: UIViewController {
         
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
-                print("İnternet bağlantısı var.")
             } else {
-                print("İnternet bağlantısı yok.")
-                
-                // Ana ekranda bir uyarı göster
                 DispatchQueue.main.async {
                     self.showNoInternetAlert()
                 }
@@ -145,7 +141,7 @@ class LoginVC: UIViewController {
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
         guard monitor.currentPath.status == .satisfied else {
-            viewModel.showAlertClosure?("Error", "Not  Internet Connection")
+            viewModel.showAlertClosure?("Error", "Not Internet Connection")
              return
          }
         viewModel.sendLoginData(email: email, password: password) {[self]  result in
@@ -155,13 +151,13 @@ class LoginVC: UIViewController {
                 navigationController?.pushViewController(vc, animated: true)
             case .failure(_):
                 if email.isEmpty && password.isEmpty {
-                    viewModel.showAlertClosure?("Hata", "Email and password cannot be empty")
+                    viewModel.showAlertClosure?("Error", "Email and password cannot be empty")
                 }else if email.isEmpty {
-                    viewModel.showAlertClosure?("Hata", "Email cannot be empty")
+                    viewModel.showAlertClosure?("Error", "Email cannot be empty")
                 }else if password.isEmpty{
-                    viewModel.showAlertClosure?("Hata", "Password cannot be empty")
+                    viewModel.showAlertClosure?("Error", "Password cannot be empty")
                 }else{
-                    viewModel.showAlertClosure?("Hata", "Email or password is wrong")
+                    viewModel.showAlertClosure?("Error", "Email or password is wrong")
                 }
             }
         }

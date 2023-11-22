@@ -128,10 +128,8 @@ class SecuritySettingsVM{
         let status = CLLocationManager.authorizationStatus()
         switch status {
         case .authorizedWhenInUse, .authorizedAlways:
-            print("Location access granted.")
             self.checkPermissionLocationStatus = true
         default:
-            print("Location access denied.")
             self.checkPermissionLocationStatus = false
         }
     }

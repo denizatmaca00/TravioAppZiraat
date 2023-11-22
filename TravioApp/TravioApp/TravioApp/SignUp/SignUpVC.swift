@@ -210,10 +210,7 @@ extension SignUpVC: UITextFieldDelegate{
         return true
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        checkPassMatch()
-    }
-    
+   
     func checkPassMatch()->Bool{
         
         let isEmpty = checkIsEmpty()

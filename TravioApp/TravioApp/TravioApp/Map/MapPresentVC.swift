@@ -10,7 +10,7 @@ import UIKit
 class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
     
     let viewModel = MapPresentVM()
-    
+
     var latitude: Double?
     var longitude: Double?
     var localName: String?{
@@ -151,6 +151,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         }
     }
     
+    
+    
     func setupViews() {
         
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
@@ -207,20 +209,28 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapPresentCellVC.reuseIdentifier, for: indexPath) as? MapPresentCellVC else {fatalError("Cell is not found")}
         
+//        cell.changePhotoBtn.tag = indexPath.row
+//        cell.changePhotoBtn.addTarget(self, action: #selector(changePhotoBtnTapped), for: .touchUpInside)
         return cell
     }
+    @objc func changePhotoBtnTapped(){
+        print("change photo butonu")
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? MapPresentCellVC else {return}
-        
+
         /// initiate picker view from viewModel
         self.initPicker()
-        
+
         /// initiate reload CV closure in viewModel
         viewModel.reloadCollectionViewClosure = {
             DispatchQueue.main.async {
                 self.imageCollectionView.reloadData()
             }
+            cell.lastSelectedImage = self.viewModel.lastImage
+
             self.viewModel.fetchData(in: cell, with: indexPath)
         }
     }
@@ -233,7 +243,7 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
+
         if let selectedImage = info[.originalImage] as? UIImage{
             viewModel.imageArray.append(selectedImage)
             viewModel.lastImage = selectedImage
@@ -241,7 +251,7 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
             viewModel.reloadCollectionViewClosure!()
         }
     }
-    
+//
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         pickerCloseEvents(picker)
     }

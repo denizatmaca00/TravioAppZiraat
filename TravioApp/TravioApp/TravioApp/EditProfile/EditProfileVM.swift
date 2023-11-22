@@ -64,7 +64,7 @@ class EditProfileVM {
     func putEditProfileInfos(){
 
         let params = ["full_name": editProfile.full_name, "email": editProfile.email, "pp_url": editProfile.pp_url]
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .putEditProfile(params: params), callback: { [self] (result: Result<Messages, Error>) in
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .putEditProfile(params: params), callback: {  (result: Result<Messages, Error>) in
             switch result {
             case .success(let success):
                 print("Başarılı yanıt: \(success)")

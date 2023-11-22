@@ -10,7 +10,7 @@ import UIKit
 class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     
     // Cell Identifiers
-    
+    var lastSelectedImage: UIImage? 
     static let reuseIdentifier: String = "ImageCell"
     
     // View Model
@@ -46,6 +46,12 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         btn.titleLabel?.font = .Fonts.textFieldText.font
         return btn
     }()
+    lazy var changePhotoBtn: UIButton = {
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "exit"), for: .normal)
+        return btn
+    }()
+    
     
     // Private Functions
     
@@ -53,8 +59,6 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         self.cellView.image = image
         addPhotoBtn.isHidden = true
         addPhotoIcon.isHidden = true
-        
-        self.isUserInteractionEnabled = false
     }
     
     // Inits
@@ -84,7 +88,7 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         
         self.addSubviews(cellView)
         
-        cellView.addSubviews(addPhotoIcon, addPhotoBtn)
+        cellView.addSubviews(changePhotoBtn, addPhotoIcon, addPhotoBtn)
         
         setupLayout()
     }
@@ -95,7 +99,6 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-//            make.bottom.equalToSuperview()
             make.height.equalTo(215)
             make.width.equalTo(270)
             make.leading.equalToSuperview().offset(24)
@@ -103,6 +106,12 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
             
         }
         
+        changePhotoBtn.snp.makeConstraints({ btn in
+            btn.top.equalToSuperview().offset(7)
+            btn.leading.equalToSuperview().offset(7)
+            btn.height.width.equalTo(15)
+        })
+        self.cellView.bringSubviewToFront(changePhotoBtn)
         addPhotoIcon.snp.makeConstraints { make in
             make.top.equalTo(cellView).offset(79)
             make.height.equalTo(35)

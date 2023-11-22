@@ -16,7 +16,7 @@ extension UIViewController
     func showAlert(title: String, message: String, completion: @escaping () -> Void) {
         let alert = AppAlertControl(title: title, message: message, preferredStyle: .alert)
         
-        let btnCancel = UIAlertAction(title: "Kapat", style: .cancel) { _ in
+        let btnCancel = UIAlertAction(title: "Dismiss", style: .cancel) { _ in
             completion()
         }
         
@@ -26,13 +26,13 @@ extension UIViewController
     }
     
     func addActionSheet(deleteAction: @escaping () -> Void) {
-           let actionSheet = UIAlertController(title: "Seçim Yap", message: "Yapmak istediğiniz işleme dokunun.", preferredStyle: .actionSheet)
+           let actionSheet = UIAlertController(title: "Choose the action", message: "Tap the action you want to take.", preferredStyle: .actionSheet)
 
-           let deleteAction = UIAlertAction(title: "Eklediğim Konumu Sil", style: .destructive) { _ in
+           let deleteAction = UIAlertAction(title: "Delete the Location I Added", style: .destructive) { _ in
                deleteAction() 
            }
 
-           let cancelAction = UIAlertAction(title: "Vazgeç", style: .cancel)
+           let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
 
            actionSheet.addAction(deleteAction)
            actionSheet.addAction(cancelAction)
