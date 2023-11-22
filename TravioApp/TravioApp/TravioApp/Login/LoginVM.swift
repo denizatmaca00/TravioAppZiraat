@@ -31,10 +31,6 @@ class LoginVM: LoginViewModelDelegate{
     
     var updateLoadingStatus: ( (Bool)->Void )?
     
-    deinit{
-        print("dealloc \(self)")
-    }
-    
     func sendLoginData(email: String?, password: String, completion: @escaping (Result<Tokens, Error>) -> Void) {
         self.isLoading = true
         
