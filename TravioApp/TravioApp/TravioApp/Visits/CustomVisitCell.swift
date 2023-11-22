@@ -56,13 +56,6 @@ class CustomVisitCell: UITableViewCell {
         return imageView
     }()
     
-    // used to adjust distance between cells
-    private lazy var viewSeperator:UIView = {
-        let v = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 16))
-        v.isHidden = true
-        return v
-    }()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -83,10 +76,12 @@ class CustomVisitCell: UITableViewCell {
     func setupViews() {
         self.selectionStyle = .none
         self.backgroundColor = .clear
-        self.clipsToBounds = false
+        self.clipsToBounds = true
+        self.layer.masksToBounds = true
         
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 20
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 10
+        self.layer.shadowOffset = .zero
         self.layer.shadowOpacity = 0.15
         
         self.contentView.addSubviews(imageLocation, placeName,iconLocation,cityName)
@@ -96,20 +91,10 @@ class CustomVisitCell: UITableViewCell {
     func setupLayout() {
         
         imageLocation.snp.makeConstraints({ img in
-            img.top.equalToSuperview()
+            img.top.equalToSuperview().offset(16)
+            img.bottom.equalToSuperview()
             img.leading.equalToSuperview().offset(24)
             img.trailing.equalToSuperview().inset(24)
-            
-        })
-        
-        // add seperator view between cells
-        self.contentView.addSubview(viewSeperator)
-        viewSeperator.snp.makeConstraints({ view in
-            view.top.equalTo(imageLocation.snp.bottom)
-            view.bottom.equalToSuperview()
-            view.leading.equalTo(imageLocation)
-            view.trailing.equalTo(imageLocation)
-            view.height.equalTo(self.viewSeperator.frame.height)
             
         })
         
