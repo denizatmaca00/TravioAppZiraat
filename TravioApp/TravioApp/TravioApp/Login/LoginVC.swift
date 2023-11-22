@@ -88,6 +88,7 @@ class LoginVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.delegate = viewModel
         setupViews()
         self.navigationController?.navigationBar.isHidden = true
         startMonitoringNetwork()
@@ -106,6 +107,11 @@ class LoginVC: UIViewController {
                     self?.hideIndicator()
                 }
             }
+        }
+        
+        // setup bindings?
+        viewModel.titleUpdated = { [unowned self] title in
+            self.title = title
         }
     }
    
@@ -156,8 +162,8 @@ class LoginVC: UIViewController {
         viewModel.sendLoginData(email: email, password: password) {[self]  result in
             switch result {
             case .success:
-                let vc = TabBarVC()
-                navigationController?.pushViewController(vc, animated: true)
+                delegate?.didSuccessfullyLogin()
+                
             case .failure(_):
                 if email.isEmpty && password.isEmpty {
                     viewModel.showAlertClosure?("Hata", "Email and password cannot be empty")

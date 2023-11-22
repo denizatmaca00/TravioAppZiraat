@@ -18,10 +18,9 @@ class MainCoordinator: Coordinator {
     var navigationController: UINavigationController
     
     weak var delegate: MainCoordinatorDelegate?
-    let mainViewController = LoginVC()
+    let mainViewController = TabBarVC()
     
-    init(navigationController: UINavigationController)
-    {
+    init(navigationController: UINavigationController){
         self.navigationController = navigationController
     }
     
@@ -30,14 +29,15 @@ class MainCoordinator: Coordinator {
     }
     
     func start() {
-        //mainViewController.viewModel = MainViewModel(coordinator: self)
+        mainViewController.viewModel = TabBarVM()
+        mainViewController.viewModel.coordinator = self
         navigationController.setViewControllers([mainViewController], animated: false)
     }
 }
 
 extension MainCoordinator {
     func didLogout() {
-        //parentCoordinator.childDidFinish(self)
-        //parentCoordinator.coordinatorDidLogout(coordinator: self)
+        parentCoordinator?.childDidFinish(self)
+        parentCoordinator?.coordinatorDidLogout(coordinator: self)
     }
 }

@@ -24,16 +24,15 @@ class AppCoordinator: NSObject, Coordinator {
     
     func start() {
         if isLoggedIn{
-            
+            showMainView()
         }
         else{
-            
+            showAuthentication()
         }
     }
 }
 
 // MARK: Handler Child and navController
-
 extension AppCoordinator {
     
     func childDidFinish(_ child: Coordinator?) {
@@ -48,19 +47,21 @@ extension AppCoordinator {
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated:Bool) {
         
         /// Read the view controller where we are coming from
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        
+        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else {
+            return
+        }
         
         if navigationController.viewControllers.contains(fromViewController){
             return
         }
         
-//        if let loginViewController = fromViewController as? LoginVC {
-//            childDidFinish(loginViewController.viewModel.coordinator)
-//        }
-//        if let mainViewController = fromViewController as? MainViewController {
-//            childDidFinish(mainViewController.viewModel?.coordinator)
-//        }
+        if let loginViewController = fromViewController as? LoginVC {
+            childDidFinish(loginViewController.viewModel.coordinator)
+        }
+        
+        if let mainViewController = fromViewController as? TabBarVC {
+            childDidFinish(mainViewController.viewModel.coordinator)
+        }
     }
 }
 
@@ -74,6 +75,14 @@ extension AppCoordinator {
         mainCoordinator.start()
         childCoordinators.append(mainCoordinator)
     }
+    
+    fileprivate func showAuthentication(){
+        let authenticationCoordinator = AuthCoordinator(navigationController: navigationController)
+        authenticationCoordinator.parentCoordinator = self
+        authenticationCoordinator.delegate = self
+        authenticationCoordinator.start()
+        childCoordinators.append(authenticationCoordinator)
+    }
 }
 
 extension AppCoordinator: AuthenticationCoordinatorDelegate {
@@ -84,6 +93,6 @@ extension AppCoordinator: AuthenticationCoordinatorDelegate {
 
 extension AppCoordinator: MainCoordinatorDelegate {
     func coordinatorDidLogout(coordinator: MainCoordinator) {
-        //showAuthentication()
+        showAuthentication()
     }
 }

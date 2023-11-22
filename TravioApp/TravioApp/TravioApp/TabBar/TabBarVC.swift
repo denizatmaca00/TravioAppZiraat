@@ -7,15 +7,26 @@
 
 import UIKit
 
+protocol MainViewControllerDelegate: AnyObject {
+    func mainViewControllerDidLogout()
+}
+
 class TabBarVC: UITabBarController {
     
     // MARK: Properties
+    
+    weak var delegateCoord: MainViewControllerDelegate?
+    var viewModel: TabBarVM = TabBarVM()
     
     private lazy var AppButton:UIButton = {
         let b = UIButton()
         
         return b
     }()
+    
+    deinit {
+        print("dealloc \(self)")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +45,8 @@ class TabBarVC: UITabBarController {
         // hide backButton
         self.navigationItem.setHidesBackButton(true, animated: false)
 
+        self.delegateCoord = viewModel
+        self.title = "Main"
     }
     
     // 4 buton olacak: Home, visits, map, menu
