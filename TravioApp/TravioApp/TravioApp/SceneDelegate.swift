@@ -6,10 +6,27 @@
 //
 
 import UIKit
+import Network
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private let monitor = NWPathMonitor()
+    private let queue = DispatchQueue(label: "NetworkMonitor")
+    private var showAlertClosure: ((String,String)->Void)?
+    
+    func startMonitoringNetwork() {
+        monitor.start(queue: queue)
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+            } else {
+                DispatchQueue.main.async {
+                    self.showAlertClosure!("Warning", "No internet connection")
+                }
+            }
+        }
+    }
 //    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 //        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
 //        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -61,6 +78,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
         self.window = window
+        
+        startMonitoringNetwork()
+        guard monitor.currentPath.status == .satisfied else {
+            showAlertClosure = { [weak self] title, message in
+                vc.showAlert(title: title, message: message){
+                }
+            }
+            return
+         }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
