@@ -104,7 +104,7 @@ class MapPresentVM{
                self.placeId = response.message!
                 
             case .failure(let error):
-                self.showAlertClosure?("Error", "Photos couldn't be uploaded: \(error.localizedDescription)")
+                self.showAlertClosure?("Error", "Photos couldn't be uploaded to server: \(error.localizedDescription)")
             }
             self.isLoading = false
         }
