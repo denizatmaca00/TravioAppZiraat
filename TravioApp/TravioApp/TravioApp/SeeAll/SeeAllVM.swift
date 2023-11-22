@@ -41,7 +41,7 @@ class SeeAllVM{
             switch result{
             case .success(let data):
                 self.fetch(array: data.data.places)
-                print(data.data.places)
+                print(data.data.places.count)
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
