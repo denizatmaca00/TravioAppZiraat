@@ -28,6 +28,8 @@ class CustomVisitCell: UITableViewCell {
         pn.text = "PlaceName"
         pn.textColor = .white
         pn.numberOfLines = 1
+        pn.lineBreakMode = .byTruncatingTail
+
         return pn
     }()
     
@@ -53,6 +55,7 @@ class CustomVisitCell: UITableViewCell {
         imageView.backgroundColor = .clear
         imageView.layer.cornerRadius = 16
         imageView.layer.masksToBounds = true
+        
         return imageView
     }()
     
@@ -99,6 +102,7 @@ class CustomVisitCell: UITableViewCell {
         })
         
         placeName.leading(to: imageLocation, offset: 8)
+        placeName.trailing(to: imageLocation, offset: -5)
         placeName.topToSuperview(offset:142)
         placeName.height(45)
         

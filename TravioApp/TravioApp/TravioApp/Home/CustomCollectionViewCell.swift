@@ -31,18 +31,16 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     lazy var lblPlace:UILabel = {
        let pn = UILabel()
-        pn.textColor = .blue
         pn.font = .Fonts.header24.font
         pn.text = "PlaceName"
         pn.textColor = .white
         pn.numberOfLines = 1
-        pn.adjustsFontSizeToFitWidth = true
+        pn.lineBreakMode = .byTruncatingTail
         return pn
     }()
     
     lazy var lblCity:UILabel = {
        let cn = UILabel()
-        cn.textColor = .white
         cn.font = .Fonts.label14.font
         cn.text = "CityName"
         cn.textColor = .white
@@ -100,6 +98,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         lblPlace.snp.makeConstraints({ lbl in
             lbl.leading.equalTo(imgPlace.snp.leading).offset(16)
             lbl.bottom.equalTo(imgPlace.snp.bottom).offset(-26)
+            lbl.trailing.equalTo(imgPlace.snp.trailing).offset(-5)
             
         })
         

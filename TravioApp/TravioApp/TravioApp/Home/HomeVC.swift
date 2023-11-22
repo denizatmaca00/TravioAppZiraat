@@ -81,7 +81,6 @@ class HomeVC: UIViewController {
     //MARK: -- Component Actions
     
     @objc private func btnSeeAllTapped(sender:UIButton!){
-        print(sender.tag)
     }
     
     //MARK: -- Private Methods

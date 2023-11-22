@@ -16,19 +16,10 @@
 
 // TODO: mapte pin kalkmıyor uzun basınca öncekini kladırıyor.
 // TODO: mapte editProfile dispacch
-// TODO: map
-// internet test edilmedi ama yapıldı muhtelemen
 
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
 // TODO: alertler eklenecek
 // TODO: indiciatorler eklenecek
-
-//Ece
-//TODO: detay sayfasında scrrol static ayarlanacak
-// TODO: popularvc gölgeyi ayarla
-// TODO: popularvc tam sayı
-
-
 
 
 

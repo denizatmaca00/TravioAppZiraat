@@ -120,40 +120,43 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         navigationController?.popViewController(animated: true)
     }
     @objc func buttonSave(){
-        var testtt = DetailVM()
+        //var testtt = DetailVM()
         if saveBtn.image == UIImage(named: "savefill") {
-            viewModel.deleteVisitbyPlceID()
-            saveBtn.image = UIImage(named: "save")
+            self.showAlert(title: "", message: "Removed from saved") {
+                self.viewModel.deleteVisitbyPlceID()
+                self.saveBtn.image = UIImage(named: "save")
+            }
+            
         }else {
-            viewModel.postVisit()
-            saveBtn.image = UIImage(named: "savefill")
+            self.showAlert(title: "", message: "Saved") {
+                self.viewModel.postVisit()
+                self.saveBtn.image = UIImage(named: "savefill")
+            }
+           
         }
     }
     @objc func deleteBtnTapped(){
-        do {
-            try profilViewModel.getProfileInfos { profileResult in
+        profilViewModel.getProfileInfos { profileResult in
                 switch profileResult {
                 case .success(let profile):
-                    let detailCreator = self.deneme
+                    let detailCreator = self.deleteCreator
                     self.profileFullname = profile.full_name
 
                     if detailCreator == self.profileFullname {
                         self.addActionSheet {
                             self.viewModel.deleteMyAdded()
-                            self.showAlert(title: "Notification", message: "Başarıyla Silindi") {
+                            self.showAlert(title: "Notification", message: "Deleted Successfuly") {
                                 self.navigationController?.popViewController(animated: true)
                             }
                         }
                     } else {
-                        self.showAlert(title: "Hata", message: "Bu içeriği sadece ekleyen kişi silebilir.", completion: {})
+                        self.showAlert(title: "Error", message: "Only the person who added this content can delete it.", completion: {})
                     }
                 case .failure(let error):
                     print("Hata oluştu: \(error)")
                 }
             }
-        } catch {
-            print("getProfileInfos fonksiyonu bir hata fırlattı: \(error)")
-        }
+        
     }
 
     
@@ -199,12 +202,12 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         })
         
     }
-    var deneme: String?
+    var deleteCreator: String?
     func configurePage(place:Place){
         centerText.text = place.place
         dateText.text = place.created_at.formatDate()
         byText.text = place.creator
-        deneme = place.creator
+        deleteCreator = place.creator
         //        var date = viewModel.dateFormatterx(dateString: place.created_at)
         //        dateText.text = date
         byText.text = ("added by @\(place.creator)")
