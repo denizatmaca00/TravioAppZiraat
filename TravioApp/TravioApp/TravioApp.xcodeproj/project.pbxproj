@@ -71,9 +71,8 @@
 		ECC72A492B0E187300D03971 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A482B0E187300D03971 /* AppCoordinator.swift */; };
 		ECC72A4B2B0E189200D03971 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4A2B0E189200D03971 /* Coordinator.swift */; };
 		ECC72A4D2B0E18E200D03971 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */; };
-		ECC72A4F2B0E1A9F00D03971 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4E2B0E1A9F00D03971 /* MainViewModel.swift */; };
 		ECC72A512B0E2DD600D03971 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */; };
-		ECC72A532B0E33B900D03971 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A522B0E33B900D03971 /* MainViewController.swift */; };
+		ECC72A552B0E79BD00D03971 /* TabBarVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A542B0E79BD00D03971 /* TabBarVM.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
 		ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */; };
 		ECC8C5DD2AEA8319001ED067 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */; };
@@ -147,9 +146,8 @@
 		ECC72A482B0E187300D03971 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		ECC72A4A2B0E189200D03971 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
-		ECC72A4E2B0E1A9F00D03971 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
-		ECC72A522B0E33B900D03971 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		ECC72A542B0E79BD00D03971 /* TabBarVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVM.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
 		ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
@@ -361,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				ECFFD1CD2AEF874B0066E75C /* TabBarVC.swift */,
+				ECC72A542B0E79BD00D03971 /* TabBarVM.swift */,
 				0FDFAAEB2AF3D90E00F4FA61 /* TableViewCell.swift */,
 			);
 			path = TabBar;
@@ -430,12 +429,10 @@
 		ECC72A472B0E180300D03971 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				ECC72A4A2B0E189200D03971 /* Coordinator.swift */,
 				ECC72A482B0E187300D03971 /* AppCoordinator.swift */,
 				ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */,
-				ECC72A4A2B0E189200D03971 /* Coordinator.swift */,
 				ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */,
-				ECC72A4E2B0E1A9F00D03971 /* MainViewModel.swift */,
-				ECC72A522B0E33B900D03971 /* MainViewController.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -541,6 +538,7 @@
 				EC4023E22B0151870016FA3A /* LandingPageVC.swift in Sources */,
 				ECC72A492B0E187300D03971 /* AppCoordinator.swift in Sources */,
 				0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */,
+				ECC72A552B0E79BD00D03971 /* TabBarVM.swift in Sources */,
 				0FF6D45C2AEFC89D00AA1339 /* PlaceModel.swift in Sources */,
 				5E388FDF2AF04392002ABDBD /* DetailVC.swift in Sources */,
 				0FF6D4582AEFC11900AA1339 /* KeychainHelper.swift in Sources */,
@@ -584,7 +582,6 @@
 				EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */,
 				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
 				5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */,
-				ECC72A532B0E33B900D03971 /* MainViewController.swift in Sources */,
 				0F7A65132AFE1F060005FB70 /* MapPageLayout.swift in Sources */,
 				5EDD08222AF3BD94002072BC /* SeeAllVC.swift in Sources */,
 				0F9A80C82AF8E70300B47142 /* TermsOfUseVC.swift in Sources */,
@@ -592,7 +589,6 @@
 				0F7A65152AFE48910005FB70 /* MapPresentCellVC.swift in Sources */,
 				0F9A80CC2AFA1AA900B47142 /* ProfileVM.swift in Sources */,
 				ECFFD1D22AEFD9380066E75C /* CustomCollectionViewCell.swift in Sources */,
-				ECC72A4F2B0E1A9F00D03971 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
