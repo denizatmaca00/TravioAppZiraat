@@ -18,7 +18,7 @@ class SeeAllCellVC: UICollectionViewCell {
         pv.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
         pv.layer.shadowOpacity = 0.15
         pv.layer.shadowColor = UIColor.black.cgColor
-        //pv.layer.shadowOffset = .zero
+        pv.layer.shadowOffset = .zero
         pv.layer.shadowRadius = 10
         pv.backgroundColor = .white
         return pv
@@ -43,6 +43,7 @@ class SeeAllCellVC: UICollectionViewCell {
         let c = UILabel()
         c.font = .Fonts.label14.font
         c.text = "Rome"
+        c.adjustsFontSizeToFitWidth = true
         return c
     }()
     private lazy var icon:UIImageView = {
@@ -76,7 +77,7 @@ class SeeAllCellVC: UICollectionViewCell {
     func setupLayout() {
         
         PopularView.height(100)
-        PopularView.width(342)
+        PopularView.trailingToSuperview(offset:20)
         PopularView.leadingToSuperview(offset:20)
         PopularView.topToSuperview(offset:20)
         
@@ -87,9 +88,9 @@ class SeeAllCellVC: UICollectionViewCell {
      
         
         title.height(36)
-        title.width(160)
         title.top(to: PopularView,offset: 20)
-        title.leadingToTrailing(of: Image, offset: 35)
+        title.leadingToTrailing(of: Image, offset: 10)
+        title.trailingToSuperview(offset:20)
         
         icon.height(12)
         icon.width(9)
@@ -97,7 +98,6 @@ class SeeAllCellVC: UICollectionViewCell {
         icon.leading(to: title)
         
         country.height(20)
-        country.width(70)
         country.centerY(to: icon)
         country.leadingToTrailing(of: icon, offset: 5)
         
