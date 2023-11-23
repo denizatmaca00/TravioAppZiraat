@@ -62,6 +62,10 @@ extension AppCoordinator {
         if let mainViewController = fromViewController as? TabBarVC {
             childDidFinish(mainViewController.viewModel.coordinator)
         }
+        
+        if let mapPresentViewController = fromViewController as? MapPresentVC {
+            childDidFinish(mapPresentViewController.viewModel.coordinator)
+        }
     }
 }
 
@@ -83,6 +87,14 @@ extension AppCoordinator {
         authenticationCoordinator.start()
         childCoordinators.append(authenticationCoordinator)
     }
+    
+    fileprivate func showAddPlace(){
+        let presentCoordinator = MapPresentCoordinator(navigationController: navigationController)
+        presentCoordinator.parentCoordinator = self
+        presentCoordinator.delegate = self
+        presentCoordinator.start()
+        childCoordinators.append(presentCoordinator)
+    }
 }
 
 extension AppCoordinator: AuthenticationCoordinatorDelegate {
@@ -94,5 +106,11 @@ extension AppCoordinator: AuthenticationCoordinatorDelegate {
 extension AppCoordinator: MainCoordinatorDelegate {
     func coordinatorDidLogout(coordinator: MainCoordinator) {
         showAuthentication()
+    }
+}
+
+extension AppCoordinator: MapPresentCoordinatorDelegate{
+    func coordinatorDidAddPlace(coordinator: MapPresentCoordinator) {
+        showAddPlace()
     }
 }

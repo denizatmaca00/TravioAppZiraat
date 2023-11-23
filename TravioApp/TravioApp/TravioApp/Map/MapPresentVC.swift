@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol MapPresentControllerDelegate: AnyObject {
+    func didSuccessfullyAddPlace()
+}
+
 class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
     
-    let viewModel = MapPresentVM()
+    var viewModel = MapPresentVM()
+    weak var delegate: MapPresentControllerDelegate?
     
     var latitude: Double?
     var longitude: Double?
@@ -95,8 +100,16 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         self.getLocalName(latitude: self.latitude!, longitude: self.longitude!)
     }
     
+    deinit{
+        print("dealloc \(self)")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.delegate = viewModel
+        self.title = "AddPlace"
+        
         setupViews()
         
         /// Closure to dismiss PresentVC
@@ -246,8 +259,6 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
         pickerCloseEvents(picker)
     }
 }
-
-
 
 #if DEBUG
 import SwiftUI

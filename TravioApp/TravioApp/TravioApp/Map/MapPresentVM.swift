@@ -5,10 +5,11 @@
 //  Created by web3406 on 11/13/23.
 //
 
-import Foundation
 import UIKit
 
-class MapPresentVM{
+class MapPresentVM {
+    
+    var coordinator: MapPresentCoordinator?
     
     var placeInfo: AddPlace = AddPlace(place: "", title: "", description: "", cover_image_url: "", latitude: 0, longitude: 0)
     var placeId:String = ""{
@@ -127,3 +128,11 @@ class MapPresentVM{
         }
     }
 }
+
+// MARK: - Delegate PresentVC
+extension MapPresentVM: MapPresentControllerDelegate {
+    func didSuccessfullyAddPlace(){
+        coordinator?.didAddPlace()
+    }
+}
+

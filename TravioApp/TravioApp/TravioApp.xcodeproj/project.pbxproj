@@ -73,6 +73,7 @@
 		ECC72A4D2B0E18E200D03971 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */; };
 		ECC72A512B0E2DD600D03971 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */; };
 		ECC72A552B0E79BD00D03971 /* TabBarVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A542B0E79BD00D03971 /* TabBarVM.swift */; };
+		ECC72A572B0F27F200D03971 /* MapPresentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A562B0F27F200D03971 /* MapPresentCoordinator.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
 		ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */; };
 		ECC8C5DD2AEA8319001ED067 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */; };
@@ -148,6 +149,7 @@
 		ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		ECC72A542B0E79BD00D03971 /* TabBarVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVM.swift; sourceTree = "<group>"; };
+		ECC72A562B0F27F200D03971 /* MapPresentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresentCoordinator.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
 		ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				ECC72A482B0E187300D03971 /* AppCoordinator.swift */,
 				ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */,
 				ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */,
+				ECC72A562B0F27F200D03971 /* MapPresentCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				0FF6D4692AF247CE00AA1339 /* MapPlacesCellVC.swift in Sources */,
 				5E388FDD2AF041CA002ABDBD /* DetailPageCell.swift in Sources */,
 				0F7A65132AFE1F060005FB70 /* MapPageLayout.swift in Sources */,
+				ECC72A572B0F27F200D03971 /* MapPresentCoordinator.swift in Sources */,
 				5EDD08222AF3BD94002072BC /* SeeAllVC.swift in Sources */,
 				0F9A80C82AF8E70300B47142 /* TermsOfUseVC.swift in Sources */,
 				ECFFD1D42AF11E970066E75C /* HeaderView.swift in Sources */,
