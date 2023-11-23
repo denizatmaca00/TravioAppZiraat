@@ -12,9 +12,9 @@ import SnapKit
 
 class HomeVC: UIViewController {
     
-    let viewModel:HomeVM = HomeVM()
-    
     //MARK: -- Properties
+    
+    let viewModel:HomeVM = HomeVM()
     
     //MARK: -- Views
     
@@ -23,7 +23,7 @@ class HomeVC: UIViewController {
         sv.axis = .horizontal
         sv.alignment = .center
         sv.distribution = .fillProportionally
-        //sv.translatesAutoresizingMaskIntoConstraints = false
+        
         return sv
     }()
     
@@ -31,6 +31,7 @@ class HomeVC: UIViewController {
         let imageView = UIImageView()
         let image = UIImage(named: "pinLogo")
         imageView.image = image
+        
         return imageView
     }()
     
@@ -38,11 +39,13 @@ class HomeVC: UIViewController {
         let imageView = UIImageView()
         let image = UIImage(named: "travioLabel")?.withRenderingMode(.automatic)
         imageView.image = image
+        
         return imageView
     }()
     
     private lazy var contentViewBig : UIView = {
         let view = AppView()
+        
         return view
     }()
     
