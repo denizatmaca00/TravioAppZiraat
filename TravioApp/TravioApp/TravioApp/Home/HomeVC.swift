@@ -12,9 +12,9 @@ import SnapKit
 
 class HomeVC: UIViewController {
     
-    let viewModel:HomeVM = HomeVM()
-    
     //MARK: -- Properties
+    
+    let viewModel:HomeVM = HomeVM()
     
     //MARK: -- Views
     
@@ -23,7 +23,6 @@ class HomeVC: UIViewController {
         sv.axis = .horizontal
         sv.alignment = .center
         sv.distribution = .fillProportionally
-        //sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
     
@@ -81,12 +80,12 @@ class HomeVC: UIViewController {
     //MARK: -- Component Actions
     
     @objc private func btnSeeAllTapped(sender:UIButton!){
-        print(sender.tag)
+        
     }
     
     //MARK: -- Private Methods
     
-    func initPopularVM() {
+    private func initPopularVM() {
         viewModel.reloadPopularClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
@@ -95,7 +94,7 @@ class HomeVC: UIViewController {
         viewModel.initFetchPopularHomeLimits(limit: 10)
     }
     
-    func initNewsVM() {
+    private func initNewsVM() {
         viewModel.reloadNewPlacesClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
@@ -104,7 +103,7 @@ class HomeVC: UIViewController {
         viewModel.initFetchNewHomeLimits(limit: 10)
     }
     
-    func initAllForUserVM() {
+    private func initAllForUserVM() {
         viewModel.reloadAllForUserPlacesClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
@@ -115,7 +114,7 @@ class HomeVC: UIViewController {
     
     //MARK: -- UI Methods
     
-    func setupViews() {
+    private func setupViews() {
         // Add here the setup for the UI
         
         self.view.backgroundColor = UIColor(named: "backgroundColor")
@@ -132,7 +131,7 @@ class HomeVC: UIViewController {
         viewModel.sectionsArray = [viewModel.popularPlaces, viewModel.newPlaces, viewModel.allPlaces]
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         let limits = self.view.safeAreaLayoutGuide.snp
         
         // Add here the setup for layout
