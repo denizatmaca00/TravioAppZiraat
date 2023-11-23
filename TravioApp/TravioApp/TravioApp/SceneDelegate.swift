@@ -61,12 +61,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         coordinator = AppCoordinator(navigationController: navigationController)
         coordinator!.start()
         
-        let vc = LoginVC()
-        let rootViewController = UINavigationController(rootViewController: vc)
         self.window = window
-        // Herkes Coordinator'a hakim olana kadar aşağıdaki kodları açıp kapatarak Coordinator'den mi yoksa doğrudan mı LoginVC'ye mi gidilecek ayarlayabiliyoruz:
-        window.rootViewController = rootViewController // directly goes to LoginVC
-//        self.window?.rootViewController = navigationController // lets Coordinator managa launch
+        self.window?.rootViewController = navigationController // lets Coordinator managa launch
         self.window?.makeKeyAndVisible()
     }
 
