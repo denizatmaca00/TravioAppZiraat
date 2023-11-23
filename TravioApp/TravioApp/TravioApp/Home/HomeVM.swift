@@ -27,9 +27,10 @@ class HomeVM{
             reloadNewPlacesClosure?()
         }
     }
+    
     var allForUserCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
-            reloadAllForUserPlacesClosure?()
+                reloadAllForUserPlacesClosure?()
         }
     }
     
@@ -69,7 +70,7 @@ class HomeVM{
             self.sectionsArray[1] = self.newPlaces
         }
     }
-    
+    //failrire
     func initFetchAllForUserHomeAll(){
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getHomeAllPlacesForUser) {(result:Result<PlacesDataStatus, Error>) in
             switch result {
@@ -118,8 +119,8 @@ class HomeVM{
         
         self.allForUserCellViewModels = viewModels
     }
-    
     private func createCellViewModel(cell:Place) -> VisitCellViewModel{
+      //  guard let imageURL = URL(string: cell.cover_image_url) else { return  deneme }
         let cvm = VisitCellViewModel(image: URL(string: cell.cover_image_url)!,
                                      placeName: cell.title,
                                      city: cell.place)

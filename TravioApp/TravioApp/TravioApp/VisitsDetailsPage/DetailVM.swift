@@ -33,7 +33,6 @@ class DetailVM{
         }
     }
 
-
     var reloadClosure: ((Place?)->(Void))?
     var galeryData: GalleryImage?
     var postData: Messages?
@@ -98,12 +97,11 @@ class DetailVM{
         }
     }
     func dateFormatter()->String{
-        let dene = DateFormatter()
-        dene.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-       // dene.dateFormat = "dd MMMM yyyy"
+        let postVisitDate = DateFormatter()
+        postVisitDate.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         let today = Date()
-        let testttttt = dene.string(from: today)
-        return testttttt
+        let postVisitToday = postVisitDate.string(from: today)
+        return postVisitToday
     }
     func deleteVisitbyPlceID(){
         guard let id = placeIdtest  else {return}

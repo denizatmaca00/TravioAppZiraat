@@ -24,7 +24,7 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     
     // Cell UI Elements
     
-    private lazy var cellView: UIImageView = {
+     lazy var cellView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16

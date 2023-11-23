@@ -44,7 +44,8 @@ class MapPresentVM{
     var dismissClosure: (()->())?
     
     func fetchData(in cell:MapPresentCellVC, with indexPath:IndexPath){
-        cell.fillCellWith(image: lastImage!)
+        guard let image = lastImage else {return}
+        cell.fillCellWith(image: image)
     }
     
     /// Handles security processes required to save a place
@@ -53,9 +54,10 @@ class MapPresentVM{
         
         /// initial check for non-empty image data
         if imageArray.count > 0 {
+            if imageArray.count < 4{
                 uploadPhoto()
-        }else{
-            
+
+            }
         }
     }
     

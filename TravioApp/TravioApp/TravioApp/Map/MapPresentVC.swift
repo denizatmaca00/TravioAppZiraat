@@ -139,7 +139,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         return picker
     }()
     
-    func initPicker (){
+    func initPicker
+    (){
         viewModel.picker = imagePicker
         present(viewModel.picker!, animated: true)
     }
