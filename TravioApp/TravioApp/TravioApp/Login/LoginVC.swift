@@ -10,8 +10,8 @@ class LoginVC: UIViewController {
     
     private lazy var txtEmail = viewMail.getTFAsObject()
     private lazy var txtPassword = viewPass.getTFAsObject()
-//    private let monitor = NWPathMonitor()
-//    private let queue = DispatchQueue(label: "NetworkMonitor")
+    private let monitor = NWPathMonitor()
+    private let queue = DispatchQueue(label: "NetworkMonitor")
 
 
     var viewModel = LoginVM()
@@ -85,7 +85,7 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         self.navigationController?.navigationBar.isHidden = true
-        //startMonitoringNetwork()
+        startMonitoringNetwork()
 
         viewModel.showAlertClosure = { [weak self] title, message in
             self?.showAlert(title: title, message: message){
@@ -105,18 +105,18 @@ class LoginVC: UIViewController {
     }
    
 
-//    func startMonitoringNetwork() {
-//        monitor.start(queue: queue)
-//        
-//        monitor.pathUpdateHandler = { path in
-//            if path.status == .satisfied {
-//            } else {
-//                DispatchQueue.main.async {
-//                    self.showNoInternetAlert()
-//                }
-//            }
-//        }
-//    }
+    func startMonitoringNetwork() {
+        monitor.start(queue: queue)
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+            } else {
+                DispatchQueue.main.async {
+                    self.showNoInternetAlert()
+                }
+            }
+        }
+    }
     
     func showNoInternetAlert() {
         let alert = UIAlertController(
@@ -140,10 +140,10 @@ class LoginVC: UIViewController {
         
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
-//        guard monitor.currentPath.status == .satisfied else {
-//            viewModel.showAlertClosure?("Error", "Not Internet Connection")
-//             return
-//         }
+        guard monitor.currentPath.status == .satisfied else {
+            viewModel.showAlertClosure?("Error", "Not Internet Connection")
+             return
+         }
         viewModel.sendLoginData(email: email, password: password) {[self]  result in
             switch result {
             case .success:
