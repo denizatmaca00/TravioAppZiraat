@@ -153,7 +153,7 @@ class HomeVC: UIViewController {
         })
         
         collectionView.snp.makeConstraints({ cv in
-            cv.top.equalTo(contentViewBig.snp.top).offset(55)
+            cv.top.equalTo(contentViewBig.snp.top)//.offset(55)
             cv.bottom.equalTo(contentViewBig.snp.bottom)
             cv.leading.equalTo(contentViewBig.snp.leading)
             cv.width.equalTo(contentViewBig.snp.width)
@@ -215,19 +215,20 @@ extension HomeVC {
 extension HomeVC:UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
+        
+        switch section {
+        case 1:
             return viewModel.numberOfCells
-        }
-        else if section == 1{
+        case 2:
             return viewModel.newPlaces.count
-        }
-        else{
+        case 3:
             return viewModel.allPlaces.count
-            
+        default:
+            return 0
         }
     }
     
@@ -239,13 +240,13 @@ extension HomeVC:UICollectionViewDataSource {
         cell.contentView.isUserInteractionEnabled = false
         
         switch indexPath.section {
-        case 0:
+        case 1:
             let object = viewModel.popularPlaces[indexPath.row]
             cell.configure(object:object)
-        case 1:
+        case 2:
             let object = viewModel.newPlaces[indexPath.row]
             cell.configure(object:object)
-        case 2:
+        case 3:
             let object = viewModel.allPlaces[indexPath.row]
             cell.configure(object:object)
         default:
@@ -261,7 +262,11 @@ extension HomeVC:UICollectionViewDataSource {
         let vc = SeeAllVC()
         
         switch indexPath.section {
+            
         case 0:
+            header.isHidden = true
+            
+        case 1:
             let title = "Popular Places"
             header.setTitle(titleText: title)
             header.btnTapAction = {
@@ -272,7 +277,8 @@ extension HomeVC:UICollectionViewDataSource {
 
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-        case 1:
+            header.isHidden = false
+        case 2:
             let title = "New Places"
             header.setTitle(titleText: title)
             header.btnTapAction = {
@@ -283,16 +289,19 @@ extension HomeVC:UICollectionViewDataSource {
 
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-        case 2:
-            header.setTitle(titleText: "My Added Places")
+            header.isHidden = false
+        case 3:
+            let title = "My Added Places"
+            header.setTitle(titleText: title)
             header.btnTapAction = {
                 
-                vc.titleLabel.text = "My Added Places"
+                vc.titleLabel.text = title
                 vc.viewModel.allPlaceforUser()
                 vc.hidesBottomBarWhenPushed = true
 
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+            header.isHidden = false
         default:
             break
         }
