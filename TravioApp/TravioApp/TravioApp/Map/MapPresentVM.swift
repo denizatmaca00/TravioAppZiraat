@@ -16,8 +16,9 @@ class MapPresentVM{
             self.postGalleryImage()
         }
     }
-    
+    //var vc = MapPresentCellVC()
     var picker: UIImagePickerController?
+    var imageArray:[UIImage] = []
     var lastImage:UIImage?
     
     var imageURL:[String] = []{
@@ -26,8 +27,6 @@ class MapPresentVM{
             self.initPostPlace()
         }
     }
-    
-    var imageArray:[UIImage] = []
     
     /// Used to present and dismiss acitivity indicator during wait for server data
     var isLoading:Bool = false {
@@ -44,8 +43,10 @@ class MapPresentVM{
     var dismissClosure: (()->())?
     
     func fetchData(in cell:MapPresentCellVC, with indexPath:IndexPath){
+        cell.configure()
         guard let image = lastImage else {return}
         cell.fillCellWith(image: image)
+        
     }
     
     /// Handles security processes required to save a place
@@ -121,7 +122,6 @@ class MapPresentVM{
                 switch result {
                 case .success(_):
                     self.dismissClosure?()
-                    
                 case .failure(let error):
                     self.showAlertClosure?("Error", "Posting images: \(error.localizedDescription)")
                 }

@@ -1,3 +1,4 @@
+
 //
 //  MapPresentVC.swift
 //  TravioApp
@@ -132,18 +133,14 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         self.viewModel.savePlace()
     }
     
-    private lazy var imagePicker:UIImagePickerController = {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.sourceType = .photoLibrary
-        return picker
-    }()
     
-    func initPicker
-    (){
-        viewModel.picker = imagePicker
-        present(viewModel.picker!, animated: true)
-    }
+    func showImagePicker(for indexPath: IndexPath) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.view.tag = indexPath.item
+            present(imagePicker, animated: true, completion: nil)
+        }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
@@ -218,21 +215,20 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         print("change photo butonu")
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? MapPresentCellVC else {return}
-
+        
         /// initiate picker view from viewModel
-        self.initPicker()
-
+        showImagePicker(for: indexPath)
+        
         /// initiate reload CV closure in viewModel
+
         viewModel.reloadCollectionViewClosure = {
             DispatchQueue.main.async {
                 self.imageCollectionView.reloadData()
             }
-            cell.lastSelectedImage = self.viewModel.lastImage
-
             self.viewModel.fetchData(in: cell, with: indexPath)
+            
         }
     }
 }
@@ -245,14 +241,43 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
-        if let selectedImage = info[.originalImage] as? UIImage{
-            viewModel.imageArray.append(selectedImage)
-            viewModel.lastImage = selectedImage
-            pickerCloseEvents(picker)
-            viewModel.reloadCollectionViewClosure!()
+        
+        guard let selectedImage = info[.originalImage] as? UIImage else {return}
+        let indexPath = IndexPath(item: picker.view.tag, section: 0)
+        
+        if let cell = imageCollectionView.cellForItem(at: indexPath) as? MapPresentCellVC {
+
+            cell.cellView.image = selectedImage
+
+            
+            if indexPath.item < viewModel.imageArray.count {
+
+                (viewModel.imageArray[indexPath.item] = selectedImage)
+                self.viewModel.fetchData(in: cell, with: indexPath)
+
+            }
+            else {
+
+                viewModel.imageArray.append(selectedImage)
+                self.viewModel.fetchData(in: cell, with: indexPath)
+
+            }
+            viewModel.reloadCollectionViewClosure = {
+                DispatchQueue.main.async {
+                    self.imageCollectionView.reloadData()
+                }
+                
+                self.viewModel.fetchData(in: cell, with: indexPath)
+                
+            }
+            
+            
         }
+
+        pickerCloseEvents(picker)
+        
+
     }
-//
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         pickerCloseEvents(picker)
     }
@@ -271,3 +296,4 @@ struct MapPresentVC_Preview: PreviewProvider {
     }
 }
 #endif
+
