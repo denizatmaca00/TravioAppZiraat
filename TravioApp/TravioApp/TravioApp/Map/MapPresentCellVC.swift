@@ -30,11 +30,10 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         view.clipsToBounds = true
         return view
     }()
-    func configure(){
-        viewModel.lastImage = cellView.image
-       
-    }
-    private lazy var addPhotoIcon: UIImageView = {
+    
+   
+    
+    lazy var addPhotoIcon: UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "addPhoto")
         img.contentMode = .scaleAspectFit

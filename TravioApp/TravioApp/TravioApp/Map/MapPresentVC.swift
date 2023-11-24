@@ -206,9 +206,6 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapPresentCellVC.reuseIdentifier, for: indexPath) as? MapPresentCellVC else {fatalError("Cell is not found")}
-        
-//        cell.changePhotoBtn.tag = indexPath.row
-//        cell.changePhotoBtn.addTarget(self, action: #selector(changePhotoBtnTapped), for: .touchUpInside)
         return cell
     }
     @objc func changePhotoBtnTapped(){
@@ -227,7 +224,6 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             DispatchQueue.main.async {
                 self.imageCollectionView.reloadData()
             }
-            self.viewModel.fetchData(in: cell, with: indexPath)
             
         }
     }
@@ -253,22 +249,20 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
             if indexPath.item < viewModel.imageArray.count {
 
                 (viewModel.imageArray[indexPath.item] = selectedImage)
-                self.viewModel.fetchData(in: cell, with: indexPath)
-
+                cell.addPhotoBtn.isHidden = true
+                cell.addPhotoIcon.isHidden = true
             }
             else {
 
                 viewModel.imageArray.append(selectedImage)
-                self.viewModel.fetchData(in: cell, with: indexPath)
+                cell.addPhotoBtn.isHidden = true
+                cell.addPhotoIcon.isHidden = true
 
             }
             viewModel.reloadCollectionViewClosure = {
                 DispatchQueue.main.async {
                     self.imageCollectionView.reloadData()
                 }
-                
-                self.viewModel.fetchData(in: cell, with: indexPath)
-                
             }
             
             
