@@ -30,14 +30,12 @@ import Photos
 class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var viewModel = EditProfileVM()
-    
-    var viewModelProfile = ProfileVM()
+    var viewModelProfile: ProfileVM?
     
     private lazy var viewUsername = AppTextField(data: .fullname)
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var txtUsername = viewUsername.getTFAsObject()
     private lazy var txtEmail = viewMail.getTFAsObject()
-    
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -71,10 +69,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         return lbl
     }()
     
-    lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile.profile.created_at, alignment: .left)
-    lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile.profile.role, alignment: .left)
-    
-    
+    lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile!.profile.created_at, alignment: .left)
+    lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile!.profile.role, alignment: .left)
     
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
@@ -112,8 +108,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
-        initVM()
+        
+        // Define closures
         viewModel.indicatorUpdateClosure = { [weak self] isLoading in
             DispatchQueue.main.async {
                 switch isLoading{
@@ -125,62 +121,57 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             }
         }
         
-        
         viewModel.showAlertClosure = { [weak self] title, message in
-            self?.showAlert(title: title, message: message){
-                
-            }
+            self?.showAlert(title: title, message: message, completion: {
+                self?.dismiss(animated: true)
+            })
         }
         
+        setupViews()
+        initVM()
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         presentingViewController?.viewWillAppear(true)
         initVM()
-        
-        viewModel.showAlertClosure = { [weak self] title, message in
-            self?.showAlert(title: title, message: message){
-                
-            }
-        }
     }
-//photo library permission
+    
+    // photo library permission
     @objc func changePhotoTapped(){
         requestPhotoLibraryPermission { granted in
             DispatchQueue.main.async {
                 if granted {
-                    print(granted)
                     self.imagePicker()
                 } else {
-                    print(granted)
-                    //alert çıkar izin verimedi
                     self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
-                    self.dismiss(animated: true)
-                })
+                        self.dismiss(animated: true)
+                    })
                 }
             }
         }
     }
+    
     func requestPhotoLibraryPermission(completion: @escaping (Bool) -> Void) {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
+                /// Case that allows photo library access
             case .authorized:
-                print("Photo Library izni verildi.")
                 completion(true)
+                /// Case that restricts  photo library access when user did not give permission
             case .denied, .restricted:
-                print("Kullanıcı Photo Library erişim iznini reddetti.")
                 completion(false)
+                /// Case for undetermined permission
             case .notDetermined:
-                print("Photo Library izni henüz belirlenmedi.")
                 completion(false)
             default:
                 break
             }
         }
     }
-
+    
     func initVM(){
-        viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
+        viewModelProfile!.profileUpdateClosure = { [weak self] updatedProfile in
             self?.labelName.text = updatedProfile.full_name
             self?.labelDate.textLabel.text = updatedProfile.created_at.formatDate()
             self?.labelRole.textLabel.text = updatedProfile.role
@@ -191,7 +182,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             self?.viewModel.profile = updatedProfile
         }
         
-        viewModelProfile.getProfileInfos(completion: {result in })
+        viewModelProfile!.getProfileInfos(completion: {result in })
     }
     
     @objc func exitButtonTapped(){
@@ -199,18 +190,18 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     }
     
     @objc func saveEditProfile() {
-        
         guard let email = txtEmail.text,
-              let full_name = txtUsername.text else { return }
-        viewModel.editProfile = EditProfile(full_name: full_name, email: email, pp_url: "")
-        guard let image = imageView.image else { return }
-
-        viewModel.editProfilePhotoUpload(photo: image)
-            self.showAlert(title: "Notification", message: "Updated Successfully", completion: {
-            self.dismiss(animated: true)
-        })
-        viewModelProfile.getProfileInfos(completion: {result in})
+              let full_name = txtUsername.text,
+              let imageURL = viewModel.editProfile.pp_url as? String
+        else { return }
+        viewModel.editProfile = EditProfile(full_name: full_name, email: email, pp_url: imageURL)
         
+        guard let image = imageView.image else { return }
+        viewModel.selectedImage = image
+        
+        viewModel.postData(completion: {
+            viewModelProfile!.getProfileInfos(completion: { _ in })
+        })
     }
     
     func setupViews() {
@@ -286,7 +277,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage{
             imageView.image = selectedImage
-            viewModel.imagesDatas.append(selectedImage)
+            viewModel.selectedImage = selectedImage
+            viewModel.doUploadWork = true
             dismiss(animated: true, completion: nil)
         }
     }
