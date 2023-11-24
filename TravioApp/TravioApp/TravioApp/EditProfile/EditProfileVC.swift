@@ -34,6 +34,7 @@
 
 import UIKit
 import Kingfisher
+import Photos
 
 class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
@@ -152,10 +153,41 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             }
         }
     }
+//photo library permission
     @objc func changePhotoTapped(){
-        imagePicker()
+        requestPhotoLibraryPermission { granted in
+            DispatchQueue.main.async {
+                if granted {
+                    print(granted)
+                    self.imagePicker()
+                } else {
+                    print(granted)
+                    //alert çıkar izin verimedi
+                    self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
+                    self.dismiss(animated: true)
+                })
+                }
+            }
+        }
     }
-    
+    func requestPhotoLibraryPermission(completion: @escaping (Bool) -> Void) {
+        PHPhotoLibrary.requestAuthorization { status in
+            switch status {
+            case .authorized:
+                print("Photo Library izni verildi.")
+                completion(true)
+            case .denied, .restricted:
+                print("Kullanıcı Photo Library erişim iznini reddetti.")
+                completion(false)
+            case .notDetermined:
+                print("Photo Library izni henüz belirlenmedi.")
+                completion(false)
+            default:
+                break
+            }
+        }
+    }
+
     func initVM(){
         viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
             self?.labelName.text = updatedProfile.full_name
