@@ -9,9 +9,7 @@ import UIKit
 
 class HomeVM{
     
-    // popularPlaces:
     var popularPlaces:[Place] = []
-    //    // lastPlaces :
     var newPlaces:[Place] = []
     var allPlaces:[Place] = []
     

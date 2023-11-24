@@ -25,13 +25,45 @@ class MapVC: UIViewController {
         setupViews()
         setupTapGestureRecognizer()
         super.viewDidLoad()
+<<<<<<< HEAD
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
        initVM()
+=======
+
+       // initVM()
+        locationPermissionMap()
+>>>>>>> 8da478a60d41455aafd0796124486e19e6f47cee
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        initVM()    
+    }
+    func locationPermissionMap(){
+            let locationManager = CLLocationManager()
+            let status = CLLocationManager.authorizationStatus()
+            switch status {
+            case .authorizedWhenInUse, .authorizedAlways:
+                print("Location access granted.")
+            default:
+                print("Location access denied.")
+                locationManager.requestWhenInUseAuthorization()
+            }
+    }
+//duruma göre default locationa izin sonrası pin atabilir.
+//    func statusPermissionMap(){
+//            let locationManager = CLLocationManager()
+//            let status = CLLocationManager.authorizationStatus()
+//            switch status {
+//            case .authorizedWhenInUse, .authorizedAlways:
+//                print("Location access granted.")
+//            default:
+//                print("Location access denied.")
+//            }
+//    }
     func initVM() {
         viewModel.reloadCollectionViewClosure = { [weak self] () in
             DispatchQueue.main.async {
