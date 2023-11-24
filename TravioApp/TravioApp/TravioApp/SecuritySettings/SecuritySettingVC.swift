@@ -329,7 +329,9 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         super.viewDidAppear(animated)
         refreshSettings()
     }
-    
+//    func camera(){
+//        requestCameraPermission()
+//    }
     func refreshSettings(){
         requestLocationPermission()
         locationPermission()
