@@ -27,13 +27,35 @@ class MapVC: UIViewController {
         super.viewDidLoad()
 
        // initVM()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-       initVM()
+        locationPermissionMap()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        initVM()    
+    }
+    func locationPermissionMap(){
+            let locationManager = CLLocationManager()
+            let status = CLLocationManager.authorizationStatus()
+            switch status {
+            case .authorizedWhenInUse, .authorizedAlways:
+                print("Location access granted.")
+            default:
+                print("Location access denied.")
+                locationManager.requestWhenInUseAuthorization()
+            }
+    }
+//duruma göre default locationa izin sonrası pin atabilir.
+//    func statusPermissionMap(){
+//            let locationManager = CLLocationManager()
+//            let status = CLLocationManager.authorizationStatus()
+//            switch status {
+//            case .authorizedWhenInUse, .authorizedAlways:
+//                print("Location access granted.")
+//            default:
+//                print("Location access denied.")
+//            }
+//    }
     func initVM() {
         viewModel.reloadTableViewClosure = { [weak self] () in
             DispatchQueue.main.async {

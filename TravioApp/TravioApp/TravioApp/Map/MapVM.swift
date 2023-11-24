@@ -35,7 +35,7 @@ class MapVM {
                 if let firstPlace = self.places.first {
                     let coordinate = CLLocationCoordinate2D(latitude: firstPlace.latitude, longitude: firstPlace.longitude)
                     let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-                    self.map.setRegion(region, animated: true)
+                     self.map.setRegion(region, animated: true)
                 }
                 
                 completion(.success(places))
