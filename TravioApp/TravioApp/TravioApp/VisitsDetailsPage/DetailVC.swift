@@ -29,12 +29,11 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         cv.register(DetailPageCell.self, forCellWithReuseIdentifier: "detailCell")
         return cv
     }()
-    private lazy var saveBtn:UIImageView = {
-        let sb = UIImageView()
-        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(buttonSave))
-        sb.isUserInteractionEnabled = true
-        sb.addGestureRecognizer(tapgesture)
-        return sb
+    private lazy var saveBtn:UIButton = {
+       let adbtn = UIButton()
+        adbtn.setImage(UIImage(named: "save"), for: .normal)
+        adbtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
+        return adbtn
     }()
     private lazy var deleteBtn:UIImageView = {
         let sb = UIImageView()
@@ -44,7 +43,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         sb.image = UIImage(systemName: "trash.fill")
         sb.tintColor = UIColor(named: "backgroundColor")
         return sb
-    }()
+    }()    
     private lazy var backButton:UIButton = {
         let b = UIButton()
         b.setImage(UIImage(named: "bckBtn"), for: .normal)
@@ -121,16 +120,16 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }
     @objc func buttonSave(){
         //var testtt = DetailVM()
-        if saveBtn.image == UIImage(named: "savefill") {
+        if  saveBtn.image(for: .normal) == UIImage(named: "savefill"){
             self.showAlert(title: "", message: "Removed from saved") {
                 self.viewModel.deleteVisitbyPlceID()
-                self.saveBtn.image = UIImage(named: "save")
+                self.saveBtn.setImage(UIImage(named: "save"), for: .normal)
             }
             
         }else {
             self.showAlert(title: "", message: "Saved") {
                 self.viewModel.postVisit()
-                self.saveBtn.image = UIImage(named: "savefill")
+                self.saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
             }
            
         }
@@ -178,11 +177,12 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         }
         
         viewModel.checkSuccessID = {[weak self] () in
-            self?.saveBtn.image = UIImage(named: "savefill")
-            //sb.setImage(UIImage(named: "save"), for: .normal)
+            self?.saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
+
         }
         viewModel.checkErrorID = {[weak self] () in
-            self?.saveBtn.image = UIImage(named: "save")
+            //self?.saveBtn.image = UIImage(named: "save")
+            self?.saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
         }
         
         viewModel.getAPlaceById { Place in
