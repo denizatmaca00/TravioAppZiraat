@@ -8,7 +8,7 @@ protocol LoginViewControllerDelegate: AnyObject {
 
 class LoginVC: UIViewController {
     
-    weak var delegate: LoginViewControllerDelegate?    
+    weak var delegate: LoginViewControllerDelegate?
     
     var viewModel = LoginVM()
     
@@ -107,11 +107,6 @@ class LoginVC: UIViewController {
                     self?.hideIndicator()
                 }
             }
-        }
-        
-        // setup bindings?
-        viewModel.titleUpdated = { [unowned self] title in
-            self.title = title
         }
     }
    

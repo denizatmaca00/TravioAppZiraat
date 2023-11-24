@@ -12,6 +12,14 @@ protocol MapPresentCoordinatorDelegate: AnyObject {
 }
 
 class MapPresentCoordinator: Coordinator {
+    var finishDelegate: CoordinatorFinishDelegate?
+    
+    var type: CoordinatorType { .signUp }
+    
+    func finish() {
+        print("")
+    }
+    
     
     weak var parentCoordinator: AppCoordinator?
     var childCoordinators: [Coordinator] = [Coordinator]()
@@ -37,7 +45,7 @@ class MapPresentCoordinator: Coordinator {
 extension MapPresentCoordinator {
     
     func didAddPlace() {
-        parentCoordinator?.childDidFinish(self)
+        parentCoordinator?.childDidFinish(childCoordinator: self)
         parentCoordinator?.coordinatorDidAddPlace(coordinator: self)
     }
 }

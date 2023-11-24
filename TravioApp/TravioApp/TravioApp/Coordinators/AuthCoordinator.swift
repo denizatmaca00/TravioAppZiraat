@@ -9,9 +9,13 @@ import UIKit
 
 protocol AuthenticationCoordinatorDelegate: AnyObject {
     func coordinatorDidAuthenticate(coordinator: AuthCoordinator)
+    func coordinatorDidRequestSignUp(coordinator: SignUpCoordinator)
 }
 
 class AuthCoordinator: Coordinator {
+    var finishDelegate: CoordinatorFinishDelegate?
+    
+    var type: CoordinatorType { .login }
     
     weak var parentCoordinator: AppCoordinator?
     var childCoordinators: [Coordinator] = [Coordinator]()
@@ -29,16 +33,20 @@ class AuthCoordinator: Coordinator {
     }
     
     func start() {
-        loginViewController.viewModel = LoginVM()
         loginViewController.viewModel.coordinator = self
-        navigationController.setViewControllers([loginViewController], animated: false)
+        navigationController.setViewControllers([loginViewController], animated: true)
     }
 }
 
 extension AuthCoordinator {
     
+    func didRequestSignUp(){
+        parentCoordinator?.childDidFinish(childCoordinator: self)
+        //parentCoordinator?.coordinatorDidRequestSignUp(coordinator: SignUpCoordinator)
+    }
+    
     func didAuthenticate() {
-        parentCoordinator?.childDidFinish(self)
+        parentCoordinator?.childDidFinish(childCoordinator: self)
         parentCoordinator?.coordinatorDidAuthenticate(coordinator: self)
     }
 }
