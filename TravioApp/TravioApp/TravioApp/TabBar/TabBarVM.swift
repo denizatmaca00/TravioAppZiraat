@@ -9,14 +9,14 @@ import UIKit
 
 class TabBarVM: NSObject {
     
-    weak var coordinator: MainCoordinator?
+    weak var coordinator: TabCoordinator?
     
     deinit{
         print("dealloc \(self)")
     }
     
     // MARK: Initialization
-    init(coordinator: MainCoordinator? = nil) {
+    init(coordinator: TabCoordinator? = nil) {
         self.coordinator = coordinator
     }
 }

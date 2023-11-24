@@ -8,17 +8,20 @@
 import UIKit
 
 protocol MainCoordinatorDelegate: AnyObject {
-    func coordinatorDidLogout(coordinator: MainCoordinator)
+    func coordinatorDidLogout(coordinator: TabCoordinator)
 }
 
-class MainCoordinator: Coordinator {
+class TabCoordinator: Coordinator {
+    var finishDelegate: CoordinatorFinishDelegate?
     
     weak var parentCoordinator: AppCoordinator?
     var childCoordinators: [Coordinator] = [Coordinator]()
     var navigationController: UINavigationController
     
+    var type: CoordinatorType { .tab }
+    
     weak var delegate: MainCoordinatorDelegate?
-    let mainViewController = TabBarVC()
+    let tabBarViewController = TabBarVC()
     
     init(navigationController: UINavigationController){
         self.navigationController = navigationController
@@ -29,15 +32,15 @@ class MainCoordinator: Coordinator {
     }
     
     func start() {
-        mainViewController.viewModel = TabBarVM()
-        mainViewController.viewModel.coordinator = self
-        navigationController.setViewControllers([mainViewController], animated: false)
+        tabBarViewController.viewModel = TabBarVM()
+        tabBarViewController.viewModel.coordinator = self
+        navigationController.setViewControllers([tabBarViewController], animated: false)
     }
 }
 
-extension MainCoordinator {
+extension TabCoordinator {
     func didLogout() {
-        parentCoordinator?.childDidFinish(self)
+        parentCoordinator?.childDidFinish(childCoordinator: self)
         parentCoordinator?.coordinatorDidLogout(coordinator: self)
     }
 }

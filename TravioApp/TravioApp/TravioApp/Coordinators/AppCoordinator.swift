@@ -7,12 +7,18 @@
 
 import UIKit
 
+protocol AppCoordinatorProtocol: Coordinator {
+    func showAuthentication()
+    func showMainView()
+    func showSignUp()
+}
+
 class AppCoordinator: NSObject, Coordinator {
+    weak var finishDelegate: CoordinatorFinishDelegate? = nil
     
     var childCoordinators: [Coordinator] = [Coordinator]()
     var navigationController: UINavigationController
-    
-    var isLoggedIn: Bool = false
+    var type: CoordinatorType { .app }
     
     init(navigationController:UIViewController) {
         self.navigationController = navigationController as! UINavigationController
@@ -23,15 +29,71 @@ class AppCoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        if isLoggedIn{
-            showMainView()
-        }
-        else{
-            showAuthentication()
-        }
+        showAuthentication()
+    }
+    
+    /// Handler: Show Login
+    fileprivate func showAuthentication(){
+        let loginCoordinator = AuthCoordinator(navigationController: navigationController)
+        loginCoordinator.parentCoordinator = self
+        loginCoordinator.delegate = self
+        loginCoordinator.start()
+        childCoordinators.append(loginCoordinator)
+    }
+    
+    /// Handler: Show TabBar
+    fileprivate func showMainView(){
+        let tabBarCoordinator = TabCoordinator(navigationController: navigationController)
+        tabBarCoordinator.parentCoordinator = self
+        tabBarCoordinator.delegate = self
+        tabBarCoordinator.start()
+        childCoordinators.append(tabBarCoordinator)
+    }
+    
+    /// Show SignUp
+    fileprivate func showSignUp(){
+        let signUpCoordinator = AuthCoordinator(navigationController: navigationController)
+        signUpCoordinator.parentCoordinator = self
+        signUpCoordinator.delegate = self
+        signUpCoordinator.start()
+        childCoordinators.append(signUpCoordinator)
+    }
+    
+    fileprivate func showAddPlace(){
+        let presentCoordinator = MapPresentCoordinator(navigationController: navigationController)
+        presentCoordinator.parentCoordinator = self
+        presentCoordinator.delegate = self
+        presentCoordinator.start()
+        childCoordinators.append(presentCoordinator)
     }
 }
 
+extension AppCoordinator: CoordinatorFinishDelegate {
+    func childDidFinish(childCoordinator: Coordinator){
+        childCoordinators = childCoordinators.filter({ $0.type != childCoordinator.type })
+        
+        switch childCoordinator.type {
+        case .tab:
+            navigationController.viewControllers.removeAll()
+            showAuthentication()
+            
+        case .login:
+            navigationController.viewControllers.removeAll()
+            showMainView()
+            
+        case .signUp:
+            navigationController.viewControllers.removeAll()
+            showSignUp()
+            
+        default:
+            break
+        }
+        
+        
+    }
+}
+
+/*
 // MARK: Handler Child and navController
 extension AppCoordinator {
     
@@ -63,48 +125,36 @@ extension AppCoordinator {
             childDidFinish(mainViewController.viewModel.coordinator)
         }
         
+        if let signUpViewController = fromViewController as? SignUpVC {
+            childDidFinish(signUpViewController.viewModel.coordinator)
+        }
+        
         if let mapPresentViewController = fromViewController as? MapPresentVC {
             childDidFinish(mapPresentViewController.viewModel.coordinator)
         }
     }
 }
-
-// MARK: Handler Show Login or MainView
-
-extension AppCoordinator {
-    fileprivate func showMainView(){
-        let mainCoordinator = MainCoordinator(navigationController: navigationController)
-        mainCoordinator.parentCoordinator = self
-        mainCoordinator.delegate = self
-        mainCoordinator.start()
-        childCoordinators.append(mainCoordinator)
-    }
-    
-    fileprivate func showAuthentication(){
-        let authenticationCoordinator = AuthCoordinator(navigationController: navigationController)
-        authenticationCoordinator.parentCoordinator = self
-        authenticationCoordinator.delegate = self
-        authenticationCoordinator.start()
-        childCoordinators.append(authenticationCoordinator)
-    }
-    
-    fileprivate func showAddPlace(){
-        let presentCoordinator = MapPresentCoordinator(navigationController: navigationController)
-        presentCoordinator.parentCoordinator = self
-        presentCoordinator.delegate = self
-        presentCoordinator.start()
-        childCoordinators.append(presentCoordinator)
-    }
-}
-
+*/
 extension AppCoordinator: AuthenticationCoordinatorDelegate {
+    
     func coordinatorDidAuthenticate(coordinator: AuthCoordinator) {
         showMainView()
     }
 }
 
 extension AppCoordinator: MainCoordinatorDelegate {
-    func coordinatorDidLogout(coordinator: MainCoordinator) {
+    func coordinatorDidLogout(coordinator: TabCoordinator) {
+        showAuthentication()
+    }
+}
+
+extension AppCoordinator: SignUpCoordinatorDelegate {
+    
+    func coordinatorDidRequestSignUp(coordinator: SignUpCoordinator) {
+        showSignUp()
+    }
+    
+    func coordinatorDidSignUp(coordinator: SignUpCoordinator) {
         showAuthentication()
     }
 }

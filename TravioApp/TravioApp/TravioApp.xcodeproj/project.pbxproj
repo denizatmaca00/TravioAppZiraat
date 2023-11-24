@@ -70,10 +70,11 @@
 		ECA5F9DE2AFBBB2700D8E80F /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA5F9DD2AFBBB2700D8E80F /* HomeVM.swift */; };
 		ECC72A492B0E187300D03971 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A482B0E187300D03971 /* AppCoordinator.swift */; };
 		ECC72A4B2B0E189200D03971 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4A2B0E189200D03971 /* Coordinator.swift */; };
-		ECC72A4D2B0E18E200D03971 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */; };
+		ECC72A4D2B0E18E200D03971 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A4C2B0E18E200D03971 /* TabCoordinator.swift */; };
 		ECC72A512B0E2DD600D03971 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */; };
 		ECC72A552B0E79BD00D03971 /* TabBarVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A542B0E79BD00D03971 /* TabBarVM.swift */; };
 		ECC72A572B0F27F200D03971 /* MapPresentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A562B0F27F200D03971 /* MapPresentCoordinator.swift */; };
+		ECC72A592B0F738900D03971 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC72A582B0F738900D03971 /* SignUpCoordinator.swift */; };
 		ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D12AEA448F001ED067 /* AppAlert.swift */; };
 		ECC8C5D62AEA45C6001ED067 /* VisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */; };
 		ECC8C5DD2AEA8319001ED067 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */; };
@@ -146,10 +147,11 @@
 		ECA5F9DD2AFBBB2700D8E80F /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		ECC72A482B0E187300D03971 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		ECC72A4A2B0E189200D03971 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		ECC72A4C2B0E18E200D03971 /* TabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
 		ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		ECC72A542B0E79BD00D03971 /* TabBarVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVM.swift; sourceTree = "<group>"; };
 		ECC72A562B0F27F200D03971 /* MapPresentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresentCoordinator.swift; sourceTree = "<group>"; };
+		ECC72A582B0F738900D03971 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		ECC8C5D12AEA448F001ED067 /* AppAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAlert.swift; sourceTree = "<group>"; };
 		ECC8C5D52AEA45C6001ED067 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
 		ECC8C5DB2AEA8319001ED067 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
@@ -434,7 +436,8 @@
 				ECC72A4A2B0E189200D03971 /* Coordinator.swift */,
 				ECC72A482B0E187300D03971 /* AppCoordinator.swift */,
 				ECC72A502B0E2DD600D03971 /* AuthCoordinator.swift */,
-				ECC72A4C2B0E18E200D03971 /* MainCoordinator.swift */,
+				ECC72A582B0F738900D03971 /* SignUpCoordinator.swift */,
+				ECC72A4C2B0E18E200D03971 /* TabCoordinator.swift */,
 				ECC72A562B0F27F200D03971 /* MapPresentCoordinator.swift */,
 			);
 			path = Coordinators;
@@ -567,7 +570,7 @@
 				0FDFAAEC2AF3D90E00F4FA61 /* TableViewCell.swift in Sources */,
 				ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */,
 				ECFFD1D02AEFD3750066E75C /* HomeVC.swift in Sources */,
-				ECC72A4D2B0E18E200D03971 /* MainCoordinator.swift in Sources */,
+				ECC72A4D2B0E18E200D03971 /* TabCoordinator.swift in Sources */,
 				5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */,
 				5E388FC22AEA5193002ABDBD /* UserModel.swift in Sources */,
 				EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */,
@@ -580,6 +583,7 @@
 				0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */,
 				EC0044182AF4330A001540A5 /* DropCell.swift in Sources */,
 				EC4023DE2B00CBF20016FA3A /* ImageHelper.swift in Sources */,
+				ECC72A592B0F738900D03971 /* SignUpCoordinator.swift in Sources */,
 				0FF6D4652AF1368300AA1339 /* LoginVM.swift in Sources */,
 				5EB8B2922B020D1F007BB08A /* SeeAllVM.swift in Sources */,
 				EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */,
