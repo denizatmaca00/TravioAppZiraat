@@ -43,7 +43,7 @@ class LoginVM{
     func logout(completion: @escaping (Result<Void, Error>) -> Void) {
         if KeychainHelper.shared.isUserLoggedIn() {
             // Kullanıcı oturum açık ise logout işlemini gerçekleştirsin
-            KeychainHelper.shared.delete("Travio", account: "asd")
+            KeychainHelper.shared.deleteToken()
             // userToken değişkenini günceller
             KeychainHelper.shared.userToken = Tokens(accessToken: "", refreshToken: "")
             completion(.success(()))
