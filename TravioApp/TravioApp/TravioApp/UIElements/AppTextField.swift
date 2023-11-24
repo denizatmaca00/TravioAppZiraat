@@ -76,8 +76,6 @@ class AppTextField: UIView {
                 return ""
             case .passwordConfirmEmpty:
                 return ""
-            //case .camera:
-                return ""
             }
         }
     }
