@@ -278,17 +278,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         alertController.addAction(openSettingsAction)
         presentClosure?(alertController)
     }
-    //    func addDefaultBlueAnnotation() {
-    //        let defaultCoordinate = CLLocationCoordinate2D(latitude: 41.06, longitude: 28.98)
-    //         let defaultAnnotation = MKPointAnnotation()
-    //         defaultAnnotation.coordinate = defaultCoordinate
-    //         defaultAnnotation.title = "Varsayılan Konum"
-    //         viewModell.map.addAnnotation(defaultAnnotation)
-    //        // Belirli bir bölgeye yaklaştırma yapmak için bu bölgeyi belirleyin
-    //          let region = MKCoordinateRegion(center: defaultCoordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
-    //          // Haritayı bu bölgeye odaklayın ve belirtilen bölgeyi görüntüleyin
-    //          viewModell.map.setRegion(region, animated: true)
-    //     }
+    
     func requestLocationPermission(){
         let status = CLLocationManager.authorizationStatus()
         switch status {
