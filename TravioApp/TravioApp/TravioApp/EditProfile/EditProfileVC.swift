@@ -253,9 +253,16 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage{
-            imageView.image = selectedImage
-            viewModel.imagesDatas.append(selectedImage)
-            dismiss(animated: true, completion: nil)
+            if viewModel.imagesDatas.count <= 1 {
+                imageView.image = selectedImage
+                viewModel.imagesDatas.append(selectedImage)
+                dismiss(animated: true, completion: nil)
+            }
+            else{
+                imageView.image = selectedImage
+//bitmedi cuma günü diye pushluyorum
+                
+            }
         }
     }
 }

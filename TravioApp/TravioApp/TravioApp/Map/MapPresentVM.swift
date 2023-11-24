@@ -18,7 +18,6 @@ class MapPresentVM{
     }
     var picker: UIImagePickerController?
     var imageArray:[UIImage] = []
-    var lastImage:UIImage?
     
     var imageURL:[String] = []{
         didSet{

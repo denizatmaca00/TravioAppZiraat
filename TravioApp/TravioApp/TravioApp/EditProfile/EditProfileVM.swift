@@ -37,7 +37,7 @@ class EditProfileVM {
     var imagesDatas:[UIImage] = []
     var imageURL:[String] = []{
         didSet{
-            editProfile.pp_url = imageURL.first!
+            editProfile.pp_url = imageURL.last!
             putEditProfileInfos()
         }
     }
@@ -52,8 +52,9 @@ class EditProfileVM {
             case .success(let success):
                 self.imageURL = success.urls
 
-            case .failure(let failure):
-                print("Başarısız yanıt: \(failure)")
+            case .failure(_):
+                break
+                
             }
             self.isLoading = false
 
@@ -65,12 +66,6 @@ class EditProfileVM {
 
         let params = ["full_name": editProfile.full_name, "email": editProfile.email, "pp_url": editProfile.pp_url]
         NetworkingHelper.shared.dataFromRemote(urlRequest: .putEditProfile(params: params), callback: {  (result: Result<Messages, Error>) in
-            switch result {
-            case .success(let success):
-                print("Başarılı yanıt: \(success)")
-            case .failure(let failure):
-                print("Başarısız yanıt: \(failure)")
-            }
 
         })
     }
