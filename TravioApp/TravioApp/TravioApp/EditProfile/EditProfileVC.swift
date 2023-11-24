@@ -109,6 +109,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        txtEmail.autocapitalizationType = .none
+        
         // Define closures
         viewModel.indicatorUpdateClosure = { [weak self] isLoading in
             DispatchQueue.main.async {
