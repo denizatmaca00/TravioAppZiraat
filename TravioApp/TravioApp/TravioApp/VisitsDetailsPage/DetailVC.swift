@@ -10,7 +10,7 @@ import TinyConstraints
 import SnapKit
 import MapKit
 
-class DetailVC: UIViewController, UIScrollViewDelegate {
+class DetailVC: UIViewController {
     var mapView: MKMapView!
     var pinCoordinate: CLLocationCoordinate2D?
     var viewModel = DetailVM()
@@ -43,7 +43,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         sb.image = UIImage(systemName: "trash.fill")
         sb.tintColor = UIColor(named: "backgroundColor")
         return sb
-    }()    
+    }()
     private lazy var backButton:UIButton = {
         let b = UIButton()
         b.setImage(UIImage(named: "bckBtn"), for: .normal)
@@ -61,13 +61,14 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }()
     private var scrollView:UIScrollView = {
         let s = UIScrollView()
-        //s.isScrollEnabled = true
         s.showsVerticalScrollIndicator = false
-//        s.showsHorizontalScrollIndicator = true
-        //s.contentSize = CGSize(width: s.frame.size.width, height: 1000)
-        //s.layer.backgroundColor = UIColor.red.cgColor
-        //s.isDirectionalLockEnabled = true
+        s.layer.backgroundColor = UIColor.blue.cgColor
         return s
+    }()
+    private lazy var allView:UIView = {
+       let all = UIView()
+        all.layer.backgroundColor = UIColor.red.cgColor
+        return all
     }()
     private var centerText:UILabel = {
         let centertxt = UILabel()
@@ -75,7 +76,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         centertxt.textColor = .black
         centertxt.numberOfLines = 1
         centertxt.font = .Fonts.title30.font
-        //centertxt.layer.backgroundColor = UIColor.white.cgColor
+        centertxt.layer.backgroundColor = UIColor.white.cgColor
         return centertxt
     }()
     private var dateText:UILabel = {
@@ -92,7 +93,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         by.textColor = .black
         by.numberOfLines = 1
         by.font = .Fonts.creatorText.font
-        //by.layer.backgroundColor = UIColor.blue.cgColor
         return by
     }()
     private lazy var mapButton:UIImageView = {
@@ -100,18 +100,16 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         mb.clipsToBounds = true
         mb.layer.cornerRadius = 16
         mb.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
-        //mb.layer.backgroundColor = UIColor.green.cgColor
         return mb
     }()
     private var descText:UILabel = {
         let txt = UILabel()
-        txt.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        txt.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         txt.textColor = .black
         txt.numberOfLines = 0 //altsatıra
         txt.lineBreakMode = .byWordWrapping //altsatıra geç
         txt.sizeToFit() //girilene göre otomatik boyut ayarlar.
         txt.font = .Fonts.descriptionLabel.font
-        //txt.layer.backgroundColor = UIColor.systemPink.cgColor
         return txt
     }()
     
@@ -119,7 +117,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         navigationController?.popViewController(animated: true)
     }
     @objc func buttonSave(){
-        //var testtt = DetailVM()
         if  saveBtn.image(for: .normal) == UIImage(named: "savefill"){
             self.showAlert(title: "", message: "Removed from saved") {
                 self.viewModel.deleteVisitbyPlceID()
@@ -155,14 +152,9 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
                     print("Hata oluştu: \(error)")
                 }
             }
-        
     }
-
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // addGradientLayer()
         viewModel.checkVisitbyPlaceID()
         navigationController?.navigationBar.isHidden = true
         setupViews()
@@ -181,14 +173,12 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
 
         }
         viewModel.checkErrorID = {[weak self] () in
-            //self?.saveBtn.image = UIImage(named: "save")
             self?.saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
         }
         
         viewModel.getAPlaceById { Place in
             self.configurePage(place: Place)
             self.fetchMap()
-            
         }
         
         viewModel.getAllGaleryById(complete: {() in
@@ -200,7 +190,11 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
                 
             }
         })
-        
+    }
+    
+    override func viewDidLayoutSubviews() {
+       let height = descText.frame.origin.y + descText.frame.height
+       scrollView.contentSize = CGSize(width: self.view.frame.width, height: height)
     }
     var deleteCreator: String?
     func configurePage(place:Place){
@@ -208,22 +202,19 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         dateText.text = place.created_at.formatDate()
         byText.text = place.creator
         deleteCreator = place.creator
-        //        var date = viewModel.dateFormatterx(dateString: place.created_at)
-        //        dateText.text = date
         byText.text = ("added by @\(place.creator)")
         descText.text = place.description
         pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
         
     }
     func configureImage(img:Image){
-        // img.image_url
         let url = URL(string: img.image_url)
     }
     func fetchMap() {
         if let pinCoordinate = pinCoordinate {
             let mapSnapshotOptions = MKMapSnapshotter.Options()
-            mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
-            mapSnapshotOptions.size = CGSize(width: 300, height: 300)
+            mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 300, longitudinalMeters: 300)
+           // mapSnapshotOptions.size = CGSize(width: 300, height: 300)
             let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
             snapShotter.start { snapshot, error in
                 if let snapshot = snapshot {
@@ -263,8 +254,15 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     
     func setupViews(){
         self.view.backgroundColor = .white
-        view.addSubviews(imageCollection,deleteBtn,saveBtn,backButton,pageControl,scrollView)
-        scrollView.addSubviews(centerText, dateText, byText, mapButton, descText)
+        view.addSubviews(imageCollection,deleteBtn,saveBtn,backButton,pageControl)
+        allView.addSubview(centerText)
+        allView.addSubview(dateText)
+        allView.addSubview(byText)
+        allView.addSubview(mapButton)
+        allView.addSubview(descText)
+        scrollView.addSubviews(allView)
+        view.addSubview(scrollView)
+
         setupLayout()
     }
     
@@ -297,13 +295,16 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         pageControl.width(24)
 
         scrollView.topToBottom(of: imageCollection)
-        scrollView.leadingToSuperview(offset:10)
+        scrollView.leadingToSuperview()
         scrollView.snp.makeConstraints({s in
             s.bottom.equalToSuperview().offset(40)
+            s.trailing.equalToSuperview()
         })
-        scrollView.snp.makeConstraints({s in
-            s.trailing.equalToSuperview().offset(-10)
-        })
+        
+        allView.snp.makeConstraints { a in
+            a.edges.equalToSuperview()
+            a.width.equalTo(view.snp.width)
+        }
         
         centerText.topToSuperview()
         centerText.leadingToSuperview(offset:10)
@@ -311,23 +312,24 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
             s.trailing.equalToSuperview().offset(-10)
         })
         
+        
         dateText.topToBottom(of: centerText,offset: 5)
-        dateText.leading(to: centerText)
-        dateText.trailing(to: centerText)
+        dateText.leadingToSuperview()
+        dateText.trailingToSuperview()
         
         byText.topToBottom(of: dateText,offset: 5)
-        byText.leading(to: dateText)
-        byText.trailing(to: dateText)
+        byText.leadingToSuperview()
+        byText.trailingToSuperview()
         
         mapButton.topToBottom(of: byText,offset: 15)
-        mapButton.leading(to: byText)
-        mapButton.height(227)
-        mapButton.width(350)
+        mapButton.leadingToSuperview(offset:20)
+        mapButton.height(100)
+        mapButton.trailingToSuperview(offset:20)
 
         
-        descText.topToBottom(of: mapButton, offset: 10)
-        descText.trailing(to: mapButton)
-        descText.leading(to: mapButton)
+        descText.topToBottom(of: mapButton, offset: 20)
+        descText.trailingToSuperview()
+        descText.leadingToSuperview()
         descText.snp.makeConstraints({s in
             s.bottom.equalToSuperview().offset(-40)
         })
