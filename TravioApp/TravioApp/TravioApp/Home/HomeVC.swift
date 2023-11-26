@@ -162,6 +162,7 @@ class HomeVC: UIViewController {
     }
 }
 
+// TODO: Move this extension into a seperate Swift file
 extension HomeVC {
     
     func makeSliderLayoutSection() -> NSCollectionLayoutSection {
@@ -250,7 +251,7 @@ extension HomeVC:UICollectionViewDataSource {
             let object = viewModel.allPlaces[indexPath.row]
             cell.configure(object:object)
         default:
-            break
+            cell.isHidden = true
         }
         return cell
     }
@@ -318,7 +319,7 @@ extension HomeVC:UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let placeId = viewModel.sectionsArray[indexPath.section][indexPath.row].id
+        let placeId = viewModel.sectionsArray[indexPath.section-1][indexPath.row].id
         let vc = DetailVC()
         vc.viewModel.placeIdtest = placeId
         
