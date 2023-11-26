@@ -22,10 +22,13 @@ class CustomCollectionViewCell: UICollectionViewCell {
     private lazy var imgPlace:UIImageView = {
         var imageView = UIImageView()
         imageView.image = UIImage(named: "sultanahmet")
-        // round corners of the image
+        /// round corners of the image
         imageView.layer.cornerRadius = 16
+        /// apply shadow
+        imageView.layer.shadowRadius = 16
+        imageView.layer.shadowOpacity = 0.15
         imageView.layer.masksToBounds = true
-
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -74,12 +77,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
     func setupViews() {
         
         self.backgroundColor = .clear
+        self.layer.cornerRadius = 16
         self.clipsToBounds = true
-        self.layer.masksToBounds = true
-        
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 16
-        self.layer.shadowOpacity = 0.15
         
         self.contentView.addSubviews(imgPlace, lblPlace, imgPinIcon, lblCity)
 
@@ -92,12 +91,11 @@ class CustomCollectionViewCell: UICollectionViewCell {
             img.center.equalToSuperview()
             img.height.equalTo(178)
             img.width.equalTo(278)
-            
         })
         
         lblPlace.snp.makeConstraints({ lbl in
-            lbl.leading.equalTo(imgPlace.snp.leading).offset(16)
             lbl.bottom.equalTo(imgPlace.snp.bottom).offset(-26)
+            lbl.leading.equalTo(imgPlace.snp.leading).offset(16)
             lbl.trailing.equalTo(imgPlace.snp.trailing).offset(-5)
             
         })
