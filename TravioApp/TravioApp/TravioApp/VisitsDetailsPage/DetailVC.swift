@@ -62,12 +62,10 @@ class DetailVC: UIViewController {
     private var scrollView:UIScrollView = {
         let s = UIScrollView()
         s.showsVerticalScrollIndicator = false
-        s.layer.backgroundColor = UIColor.blue.cgColor
         return s
     }()
     private lazy var allView:UIView = {
        let all = UIView()
-        all.layer.backgroundColor = UIColor.red.cgColor
         return all
     }()
     private var centerText:UILabel = {
@@ -90,7 +88,7 @@ class DetailVC: UIViewController {
     private var byText:UILabel = {
         let by = UILabel()
         by.text = "Ece Poyraz"
-        by.textColor = .black
+        by.textColor = .lightGray
         by.numberOfLines = 1
         by.font = .Fonts.creatorText.font
         return by
@@ -104,7 +102,7 @@ class DetailVC: UIViewController {
     }()
     private var descText:UILabel = {
         let txt = UILabel()
-        txt.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        txt.text = "Lorem Ipsum is..."
         txt.textColor = .black
         txt.numberOfLines = 0 //altsatıra
         txt.lineBreakMode = .byWordWrapping //altsatıra geç
@@ -213,8 +211,7 @@ class DetailVC: UIViewController {
     func fetchMap() {
         if let pinCoordinate = pinCoordinate {
             let mapSnapshotOptions = MKMapSnapshotter.Options()
-            mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 300, longitudinalMeters: 300)
-           // mapSnapshotOptions.size = CGSize(width: 300, height: 300)
+            mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1200, longitudinalMeters: 1200)
             let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
             snapShotter.start { snapshot, error in
                 if let snapshot = snapshot {
@@ -314,22 +311,22 @@ class DetailVC: UIViewController {
         
         
         dateText.topToBottom(of: centerText,offset: 5)
-        dateText.leadingToSuperview()
-        dateText.trailingToSuperview()
+        dateText.leading(to: centerText)
+        dateText.trailing(to: centerText)
         
         byText.topToBottom(of: dateText,offset: 5)
-        byText.leadingToSuperview()
-        byText.trailingToSuperview()
+        byText.leading(to: centerText)
+        byText.trailing(to: centerText)
         
         mapButton.topToBottom(of: byText,offset: 15)
         mapButton.leadingToSuperview(offset:20)
-        mapButton.height(100)
+        mapButton.height(227)
         mapButton.trailingToSuperview(offset:20)
 
         
         descText.topToBottom(of: mapButton, offset: 20)
-        descText.trailingToSuperview()
-        descText.leadingToSuperview()
+        descText.trailing(to: centerText)
+        descText.leading(to: centerText)
         descText.snp.makeConstraints({s in
             s.bottom.equalToSuperview().offset(-40)
         })
