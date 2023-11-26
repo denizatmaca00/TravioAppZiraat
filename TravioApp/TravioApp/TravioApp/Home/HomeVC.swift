@@ -175,8 +175,6 @@ extension HomeVC {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
         
-        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 0, bottom:0, trailing: 16)
-        
         headerElement.pinToVisibleBounds = false
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))

@@ -80,7 +80,7 @@ class HeaderView: UICollectionReusableView {
         
         btnSeeAll.snp.makeConstraints({ btn in
             btn.top.equalTo(lblSectionTitle.snp.top).offset(1)
-            btn.trailing.equalToSuperview().offset(16)
+            btn.trailing.equalToSuperview().inset(16)
             btn.height.equalToSuperview()
 
         })
