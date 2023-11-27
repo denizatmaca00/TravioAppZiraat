@@ -26,6 +26,7 @@
 import UIKit
 import Kingfisher
 import Photos
+import AVFoundation
 
 class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
@@ -45,6 +46,9 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         return imageView
     }()
     
+ 
+    
+    
 //    func  imagePicker (){
 //        let picker = UIImagePickerController()
 //        picker.delegate = self
@@ -54,12 +58,35 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
 //
     func initPicker() {
         
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
-            self?.presentImagePicker(sourceType: .camera)
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [self] _ in
+            print("aaa")
+            requestCameraPermission { granted in
+               DispatchQueue.main.async {
+                    if granted {
+                        self.presentImagePicker(sourceType: .camera)
+                    } else {
+                        self.showAlert(title: "Camera Permission", message: "Not Allowed", completion: {
+                            self.dismiss(animated: true)
+                        })
+                    }
+                }
+            }
+            
         }
 
-        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { [weak self] _ in
-            self?.presentImagePicker(sourceType: .photoLibrary)
+        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { [self] _ in
+           
+            requestPhotoLibraryPermission { granted in
+                      DispatchQueue.main.async {
+                          if granted {
+                              self.presentImagePicker(sourceType: .photoLibrary)
+                          } else {
+                              self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
+                                  self.dismiss(animated: true)
+                              })
+                          }
+                      }
+                  }
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -168,18 +195,21 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     }
     
     // photo library permission
+//    @objc func changePhotoTapped() {
+//        requestPhotoLibraryPermission { granted in
+//            DispatchQueue.main.async {
+//                if granted {
+//                    self.initPicker()
+//                } else {
+//                    self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
+//                        self.dismiss(animated: true)
+//                    })
+//                }
+//            }
+//        }
+//    }
     @objc func changePhotoTapped() {
-        requestPhotoLibraryPermission { granted in
-            DispatchQueue.main.async {
-                if granted {
-                    self.initPicker()
-                } else {
-                    self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
-                        self.dismiss(animated: true)
-                    })
-                }
-            }
-        }
+        self.initPicker()
     }
 
     
@@ -200,7 +230,20 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             }
         }
     }
-    
+    //camera permission
+    func requestCameraPermission(completion: @escaping (Bool)->Void) {
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            if granted {
+                print(" kamera erişim izni \(granted) ")
+                //self.checkPermissionStatus = true
+                completion(true)
+            } else {
+                print("Kullanıcı kamera erişim iznini reddetti.  \(granted)")
+               // self.checkPermissionStatus = false
+                completion(false)
+            }
+        }
+    }
     func initVM(){
         viewModelProfile!.profileUpdateClosure = { [weak self] updatedProfile in
             self?.labelName.text = updatedProfile.full_name

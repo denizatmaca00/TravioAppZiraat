@@ -206,9 +206,18 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addNotificationObserver()
         refreshSettings()
         setupViews()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        print("ececcececcec")
+    }
+    
+    func addNotificationObserver(){
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshSettings), name: Notification.Name("appActive"), object: nil)
+    }
+    
     func requestCameraPermission() {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             if granted {
@@ -292,7 +301,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         refreshSettings()
     }
 
-    func refreshSettings(){
+    @objc func refreshSettings(){
         requestLocationPermission()
         locationPermission()
         requestCameraPermission()
@@ -400,6 +409,10 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         signupButton.snp.makeConstraints({s in
             s.bottom.equalToSuperview().offset(-30)
         })
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("appActive"), object: nil)
     }
     
 }
