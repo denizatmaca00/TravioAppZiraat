@@ -24,19 +24,16 @@ extension UIViewController
         
         self.present(alert, animated: true, completion: nil)
     }
+
+    func addActionSheet(title: String, message: String, actions: [UIAlertAction]) {
+            let actionSheet = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+
+            for action in actions {
+                actionSheet.addAction(action)
+            }
+
+            present(actionSheet, animated: true, completion: nil)
+        }
     
-    func addActionSheet(deleteAction: @escaping () -> Void) {
-           let actionSheet = UIAlertController(title: "Choose the action", message: "Tap the action you want to take.", preferredStyle: .actionSheet)
 
-           let deleteAction = UIAlertAction(title: "Delete the Location I Added", style: .destructive) { _ in
-               deleteAction() 
-           }
-
-           let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-           actionSheet.addAction(deleteAction)
-           actionSheet.addAction(cancelAction)
-
-           present(actionSheet, animated: true, completion: nil)
-       }
 }

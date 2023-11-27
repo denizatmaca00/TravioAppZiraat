@@ -135,14 +135,35 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     private lazy var imagePicker:UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.delegate = self
-        picker.sourceType = .photoLibrary
         return picker
     }()
     
-    func initPicker (){
-        viewModel.picker = imagePicker
-        present(viewModel.picker!, animated: true)
+    func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
+            imagePicker.sourceType = sourceType
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            showAlert(title: "Error", message: "Selected source type is not available.", completion: {})
+        }
     }
+
+    
+    func initPicker() {
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
+            self?.presentImagePicker(sourceType: .camera)
+        }
+
+        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { [weak self] _ in
+            self?.presentImagePicker(sourceType: .photoLibrary)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        self.addActionSheet(title: "Added Photo", message: "Choose Your Way", actions: [cameraAction, galleryAction, cancelAction])
+
+    }
+
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {

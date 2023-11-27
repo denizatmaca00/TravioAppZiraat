@@ -45,12 +45,40 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         return imageView
     }()
     
-    func  imagePicker (){
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.sourceType = .photoLibrary
-        present(picker, animated: true)
+//    func  imagePicker (){
+//        let picker = UIImagePickerController()
+//        picker.delegate = self
+//        picker.sourceType = .photoLibrary
+//        present(picker, animated: true)
+//    }
+//
+    func initPicker() {
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
+            self?.presentImagePicker(sourceType: .camera)
+        }
+
+        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { [weak self] _ in
+            self?.presentImagePicker(sourceType: .photoLibrary)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        self.addActionSheet(title: "Added Photo", message: "Choose Your Way", actions: [cameraAction, galleryAction, cancelAction])
+
     }
+
+    func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.sourceType = sourceType
+            present(picker, animated: true, completion: nil)
+        } else {
+            showAlert(title: "Error", message: "Selected source type is not available.", completion: {})
+        }
+    }
+
     
     private lazy var changePhotoButton: UIButton = {
         let btn = UIButton()
@@ -128,6 +156,11 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
                 self?.dismiss(animated: true)
             })
         }
+        viewModel.showAlertClosure = { [weak self] title, message in
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            self?.addActionSheet(title: title, message: message, actions: [cancelAction])
+            
+        }
         
         setupViews()
         initVM()
@@ -140,11 +173,11 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     }
     
     // photo library permission
-    @objc func changePhotoTapped(){
+    @objc func changePhotoTapped() {
         requestPhotoLibraryPermission { granted in
             DispatchQueue.main.async {
                 if granted {
-                    self.imagePicker()
+                    self.initPicker()
                 } else {
                     self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
                         self.dismiss(animated: true)
@@ -153,6 +186,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             }
         }
     }
+
     
     func requestPhotoLibraryPermission(completion: @escaping (Bool) -> Void) {
         PHPhotoLibrary.requestAuthorization { status in

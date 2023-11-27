@@ -135,29 +135,33 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
            
         }
     }
-    @objc func deleteBtnTapped(){
+    @objc func deleteBtnTapped() {
         profilViewModel.getProfileInfos { profileResult in
-                switch profileResult {
-                case .success(let profile):
-                    let detailCreator = self.deleteCreator
-                    self.profileFullname = profile.full_name
+            switch profileResult {
+            case .success(let profile):
+                let detailCreator = self.deleteCreator
+                self.profileFullname = profile.full_name
 
-                    if detailCreator == self.profileFullname {
-                        self.addActionSheet {
-                            self.viewModel.deleteMyAdded()
-                            self.showAlert(title: "Notification", message: "Deleted Successfuly") {
-                                self.navigationController?.popViewController(animated: true)
-                            }
+                if detailCreator == self.profileFullname {
+                    let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+                        self.viewModel.deleteMyAdded()
+                        self.showAlert(title: "Notification", message: "Deleted Successfully") {
+                            self.navigationController?.popViewController(animated: true)
                         }
-                    } else {
-                        self.showAlert(title: "Error", message: "Only the person who added this content can delete it.", completion: {})
                     }
-                case .failure(let error):
-                    print("Hata oluştu: \(error)")
+
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+                    self.addActionSheet(title: "Are you sure?", message: "This action cannot be undone.", actions: [deleteAction, cancelAction])
+                } else {
+                    self.showAlert(title: "Error", message: "Only the person who added this content can delete it.", completion: {})
                 }
+            case .failure(let error):
+                print("Hata oluştu: \(error)")
             }
-        
+        }
     }
+
 
     
     
@@ -169,8 +173,9 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         setupViews()
         
         viewModel.showAddActionClosure = { [weak self] title, message in
-            self?.addActionSheet(){
-            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            self?.addActionSheet(title: title, message: message, actions: [cancelAction])
+            
         }
         viewModel.showAddActionClosure = { [weak self] title, message in
             self?.showAlert(title: title, message: message, completion: {
