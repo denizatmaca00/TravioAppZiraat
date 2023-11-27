@@ -1,5 +1,5 @@
 //
-//  
+//
 //  DropCell.swift
 //  TravioApp
 //
@@ -54,7 +54,6 @@ class DropCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .white
         view.clipsToBounds = true
-        view.layer.masksToBounds = true
         view.layer.cornerRadius = 16
         return view
     }()
@@ -66,11 +65,6 @@ class DropCell: UITableViewCell {
         sv.spacing = 12+10
         sv.alignment = .center
         return sv
-    }()
-    
-    private lazy var viewSeperator:UIView = {
-        let v = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 12))
-        return v
     }()
     
     private lazy var imgDropButton:UIImageView = {
@@ -85,6 +79,10 @@ class DropCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.15
+        self.layer.shadowRadius = 20
+        self.layer.masksToBounds = true
         setupViews()
     }
     
@@ -104,8 +102,8 @@ class DropCell: UITableViewCell {
     func toggleCellData(){
         lblDescription.isHidden = !toExpand
         
-            self.imgDropButton.transform = self.toExpand ?
-                                   CGAffineTransform(rotationAngle: CGFloat(Double.pi)) : CGAffineTransform(rotationAngle: CGFloat(-Double.zero))
+        self.imgDropButton.transform = self.toExpand ?
+        CGAffineTransform(rotationAngle: CGFloat(Double.pi)) : CGAffineTransform(rotationAngle: CGFloat(-Double.zero))
     }
     
     //MARK: -- UI Methods
@@ -114,9 +112,6 @@ class DropCell: UITableViewCell {
         // Add here the setup for the UI
         self.selectionStyle = .none
         self.backgroundColor = .clear
-        self.clipsToBounds = true
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 16
         
         self.contentView.addSubviews(viewContainer)
         
@@ -130,9 +125,8 @@ class DropCell: UITableViewCell {
     private func setupLayout() {
         // Add here the setup for layout
         viewContainer.snp.makeConstraints({ sv in
-            sv.top.equalToSuperview()
-            /// creates spacing between cells
-            sv.bottom.equalToSuperview().inset(12)
+            sv.top.equalToSuperview().offset(6)
+            sv.bottom.equalToSuperview().inset(6)
             sv.leading.equalToSuperview().offset(24)
             sv.trailing.equalToSuperview().inset(24)
             

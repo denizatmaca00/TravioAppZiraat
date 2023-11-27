@@ -26,16 +26,38 @@ class MapVC: UIViewController {
         setupTapGestureRecognizer()
         super.viewDidLoad()
 
-       // initVM()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
        initVM()
+        locationPermissionMap()
     }
-    
+ 
+    func locationPermissionMap(){
+            let locationManager = CLLocationManager()
+            let status = CLLocationManager.authorizationStatus()
+            switch status {
+            case .authorizedWhenInUse, .authorizedAlways:
+                print("Location access granted.")
+            default:
+                print("Location access denied.")
+                locationManager.requestWhenInUseAuthorization()
+            }
+    }
+//duruma göre default locationa izin sonrası pin atabilir.
+//    func statusPermissionMap(){
+//            let locationManager = CLLocationManager()
+//            let status = CLLocationManager.authorizationStatus()
+//            switch status {
+//            case .authorizedWhenInUse, .authorizedAlways:
+//                print("Location access granted.")
+//            default:
+//                print("Location access denied.")
+//            }
+//    }
     func initVM() {
-        viewModel.reloadTableViewClosure = { [weak self] () in
+        viewModel.reloadCollectionViewClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
             }
@@ -69,31 +91,19 @@ class MapVC: UIViewController {
             let touchPoint = gestureRecognizer.location(in: viewModel.map)
             let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
             
-            // Eğer önceki bir seçili pin varsa, onu kaldır
-            if let existingAnnotation = selectedAnnotation {
-                viewModel.map.removeAnnotation(existingAnnotation)
-            }
-            
-            // Eğer önceki bir seçili pin varsa, seçili pin'i kaldır ama çalışmıyor
             deselectSelectedAnnotation()
 
-            let newAnnotation = CustomAnnotation(
-                title: "Yeni Pin",
-                subtitle: "Açıklama",
-                coordinate: coordinate,
-                logoImage: UIImage(named: "pinLogo")
-            )
-            viewModel.map.addAnnotation(newAnnotation)
+            viewModel.addCustomAnnotation(title: "Yeni Pin", subtitle: "Açıklama", coordinate: coordinate, logoImage: UIImage(named: "pinLogo"))
             
-            // Yeni pin'i seçili olarak işaretle
-            selectedAnnotation = newAnnotation
+            selectedAnnotation = viewModel.map.annotations.last
             
             let vc = MapPresentVC()
             vc.latitude = coordinate.latitude
             vc.longitude = coordinate.longitude
             
             vc.viewModel.updateMapClosure = { [weak self] in
-                self?.initVM()}
+                self?.initVM()
+            }
             self.present(vc, animated: true, completion: nil)
         }
     }

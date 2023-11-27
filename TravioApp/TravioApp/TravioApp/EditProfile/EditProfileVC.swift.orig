@@ -156,6 +156,11 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
                 self?.dismiss(animated: true)
             })
         }
+        viewModel.showAlertClosure = { [weak self] title, message in
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+            self?.addActionSheet(title: title, message: message, actions: [cancelAction])
+            
+        }
         
         setupViews()
         initVM()
@@ -307,10 +312,23 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage{
+<<<<<<< HEAD
             imageView.image = selectedImage
             viewModel.selectedImage = selectedImage
             viewModel.doUploadWork = true
             dismiss(animated: true, completion: nil)
+=======
+            if viewModel.imagesDatas.count <= 1 {
+                imageView.image = selectedImage
+                viewModel.imagesDatas.append(selectedImage)
+                dismiss(animated: true, completion: nil)
+            }
+            else{
+                imageView.image = selectedImage
+//bitmedi cuma günü diye pushluyorum
+                
+            }
+>>>>>>> sprint5/editProfileRefactorDispatch
         }
     }
 }

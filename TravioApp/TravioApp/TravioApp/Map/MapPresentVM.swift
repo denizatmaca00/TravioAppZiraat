@@ -16,9 +16,8 @@ class MapPresentVM{
             self.postGalleryImage()
         }
     }
-    
     var picker: UIImagePickerController?
-    var lastImage:UIImage?
+    var imageArray:[UIImage] = []
     
     var imageURL:[String] = []{
         didSet{
@@ -26,9 +25,6 @@ class MapPresentVM{
             self.initPostPlace()
         }
     }
-    
-    var imageArray:[UIImage] = []
-    
     /// Used to present and dismiss acitivity indicator during wait for server data
     var isLoading:Bool = false {
         didSet{
@@ -43,19 +39,16 @@ class MapPresentVM{
     var updateMapClosure: ( ()->Void )?
     var dismissClosure: (()->())?
     
-    func fetchData(in cell:MapPresentCellVC, with indexPath:IndexPath){
-        cell.fillCellWith(image: lastImage!)
-    }
-    
     /// Handles security processes required to save a place
     /// Uploads photos stored inside imageData
     func savePlace(){
         
         /// initial check for non-empty image data
         if imageArray.count > 0 {
+            if imageArray.count < 4{
                 uploadPhoto()
-        }else{
-            
+
+            }
         }
     }
     
@@ -104,7 +97,7 @@ class MapPresentVM{
                self.placeId = response.message!
                 
             case .failure(let error):
-                self.showAlertClosure?("Error", "Photos couldn't be uploaded: \(error.localizedDescription)")
+                self.showAlertClosure?("Error", "Photos couldn't be uploaded to server: \(error.localizedDescription)")
             }
             self.isLoading = false
         }
@@ -119,7 +112,6 @@ class MapPresentVM{
                 switch result {
                 case .success(_):
                     self.dismissClosure?()
-                    
                 case .failure(let error):
                     self.showAlertClosure?("Error", "Posting images: \(error.localizedDescription)")
                 }

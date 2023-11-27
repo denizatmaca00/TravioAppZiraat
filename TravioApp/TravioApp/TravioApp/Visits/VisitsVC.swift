@@ -118,26 +118,26 @@ class VisitsVC: UIViewController {
 }
 
 extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        guard let count = viewModel.numberOfCells else {return 0}
+        return count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomVisitCell.reuseIdentifier, for: indexPath) as? CustomVisitCell else {
-            fatalError("cell does not exist")
+            fatalError("Cell does not exist")
         }
         
-        let cellData = viewModel.cellViewModels[indexPath.row]
+        let cellData = viewModel.cellViewModels[indexPath.section]
         cell.configure(data: cellData)
      
         return cell
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let count = viewModel.numberOfCells else {return 0}
-        return count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -156,7 +156,7 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     /// Push to DetailVC related to cell data
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailVC()
-        vc.viewModel.placeIdtest = viewModel.favorites[indexPath.row].place_id
+        vc.viewModel.placeIdtest = viewModel.favorites[indexPath.section].place_id
         viewModel.getaVisitbyID()
         
         navigationController?.pushViewController(vc, animated: true)
@@ -164,12 +164,16 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        
+        headerView.backgroundColor = .clear
         return headerView
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 25
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 0){
+            return 25-6
+        } else{
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

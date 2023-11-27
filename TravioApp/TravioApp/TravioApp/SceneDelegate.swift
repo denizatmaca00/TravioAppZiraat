@@ -56,13 +56,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let vc = LoginVC()
-        let rootViewController = UINavigationController(rootViewController: vc)
+        let rootViewController = coordinateViewController()
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
         self.window = window
     }
 
+    private func coordinateViewController() -> UIViewController {
+        if KeychainHelper.shared.isTokenExpired(){
+            print("token expired, need login")
+            let loginVC = LoginVC()
+            return UINavigationController(rootViewController: loginVC)
+        }else{
+            print("token lives")
+            return TabBarVC()
+        }
+    }
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
