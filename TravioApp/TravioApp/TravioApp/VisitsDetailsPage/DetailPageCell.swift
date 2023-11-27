@@ -14,9 +14,10 @@ class DetailPageCell: UICollectionViewCell {
   
     private lazy var image:UIImageView = {
         let i = UIImageView()
-        //i.contentMode = .scaleAspectFit
         //i.layer.backgroundColor = UIColor.blue.cgColor
-       // i.clipsToBounds = true
+        //i.clipsToBounds = true
+        i.contentMode = .scaleAspectFill
+        i.clipsToBounds = true
         return i
     }()
     private lazy var gradientLayer: CAGradientLayer = {
@@ -48,7 +49,7 @@ class DetailPageCell: UICollectionViewCell {
         image.topToSuperview(offset:-30)
         image.leadingToSuperview()
         image.trailingToSuperview()
-        image.height(249)
+        image.height(279)
     }
     
     func configure(imageURL:Image){

@@ -22,6 +22,9 @@ class DetailVC: UIViewController {
         let l = UICollectionViewFlowLayout()
         l.scrollDirection = .horizontal
         l.minimumLineSpacing = 0
+        l.minimumInteritemSpacing = 0
+
+
         let cv = UICollectionView(frame: .zero, collectionViewLayout: l)
         cv.isPagingEnabled = true
         cv.showsVerticalScrollIndicator = false
@@ -222,7 +225,7 @@ class DetailVC: UIViewController {
                 let mapSnapshotOptions = MKMapSnapshotter.Options()
                 let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)
                 mapSnapshotOptions.traitCollection = darkModeTraitCollection
-                mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1300, longitudinalMeters: 1300)
+                mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1500, longitudinalMeters: 1500)
                 let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
                 
                 snapShotter.start { snapshot, error in

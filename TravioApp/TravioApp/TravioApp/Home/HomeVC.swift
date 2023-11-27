@@ -9,6 +9,7 @@
 
 import UIKit
 import SnapKit
+import TinyConstraints
 
 class HomeVC: UIViewController {
     
@@ -147,7 +148,7 @@ class HomeVC: UIViewController {
         })
         
         collectionView.snp.makeConstraints({ cv in
-            cv.top.equalTo(contentViewBig.snp.top)
+            cv.top.equalTo(contentViewBig.snp.top).offset(-160)
             cv.bottom.equalTo(contentViewBig.snp.bottom)
             cv.leading.equalTo(contentViewBig.snp.leading)
             cv.width.equalTo(contentViewBig.snp.width)

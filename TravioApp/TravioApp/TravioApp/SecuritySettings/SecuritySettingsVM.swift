@@ -29,9 +29,3 @@ class SecuritySettingsVM{
     }
 
 }
-
-//extension Notification.Name {
-//    static let permissionCamera = Notification.Name("permissionCamera")
-//    static let permissionPhotoLibrary = Notification.Name("permissionPhotoLibrary")
-//    static let permissionLocation = Notification.Name("permissionLocation")
-//}
