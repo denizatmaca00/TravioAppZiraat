@@ -199,22 +199,17 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }
     var deleteCreator: String?
     func configurePage(place:Place){
-     //   centerText.text = place.place
-        centerText.text = place.place.extractCity()
-        print(centerText.text)
-
+        centerText.text = place.place.extractCityName()
         dateText.text = place.created_at.formatDate()
         byText.text = place.creator
         deleteCreator = place.creator
-        //        var date = viewModel.dateFormatterx(dateString: place.created_at)
-        //        dateText.text = date
+
         byText.text = ("added by @\(place.creator)")
         descText.text = place.description
         pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
         
     }
     func configureImage(img:Image){
-        // img.image_url
         let url = URL(string: img.image_url)
     }
     func fetchMap() {
