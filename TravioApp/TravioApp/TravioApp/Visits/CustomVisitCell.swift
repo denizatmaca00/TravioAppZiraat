@@ -83,19 +83,20 @@ class CustomVisitCell: UITableViewCell {
         self.layer.masksToBounds = true
         
         self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 10
+        self.layer.shadowRadius = 16
         self.layer.shadowOffset = .zero
         self.layer.shadowOpacity = 0.15
         
-        self.contentView.addSubviews(imageLocation, placeName,iconLocation,cityName)
+        self.contentView.addSubviews(imageLocation)
+        imageLocation.addSubviews(placeName,iconLocation,cityName)
         setupLayout()
     }
     
     func setupLayout() {
         
         imageLocation.snp.makeConstraints({ img in
-            img.top.equalToSuperview().offset(16)
-            img.bottom.equalToSuperview()
+            img.top.equalToSuperview().offset(8)
+            img.bottom.equalToSuperview().inset(8)
             img.leading.equalToSuperview().offset(24)
             img.trailing.equalToSuperview().inset(24)
             
