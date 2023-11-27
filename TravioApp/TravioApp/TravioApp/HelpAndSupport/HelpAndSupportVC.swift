@@ -192,7 +192,8 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
         default:
             /// case when another cell is already expanded and it is not the last clicked cell
             self.tableView.beginUpdates()
-            makeCellUnselected(in: tableView, on: self.lastSelectedIndexPath!)
+            self.lastSelectedIndexPath = indexPath
+            makeCellSelected(in: tableView, on: self.lastSelectedIndexPath!)
             self.lastSelectedIndexPath = nil
             self.tableView.endUpdates()
         }
@@ -215,10 +216,13 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     
     /// On deselect cell
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let lastIdx = lastSelectedIndexPath else {return}
         
         /// Create animation for cell
         self.tableView.performBatchUpdates(nil)
         self.tableView.beginUpdates()
+        makeCellUnselected(in: tableView, on: self.lastSelectedIndexPath!)
+        self.lastSelectedIndexPath = nil
         self.tableView.endUpdates()
     }
     
