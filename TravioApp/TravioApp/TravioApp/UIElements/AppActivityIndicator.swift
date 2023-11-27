@@ -16,6 +16,8 @@ class AppActivityIndicator: UIView {
     lazy var lblMessage: UILabel = {
         let lbl = UILabel(frame: CGRect(x: 0, y: 0, width: 20 , height: 20))
         lbl.font = .Fonts.textFieldText.font
+        lbl.contentMode = .center
+        lbl.numberOfLines = 0
         lbl.sizeToFit()
         return lbl
     }()
@@ -42,6 +44,7 @@ class AppActivityIndicator: UIView {
     lazy var stackView:UIStackView = {
         let sv = UIStackView()
         sv.axis = .vertical
+        sv.distribution = .fill
         sv.alignment = .center
         sv.spacing = 6
         return sv
@@ -79,6 +82,8 @@ extension UIViewController {
         /// Add constraints to make stackView auto-resize acording to its content
         stackView.snp.makeConstraints({ sv in
             sv.center.equalToSuperview()
+            sv.leading.equalToSuperview().offset(24)
+            sv.trailing.equalToSuperview().inset(24)
         })
         
         indicatorLoading.startAnimating()
