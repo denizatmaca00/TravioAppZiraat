@@ -202,53 +202,52 @@ class DetailVC: UIViewController {
             let height = descText.frame.origin.y + descText.frame.height
             scrollView.contentSize = CGSize(width: self.view.frame.width, height: height)
         }
-        
-      
-        func configurePage(place:Place){
-            //   centerText.text = place.place
-            centerText.text = place.place.extractCity()
-            print(centerText.text)
-            
-            dateText.text = place.created_at.formatDate()
-            byText.text = place.creator
-            deleteCreator = place.creator
-            byText.text = ("added by @\(place.creator)")
-            descText.text = place.description
-            pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
-            
-        }
-        func configureImage(img:Image){
-            let url = URL(string: img.image_url)
-        }
+                
         func fetchMap() {
             if let pinCoordinate = pinCoordinate {
                 let mapSnapshotOptions = MKMapSnapshotter.Options()
                 let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)
                 mapSnapshotOptions.traitCollection = darkModeTraitCollection
-                mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1300, longitudinalMeters: 1300)
+                mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1500, longitudinalMeters: 1500)
                 let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
                 
                 snapShotter.start { snapshot, error in
                     if let snapshot = snapshot {
-                        
                         let image = snapshot.image
                         
                         if let annotationView = self.createPinImage() {
                             let pinPoint = snapshot.point(for: pinCoordinate)
                             
-                            let renderer = UIGraphicsImageRenderer(size: image.size)
-                            let combinedImage = renderer.image { _ in
-                                image.draw(at: .zero)
-                                annotationView.drawHierarchy(in: CGRect(x: pinPoint.x - annotationView.bounds.width / 2, y: pinPoint.y - annotationView.bounds.height / 2, width: annotationView.bounds.width, height: annotationView.bounds.height), afterScreenUpdates: true)
-                            }
                             
-                            self.mapButton.image = combinedImage
+                                
+                                let renderer = UIGraphicsImageRenderer(size: image.size)
+                                let combinedImage = renderer.image { _ in
+                                    image.draw(at: .zero)
+                                    annotationView.drawHierarchy(in: CGRect(x: pinPoint.x - annotationView.bounds.width / 2, y: pinPoint.y - annotationView.bounds.height / 2, width: annotationView.bounds.width, height: annotationView.bounds.height), afterScreenUpdates: true)
+                                }
+                                
+                                self.mapButton.image = combinedImage
+                            }
                         }
-                    }
-                }
+                
             }
         }
         
+    }
+    func configurePage(place:Place){
+        centerText.text = place.place.extractCityName()
+        dateText.text = place.created_at.formatDate()
+        byText.text = place.creator
+        deleteCreator = place.creator
+        byText.text = ("added by @\(place.creator)")
+        descText.text = place.description
+        pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
+        
+    }
+    func configureImage(img:Image){
+        let url = URL(string: img.image_url)
+    }
+       
         func createPinImage() -> MKAnnotationView? {
             let annotationView = MKAnnotationView(annotation: nil, reuseIdentifier: "pinAnnotation")
             

@@ -32,6 +32,7 @@ class SettingsVC: UIViewController {
         tableView.dataSource = self
         tableView.backgroundColor = UIColor(named: "viewBackgroundColor")
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
         tableView.register(SettingsCollectionCell.self, forCellReuseIdentifier: "Cell")
         tableView.register(SpaceCell.self, forCellReuseIdentifier: "SpaceCell")
         
@@ -44,7 +45,6 @@ class SettingsVC: UIViewController {
         imageView.layer.cornerRadius = 60
         imageView.layer.masksToBounds = true
         return imageView
-        // burası değişecek güncellenecek
     }()
     
     private lazy var label: UILabel = {
@@ -158,7 +158,7 @@ class SettingsVC: UIViewController {
     }
     
     func setupLayout() {
-        
+        self.tableView.shadow()
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(contentViewBig).offset(24)
             img.centerX.equalToSuperview()
@@ -194,8 +194,8 @@ class SettingsVC: UIViewController {
         
         tableView.snp.makeConstraints ({ tableView in
             tableView.top.equalTo(imageView.snp.bottom).offset(74)
-            tableView.leading.equalTo(view)
-            tableView.trailing.equalTo(view)
+            tableView.leading.equalTo(view).offset(16)
+            tableView.trailing.equalTo(view).offset(-16)
             tableView.bottom.equalTo(view)
         })
     }
@@ -220,13 +220,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             cell.setupViews()
             cell.setupLayout()
             cell.selectionStyle = .none
-            cell.backgroundColor = UIColor(named: "viewBackgroundColor")
-            cell.layer.shadowColor = UIColor.black.cgColor
-            cell.layer.shadowOffset = CGSize(width: 0, height: 4)
-            cell.layer.shadowRadius = 100
-            cell.layer.shadowOpacity = 0.15
-            cell.layer.masksToBounds = true
-            
+            cell.backgroundColor = .clear
             return cell
         } else {
             let spaceCell = tableView.dequeueReusableCell(withIdentifier: "SpaceCell", for: indexPath) as! SpaceCell
@@ -253,15 +247,17 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
             
-            //        case 1:
-            //            let appDefaultsVC = AppDefaultsVC()
-            //            navigationController?.pushViewController(appDefaultsVC, animated: true)
+        case 1:
+            showAlert(title: "", message: "Coming Soon", completion: {
+                
+            })
             
         case 2:
             let myAddedPlacesVC = SeeAllVC()
             myAddedPlacesVC.viewModel.allPlaceforUser()
-            self.navigationController?.pushViewController(myAddedPlacesVC, animated: true)
-            
+            myAddedPlacesVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+
             
         case 3:
             let vc = HelpAndSupportVC()
