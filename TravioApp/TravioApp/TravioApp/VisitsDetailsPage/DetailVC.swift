@@ -62,12 +62,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }()
     private var scrollView:UIScrollView = {
         let s = UIScrollView()
-        //s.isScrollEnabled = true
         s.showsVerticalScrollIndicator = false
-//        s.showsHorizontalScrollIndicator = true
-        //s.contentSize = CGSize(width: s.frame.size.width, height: 1000)
-        //s.layer.backgroundColor = UIColor.red.cgColor
-        //s.isDirectionalLockEnabled = true
         return s
     }()
     private var centerText:UILabel = {
@@ -76,7 +71,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         centertxt.textColor = .black
         centertxt.numberOfLines = 1
         centertxt.font = .Fonts.title30.font
-        //centertxt.layer.backgroundColor = UIColor.white.cgColor
         return centertxt
     }()
     private var dateText:UILabel = {
@@ -93,7 +87,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         by.textColor = .black
         by.numberOfLines = 1
         by.font = .Fonts.creatorText.font
-        //by.layer.backgroundColor = UIColor.blue.cgColor
         return by
     }()
     private lazy var mapButton:UIImageView = {
@@ -101,7 +94,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         mb.clipsToBounds = true
         mb.layer.cornerRadius = 16
         mb.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
-        //mb.layer.backgroundColor = UIColor.green.cgColor
         return mb
     }()
     private var descText:UILabel = {
@@ -112,7 +104,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         txt.lineBreakMode = .byWordWrapping //altsatıra geç
         txt.sizeToFit() //girilene göre otomatik boyut ayarlar.
         txt.font = .Fonts.descriptionLabel.font
-        //txt.layer.backgroundColor = UIColor.systemPink.cgColor
         return txt
     }()
     
@@ -120,7 +111,6 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         navigationController?.popViewController(animated: true)
     }
     @objc func buttonSave(){
-        //var testtt = DetailVM()
         if saveBtn.image == UIImage(named: "savefill") {
             self.showAlert(title: "", message: "Removed from saved") {
                 self.viewModel.deleteVisitbyPlceID()

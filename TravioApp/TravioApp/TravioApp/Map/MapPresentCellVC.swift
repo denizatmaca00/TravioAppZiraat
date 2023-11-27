@@ -10,7 +10,6 @@ import UIKit
 class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     
     // Cell Identifiers
-    var lastSelectedImage: UIImage? 
     static let reuseIdentifier: String = "ImageCell"
     
     // View Model
@@ -24,15 +23,15 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     
     // Cell UI Elements
     
-    private lazy var cellView: UIImageView = {
+     lazy var cellView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
         return view
     }()
-    
-    private lazy var addPhotoIcon: UIImageView = {
+        
+    lazy var addPhotoIcon: UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "addPhoto")
         img.contentMode = .scaleAspectFit
@@ -46,13 +45,6 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         btn.titleLabel?.font = .Fonts.textFieldText.font
         return btn
     }()
-    lazy var changePhotoBtn: UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage(named: "exit"), for: .normal)
-        return btn
-    }()
-    
-    
     // Private Functions
     
     func fillCellWith(image:UIImage){
@@ -88,7 +80,7 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         
         self.addSubviews(cellView)
         
-        cellView.addSubviews(changePhotoBtn, addPhotoIcon, addPhotoBtn)
+        cellView.addSubviews(addPhotoIcon, addPhotoBtn)
         
         setupLayout()
     }
@@ -105,13 +97,6 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
             make.trailing.equalToSuperview().inset(24)
             
         }
-        
-        changePhotoBtn.snp.makeConstraints({ btn in
-            btn.top.equalToSuperview().offset(7)
-            btn.leading.equalToSuperview().offset(7)
-            btn.height.width.equalTo(15)
-        })
-        self.cellView.bringSubviewToFront(changePhotoBtn)
         addPhotoIcon.snp.makeConstraints { make in
             make.top.equalTo(cellView).offset(79)
             make.height.equalTo(35)

@@ -67,9 +67,6 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
-        initPopularVM()
-        initNewsVM()
-        initAllForUserVM()
         setupViews()
     }
 
@@ -82,9 +79,6 @@ class HomeVC: UIViewController {
 
     
     //MARK: -- Component Actions
-    
-    @objc private func btnSeeAllTapped(sender:UIButton!){
-    }
     
     //MARK: -- Private Methods
     

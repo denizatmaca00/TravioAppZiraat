@@ -15,11 +15,12 @@ class MapPlacesCellVC: UICollectionViewCell {
     var viewModel = MapVM()
     
     var visitCellViewModel: VisitCellViewModel? {
-        didSet {DispatchQueue.main.async { [self] in
-            self.placeName.text = visitCellViewModel?.placeName
-            self.cityName.text = visitCellViewModel?.city
-            ImageHelper().setImage(imageURL: visitCellViewModel!.image, imageView: imageLocation)
-        }
+        didSet {
+            DispatchQueue.main.async { [self] in
+                self.placeName.text = visitCellViewModel?.placeName
+                self.cityName.text = visitCellViewModel?.city
+                ImageHelper().setImage(imageURL: visitCellViewModel!.image, imageView: imageLocation)
+            }
         }
     }
     

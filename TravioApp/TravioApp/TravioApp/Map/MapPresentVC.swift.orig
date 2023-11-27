@@ -133,6 +133,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         self.viewModel.savePlace()
     }
     
+<<<<<<< HEAD
     private lazy var imagePicker:UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -165,6 +166,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
 
     }
 
+=======
+    
     func showImagePicker(for indexPath: IndexPath) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
@@ -172,6 +175,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
             imagePicker.view.tag = indexPath.item
             present(imagePicker, animated: true, completion: nil)
         }
+>>>>>>> sprint5/editProfileRefactorDispatch
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {

@@ -18,11 +18,11 @@ class MapVM {
     
     var showPinClosure: (() -> Void)?
     var showAlertClosure: ((String, String) -> Void)?
-    var reloadTableViewClosure: (()->())?
+    var reloadCollectionViewClosure: (()->())?
     
     private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
-            reloadTableViewClosure?()
+            reloadCollectionViewClosure?()
         }
     }
     
@@ -49,11 +49,21 @@ class MapVM {
         NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<PlacesDataStatus, Error>) in
             switch result {
             case .success(let data):
-                self?.fetchVisits(favorites: data.data.places )
-            case .failure(let failure):
-                print(failure.localizedDescription)
+                self?.fetchVisits(mapPlaces: data.data.places )
+            case .failure(_):
+                break
             }
         }
+    }
+    func addCustomAnnotation(title: String, subtitle: String, coordinate: CLLocationCoordinate2D, logoImage: UIImage?) {
+        let annotation = CustomAnnotation(
+            title: title,
+            subtitle: subtitle,
+            coordinate: coordinate,
+            logoImage: logoImage
+        )
+        
+        map.addAnnotation(annotation)
     }
     
     func fetchAndShowPlaces() {
@@ -67,38 +77,30 @@ class MapVM {
                     let description = place.description
                     let latitude = place.latitude
                     let longitude = place.longitude
-                    
-                    let annotation = CustomAnnotation(
-                        title: title,
-                        subtitle: description,
-                        coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                        logoImage: UIImage(named: "pinLogo")
-                    )
-                    
-                    self.map.addAnnotation(annotation)
+                    self.addCustomAnnotation(title: title, subtitle: description, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), logoImage:UIImage(named: "pinLogo"))
                 }
-            case .failure(let error):
-                print("Hata: \(error)")
+            case .failure(_):
+                break
             }
         }
     }
     
-    private func fetchVisits(favorites:[Place]){
-        self.places = favorites
+    private func fetchVisits(mapPlaces:[Place]){
+        self.places = mapPlaces
         
         var viewModels = [VisitCellViewModel]()
         
-        for favorite in favorites {
-            viewModels.append(createCellViewModel(favorite: favorite))
+        for mapPlace in mapPlaces {
+            viewModels.append(createCellViewModel(mapPlace: mapPlace))
         }
         
         self.cellViewModels = viewModels
     }
     
-    private func createCellViewModel(favorite:Place) -> VisitCellViewModel{
-        let cvm = VisitCellViewModel(image: URL(string: favorite.cover_image_url)!,
-                                     placeName: favorite.title,
-                                     city: favorite.place)
+    private func createCellViewModel(mapPlace:Place) -> VisitCellViewModel{
+        let cvm = VisitCellViewModel(image: URL(string: mapPlace.cover_image_url)!,
+                                     placeName: mapPlace.title,
+                                     city: mapPlace.place)
         return cvm
     }
     
