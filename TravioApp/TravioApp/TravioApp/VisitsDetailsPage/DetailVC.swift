@@ -211,10 +211,14 @@ class DetailVC: UIViewController {
     func fetchMap() {
         if let pinCoordinate = pinCoordinate {
             let mapSnapshotOptions = MKMapSnapshotter.Options()
-            mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1200, longitudinalMeters: 1200)
+            let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)
+            mapSnapshotOptions.traitCollection = darkModeTraitCollection
+            mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1300, longitudinalMeters: 1300)
             let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
+            
             snapShotter.start { snapshot, error in
                 if let snapshot = snapshot {
+                    
                     let image = snapshot.image
                     
                     if let annotationView = self.createPinImage() {
@@ -304,9 +308,9 @@ class DetailVC: UIViewController {
         }
         
         centerText.topToSuperview()
-        centerText.leadingToSuperview(offset:10)
+        centerText.leadingToSuperview(offset:20)
         centerText.snp.makeConstraints({s in
-            s.trailing.equalToSuperview().offset(-10)
+            s.trailing.equalToSuperview().offset(-20)
         })
         
         
