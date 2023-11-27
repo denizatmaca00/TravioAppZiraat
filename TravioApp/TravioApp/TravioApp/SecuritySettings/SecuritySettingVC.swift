@@ -14,18 +14,35 @@ import Photos
 import CoreLocation
 
 class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
-    let locationManager = CLLocationManager()
+    //Alert
+    enum SwitchType {
+        case camera, photoLibrary, location
+    }
+    
+    func getSwitchTypeFromAlert(title: String) -> SwitchType? {
+        switch title {
+        case "Camera Access Required":
+            return .camera
+        case "Photo Library Access Required":
+            return .photoLibrary
+        case "Location Access Required":
+            return .location
+        default:
+            return nil
+        }
+    }
+    
     var viewModel = SecuritySettingsVM()
+    let locationManager = CLLocationManager()
     var presentClosure: ((UIAlertController) -> Void)?
     var checkPermissionStatus: Bool?
     var checkPermissionLocationStatus: Bool?
     var checkPermissionLibraryStatus: Bool?
-    //background color
+
     private lazy var uıView: AppView = {
         let uv = AppView()
         return uv
     }()
-    //background color
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "backgroundColor")
@@ -33,8 +50,6 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         view.layer.maskedCorners = [.layerMinXMinYCorner]
         return view
     }()
-    
-    //Security Settings
     private lazy var mainTitle:UILabel = {
         let title = UILabel()
         title.text = "Security Settings"
@@ -90,30 +105,8 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         ts.toggleSwitch.addTarget(self, action: #selector(switchLocation), for: .valueChanged)
         return ts
     }()
-    @objc private func switchLibrary(){
-        if photoLibrary.toggleSwitch.isOn {
-            print("photo library on")
-            //fonk çağır
-            self.alertSettings(getTitle: "Photo Library Access Required", getmessage:  "To enable Photo Library access, please go to Settings and turn on Camera for this app.")
-            //self.photoLibraryToAppSettings()
-        }else {
-            print("photo library off")
-            self.alertSettings(getTitle: "Photo Library Access Required", getmessage:  "To enable Photo Library access, please go to Settings and turn on Camera for this app.")
-            //self.photoLibraryToAppSettings()
-        }
-    }
-    //location
-    @objc private func switchLocation(){
-        if location.toggleSwitch.isOn {
-            alertSettings(getTitle: "Location Access Required", getmessage: "To enable Location access, please go to Settings and turn on Camera for this app.")
-        }
-        else {
-            alertSettings(getTitle: "Location Access Required", getmessage: "To enable Location access, please go to Settings and turn on Camera for this app.")
-            
-        }
-    }
     
-    //signup button
+    
     private lazy var signupButton: AppButton = {
         let s = AppButton()
         s.setTitle("Sign Up", for: .normal)
@@ -123,7 +116,6 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     }()
     private lazy var passwordGet = passwordTextField.getTFAsObject()
     private lazy var passwordConfirM = confirmPassword.getTFAsObject()
-    //scroll view
     private lazy var scrollView:UIScrollView = {
         let sw = UIScrollView()
         sw.isScrollEnabled = true
@@ -153,8 +145,6 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         return sp
     }()
     @objc func updatePassword(){
-        //burada put network tetikle.
-        //burada textfieldden gelen texti burada password olarak ver.
         let passwordText = passwordGet.text
         let confirmText = passwordConfirM.text
         if passwordText == confirmText {
@@ -169,6 +159,37 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
             }
         }
     }
+    
+    @objc private func switchValueChanged() {
+        if camera.toggleSwitch.isOn {
+            print("Switch is ON")
+            self.alertSettings(getTitle: "Camera Access Required", getmessage:  "To enable Camera access, please go to Settings and turn on Camera for this app.")
+        } else {
+            self.alertSettings(getTitle: "Camera Access Required", getmessage:  "To enable Camera access, please go to Settings and turn on Camera for this app.")
+            print("Switch is OFF")
+        }
+    }
+    @objc private func switchLibrary(){
+        if photoLibrary.toggleSwitch.isOn {
+            print("photo library on")
+            //fonk çağır
+            self.alertSettings(getTitle: "Photo Library Access Required", getmessage:  "To enable Photo Library access, please go to Settings and turn on Camera for this app.")
+        }else {
+            print("photo library off")
+            self.alertSettings(getTitle: "Photo Library Access Required", getmessage:  "To enable Photo Library access, please go to Settings and turn on Camera for this app.")
+        }
+    }
+    //location
+    @objc private func switchLocation(){
+        if location.toggleSwitch.isOn {
+            alertSettings(getTitle: "Location Access Required", getmessage: "To enable Location access, please go to Settings and turn on Camera for this app.")
+        }
+        else {
+            alertSettings(getTitle: "Location Access Required", getmessage: "To enable Location access, please go to Settings and turn on Camera for this app.")
+            
+        }
+    }
+    
     func showAlert(title:String,message:String){
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -177,17 +198,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         present(alertController, animated: true)
     }
     
-    @objc private func switchValueChanged() {
-        if camera.toggleSwitch.isOn {
-            print("Switch is ON")
-            self.alertSettings(getTitle: "Camera Access Required", getmessage:  "To enable Camera access, please go to Settings and turn on Camera for this app.")
-            //            redirectToAppSettings()
-        } else {
-            self.alertSettings(getTitle: "Camera Access Required", getmessage:  "To enable Camera access, please go to Settings and turn on Camera for this app.")
-            print("Switch is OFF")
-            //            redirectToAppSettings()
-        }
-    }
+
     
     @objc func backPage(){
         navigationController?.popViewController(animated: true)
@@ -203,7 +214,6 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
             if granted {
                 print(" kamera erişim izni \(granted) ")
                 self.checkPermissionStatus = true
-                //NotificationCenter.default.post(name: .permissionCamera, object: nil)
             } else {
                 print("Kullanıcı kamera erişim iznini reddetti.  \(granted)")
                 self.checkPermissionStatus = false
@@ -217,35 +227,15 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
             case .authorized:
                 print("Photo Library izni verildi.")
                 self.checkPermissionLibraryStatus = true
-                //NotificationCenter.default.post(name: .permissionPhotoLibrary, object: nil)
             case .denied, .restricted:
                 print("Kullanıcı Photo Library erişim iznini reddetti.")
                 self.checkPermissionLibraryStatus = false
             case .notDetermined:
                 print("Photo Library izni henüz belirlenmedi.")
-                //self.photoLibraryPermission()
                 self.checkPermissionLibraryStatus = false
             default:
                 self.checkPermissionLibraryStatus = false
             }
-        }
-    }
-    
-    //Alert
-    enum SwitchType {
-        case camera, photoLibrary, location
-    }
-    
-    func getSwitchTypeFromAlert(title: String) -> SwitchType? {
-        switch title {
-        case "Camera Access Required":
-            return .camera
-        case "Photo Library Access Required":
-            return .photoLibrary
-        case "Location Access Required":
-            return .location
-        default:
-            return nil
         }
     }
     func alertSettings(getTitle: String, getmessage: String) {
@@ -285,15 +275,10 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         case .authorizedWhenInUse, .authorizedAlways:
             print("Location access granted.")
             self.checkPermissionLocationStatus = true
-            //addDefaultBlueAnnotation()
-            //NotificationCenter.default.post(name: .permissionLocation, object: nil)
-            //return true
         default:
             print("Location access denied.")
             self.checkPermissionLocationStatus = false
             locationPermission()
-            //addDefaultBlueAnnotation()
-            //return false
         }
     }
     // first photolibrary permission
@@ -301,26 +286,12 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         locationManager.requestWhenInUseAuthorization()
         
     }
-    //    @objc func permissionCamera(){
-    //        refreshSettings()
-    //    }
-    //    @objc func permissionPhotoLibrary(){
-    //        refreshSettings()
-    //    }
-    //    @objc func permissionLocation(){
-    //        refreshSettings()
-    //    }
-    //    override func viewWillAppear(_ animated: Bool) {
-    //        super.viewWillAppear(animated)
-    //        refreshSettings()
-    //    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         refreshSettings()
     }
-//    func camera(){
-//        requestCameraPermission()
-//    }
+
     func refreshSettings(){
         requestLocationPermission()
         locationPermission()
@@ -330,32 +301,19 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         presentClosure = { [weak self] alertController in
             self?.present(alertController, animated: true, completion: nil)
         }
-        //        viewModel.checkPermission = {[weak self] () in
-        //            self?.camera.toggleSwitch.isOn = true
-        //        }
-        //        viewModel.checkPermissionLibrary = {[weak self] () in
-        //            self?.photoLibrary.toggleSwitch.isOn = true
-        //        }
-        //        viewModel.checkPermissionLocation = {[weak self] () in
-        //            self?.location.toggleSwitch.isOn = true
-        //        }
-        
         if checkPermissionStatus == true {
-            // viewModel.checkPermission?()
             self.camera.toggleSwitch.isOn = true
         }else {
             self.camera.toggleSwitch.isOn = false
         }
         //photo library
         if checkPermissionLibraryStatus == true {
-            //viewModel.checkPermissionLibrary?()
             self.photoLibrary.toggleSwitch.isOn = true
         }else {
             self.photoLibrary.toggleSwitch.isOn = false
         }
         //location
         if checkPermissionLocationStatus == true {
-            //viewModel.checkPermissionLocation?()
             self.location.toggleSwitch.isOn = true
         }else {
             self.location.toggleSwitch.isOn = false

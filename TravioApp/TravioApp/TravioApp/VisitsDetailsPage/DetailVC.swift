@@ -37,14 +37,11 @@ class DetailVC: UIViewController {
         adbtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
         return adbtn
     }()
-    private lazy var deleteBtn:UIImageView = {
-        let sb = UIImageView()
-        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(deleteBtnTapped))
-        sb.isUserInteractionEnabled = true
-        sb.addGestureRecognizer(tapgesture)
-        sb.image = UIImage(systemName: "trash.fill")
-        sb.tintColor = UIColor(named: "backgroundColor")
-        return sb
+    private lazy var deleteBtn:UIButton = {
+        let delBtn = UIButton()
+        delBtn.setImage(UIImage(systemName:  "trash.fill"), for: .normal)
+        delBtn.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
+        return delBtn
     }()
     private lazy var backButton:UIButton = {
         let b = UIButton()
@@ -106,9 +103,9 @@ class DetailVC: UIViewController {
         let txt = UILabel()
         txt.text = "Lorem Ipsum is..."
         txt.textColor = .black
-        txt.numberOfLines = 0 //altsatıra
-        txt.lineBreakMode = .byWordWrapping //altsatıra geç
-        txt.sizeToFit() //girilene göre otomatik boyut ayarlar.
+        txt.numberOfLines = 0
+        txt.lineBreakMode = .byWordWrapping
+        txt.sizeToFit()
         txt.font = .Fonts.descriptionLabel.font
         return txt
     }()
@@ -184,7 +181,7 @@ class DetailVC: UIViewController {
             
             viewModel.getAPlaceById { Place in
                 self.configurePage(place: Place)
-                self.fetchMap()
+                self.createMapView()
             }
             
             viewModel.getAllGaleryById(complete: {() in
@@ -220,7 +217,7 @@ class DetailVC: UIViewController {
         func configureImage(img:Image){
             let url = URL(string: img.image_url)
         }
-        func fetchMap() {
+        func createMapView() {
             if let pinCoordinate = pinCoordinate {
                 let mapSnapshotOptions = MKMapSnapshotter.Options()
                 let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)
