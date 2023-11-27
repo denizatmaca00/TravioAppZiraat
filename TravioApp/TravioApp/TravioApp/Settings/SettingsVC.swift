@@ -221,6 +221,11 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             cell.setupLayout()
             cell.selectionStyle = .none
             cell.backgroundColor = UIColor(named: "viewBackgroundColor")
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOffset = CGSize(width: 0, height: 4)
+            cell.layer.shadowRadius = 100
+            cell.layer.shadowOpacity = 0.15
+            cell.layer.masksToBounds = true
             
             return cell
         } else {

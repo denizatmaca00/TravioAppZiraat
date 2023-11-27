@@ -199,7 +199,10 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }
     var deleteCreator: String?
     func configurePage(place:Place){
-        centerText.text = place.place
+     //   centerText.text = place.place
+        centerText.text = place.place.extractCity()
+        print(centerText.text)
+
         dateText.text = place.created_at.formatDate()
         byText.text = place.creator
         deleteCreator = place.creator
