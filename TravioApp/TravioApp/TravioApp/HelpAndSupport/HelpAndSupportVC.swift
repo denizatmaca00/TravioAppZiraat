@@ -122,7 +122,7 @@ class HelpAndSupportVC: UIViewController {
         })
         
         tableView.snp.makeConstraints({ tv in
-            tv.top.equalToSuperview().offset(85)
+            tv.top.equalToSuperview()
             tv.leading.equalToSuperview()
             tv.trailing.equalToSuperview()
             tv.bottom.equalToSuperview()
@@ -152,6 +152,7 @@ class HelpAndSupportVC: UIViewController {
 }
 
 extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfCells
     }
@@ -226,8 +227,14 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
         self.tableView.endUpdates()
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 85-26
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
