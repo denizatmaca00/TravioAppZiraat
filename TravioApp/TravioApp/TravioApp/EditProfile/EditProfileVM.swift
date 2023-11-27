@@ -40,7 +40,7 @@ class EditProfileVM {
     var selectedImage:UIImage?
     var imageURL:String? {
         didSet{
-            editProfile.pp_url = imageURL.last!
+            editProfile.pp_url = imageURL!
             putEditProfileInfos()
         }
     }

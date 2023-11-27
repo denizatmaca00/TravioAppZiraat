@@ -156,11 +156,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
                 self?.dismiss(animated: true)
             })
         }
-        viewModel.showAlertClosure = { [weak self] title, message in
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-            self?.addActionSheet(title: title, message: message, actions: [cancelAction])
-            
-        }
         
         setupViews()
         initVM()
