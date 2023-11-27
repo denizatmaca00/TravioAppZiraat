@@ -179,7 +179,7 @@ class DetailVC: UIViewController {
                 
             }
             viewModel.checkErrorID = {[weak self] () in
-                self?.saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
+                self?.saveBtn.setImage(UIImage(named: "save"), for: .normal)
             }
             
             viewModel.getAPlaceById { Place in
