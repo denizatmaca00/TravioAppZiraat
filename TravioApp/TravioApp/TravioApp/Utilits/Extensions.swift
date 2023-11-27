@@ -124,8 +124,13 @@ extension UIView {
         shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 0).cgPath
         self.layer.addSublayer(shapeLayer)
     }
-    
-    
+    func shadow(){
+        self.layer.shadowColor = UIColor.black.cgColor
+            self.layer.shadowOffset = CGSize(width: 4, height: 0)
+            self.layer.shadowRadius = 6
+            self.layer.shadowOpacity = 0.15
+            self.layer.masksToBounds = false
+    }
     
     func rotate(angle: CGFloat) {
         let radians = angle / 180.0 * CGFloat.pi
@@ -385,13 +390,7 @@ extension String {
         
         return nil
     }
-    
-    func extractDate() -> String? {
-        let endIndex = self.index(self.startIndex, offsetBy: 10)
-        return String(self.prefix(upTo: endIndex))
-    }
-    
-    func extractCity() -> String {
+    func extractCityName() -> String {
         let components = self.components(separatedBy: ",")
         if let firstComponent = components.first?.trimmingCharacters(in: .whitespacesAndNewlines), !firstComponent.isEmpty {
             return firstComponent
@@ -399,7 +398,11 @@ extension String {
         return self
     }
     
-    
+    func extractDate() -> String? {
+        let endIndex = self.index(self.startIndex, offsetBy: 10)
+        return String(self.prefix(upTo: endIndex))
+    }
+       
     
 }
 
@@ -533,5 +536,3 @@ extension UIWindow {
         }
     }
 }
-
-// MARK: date

@@ -91,17 +91,10 @@ class MapVC: UIViewController {
             let touchPoint = gestureRecognizer.location(in: viewModel.map)
             let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
             
-            // Eğer önceki bir seçili pin varsa, onu kaldır
-            if let existingAnnotation = selectedAnnotation {
-                viewModel.map.removeAnnotation(existingAnnotation)
-            }
-            
-            // Eğer önceki bir seçili pin varsa, seçili pin'i kaldır ama çalışmıyor
             deselectSelectedAnnotation()
 
             viewModel.addCustomAnnotation(title: "Yeni Pin", subtitle: "Açıklama", coordinate: coordinate, logoImage: UIImage(named: "pinLogo"))
             
-            // Yeni pin'i seçili olarak işaretle
             selectedAnnotation = viewModel.map.annotations.last
             
             let vc = MapPresentVC()

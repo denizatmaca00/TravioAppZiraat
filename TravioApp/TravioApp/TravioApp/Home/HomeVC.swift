@@ -256,9 +256,6 @@ extension HomeVC:UICollectionViewDataSource {
         
         switch indexPath.section {
             
-        case 0:
-            header.isHidden = true
-            
         case 1:
             let title = "Popular Places"
             header.setTitle(titleText: title)
@@ -296,7 +293,7 @@ extension HomeVC:UICollectionViewDataSource {
             }
             header.isHidden = false
         default:
-            break
+            header.isHidden = true
         }
         return header
     }
