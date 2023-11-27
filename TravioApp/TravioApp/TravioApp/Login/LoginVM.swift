@@ -27,7 +27,7 @@ class LoginVM{
         
         let paramsPost = ["email": email, "password": password]
         
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .user(params: paramsPost)) { (result: Result<Tokens, Error>) in
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .user(params: paramsPost as Parameters)) { (result: Result<Tokens, Error>) in
             
             switch result {
                 case .success(let response):
