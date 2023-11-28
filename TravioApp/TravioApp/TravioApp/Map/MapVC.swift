@@ -15,6 +15,7 @@ class MapVC: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MapPlacesCellVC.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.isScrollEnabled = true
         return collectionView
     }()
     
@@ -163,7 +164,6 @@ extension MapVC: MKMapViewDelegate {
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
 
-
 }
 
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -186,7 +186,14 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
         return cell
         
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            if scrollView.contentOffset.y != 0 {
+                scrollView.contentOffset.y = 0
+            }
+        }
 }
+
 
 #if DEBUG
 import SwiftUI
