@@ -173,7 +173,7 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.tappedCellMap(at: indexPath)
         let vc = DetailVC()
-        vc.viewModel.placeIdtest = viewModel.places[indexPath.row].id
+        vc.viewModel.placeId = viewModel.places[indexPath.row].id
         navigationController?.pushViewController(vc, animated: true)
     }
     

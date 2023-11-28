@@ -12,7 +12,7 @@ import Alamofire
 class DetailVM{
     //mapten gelen placeid olacak.
     var id:String?
-    var placeIdtest:String?{
+    var placeId:String?{
         didSet{
         }
     }
@@ -39,7 +39,7 @@ class DetailVM{
     
    
         func getAPlaceById(complete: @escaping (Place)->()) {
-            guard let placeId = placeIdtest else { return }
+            guard let placeId = placeId else { return }
             DispatchQueue.global().async {
             NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getPlaceByID(id: placeId)){  (result:Result<PlaceIDDataStatus, Error>) in
                 switch result{
@@ -54,7 +54,7 @@ class DetailVM{
         }
     }
     func getAPlaceCreator(complete: @escaping (String)->()) {
-        guard let placeId = placeIdtest else { return }
+        guard let placeId = placeId else { return }
         DispatchQueue.global().async {
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getPlaceByID(id: placeId)){  (result:Result<PlaceIDDataStatus, Error>) in
             switch result{
@@ -70,7 +70,7 @@ class DetailVM{
  }
 
     func getAPlaceCreator2(completion: @escaping (Result<Place, Error>) -> Void) {
-            guard let placeId = placeIdtest else { return }
+            guard let placeId = placeId else { return }
             NetworkingHelper.shared.dataFromRemote(urlRequest: .getPlaceByID(id: placeId)) { (result: Result<PlaceIDDataStatus, Error>) in
                 switch result {
                 case .success(let place):
@@ -81,7 +81,7 @@ class DetailVM{
             }
         }
     func getAllGaleryById(complete: @escaping ()->()){
-         guard let placeId = placeIdtest else { return }
+         guard let placeId = placeId else { return }
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getAllGaleryByID(id: placeId)) { [weak self] (result:Result<GalleryImage, Error>) in
                     switch result {
                     case .success(let result):
@@ -93,7 +93,7 @@ class DetailVM{
                 }
     }
     func postVisit(){
-        guard let placeid = placeIdtest else {return }
+        guard let placeid = placeId else {return }
         let params = ["place_id" : placeid, "visited_at" : dateFormatter()]
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.postVisit(params: params)){
              (result:Result<Messages,Error>) in
@@ -113,7 +113,7 @@ class DetailVM{
         return postVisitToday
     }
     func deleteVisitbyPlceID(){
-        guard let id = placeIdtest  else {return}
+        guard let id = placeId  else {return}
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.deleteVisit(id: id)){
             (result:Result<Messages,Error>) in
         }
@@ -121,13 +121,13 @@ class DetailVM{
     
     
      func deleteMyAdded(){
-        guard let id = placeIdtest  else {return}
+        guard let id = placeId  else {return}
          NetworkingHelper.shared.dataFromRemote(urlRequest: .deleteMyAddedPlaceById(id: id)){
             (result:Result<Messages,Error>) in
         }
     }
     func checkVisitbyPlaceID(){
-        guard let id = placeIdtest  else {return}
+        guard let id = placeId  else {return}
         print(id)
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.checkVisitByID(id: id)){
             (result:Result<Messages,Error>) in

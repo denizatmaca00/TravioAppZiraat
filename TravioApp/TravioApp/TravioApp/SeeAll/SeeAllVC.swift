@@ -47,13 +47,29 @@ class SeeAllVC: UIViewController {
         view.layer.maskedCorners = [.layerMinXMinYCorner]
         return view
     }()
-    private lazy var sortAscending:UIButton = {
+    private lazy var sortButton:UIButton = {
         let up = UIButton()
         up.setImage(UIImage(named: "sortAscending"), for: .normal)
-        up.addTarget(self, action: #selector(sortDescending), for: .touchUpInside)
+        up.addTarget(self, action: #selector(sortButtonTapped), for: .touchUpInside)
         return up
     }()
-    
+    private var isAscending = true
+    @objc func sortButtonTapped() {
+            isAscending.toggle()
+
+            if isAscending {
+                viewModel.sortPlace(getSortType: .AToZ)
+            } else {
+                viewModel.sortPlace(getSortType: .ZToA)
+            }
+
+            collectionView.reloadData()
+            updateSortButton()
+        }
+        private func updateSortButton() {
+            let imageName = isAscending ? "sortAscending" : "sortDescending"
+            sortButton.setImage(UIImage(named: imageName), for: .normal)
+        }
     private lazy var backButton:UIButton = {
         let bck = UIButton()
         bck.setImage(UIImage(named: "bckBtnSecuritySetting"), for: .normal)
@@ -75,22 +91,9 @@ class SeeAllVC: UIViewController {
         cv.layer.maskedCorners = [.layerMinXMinYCorner]
         cv.layer.cornerRadius = 30
         cv.layer.backgroundColor = UIColor(named: "viewBackgroundColor")?.cgColor
-        cv.addSubview(sortAscending)
+        cv.addSubview(sortButton)
         return cv
     }()
-    @objc func sortDescending(){
-        sortAscending.setImage(UIImage(named: "sortDescending"), for: .normal)
-        sortAscending.addTarget(self, action: #selector(sortAscendingBack), for: .touchUpInside)
-        viewModel.sortPlace(getSortType: .AToZ)
-        initAllForUserVM()
-    }
-    @objc func sortAscendingBack(){
-        sortAscending.setImage(UIImage(named: "sortAscending"), for: .normal)
-        sortAscending.addTarget(self, action: #selector(sortDescending), for: .touchUpInside)
-        viewModel.sortPlace(getSortType: .ZToA)
-        initAllForUserVM()
-    }
-    
     @objc func backPage(){
         navigationController?.popViewController(animated: true)
      }
@@ -98,7 +101,7 @@ class SeeAllVC: UIViewController {
         super.viewDidLoad()
         initAllForUserVM()
         titleLabel.isHidden = false
-        sortAscending.isHidden = false
+        sortButton.isHidden = false
         self.view.backgroundColor = UIColor(named: "viewBackgroundColor")
        setupViews()
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 150, right: 0)
@@ -132,7 +135,7 @@ class SeeAllVC: UIViewController {
         self.view.backgroundColor = .white
         self.view.addSubview(backgroundView)
         self.view.addSubview(uıView)
-        uıView.addSubviews(collectionView,sortAscending)
+        uıView.addSubviews(collectionView,sortButton)
         
         self.view.addSubview(titleLabel)
         self.view.addSubview(backButton)
@@ -164,10 +167,10 @@ class SeeAllVC: UIViewController {
         collectionView.height(800)
         
         
-        sortAscending.height(40)
-        sortAscending.width(40)
-        sortAscending.topToSuperview(offset:10,usingSafeArea: true)
-        sortAscending.trailingToSuperview(offset:40)
+        sortButton.height(40)
+        sortButton.width(40)
+        sortButton.topToSuperview(offset:10,usingSafeArea: true)
+        sortButton.trailingToSuperview(offset:40)
   
     }
   
@@ -188,14 +191,14 @@ extension SeeAllVC:UICollectionViewDelegateFlowLayout{
          
          func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
                  let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SeeAllCell", for: indexPath) as! SeeAllCellVC
-             let deneme = viewModel.popularArray[indexPath.row]
-             cell.configure(object: deneme)
+             let placeInfo = viewModel.popularArray[indexPath.row]
+             cell.configure(object: placeInfo)
              return cell
              }
 
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let vc = DetailVC()
-            vc.viewModel.placeIdtest = viewModel.popularArray[indexPath.row].id
+            vc.viewModel.placeId = viewModel.popularArray[indexPath.row].id
             navigationController?.pushViewController(vc, animated: true)
         }
 
