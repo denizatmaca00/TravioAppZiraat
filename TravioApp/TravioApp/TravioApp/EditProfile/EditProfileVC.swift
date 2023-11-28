@@ -59,7 +59,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     func initPicker() {
         
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { [self] _ in
-            print("aaa")
             requestCameraPermission { granted in
                DispatchQueue.main.async {
                     if granted {
@@ -234,12 +233,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     func requestCameraPermission(completion: @escaping (Bool)->Void) {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             if granted {
-                print(" kamera erişim izni \(granted) ")
-                //self.checkPermissionStatus = true
                 completion(true)
             } else {
-                print("Kullanıcı kamera erişim iznini reddetti.  \(granted)")
-               // self.checkPermissionStatus = false
                 completion(false)
             }
         }

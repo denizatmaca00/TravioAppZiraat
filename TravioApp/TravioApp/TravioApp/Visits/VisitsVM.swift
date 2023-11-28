@@ -5,7 +5,6 @@
 //  Created by Aydın Erol on 27.10.2023.
 //
 
-import Foundation
 import UIKit
 
 class VisitsVM{
@@ -22,9 +21,6 @@ class VisitsVM{
     }
     
     var numberOfCells:Int?
-    //    {
-    //        return cellViewModels.count
-    //    }
     
     // this will be filled on VisitsVC to populate tableView with updated data
     var reloadTableViewClosure: (()->())?
@@ -38,8 +34,8 @@ class VisitsVM{
             case .success(let success):
                 self.fetchVisits(favorites: success.data.visits)
                 
-            case .failure(let failure):
-                print(failure.localizedDescription)
+            case .failure(_):
+                return
             }
         }
     }
