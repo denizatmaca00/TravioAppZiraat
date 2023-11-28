@@ -302,12 +302,6 @@ extension HomeVC:UICollectionViewDataSource {
 
 extension HomeVC:UICollectionViewDelegate
 {
-    // used for adjusting item sizes
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width - 10) * 1,
-                      height: (collectionView.frame.height - 10 ) * 1)
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let placeId = viewModel.sectionsArray[indexPath.section-1][indexPath.row].id
         let vc = DetailVC()
