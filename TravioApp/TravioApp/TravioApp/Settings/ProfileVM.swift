@@ -20,7 +20,6 @@ class ProfileVM {
                 self.profile = profile
                 self.profileUpdateClosure?(profile)
                 completion(.success(profile))
-                
             case .failure(let error):
                 completion(.failure(error))
             }

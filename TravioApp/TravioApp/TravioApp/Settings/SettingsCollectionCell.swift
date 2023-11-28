@@ -58,7 +58,6 @@ class SettingsCollectionCell: UITableViewCell {
     func setupLayout() {
         self.backView.shadow()
         backView.snp.makeConstraints({ make in
-           // make.edges.equalToSuperview()
             make.height.equalTo(54)
             make.trailing.equalToSuperview()
             make.leading.equalToSuperview()

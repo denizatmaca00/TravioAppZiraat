@@ -165,7 +165,8 @@ class SignUpVC: UIViewController {
         })
         
         contentViewBig.snp.makeConstraints { view in
-            view.height.equalToSuperview().multipliedBy(0.8)
+         //   view.height.equalToSuperview().multipliedBy(0.8)
+            view.top.equalToSuperview().offset(125)
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
             view.bottom.equalToSuperview()

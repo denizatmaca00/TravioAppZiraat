@@ -17,16 +17,6 @@ struct VisitCellViewModel{
     var city:String
 }
 
-//struct VisitViewModel:Codable{
-//    var id:String
-//    var place_id:String
-//    var visited_at:String
-//    var created_at:String
-//    var updated_at:String
-//    var place:String
-//}
-
-//MARK: Get A Visit By ID
 // MARK: Visit Structs
 
 struct VisitsDataStatus: Codable{

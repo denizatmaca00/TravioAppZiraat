@@ -126,8 +126,6 @@ class SettingsVC: UIViewController {
     }
     
     @objc func logOutButtonTapped() {
-        //KeychainHelper.shared.delete("Travio", account: "asd")
-      //  navigationController?.pushViewController(LoginVC(), animated: true)
         loginVM.logout { result in
             switch result {
             case .success:

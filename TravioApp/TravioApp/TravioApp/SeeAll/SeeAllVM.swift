@@ -54,10 +54,9 @@ class SeeAllVM{
             (result: Result<PlacesDataStatus,Error>) in
             switch result{
             case .success(let data):
-                print(data.data.places)
                 self.fetch(array: data.data.places)
-            case .failure(let failure):
-                print(failure.localizedDescription)
+            case .failure(_):
+                break
             }
         }
     }
@@ -79,8 +78,6 @@ class SeeAllVM{
         for item in array {
             viewModels.append(cellVM(array: item))
         }
-        print(array)
-        print(array.count)
         self.popularCellViewModels = viewModels
     }
      func cellVM(array:Place) -> VisitCellViewModel{
@@ -97,11 +94,9 @@ class SeeAllVM{
             case .AToZ:
                 newSort.sort(by: { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending })
                 self.popularArray = newSort
-                print(popularArray)
             case .ZToA:
                 newSort.sort(by: { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedDescending })
                 self.popularArray = newSort
-                print(popularArray)
 
             }
         }

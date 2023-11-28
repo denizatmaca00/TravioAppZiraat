@@ -30,14 +30,12 @@ class AppToggleSwitch: UIView{
         let loginTitleLbl = UILabel()
         loginTitleLbl.text = dataPrivacy?.text
         loginTitleLbl.textColor = .black
-//        loginTitleLbl.layer.backgroundColor = UIColor.red.cgColor
         loginTitleLbl.font = .Fonts.textFieldTitle.font
         return loginTitleLbl
     }()
 
     lazy var toggleSwitch: UISwitch = {
         let sw = UISwitch()
-//        sw.layer.backgroundColor = UIColor.brown.cgColor
         return sw
     }()
 
@@ -46,13 +44,11 @@ class AppToggleSwitch: UIView{
         stackView.axis = .horizontal
         stackView.spacing = 180
         stackView.alignment = .center
-//        stackView.distribution = .fillProportionally
         stackView.layer.cornerRadius = 16
         stackView.layer.borderColor = UIColor.black.cgColor
         stackView.layer.shadowRadius = 20
         stackView.layer.shadowOpacity = 0.15
         stackView.backgroundColor = UIColor(named: "textColorReversed")
-//        stackView.backgroundColor = .blue
         
         return stackView
     }()

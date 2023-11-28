@@ -37,18 +37,6 @@ extension UIFont {
         case semiBold = "Poppins-SemiBold"
     }
     
-//    var weight:Int {
-//        switch self {
-//        case .light:
-//            return 300
-//        case .regular:
-//            return 400
-//        case .medium:
-//            return 500
-//        case .semiBold:
-//            return 600
-//        }
-//    }
 
     enum Fonts{
         // LandingPage

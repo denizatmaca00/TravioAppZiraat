@@ -20,7 +20,6 @@
 		0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829812AE911A500B2EBDE /* Extensions.swift */; };
 		0F7829852AE911F400B2EBDE /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829832AE911F400B2EBDE /* LoginVC.swift */; };
 		0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829842AE911F400B2EBDE /* SignUpVC.swift */; };
-		0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829872AE9123C00B2EBDE /* AppTextField.swift */; };
 		0F78298B2AE912AA00B2EBDE /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */; };
 		0F78298C2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */; };
 		0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829A22AE92B0D00B2EBDE /* Router.swift */; };
@@ -91,7 +90,6 @@
 		0F7829812AE911A500B2EBDE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0F7829832AE911F400B2EBDE /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		0F7829842AE911F400B2EBDE /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
-		0F7829872AE9123C00B2EBDE /* AppTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextField.swift; sourceTree = "<group>"; };
 		0F7829892AE912A900B2EBDE /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		0F78298A2AE912AA00B2EBDE /* ReenieBeanie-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ReenieBeanie-Regular.ttf"; sourceTree = "<group>"; };
 		0F7829A22AE92B0D00B2EBDE /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -372,7 +370,6 @@
 		0FF6D45D2AEFC8B800AA1339 /* UIElements */ = {
 			isa = PBXGroup;
 			children = (
-				0F7829872AE9123C00B2EBDE /* AppTextField.swift */,
 				ECC8C5D12AEA448F001ED067 /* AppAlert.swift */,
 				EC4D832A2AE9279500D4936E /* AppButton.swift */,
 				0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */,
@@ -519,7 +516,6 @@
 				0F7829852AE911F400B2EBDE /* LoginVC.swift in Sources */,
 				5E388FCA2AEA605E002ABDBD /* CustomVisitCell.swift in Sources */,
 				0F7829A32AE92B0D00B2EBDE /* Router.swift in Sources */,
-				0F7829882AE9123C00B2EBDE /* AppTextField.swift in Sources */,
 				5E5EC5D72B036B34008697DA /* AppToggleSwitch.swift in Sources */,
 				ECFFD1CE2AEF874B0066E75C /* TabBarVC.swift in Sources */,
 				0F7829862AE911F400B2EBDE /* SignUpVC.swift in Sources */,

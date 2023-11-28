@@ -10,24 +10,17 @@ import Alamofire
 
 enum Router {
     
-    // get/post cases
+   
     case register(params:Parameters)
     case user(params: Parameters)
     case visits
     case places
     case deleteVisit(id: String)
-    //case postVisit(id: String, params: Parameters)
     case postVisit(params:Parameters)
-
-    
-    //    case deletePlace(id: String)
-    //    case putPlace(id: String, params: Parameters)
     case getPlaceByID(id:String)
-    //galeryAllGaleryByID;
     case getAllGaleryByID(id:String)
     case putEditProfile(params: Parameters)
     case getProfile
-    
     case getAVisitByID(id:String)
     case checkVisitByID(id:String)
     case getPopularPlaces
@@ -38,7 +31,6 @@ enum Router {
     case postGalleryImage(params: Parameters) // used to create place-image couples
     case uploadAddPhoto(params: Parameters)
     case postAddPlace(params: Parameters)
-    //password change
     case putPassword(params:Parameters)
     case deleteMyAddedPlaceById(id:String)
     
@@ -64,8 +56,6 @@ enum Router {
             return "/v1/places/popular"
         case .getNewPlaces, .getNewPlacesLimits:
             return "/v1/places/last"
-            
-            // delete and update cases
         case .deleteVisit(let visitId):
             return "/v1/visits/\(visitId)"
         case .getPlaceByID(let id):
@@ -134,8 +124,6 @@ enum Router {
             return params
         case .places, .visits:
             return nil
-            
-            // delete and post cases
         case .deleteVisit:
             return nil
         case .putEditProfile(let params):
