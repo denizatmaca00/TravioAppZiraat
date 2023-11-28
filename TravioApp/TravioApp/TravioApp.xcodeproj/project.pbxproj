@@ -62,7 +62,6 @@
 		EC0044222AFB61DB001540A5 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC0044212AFB61DB001540A5 /* Poppins-Light.ttf */; };
 		EC1F3F1E2AF38553004B22AF /* HelpAndSupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */; };
 		EC4023DE2B00CBF20016FA3A /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4023DD2B00CBF20016FA3A /* ImageHelper.swift */; };
-		EC4023E02B0101990016FA3A /* LocationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4023DF2B0101990016FA3A /* LocationHelper.swift */; };
 		EC4023E22B0151870016FA3A /* LandingPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4023E12B0151870016FA3A /* LandingPageVC.swift */; };
 		EC4023E42B0166020016FA3A /* AppActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4023E32B0166020016FA3A /* AppActivityIndicator.swift */; };
 		EC4D832B2AE9279500D4936E /* AppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC4D832A2AE9279500D4936E /* AppButton.swift */; };
@@ -131,7 +130,6 @@
 		EC0044212AFB61DB001540A5 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
 		EC1F3F1D2AF38553004B22AF /* HelpAndSupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVC.swift; sourceTree = "<group>"; };
 		EC4023DD2B00CBF20016FA3A /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
-		EC4023DF2B0101990016FA3A /* LocationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHelper.swift; sourceTree = "<group>"; };
 		EC4023E12B0151870016FA3A /* LandingPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageVC.swift; sourceTree = "<group>"; };
 		EC4023E32B0166020016FA3A /* AppActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppActivityIndicator.swift; sourceTree = "<group>"; };
 		EC4D832A2AE9279500D4936E /* AppButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppButton.swift; sourceTree = "<group>"; };
@@ -356,7 +354,6 @@
 				0FF6D4572AEFC11900AA1339 /* KeychainHelper.swift */,
 				5E388FC52AEA51DE002ABDBD /* NetworkingHelper.swift */,
 				EC4023DD2B00CBF20016FA3A /* ImageHelper.swift */,
-				EC4023DF2B0101990016FA3A /* LocationHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -526,7 +523,6 @@
 				0FB39D0A2AF386E0002C5DF7 /* SettingsVC.swift in Sources */,
 				EC4023E42B0166020016FA3A /* AppActivityIndicator.swift in Sources */,
 				0FB39D0E2AF39B7D002C5DF7 /* SettingsCollectionCell.swift in Sources */,
-				EC4023E02B0101990016FA3A /* LocationHelper.swift in Sources */,
 				0F1182982B02068500225994 /* MapPresentVM.swift in Sources */,
 				EC00441A2AF43819001540A5 /* HelpAndSupportVM.swift in Sources */,
 				0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */,
