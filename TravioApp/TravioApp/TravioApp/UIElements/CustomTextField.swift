@@ -98,7 +98,7 @@ class CustomTextField: UIView {
         }
 
         textField.snp.makeConstraints { tf in
-            tf.top.equalTo(titleLbl.snp.bottom).offset(8)
+            tf.top.equalTo(titleLbl.snp.bottom).offset(2)
         }
 
         if iconPosition != .none {

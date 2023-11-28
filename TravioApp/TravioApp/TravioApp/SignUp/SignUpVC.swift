@@ -15,15 +15,11 @@ class SignUpVC: UIViewController {
     
     var viewModel = SignUpVM()
     
-    private lazy var viewUsername = AppTextField(data: .username)
-    private lazy var viewMail = AppTextField(data: .email)
-    private lazy var viewPass = AppTextField(data: .password)
-    private lazy var viewPassConfirm = AppTextField(data: .passwordConfirm)
     
-    private lazy var txtUsername = viewUsername.getTFAsObject()
-    private lazy var txtEmail = viewMail.getTFAsObject()
-    private lazy var txtPassword = viewPass.getTFAsObject()
-    private lazy var txtPasswordConfirm = viewPassConfirm.getTFAsObject()
+    private lazy var usernameTextField = CustomTextField(title: "Username", placeholder: "bilge_adam", icon: nil, iconPosition: .none)
+    private lazy var emailTextField = CustomTextField(title: "Email", placeholder: "bilgeadam@gmail.com", icon: nil, iconPosition: .none)
+    private lazy var passwordTextField = CustomTextField(title: "Password", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    private lazy var passwordConfirmTextField = CustomTextField(title: "Password Confirm", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
     
     private lazy var signUpLabel: UILabel = {
         let lbl = UILabel()
@@ -65,10 +61,10 @@ class SignUpVC: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        txtUsername.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
-        txtEmail.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
-        txtPassword.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
-        txtPasswordConfirm.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
+        usernameTextField.textField.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
+        emailTextField.textField.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
+        passwordTextField.textField.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
+        passwordConfirmTextField.textField.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
         setupViews()
         
         viewModel.showAlertClosure = { [weak self] title, message in
@@ -94,9 +90,9 @@ class SignUpVC: UIViewController {
         
         if authenticate == true
         {
-            self.signUpData.full_name = txtUsername.text ?? ""
-            self.signUpData.email = txtEmail.text ?? ""
-            self.signUpData.password = txtPassword.text ?? ""
+            self.signUpData.full_name = usernameTextField.textField.text ?? ""
+            self.signUpData.email = emailTextField.textField.text ?? ""
+            self.signUpData.password = passwordTextField.textField.text ?? ""
             
             signUpButton.isEnabled = authenticate
         }
@@ -110,7 +106,7 @@ class SignUpVC: UIViewController {
         let isAuthenticated = updateUserInfo()
 
         if isAuthenticated {
-            viewModel.postUserData(name: txtUsername.text, email: txtEmail.text, password: txtPassword.text) { [weak self] result in
+            viewModel.postUserData(name: usernameTextField.textField.text, email: emailTextField.textField.text, password: passwordTextField.textField.text) { [weak self] result in
                 switch result {
                 case .success(let response):
                     if let messages = response.message {
@@ -132,14 +128,14 @@ class SignUpVC: UIViewController {
     }
     
     func setupViews() {
-        txtUsername.autocapitalizationType  = .words
+        usernameTextField.textField.autocapitalizationType  = .words
         
-        txtEmail.keyboardType = .emailAddress
-        txtEmail.autocorrectionType = .no
-        txtEmail.autocapitalizationType = .none
+        emailTextField.textField.keyboardType = .emailAddress
+        emailTextField.textField.autocorrectionType = .no
+        emailTextField.textField.autocapitalizationType = .none
         
-        txtPassword.isSecureTextEntry = true
-        txtPasswordConfirm.isSecureTextEntry = true
+        passwordTextField.textField.isSecureTextEntry = true
+        passwordConfirmTextField.textField.isSecureTextEntry = true
         
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig)
@@ -147,7 +143,8 @@ class SignUpVC: UIViewController {
         
         contentViewBig.addSubviews(stackViewMain ,signUpButton)
         
-        stackViewMain.addArrangedSubviews(viewUsername, viewMail, viewPass, viewPassConfirm)
+        stackViewMain.addArrangedSubviews(usernameTextField,emailTextField, passwordTextField, passwordConfirmTextField)
+
         
         setupLayout()
     }
@@ -193,11 +190,11 @@ extension SignUpVC: UITextFieldDelegate{
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String)->Bool
     {
-        if textField == txtEmail && textField.text?.count == 21
+        if textField == emailTextField.textField && textField.text?.count == 21
         {
             return false
         }
-        else if textField == txtPassword && textField.text?.count == 21
+        else if textField == passwordTextField.textField && textField.text?.count == 21
         {
             return false
         }
@@ -214,7 +211,7 @@ extension SignUpVC: UITextFieldDelegate{
         
         let isEmpty = checkIsEmpty()
         
-        if txtPassword.text == txtPasswordConfirm.text && isEmpty != false
+        if passwordTextField.textField.text == passwordConfirmTextField.textField.text && isEmpty != false
         {
             signUpButton.isEnabled = true
             return true
@@ -226,14 +223,14 @@ extension SignUpVC: UITextFieldDelegate{
     
     func checkIsEmpty()->Bool?
     {
-        if txtUsername.text == "" ||
-            txtEmail.text == "" ||
-            txtPassword.text == "" ||
-            txtPasswordConfirm.text == ""
+        if usernameTextField.textField.text == "" ||
+            emailTextField.textField.text == "" ||
+            passwordTextField.textField.text == "" ||
+            passwordConfirmTextField.textField.text == ""
         {
             return false
         }
-        else if txtPassword.text!.count < 6 {
+        else if passwordTextField.textField.text!.count < 6 {
             return false
         }
         else

@@ -80,16 +80,12 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         return cptxt
     }()
     
-    private lazy var passwordTextField: AppTextField = {
-        let p = AppTextField(data: .placeHolderEmpty)
-        p.textField.isSecureTextEntry = true
-        return p
-    }()
-    private lazy var confirmPassword: AppTextField = {
-        let pc = AppTextField(data: .passwordConfirmEmpty)
-        pc.textField.isSecureTextEntry = true
-        return pc
-    }()
+    
+    private lazy var passwordTextField = CustomTextField(title: "New Password", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    
+    private lazy var confirmPassword = CustomTextField(title: "New Password Confirm", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+   
+    
     private lazy var camera: AppToggleSwitch = {
         let toggleSwitch = AppToggleSwitch(data: .camera)
         toggleSwitch.toggleSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
@@ -109,13 +105,12 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     
     private lazy var signupButton: AppButton = {
         let s = AppButton()
-        s.setTitle("Sign Up", for: .normal)
+        s.setTitle("Save", for: .normal)
         s.isEnabled = true
         s.addTarget(self, action: #selector(updatePassword), for: .touchUpInside)
         return s
     }()
-    private lazy var passwordGet = passwordTextField.getTFAsObject()
-    private lazy var passwordConfirM = confirmPassword.getTFAsObject()
+  
     private lazy var scrollView:UIScrollView = {
         let sw = UIScrollView()
         sw.isScrollEnabled = true
@@ -145,8 +140,8 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         return sp
     }()
     @objc func updatePassword(){
-        let passwordText = passwordGet.text
-        let confirmText = passwordConfirM.text
+        let passwordText = passwordTextField.textField.text
+        let confirmText = confirmPassword.textField.text
         if passwordText == confirmText {
             viewModel.putPassword(password: Password(new_password: passwordText))
             viewModel.passwordChangeAlertClosure = {title, message in
@@ -206,6 +201,9 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        passwordTextField.textField.isSecureTextEntry = true
+        confirmPassword.textField.isSecureTextEntry = true
+
         addNotificationObserver()
         refreshSettings()
         setupViews()

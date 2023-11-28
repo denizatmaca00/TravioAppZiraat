@@ -4,15 +4,10 @@ import Network
 
 
 class LoginVC: UIViewController {
-    
-    private lazy var viewMail = AppTextField(data: .email)
-    private lazy var viewPass = AppTextField(data: .password)
-    
-    private lazy var txtEmail = viewMail.getTFAsObject()
-    private lazy var txtPassword = viewPass.getTFAsObject()
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitor")
-    let usernameTextField = CustomTextField(title: "Username", placeholder: "bilge_adam", icon: nil, iconPosition: .none)
+    private lazy var emailTextField = CustomTextField(title: "Email", placeholder: "developer@bilgeadam.com", icon: nil, iconPosition: .none)
+    private lazy var passwordTextField = CustomTextField(title: "Password", placeholder: "***************", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
 
 
     var viewModel = LoginVM()
@@ -138,8 +133,8 @@ class LoginVC: UIViewController {
     }
     
     @objc func btnLoginTapped() {
-        guard let email = txtEmail.text  else { return }
-        guard let password = txtPassword.text  else { return }
+        guard let email = emailTextField.textField.text  else { return }
+        guard let password = passwordTextField.textField.text  else { return }
         guard monitor.currentPath.status == .satisfied else {
             viewModel.showAlertClosure?("Error", "Not Internet Connection")
              return
@@ -165,17 +160,17 @@ class LoginVC: UIViewController {
     
     func setupViews() {
         
-        txtEmail.keyboardType = .emailAddress
-        txtEmail.autocorrectionType = .no
-        txtEmail.autocapitalizationType = .none
-        txtPassword.isSecureTextEntry = true
+        emailTextField.textField.keyboardType = .emailAddress
+        emailTextField.textField.autocorrectionType = .no
+        emailTextField.textField.autocapitalizationType = .none
+        passwordTextField.textField.isSecureTextEntry = true
         
         self.view.addSubview(imageView)
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubview(contentViewBig)
         contentViewBig.addSubviews(welcomeLabel, stackViewMain, loginBtn, stackViewSignUp)
         
-        stackViewMain.addArrangedSubviews(viewMail, viewPass, usernameTextField)
+        stackViewMain.addArrangedSubviews(emailTextField, passwordTextField)
         stackViewSignUp.addArrangedSubviews(lblSignUp, btnSignUp)
         setupLayout()
     }

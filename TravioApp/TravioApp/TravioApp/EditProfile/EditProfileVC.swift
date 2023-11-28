@@ -34,10 +34,9 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     var viewModel = EditProfileVM()
     var viewModelProfile: ProfileVM?
     
-    private lazy var viewUsername = AppTextField(data: .fullname)
-    private lazy var viewMail = AppTextField(data: .email)
-    private lazy var txtUsername = viewUsername.getTFAsObject()
-    private lazy var txtEmail = viewMail.getTFAsObject()
+    
+    private lazy var fullNameTextField = CustomTextField(title: "Full Name", placeholder: "bilge_adam", icon: nil, iconPosition: .none)
+    private lazy var emailTextField = CustomTextField(title: "Email", placeholder: "bilgeadam@gmail.com", icon: nil, iconPosition: .none)
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -114,8 +113,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         return lbl
     }()
     
-    lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile!.profile.created_at, alignment: .left)
-    lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile!.profile.role, alignment: .left)
+    lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile?.profile.created_at ?? "", alignment: .left)
+    lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile?.profile.role ?? "", alignment: .left)
     
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
@@ -154,7 +153,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        txtEmail.autocapitalizationType = .none
+        emailTextField.textField.autocapitalizationType = .none
         
         // Define closures
         viewModel.indicatorUpdateClosure = { [weak self] isLoading in
@@ -231,18 +230,18 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         }
     }
     func initVM(){
-        viewModelProfile!.profileUpdateClosure = { [weak self] updatedProfile in
+        viewModelProfile?.profileUpdateClosure = { [weak self] updatedProfile in
             self?.labelName.text = updatedProfile.full_name
             self?.labelDate.textLabel.text = updatedProfile.created_at.formatDate()
             self?.labelRole.textLabel.text = updatedProfile.role
-            self?.txtUsername.text = updatedProfile.full_name
-            self?.txtEmail.text = updatedProfile.email
+            self?.fullNameTextField.textField.text = updatedProfile.full_name
+            self?.emailTextField.textField.text = updatedProfile.email
             guard let url = URL(string: updatedProfile.pp_url) else {return}
             ImageHelper().setImage(imageURL: url, imageView: self!.imageView)
             self?.viewModel.profile = updatedProfile
         }
         
-        viewModelProfile!.getProfileInfos(completion: {result in })
+        viewModelProfile?.getProfileInfos(completion: {result in })
     }
     
     @objc func exitButtonTapped(){
@@ -250,8 +249,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     }
     
     @objc func saveEditProfile() {
-        guard let email = txtEmail.text,
-              let full_name = txtUsername.text,
+        guard let email = emailTextField.textField.text,
+              let full_name = fullNameTextField.textField.text,
               let imageURL = viewModel.editProfile.pp_url as? String
         else { return }
         viewModel.editProfile = EditProfile(full_name: full_name, email: email, pp_url: imageURL)
@@ -268,7 +267,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, exitButton)
         contentViewBig.addSubviews(imageView, changePhotoButton, labelName,labelDate, labelRole, stackViewMain, saveButton)
-        stackViewMain.addArrangedSubviews(viewUsername, viewMail)
+        stackViewMain.addArrangedSubviews(fullNameTextField, emailTextField)
         setupLayout()
     }
     

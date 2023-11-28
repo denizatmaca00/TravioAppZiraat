@@ -70,7 +70,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let loginVC = LoginVC()
             return UINavigationController(rootViewController: loginVC)
         }else{
-            //KeychainHelper.shared.deleteToken()
+            KeychainHelper.shared.deleteToken()
 
             print("token lives")
             return TabBarVC()

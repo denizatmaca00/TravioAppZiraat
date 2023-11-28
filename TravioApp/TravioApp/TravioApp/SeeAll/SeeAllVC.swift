@@ -31,12 +31,8 @@ class SeeAllVC: UIViewController {
         wlcLabel.font = .Fonts.pageHeader32.font
         return wlcLabel
     }()
-    private lazy var uıView:UIView = {
-        let uv = UIView()
-        uv.layer.backgroundColor = UIColor(named: "viewBackgroundColor")?.cgColor
-        uv.backgroundColor = UIColor(named: "viewBackgroundColor")
-        uv.layer.cornerRadius = 80
-        uv.layer.maskedCorners = [.layerMinXMinYCorner]
+    private lazy var backView:UIView = {
+        let uv = AppView()
         return uv
     }()
 
@@ -134,8 +130,8 @@ class SeeAllVC: UIViewController {
     func setupViews() {
         self.view.backgroundColor = .white
         self.view.addSubview(backgroundView)
-        self.view.addSubview(uıView)
-        uıView.addSubviews(collectionView,sortButton)
+        self.view.addSubview(backView)
+        backView.addSubviews(collectionView,sortButton)
         
         self.view.addSubview(titleLabel)
         self.view.addSubview(backButton)
@@ -157,9 +153,11 @@ class SeeAllVC: UIViewController {
         backButton.leadingToSuperview(offset:20)
         
         backgroundView.edgesToSuperview()
-        uıView.topToSuperview(offset:125)
-        uıView.edgesToSuperview(excluding: .bottom,usingSafeArea: true)
-        uıView.height(800)
+        
+        backView.topToSuperview(offset:150)
+        backView.edgesToSuperview(excluding: .bottom,usingSafeArea: true)
+        backView.height(800)
+        
         
         
         collectionView.topToSuperview(offset:50)

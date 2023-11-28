@@ -23,12 +23,17 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     }
     
     var updateMapClosure: (() -> Void)?
+    private lazy var mapAddTitle = CustomTextField(title: "Place Name", placeholder: "Please write a place name", icon: nil, iconPosition: .none)
+    private lazy var mapAddLocation = CustomTextField(title: "Country, City", placeholder: "France, Paris", icon: nil, iconPosition: .none)
     
-    private lazy var mapAddTitle = AppTextField(data: .presentMapTitle)
-    private lazy var mapAddLocation = AppTextField(data: .presentMapLocation)
     
-    private lazy var txtTitle = mapAddTitle.getTFAsObject()
-    private lazy var txtLocation = mapAddLocation.getTFAsObject()
+    
+    
+  //  private lazy var mapAddTitle = AppTextField(data: .presentMapTitle)
+  //  private lazy var mapAddLocation = AppTextField(data: .presentMapLocation)
+    
+//    private lazy var txtTitle = mapAddTitle.getTFAsObject()
+//    private lazy var txtLocation = mapAddLocation.getTFAsObject()
     
     private lazy var titleDescrpition: UILabel = {
         let lbl = UILabel()
@@ -93,6 +98,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //buraya unwarpp gerek
         self.getLocalName(latitude: self.latitude!, longitude: self.longitude!)
     }
     
@@ -126,7 +132,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     
     @objc func btnAddPlaceTapped() {
         
-        let placeInfo = AddPlace(place: txtLocation.text!, title: txtTitle.text!, description: textFieldDescription.text, cover_image_url: "", latitude: latitude!, longitude: longitude!)
+        let placeInfo = AddPlace(place: mapAddLocation.textField.text!, title: mapAddTitle.textField.text!, description: textFieldDescription.text, cover_image_url: "", latitude: latitude!, longitude: longitude!)
         
         viewModel.placeInfo = placeInfo
         
