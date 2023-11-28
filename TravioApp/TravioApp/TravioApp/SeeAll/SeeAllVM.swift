@@ -34,7 +34,7 @@ class SeeAllVM{
     var reloadPopularClosure: (()->())?
     var popularArray:[Place] = []
     
-    //POPULAR PLACE
+    //Popular Place
     func getPopularPlace(){
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getPopularPlaces){
             (result:Result<PlacesDataStatus,Error>) in
@@ -48,7 +48,7 @@ class SeeAllVM{
             
         }
     }
-    //NEW PLACE
+    //New Places
     func newPlace(){
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getNewPlaces){
             (result: Result<PlacesDataStatus,Error>) in

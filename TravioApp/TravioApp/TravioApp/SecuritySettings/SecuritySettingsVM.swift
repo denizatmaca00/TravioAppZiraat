@@ -6,9 +6,6 @@
 //
 
 import Foundation
-import AVFoundation
-import Photos
-import CoreLocation
 
 class SecuritySettingsVM{
      

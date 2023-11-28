@@ -311,7 +311,7 @@ extension HomeVC:UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let placeId = viewModel.sectionsArray[indexPath.section-1][indexPath.row].id
         let vc = DetailVC()
-        vc.viewModel.placeIdtest = placeId
+        vc.viewModel.placeId = placeId
         
         self.navigationController?.pushViewController(vc, animated: true)
     }

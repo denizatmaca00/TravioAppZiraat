@@ -210,10 +210,6 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         refreshSettings()
         setupViews()
     }
-    override func viewWillAppear(_ animated: Bool) {
-        print("ececcececcec")
-    }
-    
     func addNotificationObserver(){
         NotificationCenter.default.addObserver(self, selector: #selector(refreshSettings), name: Notification.Name("appActive"), object: nil)
     }
