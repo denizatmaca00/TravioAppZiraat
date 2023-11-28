@@ -148,7 +148,11 @@ class HomeVC: UIViewController {
         })
         
         collectionView.snp.makeConstraints({ cv in
+<<<<<<< HEAD
+            cv.top.equalTo(contentViewBig.snp.top).offset(-160)
+=======
             cv.top.equalTo(contentViewBig.snp.top).offset(-180)
+>>>>>>> sprint5/homeVCHeightFix
             cv.bottom.equalTo(contentViewBig.snp.bottom)
             cv.leading.equalTo(contentViewBig.snp.leading)
             cv.width.equalTo(contentViewBig.snp.width)
