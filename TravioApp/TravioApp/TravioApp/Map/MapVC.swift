@@ -6,6 +6,7 @@ class MapVC: UIViewController {
     let viewModel = MapVM()
     var selectedAnnotation: MKAnnotation?
     var updateMapClosure: (() -> Void)?
+    var addedPin: MKAnnotation?
 
     private lazy var collectionView: UICollectionView = {
         let layout = MapPageLayout.shared.mapLayout()
@@ -21,10 +22,10 @@ class MapVC: UIViewController {
     
     override func viewDidLoad() {
         viewModel.fetchAndShowPlaces()
+        setupTapGestureRecognizer()
         viewModel.map.delegate = self
 
         setupViews()
-        setupTapGestureRecognizer()
         super.viewDidLoad()
 
     }
@@ -93,22 +94,28 @@ class MapVC: UIViewController {
             let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
             
             deselectSelectedAnnotation()
-
+            
+            // Check if a pin is already added
+            if let existingPin = addedPin {
+                viewModel.map.removeAnnotation(existingPin)
+            }
+            
             viewModel.addCustomAnnotation(title: "Yeni Pin", subtitle: "Açıklama", coordinate: coordinate, logoImage: UIImage(named: "pinLogo"))
             
-            selectedAnnotation = viewModel.map.annotations.last
+            addedPin = viewModel.map.annotations.last
             
             let vc = MapPresentVC()
             vc.latitude = coordinate.latitude
             vc.longitude = coordinate.longitude
             
             vc.viewModel.updateMapClosure = { [weak self] in
+                // When the presented VC is dismissed, update the map
                 self?.initVM()
             }
             self.present(vc, animated: true, completion: nil)
         }
+        
     }
-
 }
 
 extension MapVC: MKMapViewDelegate {

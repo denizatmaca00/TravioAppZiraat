@@ -69,7 +69,6 @@ class SignUpVC: UIViewController {
         txtEmail.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
         txtPassword.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
         txtPasswordConfirm.addTarget(self, action: #selector(updateUserInfo), for: .allEditingEvents)
-        
         setupViews()
         
         viewModel.showAlertClosure = { [weak self] title, message in
@@ -146,7 +145,7 @@ class SignUpVC: UIViewController {
         self.view.addSubviews(contentViewBig)
         self.view.addSubviews(leftBarButton, signUpLabel)
         
-        contentViewBig.addSubviews(stackViewMain, signUpButton)
+        contentViewBig.addSubviews(stackViewMain ,signUpButton)
         
         stackViewMain.addArrangedSubviews(viewUsername, viewMail, viewPass, viewPassConfirm)
         

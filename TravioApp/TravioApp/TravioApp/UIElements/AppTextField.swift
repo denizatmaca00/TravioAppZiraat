@@ -9,9 +9,6 @@ import UIKit
 import TinyConstraints
 
 
-
-
-
 class AppTextField: UIView {
 
     enum UserData {
