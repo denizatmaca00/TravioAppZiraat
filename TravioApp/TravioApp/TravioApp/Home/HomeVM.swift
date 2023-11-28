@@ -9,9 +9,7 @@ import UIKit
 
 class HomeVM{
     
-    // popularPlaces:
     var popularPlaces:[Place] = []
-    //    // lastPlaces :
     var newPlaces:[Place] = []
     var allPlaces:[Place] = []
     
@@ -27,9 +25,10 @@ class HomeVM{
             reloadNewPlacesClosure?()
         }
     }
+    
     var allForUserCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
-            reloadAllForUserPlacesClosure?()
+                reloadAllForUserPlacesClosure?()
         }
     }
     
@@ -41,20 +40,6 @@ class HomeVM{
     var reloadPopularClosure: (()->())?
     var reloadNewPlacesClosure: (()->())?
     var reloadAllForUserPlacesClosure: (()->())?
-    
-    
-//    func initFetchPopularHomeAll(){
-//        NetworkingHelper.shared.dataFromRemote(urlRequest: .getPopularPlaces) {(result:Result<PlacesDataStatus, Error>) in
-//
-//            switch result {
-//            case .success(let success):
-//                self.fetchVisits(populars: success.data.places)
-//
-//            case .failure(let failure):
-//                print(failure.localizedDescription)
-//            }
-//        }
-//    }
     
     func initFetchPopularHomeLimits(limit: Int) {
         let params = ["limit":"\(limit)"]
@@ -69,43 +54,29 @@ class HomeVM{
             self.sectionsArray[0] = self.popularPlaces
         }
     }
-    
-//    func initFetchNewHomeAll(){
-//        NetworkingHelper.shared.dataFromRemote(urlRequest: .getNewPlaces) {(result:Result<PlacesDataStatus, Error>) in
-//            switch result {
-//            case .success(let success):
-//                self.fetchNewPlaces(news: success.data.places)
-//                
-//            case .failure(let failure):
-//                print(failure.localizedDescription)
-//            }
-//        }
-//    }
-    
+     
     func initFetchNewHomeLimits(limit: Int) {
         let params = ["limit":"\(limit)"]
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getNewPlacesLimits(limit: params)) {(result: Result<PlacesDataStatus, Error>) in
-            print(result)
             switch result {
             case .success(let success):
                 self.fetchNewPlaces(news: success.data.places)
                 
-            case .failure(let failure):
-                print(failure.localizedDescription)
+            case .failure(_):
+                break
             }
             self.sectionsArray[1] = self.newPlaces
         }
     }
-    
+    //failrire
     func initFetchAllForUserHomeAll(){
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getHomeAllPlacesForUser) {(result:Result<PlacesDataStatus, Error>) in
-            print("getAllPlacesLimits:")
             switch result {
             case .success(let success):
                 self.fetchAllPlacesForUser(allForUsers: success.data.places)
                 
-            case .failure(let failure):
-                print(failure.localizedDescription)
+            case .failure(_):
+                break
             }
             self.sectionsArray[2] = self.allPlaces
         }
@@ -146,8 +117,8 @@ class HomeVM{
         
         self.allForUserCellViewModels = viewModels
     }
-    
     private func createCellViewModel(cell:Place) -> VisitCellViewModel{
+      //  guard let imageURL = URL(string: cell.cover_image_url) else { return  deneme }
         let cvm = VisitCellViewModel(image: URL(string: cell.cover_image_url)!,
                                      placeName: cell.title,
                                      city: cell.place)

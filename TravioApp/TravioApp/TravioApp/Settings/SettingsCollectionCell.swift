@@ -49,31 +49,33 @@ class SettingsCollectionCell: UITableViewCell {
     }
     
     func setupViews() {
+        self.backgroundColor = .clear
         addSubview(backView)
-       // backView.addSubview(stackView)
         backView.addSubviews(iconView, label, iconArrow)
         setupLayout()
     }
     
     func setupLayout() {
-        backView.snp.makeConstraints { (make) in
+        self.backView.shadow()
+        backView.snp.makeConstraints({ make in
            // make.edges.equalToSuperview()
             make.height.equalTo(54)
-            make.trailing.equalToSuperview().offset(-16)
-            make.leading.equalToSuperview().offset(16)
-        }
+            make.trailing.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview()
+        })
         
-        iconView.snp.makeConstraints { (make) in
+        iconView.snp.makeConstraints({ make in
             make.centerY.equalTo(backView)
             make.leading.equalTo(backView).offset(8)
             make.width.height.equalTo(20)
-        }
+            })
         
-        label.snp.makeConstraints { (make) in
+        label.snp.makeConstraints({ make in
             make.centerY.equalTo(backView)
             make.leading.equalTo(iconView.snp.trailing).offset(8)
             make.trailing.equalTo(iconArrow).offset(-8)
-        }
+        })
         iconArrow.snp.makeConstraints({ icon in
             icon.centerY.equalTo(iconView)
             icon.trailing.equalTo(backView).offset(-17)

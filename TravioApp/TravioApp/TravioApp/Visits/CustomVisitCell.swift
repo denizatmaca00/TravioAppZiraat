@@ -28,6 +28,8 @@ class CustomVisitCell: UITableViewCell {
         pn.text = "PlaceName"
         pn.textColor = .white
         pn.numberOfLines = 1
+        pn.lineBreakMode = .byTruncatingTail
+
         return pn
     }()
     
@@ -53,6 +55,7 @@ class CustomVisitCell: UITableViewCell {
         imageView.backgroundColor = .clear
         imageView.layer.cornerRadius = 16
         imageView.layer.masksToBounds = true
+        
         return imageView
     }()
     
@@ -80,25 +83,27 @@ class CustomVisitCell: UITableViewCell {
         self.layer.masksToBounds = true
         
         self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowRadius = 10
+        self.layer.shadowRadius = 16
         self.layer.shadowOffset = .zero
         self.layer.shadowOpacity = 0.15
         
-        self.contentView.addSubviews(imageLocation, placeName,iconLocation,cityName)
+        self.contentView.addSubviews(imageLocation)
+        imageLocation.addSubviews(placeName,iconLocation,cityName)
         setupLayout()
     }
     
     func setupLayout() {
         
         imageLocation.snp.makeConstraints({ img in
-            img.top.equalToSuperview().offset(16)
-            img.bottom.equalToSuperview()
+            img.top.equalToSuperview().offset(8)
+            img.bottom.equalToSuperview().inset(8)
             img.leading.equalToSuperview().offset(24)
             img.trailing.equalToSuperview().inset(24)
             
         })
         
         placeName.leading(to: imageLocation, offset: 8)
+        placeName.trailing(to: imageLocation, offset: -5)
         placeName.topToSuperview(offset:142)
         placeName.height(45)
         

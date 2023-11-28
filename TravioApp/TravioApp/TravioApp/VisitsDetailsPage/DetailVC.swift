@@ -10,16 +10,21 @@ import TinyConstraints
 import SnapKit
 import MapKit
 
-class DetailVC: UIViewController, UIScrollViewDelegate {
+class DetailVC: UIViewController {
     var mapView: MKMapView!
     var pinCoordinate: CLLocationCoordinate2D?
     var viewModel = DetailVM()
     let profilViewModel = ProfileVM()
     var profileFullname : String?
+    var deleteCreator: String?
+    
     private lazy var imageCollection:UICollectionView = {
         let l = UICollectionViewFlowLayout()
         l.scrollDirection = .horizontal
         l.minimumLineSpacing = 0
+        l.minimumInteritemSpacing = 0
+
+
         let cv = UICollectionView(frame: .zero, collectionViewLayout: l)
         cv.isPagingEnabled = true
         cv.showsVerticalScrollIndicator = false
@@ -29,21 +34,17 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         cv.register(DetailPageCell.self, forCellWithReuseIdentifier: "detailCell")
         return cv
     }()
-    private lazy var saveBtn:UIImageView = {
-        let sb = UIImageView()
-        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(buttonSave))
-        sb.isUserInteractionEnabled = true
-        sb.addGestureRecognizer(tapgesture)
-        return sb
+    private lazy var saveBtn:UIButton = {
+        let adbtn = UIButton()
+        adbtn.setImage(UIImage(named: "save"), for: .normal)
+        adbtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
+        return adbtn
     }()
-    private lazy var deleteBtn:UIImageView = {
-        let sb = UIImageView()
-        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(deleteBtnTapped))
-        sb.isUserInteractionEnabled = true
-        sb.addGestureRecognizer(tapgesture)
-        sb.image = UIImage(systemName: "trash.fill")
-        sb.tintColor = UIColor(named: "backgroundColor")
-        return sb
+    private lazy var deleteBtn:UIButton = {
+        let delBtn = UIButton()
+        delBtn.setImage(UIImage(systemName:  "trash.fill"), for: .normal)
+        delBtn.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
+        return delBtn
     }()
     private lazy var backButton:UIButton = {
         let b = UIButton()
@@ -62,13 +63,12 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     }()
     private var scrollView:UIScrollView = {
         let s = UIScrollView()
-        //s.isScrollEnabled = true
         s.showsVerticalScrollIndicator = false
-//        s.showsHorizontalScrollIndicator = true
-        //s.contentSize = CGSize(width: s.frame.size.width, height: 1000)
-        //s.layer.backgroundColor = UIColor.red.cgColor
-        //s.isDirectionalLockEnabled = true
         return s
+    }()
+    private lazy var allView:UIView = {
+        let all = UIView()
+        return all
     }()
     private var centerText:UILabel = {
         let centertxt = UILabel()
@@ -76,7 +76,7 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         centertxt.textColor = .black
         centertxt.numberOfLines = 1
         centertxt.font = .Fonts.title30.font
-        //centertxt.layer.backgroundColor = UIColor.white.cgColor
+        centertxt.layer.backgroundColor = UIColor.white.cgColor
         return centertxt
     }()
     private var dateText:UILabel = {
@@ -90,10 +90,9 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
     private var byText:UILabel = {
         let by = UILabel()
         by.text = "Ece Poyraz"
-        by.textColor = .black
+        by.textColor = .lightGray
         by.numberOfLines = 1
         by.font = .Fonts.creatorText.font
-        //by.layer.backgroundColor = UIColor.blue.cgColor
         return by
     }()
     private lazy var mapButton:UIImageView = {
@@ -101,272 +100,289 @@ class DetailVC: UIViewController, UIScrollViewDelegate {
         mb.clipsToBounds = true
         mb.layer.cornerRadius = 16
         mb.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
-        //mb.layer.backgroundColor = UIColor.green.cgColor
         return mb
     }()
     private var descText:UILabel = {
         let txt = UILabel()
-        txt.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        txt.text = "Lorem Ipsum is..."
         txt.textColor = .black
-        txt.numberOfLines = 0 //altsatıra
-        txt.lineBreakMode = .byWordWrapping //altsatıra geç
-        txt.sizeToFit() //girilene göre otomatik boyut ayarlar.
+        txt.numberOfLines = 0
+        txt.lineBreakMode = .byWordWrapping
+        txt.sizeToFit()
         txt.font = .Fonts.descriptionLabel.font
-        //txt.layer.backgroundColor = UIColor.systemPink.cgColor
         return txt
     }()
     
     @objc func back(){
         navigationController?.popViewController(animated: true)
     }
+    
     @objc func buttonSave(){
-        var testtt = DetailVM()
-        if saveBtn.image == UIImage(named: "savefill") {
-            viewModel.deleteVisitbyPlceID()
-            saveBtn.image = UIImage(named: "save")
+        if  saveBtn.image(for: .normal) == UIImage(named: "savefill"){
+            self.showAlert(title: "", message: "Removed from saved") {
+                self.viewModel.deleteVisitbyPlceID()
+                self.saveBtn.setImage(UIImage(named: "save"), for: .normal)
+            }
+            
         }else {
-            viewModel.postVisit()
-            saveBtn.image = UIImage(named: "savefill")
+            self.showAlert(title: "", message: "Saved") {
+                self.viewModel.postVisit()
+                self.saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
+            }
+            
         }
     }
-    @objc func deleteBtnTapped(){
-        do {
-            try profilViewModel.getProfileInfos { profileResult in
-                switch profileResult {
-                case .success(let profile):
-                    let detailCreator = self.deneme
-                    self.profileFullname = profile.full_name
-
-                    if detailCreator == self.profileFullname {
-                        self.addActionSheet {
-                            self.viewModel.deleteMyAdded()
-                            self.showAlert(title: "Notification", message: "Başarıyla Silindi") {
-                                self.navigationController?.popViewController(animated: true)
-                            }
+    @objc func deleteBtnTapped() {
+        profilViewModel.getProfileInfos { profileResult in
+            switch profileResult {
+            case .success(let profile):
+                let detailCreator = self.deleteCreator
+                self.profileFullname = profile.full_name
+                
+                if detailCreator == self.profileFullname {
+                    let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+                        self.viewModel.deleteMyAdded()
+                        self.showAlert(title: "Notification", message: "Deleted Successfully") {
+                            self.navigationController?.popViewController(animated: true)
                         }
-                    } else {
-                        self.showAlert(title: "Hata", message: "Bu içeriği sadece ekleyen kişi silebilir.", completion: {})
                     }
-                case .failure(let error):
-                    print("Hata oluştu: \(error)")
+                    
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+                    
+                    self.addActionSheet(title: "Are you sure?", message: "This action cannot be undone.", actions: [deleteAction, cancelAction])
+                } else {
+                    self.showAlert(title: "Error", message: "Only the person who added this content can delete it.", completion: {})
                 }
+            case .failure(let error):
+                print("Hata oluştu: \(error)")
             }
-        } catch {
-            print("getProfileInfos fonksiyonu bir hata fırlattı: \(error)")
         }
     }
-
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // addGradientLayer()
-        viewModel.checkVisitbyPlaceID()
-        navigationController?.navigationBar.isHidden = true
-        setupViews()
-        
-        viewModel.showAddActionClosure = { [weak self] title, message in
-            self?.addActionSheet(){
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            viewModel.checkVisitbyPlaceID()
+            navigationController?.navigationBar.isHidden = true
+            setupViews()
+            
+            viewModel.showAddActionClosure = { [weak self] title, message in
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+                self?.addActionSheet(title: title, message: message, actions: [cancelAction])
+                
             }
-        }
-        viewModel.showAddActionClosure = { [weak self] title, message in
-            self?.showAlert(title: title, message: message, completion: {
+            viewModel.showAddActionClosure = { [weak self] title, message in
+                self?.showAlert(title: title, message: message, completion: {
+                })
+            }
+            
+            viewModel.checkSuccessID = {[weak self] () in
+                self?.saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
+                
+            }
+            viewModel.checkErrorID = {[weak self] () in
+                self?.saveBtn.setImage(UIImage(named: "save"), for: .normal)
+            }
+            
+            viewModel.getAPlaceById { Place in
+                self.configurePage(place: Place)
+                self.createMapView()
+            }
+            
+            viewModel.getAllGaleryById(complete: {() in
+                DispatchQueue.main.async {
+                    self.pageControl.currentPage = 0
+                    guard let count = self.viewModel.galeryData?.data.count else {return}
+                    self.pageControl.numberOfPages = count
+                    self.imageCollection.reloadData()
+                    
+                }
             })
         }
         
-        viewModel.checkSuccessID = {[weak self] () in
-            self?.saveBtn.image = UIImage(named: "savefill")
-            //sb.setImage(UIImage(named: "save"), for: .normal)
+        override func viewDidLayoutSubviews() {
+            let height = descText.frame.origin.y + descText.frame.height
+            scrollView.contentSize = CGSize(width: self.view.frame.width, height: height)
         }
-        viewModel.checkErrorID = {[weak self] () in
-            self?.saveBtn.image = UIImage(named: "save")
-        }
-        
-        viewModel.getAPlaceById { Place in
-            self.configurePage(place: Place)
-            self.fetchMap()
-            
-        }
-        
-        viewModel.getAllGaleryById(complete: {() in
-            DispatchQueue.main.async {
-                self.pageControl.currentPage = 0
-                guard let count = self.viewModel.galeryData?.data.count else {return}
-                self.pageControl.numberOfPages = count
-                self.imageCollection.reloadData()
+        func createMapView() {
+            if let pinCoordinate = pinCoordinate {
+                let mapSnapshotOptions = MKMapSnapshotter.Options()
+                let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)
+                mapSnapshotOptions.traitCollection = darkModeTraitCollection
+                mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1500, longitudinalMeters: 1500)
+                let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
+                
+                snapShotter.start { snapshot, error in
+                    if let snapshot = snapshot {
+                        let image = snapshot.image
+                        
+                        if let annotationView = self.createPinImage() {
+                            let pinPoint = snapshot.point(for: pinCoordinate)
+                            
+                            
+                                
+                                let renderer = UIGraphicsImageRenderer(size: image.size)
+                                let combinedImage = renderer.image { _ in
+                                    image.draw(at: .zero)
+                                    annotationView.drawHierarchy(in: CGRect(x: pinPoint.x - annotationView.bounds.width / 2, y: pinPoint.y - annotationView.bounds.height / 2, width: annotationView.bounds.width, height: annotationView.bounds.height), afterScreenUpdates: true)
+                                }
+                                
+                                self.mapButton.image = combinedImage
+                            }
+                        }
                 
             }
-        })
+        }
         
     }
-    var deneme: String?
     func configurePage(place:Place){
-        centerText.text = place.place
+        centerText.text = place.place.extractCityName()
         dateText.text = place.created_at.formatDate()
         byText.text = place.creator
-        deneme = place.creator
-        //        var date = viewModel.dateFormatterx(dateString: place.created_at)
-        //        dateText.text = date
+        deleteCreator = place.creator
         byText.text = ("added by @\(place.creator)")
         descText.text = place.description
         pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
         
     }
     func configureImage(img:Image){
-        // img.image_url
         let url = URL(string: img.image_url)
     }
-    func fetchMap() {
-        if let pinCoordinate = pinCoordinate {
-            let mapSnapshotOptions = MKMapSnapshotter.Options()
-            mapSnapshotOptions.region = MKCoordinateRegion(center: pinCoordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
-            mapSnapshotOptions.size = CGSize(width: 300, height: 300)
-            let snapShotter = MKMapSnapshotter(options: mapSnapshotOptions)
-            snapShotter.start { snapshot, error in
-                if let snapshot = snapshot {
-                    let image = snapshot.image
-                    
-                    if let annotationView = self.createPinImage() {
-                        let pinPoint = snapshot.point(for: pinCoordinate)
-                        
-                        let renderer = UIGraphicsImageRenderer(size: image.size)
-                        let combinedImage = renderer.image { _ in
-                            image.draw(at: .zero)
-                            annotationView.drawHierarchy(in: CGRect(x: pinPoint.x - annotationView.bounds.width / 2, y: pinPoint.y - annotationView.bounds.height / 2, width: annotationView.bounds.width, height: annotationView.bounds.height), afterScreenUpdates: true)
-                        }
-                        
-                        self.mapButton.image = combinedImage
-                    }
-                }
+       
+        func createPinImage() -> MKAnnotationView? {
+            let annotationView = MKAnnotationView(annotation: nil, reuseIdentifier: "pinAnnotation")
+            
+            let pinImage = UIImage(named: "pin")
+            annotationView.image = pinImage
+            
+            let customImageView = UIImageView(image: UIImage(named: "pinLogo"))
+            customImageView.contentMode = .scaleAspectFill
+            customImageView.frame = CGRect(x: 0, y: 0, width: 26, height: 26)
+            annotationView.addSubview(customImageView)
+            
+            annotationView.bounds = CGRect(x: -2, y: -2, width: customImageView.bounds.width, height: customImageView.bounds.height * 1.5)
+            
+            return annotationView
+        }
+        
+        func setupViews(){
+            self.view.backgroundColor = .white
+            view.addSubviews(imageCollection,deleteBtn,saveBtn,backButton,pageControl)
+            allView.addSubview(centerText)
+            allView.addSubview(dateText)
+            allView.addSubview(byText)
+            allView.addSubview(mapButton)
+            allView.addSubview(descText)
+            scrollView.addSubviews(allView)
+            view.addSubview(scrollView)
+            
+            setupLayout()
+        }
+        
+        func setupLayout(){
+            
+            imageCollection.topToSuperview(offset:0)
+            imageCollection.leadingToSuperview()
+            imageCollection.trailingToSuperview()
+            imageCollection.height(249)
+            
+            saveBtn.top(to: imageCollection,offset:50)
+            saveBtn.trailingToSuperview(offset:15)
+            saveBtn.height(40)
+            saveBtn.width(40)
+            
+            deleteBtn.top(to: saveBtn,offset:5)
+            deleteBtn.trailingToSuperview(offset:65)
+            deleteBtn.height(30)
+            deleteBtn.width(30)
+            
+            backButton.top(to: imageCollection,offset:50)
+            backButton.leadingToSuperview(offset: 20)
+            backButton.height(40)
+            backButton.width(40)
+            
+            pageControl.bottom(to: imageCollection)
+            pageControl.centerXToSuperview()
+            pageControl.leadingToSuperview(offset:20)
+            pageControl.height(64)
+            pageControl.width(24)
+            
+            scrollView.topToBottom(of: imageCollection)
+            scrollView.leadingToSuperview()
+            scrollView.snp.makeConstraints({s in
+                s.bottom.equalToSuperview().offset(40)
+                s.trailing.equalToSuperview()
+            })
+            
+            allView.snp.makeConstraints { a in
+                a.edges.equalToSuperview()
+                a.width.equalTo(view.snp.width)
             }
-        }
-    }
-
-    func createPinImage() -> MKAnnotationView? {
-        let annotationView = MKAnnotationView(annotation: nil, reuseIdentifier: "pinAnnotation")
-
-        let pinImage = UIImage(named: "pin")
-        annotationView.image = pinImage
-
-        let customImageView = UIImageView(image: UIImage(named: "pinLogo"))
-        customImageView.contentMode = .scaleAspectFill
-        customImageView.frame = CGRect(x: 0, y: 0, width: 26, height: 26)
-        annotationView.addSubview(customImageView)
-        
-        annotationView.bounds = CGRect(x: -2, y: -2, width: customImageView.bounds.width, height: customImageView.bounds.height * 1.5)
-
-        return annotationView
-    }
-    
-    func setupViews(){
-        self.view.backgroundColor = .white
-        view.addSubviews(imageCollection,deleteBtn,saveBtn,backButton,pageControl,scrollView)
-        scrollView.addSubviews(centerText, dateText, byText, mapButton, descText)
-        setupLayout()
-    }
-    
-    func setupLayout(){
-        
-        imageCollection.topToSuperview(offset:0)
-        imageCollection.leadingToSuperview()
-        imageCollection.trailingToSuperview()
-        imageCollection.height(249)
-        
-        saveBtn.top(to: imageCollection,offset:50)
-        saveBtn.trailingToSuperview(offset:15)
-        saveBtn.height(40)
-        saveBtn.width(40)
-        
-        deleteBtn.top(to: saveBtn,offset:5)
-        deleteBtn.trailingToSuperview(offset:65)
-        deleteBtn.height(30)
-        deleteBtn.width(30)
-        
-        backButton.top(to: imageCollection,offset:50)
-        backButton.leadingToSuperview(offset: 20)
-        backButton.height(40)
-        backButton.width(40)
-        
-        pageControl.bottom(to: imageCollection)
-        pageControl.centerXToSuperview()
-        pageControl.leadingToSuperview(offset:20)
-        pageControl.height(64)
-        pageControl.width(24)
-
-        scrollView.topToBottom(of: imageCollection)
-        scrollView.leadingToSuperview(offset:10)
-        scrollView.snp.makeConstraints({s in
-            s.bottom.equalToSuperview().offset(40)
-        })
-        scrollView.snp.makeConstraints({s in
-            s.trailing.equalToSuperview().offset(-10)
-        })
-        
-        centerText.topToSuperview()
-        centerText.leadingToSuperview(offset:10)
-        centerText.snp.makeConstraints({s in
-            s.trailing.equalToSuperview().offset(-10)
-        })
-        
-        dateText.topToBottom(of: centerText,offset: 5)
-        dateText.leading(to: centerText)
-        dateText.trailing(to: centerText)
-        
-        byText.topToBottom(of: dateText,offset: 5)
-        byText.leading(to: dateText)
-        byText.trailing(to: dateText)
-        
-        mapButton.topToBottom(of: byText,offset: 15)
-        mapButton.leading(to: byText)
-        mapButton.height(227)
-        mapButton.width(350)
-
-        
-        descText.topToBottom(of: mapButton, offset: 10)
-        descText.trailing(to: mapButton)
-        descText.leading(to: mapButton)
-        descText.snp.makeConstraints({s in
-            s.bottom.equalToSuperview().offset(-40)
-        })
-        
-    }
-    
-}
-
-extension DetailVC:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource{
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.frame.size
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageWidth = scrollView.frame.size.width
-        var fractionalPage = scrollView.contentOffset.x / pageWidth
-        
-        fractionalPage = max(0, min(2, fractionalPage))
-        
-        let currentPage = Int(fractionalPage)
-        pageControl.currentPage = currentPage
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let count = viewModel.galeryData?.data.count else {return 0}
-        return count
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailPageCell else {
-            return UICollectionViewCell()
+            
+            centerText.topToSuperview()
+            centerText.leadingToSuperview(offset:20)
+            centerText.snp.makeConstraints({s in
+                s.trailing.equalToSuperview().offset(-20)
+            })
+            
+            
+            dateText.topToBottom(of: centerText,offset: 5)
+            dateText.leading(to: centerText)
+            dateText.trailing(to: centerText)
+            
+            byText.topToBottom(of: dateText,offset: 5)
+            byText.leading(to: centerText)
+            byText.trailing(to: centerText)
+            
+            mapButton.topToBottom(of: byText,offset: 15)
+            mapButton.leadingToSuperview(offset:20)
+            mapButton.height(227)
+            mapButton.trailingToSuperview(offset:20)
+            
+            
+            descText.topToBottom(of: mapButton, offset: 20)
+            descText.trailing(to: centerText)
+            descText.leading(to: centerText)
+            descText.snp.makeConstraints({s in
+                s.bottom.equalToSuperview().offset(-40)
+            })
+            
         }
         
-        guard let url = viewModel.galeryData?.data.images[indexPath.row] else {return UICollectionViewCell()}
-        cell.configure(imageURL: url)
-        return cell
     }
     
-}
-
+    extension DetailVC:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource{
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return collectionView.frame.size
+        }
+        
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            let pageWidth = scrollView.frame.size.width
+            var fractionalPage = scrollView.contentOffset.x / pageWidth
+            
+            fractionalPage = max(0, min(2, fractionalPage))
+            
+            let currentPage = Int(fractionalPage)
+            pageControl.currentPage = currentPage
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            guard let count = viewModel.galeryData?.data.count else {return 0}
+            return count
+            
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "detailCell", for: indexPath) as? DetailPageCell else {
+                return UICollectionViewCell()
+            }
+            
+            guard let url = viewModel.galeryData?.data.images[indexPath.row] else {return UICollectionViewCell()}
+            cell.configure(imageURL: url)
+            return cell
+        }
+        
+    }
+    
 
 
 #if DEBUG

@@ -40,6 +40,7 @@ class EditProfileVM {
     var selectedImage:UIImage?
     var imageURL:String? {
         didSet{
+<<<<<<< HEAD
             editProfile.pp_url = imageURL!
             putEditProfileInfos()
         }
@@ -49,6 +50,31 @@ class EditProfileVM {
     
     func profileUpdated() {
         profileUpdateClosure?()
+=======
+            editProfile.pp_url = imageURL.last!
+            putEditProfileInfos()
+        }
+    }
+
+    func editProfilePhotoUpload(photo: UIImage){
+        self.isLoading = true
+
+        let params = ["pp_url": photo]
+
+        NetworkingHelper.shared.uploadPhoto(images: imagesDatas, urlRequest: .uploadAddPhoto(params: params), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
+            switch result {
+            case .success(let success):
+                self.imageURL = success.urls
+
+            case .failure(_):
+                break
+                
+            }
+            self.isLoading = false
+
+        })
+        
+>>>>>>> sprint5/editProfileRefactorDispatch
     }
     
     func postData(completion: (()->()) ) -> Void {
@@ -83,6 +109,7 @@ class EditProfileVM {
         self.isLoading = true
         let params = ["full_name": editProfile.full_name, "email": editProfile.email, "pp_url": editProfile.pp_url]
         NetworkingHelper.shared.dataFromRemote(urlRequest: .putEditProfile(params: params), callback: {  (result: Result<Messages, Error>) in
+<<<<<<< HEAD
             switch result {
             case .success(_):
                 self.showAlertClosure?("Notification", "Updated profile successfully.")
@@ -90,6 +117,9 @@ class EditProfileVM {
                 self.showAlertClosure?("Error", "Failed to update profile.")
             }
             self.isLoading = false
+=======
+
+>>>>>>> sprint5/editProfileRefactorDispatch
         })
     }
 }

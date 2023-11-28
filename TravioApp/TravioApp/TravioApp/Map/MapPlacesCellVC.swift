@@ -16,10 +16,11 @@ class MapPlacesCellVC: UICollectionViewCell {
     
     var visitCellViewModel: VisitCellViewModel? {
         didSet {
-            placeName.text = visitCellViewModel?.placeName
-            cityName.text = visitCellViewModel?.city
-            ImageHelper().setImage(imageURL: visitCellViewModel!.image, imageView: imageLocation)
-
+            DispatchQueue.main.async { [self] in
+                self.placeName.text = visitCellViewModel?.placeName
+                self.cityName.text = visitCellViewModel?.city
+                ImageHelper().setImage(imageURL: visitCellViewModel!.image, imageView: imageLocation)
+            }
         }
     }
     
@@ -30,10 +31,10 @@ class MapPlacesCellVC: UICollectionViewCell {
         return view
     }()
     
-      lazy var placeName: UILabel = {
+    lazy var placeName: UILabel = {
         let pn = UILabel()
         pn.textColor = .white
-        pn.adjustsFontSizeToFitWidth = true
+        pn.lineBreakMode = .byTruncatingTail
         pn.font = .Fonts.header24.font
         pn.text = "PlaceName"
         pn.numberOfLines = 1
@@ -59,7 +60,6 @@ class MapPlacesCellVC: UICollectionViewCell {
     private lazy var imageLocation: UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "sultanahmet")
-        //img.contentMode = .scaleToFill
         img.isUserInteractionEnabled = true
         img.layer.cornerRadius = 16
         img.layer.masksToBounds = true
@@ -85,36 +85,38 @@ class MapPlacesCellVC: UICollectionViewCell {
     }
     
     func setupLayout() {
-
-        cellView.snp.makeConstraints { make in
+        
+        cellView.snp.makeConstraints ({ make in
             make.centerX.equalToSuperview()
             make.height.equalTo(178)
             make.trailing.equalToSuperview()
             make.leading.equalToSuperview().offset(18)
-        }
-         imageLocation.snp.makeConstraints { make in
-             make.edges.equalTo(cellView)
-        }
+        })
+        imageLocation.snp.makeConstraints ({ make in
+            make.edges.equalTo(cellView)
+        })
         
-        placeName.snp.makeConstraints { make in
-            make.leading.equalTo(cellView.snp.leading).inset(22)
-            make.top.equalTo(cellView).offset(118)
-            make.height.equalTo(24)
-        }
-
-        iconLocation.snp.makeConstraints { make in
-            make.top.equalTo(placeName.snp.bottom).offset(2)
-            make.leading.equalTo(placeName)
-            make.height.equalTo(20)
-            make.width.equalTo(15)
-        }
-
-        cityName.snp.makeConstraints { make in
-            make.leading.equalTo(iconLocation.snp.trailing).offset(6)
-            make.trailing.equalTo(cellView).offset(-1)
-            make.centerY.equalTo(iconLocation)
-            make.height.equalTo(18)
-        }
+        placeName.snp.makeConstraints ({ lbl in
+            lbl.leading.equalTo(cellView.snp.leading).inset(22)
+            lbl.trailing.equalTo(cellView.snp.trailing).offset(-5)
+            lbl.top.equalTo(cellView).offset(118)
+            lbl.height.equalTo(24)
+            
+        })
+        
+        iconLocation.snp.makeConstraints ({ icon in
+            icon.top.equalTo(placeName.snp.bottom).offset(2)
+            icon.leading.equalTo(placeName)
+            icon.height.equalTo(20)
+            icon.width.equalTo(15)
+        })
+        
+        cityName.snp.makeConstraints ({ cn in
+            cn.leading.equalTo(iconLocation.snp.trailing).offset(6)
+            cn.trailing.equalTo(cellView).offset(-1)
+            cn.centerY.equalTo(iconLocation)
+            cn.height.equalTo(18)
+        })
     }
 }
 
@@ -124,7 +126,7 @@ import SwiftUI
 @available(iOS 13, *)
 struct MapPlacesCellVC_Preview: PreviewProvider {
     static var previews: some View{
-
+        
         MapPlacesCellVC().showPreview()
     }
 }

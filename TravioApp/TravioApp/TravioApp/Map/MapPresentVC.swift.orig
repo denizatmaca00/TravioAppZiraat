@@ -8,20 +8,10 @@
 
 import UIKit
 
-protocol MapPresentControllerDelegate: AnyObject {
-    func didSuccessfullyAddPlace()
-}
-
 class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
     
-<<<<<<< HEAD
-    var viewModel = MapPresentVM()
-    weak var delegate: MapPresentControllerDelegate?
-    
-=======
     let viewModel = MapPresentVM()
 
->>>>>>> development
     var latitude: Double?
     var longitude: Double?
     var localName: String?{
@@ -106,16 +96,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         self.getLocalName(latitude: self.latitude!, longitude: self.longitude!)
     }
     
-    deinit{
-        print("dealloc \(self)")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.delegate = viewModel
-        self.title = "AddPlace"
-        
         setupViews()
         
         /// Closure to dismiss PresentVC
@@ -151,6 +133,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         self.viewModel.savePlace()
     }
     
+<<<<<<< HEAD
     private lazy var imagePicker:UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.delegate = self
@@ -166,10 +149,9 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         }
     }
 
-    func showImagePicker(for indexPath: IndexPath) {
-        imagePicker.delegate = self
-        imagePicker.view.tag = indexPath.item
-
+    
+    func initPicker() {
+        
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
             self?.presentImagePicker(sourceType: .camera)
         }
@@ -181,8 +163,19 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
 
         self.addActionSheet(title: "Added Photo", message: "Choose Your Way", actions: [cameraAction, galleryAction, cancelAction])
+
     }
 
+=======
+    
+    func showImagePicker(for indexPath: IndexPath) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.view.tag = indexPath.item
+            present(imagePicker, animated: true, completion: nil)
+        }
+>>>>>>> sprint5/editProfileRefactorDispatch
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
@@ -250,8 +243,9 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapPresentCellVC.reuseIdentifier, for: indexPath) as? MapPresentCellVC else {fatalError("Cell is not found")}
         return cell
     }
-    
-    
+    @objc func changePhotoBtnTapped(){
+        print("change photo butonu")
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? MapPresentCellVC else {return}
@@ -317,6 +311,8 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
         pickerCloseEvents(picker)
     }
 }
+
+
 
 #if DEBUG
 import SwiftUI
