@@ -147,7 +147,7 @@ class HomeVC: UIViewController {
         })
         
         collectionView.snp.makeConstraints({ cv in
-            cv.top.equalTo(contentViewBig.snp.top)
+            cv.top.equalTo(contentViewBig.snp.top).offset(-180)
             cv.bottom.equalTo(contentViewBig.snp.bottom)
             cv.leading.equalTo(contentViewBig.snp.leading)
             cv.width.equalTo(contentViewBig.snp.width)
