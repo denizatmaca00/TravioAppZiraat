@@ -20,6 +20,7 @@
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
 // TODO: alertler eklenecek
 // TODO: indiciatorler eklenecek
+// TODO: TExtfield
 
 
 
@@ -46,16 +47,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         return imageView
     }()
     
- 
-    
-    
-//    func  imagePicker (){
-//        let picker = UIImagePickerController()
-//        picker.delegate = self
-//        picker.sourceType = .photoLibrary
-//        present(picker, animated: true)
-//    }
-//
     func initPicker() {
         
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { [self] _ in

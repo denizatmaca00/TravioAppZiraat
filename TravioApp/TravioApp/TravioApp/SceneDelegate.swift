@@ -64,9 +64,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func coordinateViewController() -> UIViewController {
         if KeychainHelper.shared.isTokenExpired(){
+            print("token expired, need login")
+            //KeychainHelper.shared.deleteToken()
+
             let loginVC = LoginVC()
             return UINavigationController(rootViewController: loginVC)
         }else{
+            //KeychainHelper.shared.deleteToken()
+
+            print("token lives")
             return TabBarVC()
         }
     }
