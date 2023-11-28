@@ -37,29 +37,38 @@ class DetailVM{
     var galeryData: GalleryImage?
     var postData: Messages?
     
-    
-    func getAPlaceById(complete: @escaping (Place)->()) {
-        guard let placeId = placeIdtest else { return }
-        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getPlaceByID(id: placeId)){  (result:Result<PlaceIDDataStatus, Error>) in
-            switch result{
-            case .success(let result):
-                complete(result.data.place)
-            case .failure(_):
-                break
+   
+        func getAPlaceById(complete: @escaping (Place)->()) {
+            guard let placeId = placeIdtest else { return }
+            DispatchQueue.global().async {
+            NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getPlaceByID(id: placeId)){  (result:Result<PlaceIDDataStatus, Error>) in
+                switch result{
+                case .success(let result):
+                    DispatchQueue.main.async {
+                        complete(result.data.place)
+                    }
+                case .failure(_):
+                    break
+                }
             }
         }
     }
     func getAPlaceCreator(complete: @escaping (String)->()) {
         guard let placeId = placeIdtest else { return }
+        DispatchQueue.global().async {
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getPlaceByID(id: placeId)){  (result:Result<PlaceIDDataStatus, Error>) in
             switch result{
             case .success(let result):
-                complete(result.data.place.creator)
+                DispatchQueue.main.async {
+                    complete(result.data.place.creator)
+                }
             case .failure(_):
                 break
             }
         }
     }
+ }
+
     func getAPlaceCreator2(completion: @escaping (Result<Place, Error>) -> Void) {
             guard let placeId = placeIdtest else { return }
             NetworkingHelper.shared.dataFromRemote(urlRequest: .getPlaceByID(id: placeId)) { (result: Result<PlaceIDDataStatus, Error>) in
