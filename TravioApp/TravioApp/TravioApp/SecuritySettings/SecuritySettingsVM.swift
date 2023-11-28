@@ -6,9 +6,6 @@
 //
 
 import Foundation
-import AVFoundation
-import Photos
-import CoreLocation
 
 class SecuritySettingsVM{
      
@@ -16,8 +13,8 @@ class SecuritySettingsVM{
     var passwordChangeAlertClosure: ((String,String)->Void)?
    
     func putPassword(password:Password){
-        let pass = ["new_password" : password.new_password]
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .putPassword(params: pass), callback:{(result:Result<Messages,Error>) in
+        let passwordNew = ["new_password" : password.new_password]
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .putPassword(params: passwordNew), callback:{(result:Result<Messages,Error>) in
             switch result{
             case .success(let params):
                 print(params)
@@ -29,9 +26,3 @@ class SecuritySettingsVM{
     }
 
 }
-
-//extension Notification.Name {
-//    static let permissionCamera = Notification.Name("permissionCamera")
-//    static let permissionPhotoLibrary = Notification.Name("permissionPhotoLibrary")
-//    static let permissionLocation = Notification.Name("permissionLocation")
-//}

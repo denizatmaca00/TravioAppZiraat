@@ -22,6 +22,9 @@ class DetailVC: UIViewController {
         let l = UICollectionViewFlowLayout()
         l.scrollDirection = .horizontal
         l.minimumLineSpacing = 0
+        l.minimumInteritemSpacing = 0
+
+
         let cv = UICollectionView(frame: .zero, collectionViewLayout: l)
         cv.isPagingEnabled = true
         cv.showsVerticalScrollIndicator = false
@@ -37,14 +40,11 @@ class DetailVC: UIViewController {
         adbtn.addTarget(self, action: #selector(buttonSave), for: .touchUpInside)
         return adbtn
     }()
-    private lazy var deleteBtn:UIImageView = {
-        let sb = UIImageView()
-        let tapgesture = UITapGestureRecognizer(target: self, action: #selector(deleteBtnTapped))
-        sb.isUserInteractionEnabled = true
-        sb.addGestureRecognizer(tapgesture)
-        sb.image = UIImage(systemName: "trash.fill")
-        sb.tintColor = UIColor(named: "backgroundColor")
-        return sb
+    private lazy var deleteBtn:UIButton = {
+        let delBtn = UIButton()
+        delBtn.setImage(UIImage(systemName:  "trash.fill"), for: .normal)
+        delBtn.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
+        return delBtn
     }()
     private lazy var backButton:UIButton = {
         let b = UIButton()
@@ -106,9 +106,9 @@ class DetailVC: UIViewController {
         let txt = UILabel()
         txt.text = "Lorem Ipsum is..."
         txt.textColor = .black
-        txt.numberOfLines = 0 //altsatıra
-        txt.lineBreakMode = .byWordWrapping //altsatıra geç
-        txt.sizeToFit() //girilene göre otomatik boyut ayarlar.
+        txt.numberOfLines = 0
+        txt.lineBreakMode = .byWordWrapping
+        txt.sizeToFit()
         txt.font = .Fonts.descriptionLabel.font
         return txt
     }()
@@ -179,12 +179,12 @@ class DetailVC: UIViewController {
                 
             }
             viewModel.checkErrorID = {[weak self] () in
-                self?.saveBtn.setImage(UIImage(named: "savefill"), for: .normal)
+                self?.saveBtn.setImage(UIImage(named: "save"), for: .normal)
             }
             
             viewModel.getAPlaceById { Place in
                 self.configurePage(place: Place)
-                self.fetchMap()
+                self.createMapView()
             }
             
             viewModel.getAllGaleryById(complete: {() in
@@ -202,8 +202,7 @@ class DetailVC: UIViewController {
             let height = descText.frame.origin.y + descText.frame.height
             scrollView.contentSize = CGSize(width: self.view.frame.width, height: height)
         }
-                
-        func fetchMap() {
+        func createMapView() {
             if let pinCoordinate = pinCoordinate {
                 let mapSnapshotOptions = MKMapSnapshotter.Options()
                 let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)

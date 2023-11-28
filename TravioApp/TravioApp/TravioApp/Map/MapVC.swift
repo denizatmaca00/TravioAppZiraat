@@ -6,6 +6,7 @@ class MapVC: UIViewController {
     let viewModel = MapVM()
     var selectedAnnotation: MKAnnotation?
     var updateMapClosure: (() -> Void)?
+    var addedPin: MKAnnotation?
 
     private lazy var collectionView: UICollectionView = {
         let layout = MapPageLayout.shared.mapLayout()
@@ -15,15 +16,16 @@ class MapVC: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MapPlacesCellVC.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.isScrollEnabled = true
         return collectionView
     }()
     
     override func viewDidLoad() {
         viewModel.fetchAndShowPlaces()
+        setupTapGestureRecognizer()
         viewModel.map.delegate = self
 
         setupViews()
-        setupTapGestureRecognizer()
         super.viewDidLoad()
 
     }
@@ -92,22 +94,28 @@ class MapVC: UIViewController {
             let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
             
             deselectSelectedAnnotation()
-
+            
+            // Check if a pin is already added
+            if let existingPin = addedPin {
+                viewModel.map.removeAnnotation(existingPin)
+            }
+            
             viewModel.addCustomAnnotation(title: "Yeni Pin", subtitle: "Açıklama", coordinate: coordinate, logoImage: UIImage(named: "pinLogo"))
             
-            selectedAnnotation = viewModel.map.annotations.last
+            addedPin = viewModel.map.annotations.last
             
             let vc = MapPresentVC()
             vc.latitude = coordinate.latitude
             vc.longitude = coordinate.longitude
             
             vc.viewModel.updateMapClosure = { [weak self] in
+                // When the presented VC is dismissed, update the map
                 self?.initVM()
             }
             self.present(vc, animated: true, completion: nil)
         }
+        
     }
-
 }
 
 extension MapVC: MKMapViewDelegate {
@@ -163,7 +171,6 @@ extension MapVC: MKMapViewDelegate {
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
 
-
 }
 
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -173,7 +180,7 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.tappedCellMap(at: indexPath)
         let vc = DetailVC()
-        vc.viewModel.placeIdtest = viewModel.places[indexPath.row].id
+        vc.viewModel.placeId = viewModel.places[indexPath.row].id
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -186,7 +193,14 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
         return cell
         
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            if scrollView.contentOffset.y != 0 {
+                scrollView.contentOffset.y = 0
+            }
+        }
 }
+
 
 #if DEBUG
 import SwiftUI

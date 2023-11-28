@@ -65,9 +65,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func coordinateViewController() -> UIViewController {
         if KeychainHelper.shared.isTokenExpired(){
             print("token expired, need login")
+            //KeychainHelper.shared.deleteToken()
+
             let loginVC = LoginVC()
             return UINavigationController(rootViewController: loginVC)
         }else{
+            //KeychainHelper.shared.deleteToken()
+
             print("token lives")
             return TabBarVC()
         }
@@ -93,6 +97,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        NotificationCenter.default.post(name: Notification.Name("appActive"), object: nil)
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

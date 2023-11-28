@@ -48,8 +48,8 @@ class HomeVM{
             case .success(let success):
                 self.fetchVisits(populars: success.data.places)
                 
-            case .failure(let failure):
-                print(failure.localizedDescription)
+            case .failure(_):
+                return
             }
             self.sectionsArray[0] = self.popularPlaces
         }

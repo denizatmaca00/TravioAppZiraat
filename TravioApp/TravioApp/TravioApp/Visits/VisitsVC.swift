@@ -156,7 +156,7 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     /// Push to DetailVC related to cell data
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailVC()
-        vc.viewModel.placeIdtest = viewModel.favorites[indexPath.section].place_id
+        vc.viewModel.placeId = viewModel.favorites[indexPath.section].place_id
         viewModel.getaVisitbyID()
         
         navigationController?.pushViewController(vc, animated: true)

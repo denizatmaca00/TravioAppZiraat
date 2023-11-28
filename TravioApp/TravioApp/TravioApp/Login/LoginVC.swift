@@ -12,6 +12,7 @@ class LoginVC: UIViewController {
     private lazy var txtPassword = viewPass.getTFAsObject()
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitor")
+    let usernameTextField = CustomTextField(title: "Username", placeholder: "bilge_adam", icon: nil, iconPosition: .none)
 
 
     var viewModel = LoginVM()
@@ -96,7 +97,7 @@ class LoginVC: UIViewController {
             DispatchQueue.main.async {
                 switch self!.viewModel.isLoading{
                 case true:
-                    self?.showIndicator()
+                    self?.showIndicator(with: "Waiting for server's response to login request...")
                 case false:
                     self?.hideIndicator()
                 }
@@ -137,7 +138,6 @@ class LoginVC: UIViewController {
     }
     
     @objc func btnLoginTapped() {
-        
         guard let email = txtEmail.text  else { return }
         guard let password = txtPassword.text  else { return }
         guard monitor.currentPath.status == .satisfied else {
@@ -175,7 +175,7 @@ class LoginVC: UIViewController {
         self.view.addSubview(contentViewBig)
         contentViewBig.addSubviews(welcomeLabel, stackViewMain, loginBtn, stackViewSignUp)
         
-        stackViewMain.addArrangedSubviews(viewMail, viewPass)
+        stackViewMain.addArrangedSubviews(viewMail, viewPass, usernameTextField)
         stackViewSignUp.addArrangedSubviews(lblSignUp, btnSignUp)
         setupLayout()
     }
