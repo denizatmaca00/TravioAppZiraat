@@ -35,7 +35,6 @@
 		0FB39D0C2AF38A21002C5DF7 /* AppLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */; };
 		0FB39D0E2AF39B7D002C5DF7 /* SettingsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FB39D0D2AF39B7D002C5DF7 /* SettingsCollectionCell.swift */; };
 		0FD7E87F2AF50653001E09EB /* SpaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FD7E87E2AF50653001E09EB /* SpaceCell.swift */; };
-		0FDFAAEC2AF3D90E00F4FA61 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDFAAEB2AF3D90E00F4FA61 /* TableViewCell.swift */; };
 		0FF6D4582AEFC11900AA1339 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4572AEFC11900AA1339 /* KeychainHelper.swift */; };
 		0FF6D45C2AEFC89D00AA1339 /* PlaceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D45B2AEFC89D00AA1339 /* PlaceModel.swift */; };
 		0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF6D4602AF114E200AA1339 /* MapVM.swift */; };
@@ -107,7 +106,6 @@
 		0FB39D0B2AF38A21002C5DF7 /* AppLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLabel.swift; sourceTree = "<group>"; };
 		0FB39D0D2AF39B7D002C5DF7 /* SettingsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCollectionCell.swift; sourceTree = "<group>"; };
 		0FD7E87E2AF50653001E09EB /* SpaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceCell.swift; sourceTree = "<group>"; };
-		0FDFAAEB2AF3D90E00F4FA61 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		0FF6D4572AEFC11900AA1339 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		0FF6D45B2AEFC89D00AA1339 /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
 		0FF6D4602AF114E200AA1339 /* MapVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVM.swift; sourceTree = "<group>"; };
@@ -348,7 +346,6 @@
 			isa = PBXGroup;
 			children = (
 				ECFFD1CD2AEF874B0066E75C /* TabBarVC.swift */,
-				0FDFAAEB2AF3D90E00F4FA61 /* TableViewCell.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -534,7 +531,6 @@
 				EC00441A2AF43819001540A5 /* HelpAndSupportVM.swift in Sources */,
 				0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */,
 				0F7829822AE911A500B2EBDE /* Extensions.swift in Sources */,
-				0FDFAAEC2AF3D90E00F4FA61 /* TableViewCell.swift in Sources */,
 				ECC8C5D22AEA448F001ED067 /* AppAlert.swift in Sources */,
 				ECFFD1D02AEFD3750066E75C /* HomeVC.swift in Sources */,
 				5E388FC62AEA51DE002ABDBD /* NetworkingHelper.swift in Sources */,
