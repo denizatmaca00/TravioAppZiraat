@@ -13,6 +13,14 @@ class ProfileVM {
     
     var profileUpdateClosure: ((Profile) -> Void)?
     
+    var profileUpdateClosure2: ((Profile) -> Void)? {
+        didSet {
+            profileUpdateClosure?(profile)
+            DetailVC().profileFullname = profile.full_name
+        }
+    }
+    weak var editProfileVC: EditProfileVC?
+
     func getProfileInfos(completion: @escaping (Result<Profile, Error>) -> Void) {
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getProfile) { (result: Result<Profile, Error>) in
             switch result {
@@ -20,8 +28,9 @@ class ProfileVM {
                 self.profile = profile
                 self.profileUpdateClosure?(profile)
                 completion(.success(profile))
-                
+//                self.editProfileVC?.updateUI(with: profile)
             case .failure(let error):
+                print("Hata oluştu: \(error)")
                 completion(.failure(error))
             }
         }

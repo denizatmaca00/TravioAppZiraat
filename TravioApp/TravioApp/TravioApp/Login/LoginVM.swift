@@ -37,7 +37,7 @@ class LoginVM: LoginViewModelDelegate{
         
         let paramsPost = ["email": email, "password": password]
         
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .user(params: paramsPost as Parameters)) { (result: Result<Tokens, Error>) in
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .user(params: paramsPost)) { (result: Result<Tokens, Error>) in
             
             switch result {
                 case .success(let response):
@@ -53,7 +53,7 @@ class LoginVM: LoginViewModelDelegate{
     func logout(completion: @escaping (Result<Void, Error>) -> Void) {
         if KeychainHelper.shared.isUserLoggedIn() {
             // Kullanıcı oturum açık ise logout işlemini gerçekleştirsin
-            KeychainHelper.shared.deleteToken()
+            KeychainHelper.shared.delete("Travio", account: "asd")
             // userToken değişkenini günceller
             KeychainHelper.shared.userToken = Tokens(accessToken: "", refreshToken: "")
             completion(.success(()))

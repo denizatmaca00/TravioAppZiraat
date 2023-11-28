@@ -12,84 +12,66 @@ import UIKit
 
 class EditProfileVM {
     
-    // MARK: Properties
-    
-    // Struct-Related
     var editProfile: EditProfile = EditProfile(full_name: "", email: "", pp_url: "")
-    var profile: Profile? {
-        didSet {
-            profileUpdateClosure?()
-        }
-    }
+    var profileUpdateClosure: (() -> Void)?
     
-    // Flags
     var isLoading:Bool = false {
         didSet{
             indicatorUpdateClosure?(self.isLoading)
         }
     }
-    var doUploadWork:Bool = false
-    
-    // Closures
-    var profileUpdateClosure: (() -> Void)?
     var indicatorUpdateClosure:((Bool)->(Void))?
-    var showAlertClosure: ((String, String) -> Void)?
-    var reloadEditProfileClosure: (() -> ())?
-    
-    // Struct and UI Properties
-    var selectedImage:UIImage?
-    var imageURL:String? {
-        didSet{
-            editProfile.pp_url = imageURL!
-            putEditProfileInfos()
+        
+    var profile: Profile? {
+            didSet {
+                profileUpdateClosure?()
+            }
         }
-    }
-    
-    // MARK: Public Functions
-    
+
     func profileUpdated() {
         profileUpdateClosure?()
     }
+    var showAlertClosure: ((String, String) -> Void)?
     
-    func postData(completion: (()->()) ) -> Void {
-        
-        if doUploadWork {
-            editProfilePhotoUpload()
+    var reloadEditProfileClosure: (() -> ())?
+    var imagesDatas:[UIImage] = []
+    var imageURL:[String] = []{
+        didSet{
+            editProfile.pp_url = imageURL.first!
+            putEditProfileInfos()
         }
-        
-        putEditProfileInfos()
     }
-    
-    // MARK: Private Functions
-    private func editProfilePhotoUpload() -> Void {
-        
+
+    func editProfilePhotoUpload(photo: UIImage){
         self.isLoading = true
-        
-        let params = ["pp_url": selectedImage]
-        NetworkingHelper.shared.uploadPhoto(images: [selectedImage!], urlRequest: .uploadAddPhoto(params: params), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
+
+        let params = ["pp_url": photo]
+
+        NetworkingHelper.shared.uploadPhoto(images: imagesDatas, urlRequest: .uploadAddPhoto(params: params), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
             switch result {
             case .success(let success):
-                self.imageURL = success.urls.first
-                
-            case .failure(_):
-                self.doUploadWork = true
+                self.imageURL = success.urls
+
+            case .failure(let failure):
+                print("Başarısız yanıt: \(failure)")
             }
             self.isLoading = false
+
         })
+        
     }
     
-    private func putEditProfileInfos() -> Void {
-        
-        self.isLoading = true
+    func putEditProfileInfos(){
+
         let params = ["full_name": editProfile.full_name, "email": editProfile.email, "pp_url": editProfile.pp_url]
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .putEditProfile(params: params), callback: {  (result: Result<Messages, Error>) in
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .putEditProfile(params: params), callback: { [self] (result: Result<Messages, Error>) in
             switch result {
-            case .success(_):
-                self.showAlertClosure?("Notification", "Updated profile successfully.")
-            case .failure(_):
-                self.showAlertClosure?("Error", "Failed to update profile.")
+            case .success(let success):
+                print("Başarılı yanıt: \(success)")
+            case .failure(let failure):
+                print("Başarısız yanıt: \(failure)")
             }
-            self.isLoading = false
+
         })
     }
 }

@@ -16,7 +16,7 @@ extension UIViewController
     func showAlert(title: String, message: String, completion: @escaping () -> Void) {
         let alert = AppAlertControl(title: title, message: message, preferredStyle: .alert)
         
-        let btnCancel = UIAlertAction(title: "Dismiss", style: .cancel) { _ in
+        let btnCancel = UIAlertAction(title: "Kapat", style: .cancel) { _ in
             completion()
         }
         
@@ -24,16 +24,19 @@ extension UIViewController
         
         self.present(alert, animated: true, completion: nil)
     }
-
-    func addActionSheet(title: String, message: String, actions: [UIAlertAction]) {
-            let actionSheet = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-
-            for action in actions {
-                actionSheet.addAction(action)
-            }
-
-            present(actionSheet, animated: true, completion: nil)
-        }
     
+    func addActionSheet(deleteAction: @escaping () -> Void) {
+           let actionSheet = UIAlertController(title: "Seçim Yap", message: "Yapmak istediğiniz işleme dokunun.", preferredStyle: .actionSheet)
 
+           let deleteAction = UIAlertAction(title: "Eklediğim Konumu Sil", style: .destructive) { _ in
+               deleteAction() 
+           }
+
+           let cancelAction = UIAlertAction(title: "Vazgeç", style: .cancel)
+
+           actionSheet.addAction(deleteAction)
+           actionSheet.addAction(cancelAction)
+
+           present(actionSheet, animated: true, completion: nil)
+       }
 }

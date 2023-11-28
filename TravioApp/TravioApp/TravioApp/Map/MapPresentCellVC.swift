@@ -10,6 +10,7 @@ import UIKit
 class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     
     // Cell Identifiers
+    
     static let reuseIdentifier: String = "ImageCell"
     
     // View Model
@@ -23,15 +24,15 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
     
     // Cell UI Elements
     
-     lazy var cellView: UIImageView = {
+    private lazy var cellView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
         return view
     }()
-        
-    lazy var addPhotoIcon: UIImageView = {
+    
+    private lazy var addPhotoIcon: UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "addPhoto")
         img.contentMode = .scaleAspectFit
@@ -45,12 +46,15 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         btn.titleLabel?.font = .Fonts.textFieldText.font
         return btn
     }()
+    
     // Private Functions
     
     func fillCellWith(image:UIImage){
         self.cellView.image = image
         addPhotoBtn.isHidden = true
         addPhotoIcon.isHidden = true
+        
+        self.isUserInteractionEnabled = false
     }
     
     // Inits
@@ -91,12 +95,14 @@ class MapPresentCellVC: UICollectionViewCell, UINavigationControllerDelegate {
         
         cellView.snp.makeConstraints { make in
             make.top.equalToSuperview()
+//            make.bottom.equalToSuperview()
             make.height.equalTo(215)
             make.width.equalTo(270)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
             
         }
+        
         addPhotoIcon.snp.makeConstraints { make in
             make.top.equalTo(cellView).offset(79)
             make.height.equalTo(35)

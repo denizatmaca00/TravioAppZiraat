@@ -18,11 +18,11 @@ class MapVM {
     
     var showPinClosure: (() -> Void)?
     var showAlertClosure: ((String, String) -> Void)?
-    var reloadCollectionViewClosure: (()->())?
+    var reloadTableViewClosure: (()->())?
     
     private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
-            reloadCollectionViewClosure?()
+            reloadTableViewClosure?()
         }
     }
     
@@ -35,7 +35,7 @@ class MapVM {
                 if let firstPlace = self.places.first {
                     let coordinate = CLLocationCoordinate2D(latitude: firstPlace.latitude, longitude: firstPlace.longitude)
                     let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-                     self.map.setRegion(region, animated: true)
+                    self.map.setRegion(region, animated: true)
                 }
                 
                 completion(.success(places))
@@ -49,21 +49,11 @@ class MapVM {
         NetworkingHelper.shared.dataFromRemote(urlRequest: .places) { [weak self] (result:Result<PlacesDataStatus, Error>) in
             switch result {
             case .success(let data):
-                self?.fetchVisits(mapPlaces: data.data.places )
-            case .failure(_):
-                break
+                self?.fetchVisits(favorites: data.data.places )
+            case .failure(let failure):
+                print(failure.localizedDescription)
             }
         }
-    }
-    func addCustomAnnotation(title: String, subtitle: String, coordinate: CLLocationCoordinate2D, logoImage: UIImage?) {
-        let annotation = CustomAnnotation(
-            title: title,
-            subtitle: subtitle,
-            coordinate: coordinate,
-            logoImage: logoImage
-        )
-        
-        map.addAnnotation(annotation)
     }
     
     func fetchAndShowPlaces() {
@@ -77,30 +67,38 @@ class MapVM {
                     let description = place.description
                     let latitude = place.latitude
                     let longitude = place.longitude
-                    self.addCustomAnnotation(title: title, subtitle: description, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), logoImage:UIImage(named: "pinLogo"))
+                    
+                    let annotation = CustomAnnotation(
+                        title: title,
+                        subtitle: description,
+                        coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+                        logoImage: UIImage(named: "pinLogo")
+                    )
+                    
+                    self.map.addAnnotation(annotation)
                 }
-            case .failure(_):
-                break
+            case .failure(let error):
+                print("Hata: \(error)")
             }
         }
     }
     
-    private func fetchVisits(mapPlaces:[Place]){
-        self.places = mapPlaces
+    private func fetchVisits(favorites:[Place]){
+        self.places = favorites
         
         var viewModels = [VisitCellViewModel]()
         
-        for mapPlace in mapPlaces {
-            viewModels.append(createCellViewModel(mapPlace: mapPlace))
+        for favorite in favorites {
+            viewModels.append(createCellViewModel(favorite: favorite))
         }
         
         self.cellViewModels = viewModels
     }
     
-    private func createCellViewModel(mapPlace:Place) -> VisitCellViewModel{
-        let cvm = VisitCellViewModel(image: URL(string: mapPlace.cover_image_url)!,
-                                     placeName: mapPlace.title,
-                                     city: mapPlace.place)
+    private func createCellViewModel(favorite:Place) -> VisitCellViewModel{
+        let cvm = VisitCellViewModel(image: URL(string: favorite.cover_image_url)!,
+                                     placeName: favorite.title,
+                                     city: favorite.place)
         return cvm
     }
     

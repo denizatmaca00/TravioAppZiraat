@@ -122,7 +122,7 @@ class HelpAndSupportVC: UIViewController {
         })
         
         tableView.snp.makeConstraints({ tv in
-            tv.top.equalToSuperview()
+            tv.top.equalToSuperview().offset(85)
             tv.leading.equalToSuperview()
             tv.trailing.equalToSuperview()
             tv.bottom.equalToSuperview()
@@ -152,7 +152,6 @@ class HelpAndSupportVC: UIViewController {
 }
 
 extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfCells
     }
@@ -193,8 +192,7 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
         default:
             /// case when another cell is already expanded and it is not the last clicked cell
             self.tableView.beginUpdates()
-            self.lastSelectedIndexPath = indexPath
-            makeCellSelected(in: tableView, on: self.lastSelectedIndexPath!)
+            makeCellUnselected(in: tableView, on: self.lastSelectedIndexPath!)
             self.lastSelectedIndexPath = nil
             self.tableView.endUpdates()
         }
@@ -217,24 +215,15 @@ extension HelpAndSupportVC:UITableViewDelegate, UITableViewDataSource {
     
     /// On deselect cell
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let lastIdx = lastSelectedIndexPath else {return}
         
         /// Create animation for cell
         self.tableView.performBatchUpdates(nil)
         self.tableView.beginUpdates()
-        makeCellUnselected(in: tableView, on: self.lastSelectedIndexPath!)
-        self.lastSelectedIndexPath = nil
         self.tableView.endUpdates()
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 85-26
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

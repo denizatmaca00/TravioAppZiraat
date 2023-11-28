@@ -9,13 +9,12 @@
 
 import UIKit
 import SnapKit
-import TinyConstraints
 
 class HomeVC: UIViewController {
     
-    //MARK: -- Properties
-    
     let viewModel:HomeVM = HomeVM()
+    
+    //MARK: -- Properties
     
     //MARK: -- Views
     
@@ -24,7 +23,7 @@ class HomeVC: UIViewController {
         sv.axis = .horizontal
         sv.alignment = .center
         sv.distribution = .fillProportionally
-        
+        //sv.translatesAutoresizingMaskIntoConstraints = false
         return sv
     }()
     
@@ -32,7 +31,6 @@ class HomeVC: UIViewController {
         let imageView = UIImageView()
         let image = UIImage(named: "pinLogo")
         imageView.image = image
-        
         return imageView
     }()
     
@@ -40,13 +38,11 @@ class HomeVC: UIViewController {
         let imageView = UIImageView()
         let image = UIImage(named: "travioLabel")?.withRenderingMode(.automatic)
         imageView.image = image
-        
         return imageView
     }()
     
     private lazy var contentViewBig : UIView = {
         let view = AppView()
-        
         return view
     }()
     
@@ -68,6 +64,9 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
+        initPopularVM()
+        initNewsVM()
+        initAllForUserVM()
         setupViews()
     }
 
@@ -80,6 +79,10 @@ class HomeVC: UIViewController {
 
     
     //MARK: -- Component Actions
+    
+    @objc private func btnSeeAllTapped(sender:UIButton!){
+        print(sender.tag)
+    }
     
     //MARK: -- Private Methods
     
@@ -148,7 +151,7 @@ class HomeVC: UIViewController {
         })
         
         collectionView.snp.makeConstraints({ cv in
-            cv.top.equalTo(contentViewBig.snp.top).offset(-180)
+            cv.top.equalTo(contentViewBig.snp.top).offset(55)
             cv.bottom.equalTo(contentViewBig.snp.bottom)
             cv.leading.equalTo(contentViewBig.snp.leading)
             cv.width.equalTo(contentViewBig.snp.width)
@@ -157,7 +160,6 @@ class HomeVC: UIViewController {
     }
 }
 
-// TODO: Move this extension into a seperate Swift file
 extension HomeVC {
     
     func makeSliderLayoutSection() -> NSCollectionLayoutSection {
@@ -169,6 +171,8 @@ extension HomeVC {
             layoutSize: headerSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top)
+        
+        headerElement.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 0, bottom:0, trailing: 16)
         
         headerElement.pinToVisibleBounds = false
         
@@ -209,20 +213,19 @@ extension HomeVC {
 extension HomeVC:UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 4
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        switch section {
-        case 1:
+        if section == 0 {
             return viewModel.numberOfCells
-        case 2:
+        }
+        else if section == 1{
             return viewModel.newPlaces.count
-        case 3:
+        }
+        else{
             return viewModel.allPlaces.count
-        default:
-            return 0
+            
         }
     }
     
@@ -234,17 +237,17 @@ extension HomeVC:UICollectionViewDataSource {
         cell.contentView.isUserInteractionEnabled = false
         
         switch indexPath.section {
-        case 1:
+        case 0:
             let object = viewModel.popularPlaces[indexPath.row]
             cell.configure(object:object)
-        case 2:
+        case 1:
             let object = viewModel.newPlaces[indexPath.row]
             cell.configure(object:object)
-        case 3:
+        case 2:
             let object = viewModel.allPlaces[indexPath.row]
             cell.configure(object:object)
         default:
-            cell.isHidden = true
+            break
         }
         return cell
     }
@@ -256,8 +259,7 @@ extension HomeVC:UICollectionViewDataSource {
         let vc = SeeAllVC()
         
         switch indexPath.section {
-            
-        case 1:
+        case 0:
             let title = "Popular Places"
             header.setTitle(titleText: title)
             header.btnTapAction = {
@@ -268,8 +270,7 @@ extension HomeVC:UICollectionViewDataSource {
 
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            header.isHidden = false
-        case 2:
+        case 1:
             let title = "New Places"
             header.setTitle(titleText: title)
             header.btnTapAction = {
@@ -280,21 +281,18 @@ extension HomeVC:UICollectionViewDataSource {
 
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            header.isHidden = false
-        case 3:
-            let title = "My Added Places"
-            header.setTitle(titleText: title)
+        case 2:
+            header.setTitle(titleText: "My Added Places")
             header.btnTapAction = {
                 
-                vc.titleLabel.text = title
+                vc.titleLabel.text = "My Added Places"
                 vc.viewModel.allPlaceforUser()
                 vc.hidesBottomBarWhenPushed = true
 
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-            header.isHidden = false
         default:
-            header.isHidden = true
+            break
         }
         return header
     }
@@ -309,7 +307,7 @@ extension HomeVC:UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let placeId = viewModel.sectionsArray[indexPath.section-1][indexPath.row].id
+        let placeId = viewModel.sectionsArray[indexPath.section][indexPath.row].id
         let vc = DetailVC()
         vc.viewModel.placeIdtest = placeId
         

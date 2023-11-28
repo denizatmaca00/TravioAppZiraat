@@ -16,27 +16,36 @@
 
 // TODO: mapte pin kalkmıyor uzun basınca öncekini kladırıyor.
 // TODO: mapte editProfile dispacch
+// TODO: map
+// internet test edilmedi ama yapıldı muhtelemen
 
 // TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
 // TODO: alertler eklenecek
 // TODO: indiciatorler eklenecek
 
+//Ece
+//TODO: detay sayfasında scrrol static ayarlanacak
+// TODO: popularvc gölgeyi ayarla
+// TODO: popularvc tam sayı
+
+
+
 
 
 import UIKit
 import Kingfisher
-import Photos
-import AVFoundation
 
 class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     
     var viewModel = EditProfileVM()
-    var viewModelProfile: ProfileVM?
+    
+    var viewModelProfile = ProfileVM()
     
     private lazy var viewUsername = AppTextField(data: .fullname)
     private lazy var viewMail = AppTextField(data: .email)
     private lazy var txtUsername = viewUsername.getTFAsObject()
     private lazy var txtEmail = viewMail.getTFAsObject()
+    
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -46,66 +55,12 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         return imageView
     }()
     
- 
-    
-    
-//    func  imagePicker (){
-//        let picker = UIImagePickerController()
-//        picker.delegate = self
-//        picker.sourceType = .photoLibrary
-//        present(picker, animated: true)
-//    }
-//
-    func initPicker() {
-        
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [self] _ in
-            print("aaa")
-            requestCameraPermission { granted in
-               DispatchQueue.main.async {
-                    if granted {
-                        self.presentImagePicker(sourceType: .camera)
-                    } else {
-                        self.showAlert(title: "Camera Permission", message: "Not Allowed", completion: {
-                            self.dismiss(animated: true)
-                        })
-                    }
-                }
-            }
-            
-        }
-
-        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { [self] _ in
-           
-            requestPhotoLibraryPermission { granted in
-                      DispatchQueue.main.async {
-                          if granted {
-                              self.presentImagePicker(sourceType: .photoLibrary)
-                          } else {
-                              self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
-                                  self.dismiss(animated: true)
-                              })
-                          }
-                      }
-                  }
-        }
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-        self.addActionSheet(title: "Added Photo", message: "Choose Your Way", actions: [cameraAction, galleryAction, cancelAction])
-
+    func  imagePicker (){
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        present(picker, animated: true)
     }
-
-    func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.sourceType = sourceType
-            present(picker, animated: true, completion: nil)
-        } else {
-            showAlert(title: "Error", message: "Selected source type is not available.", completion: {})
-        }
-    }
-
     
     private lazy var changePhotoButton: UIButton = {
         let btn = UIButton()
@@ -124,8 +79,10 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         return lbl
     }()
     
-    lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile!.profile.created_at, alignment: .left)
-    lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile!.profile.role, alignment: .left)
+    lazy var labelDate = AppLabel(icon: UIImage(named: "signature"), text: viewModelProfile.profile.created_at, alignment: .left)
+    lazy var labelRole = AppLabel(icon: UIImage(named: "role"), text: viewModelProfile.profile.role, alignment: .left)
+    
+    
     
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
@@ -163,10 +120,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        txtEmail.autocapitalizationType = .none
-        
-        // Define closures
+        setupViews()
+        initVM()
         viewModel.indicatorUpdateClosure = { [weak self] isLoading in
             DispatchQueue.main.async {
                 switch isLoading{
@@ -178,74 +133,31 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             }
         }
         
+        
         viewModel.showAlertClosure = { [weak self] title, message in
-            self?.showAlert(title: title, message: message, completion: {
-                self?.dismiss(animated: true)
-            })
+            self?.showAlert(title: title, message: message){
+                
+            }
         }
         
-        setupViews()
-        initVM()
     }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         presentingViewController?.viewWillAppear(true)
         initVM()
-    }
-    
-    // photo library permission
-//    @objc func changePhotoTapped() {
-//        requestPhotoLibraryPermission { granted in
-//            DispatchQueue.main.async {
-//                if granted {
-//                    self.initPicker()
-//                } else {
-//                    self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
-//                        self.dismiss(animated: true)
-//                    })
-//                }
-//            }
-//        }
-//    }
-    @objc func changePhotoTapped() {
-        self.initPicker()
-    }
-
-    
-    func requestPhotoLibraryPermission(completion: @escaping (Bool) -> Void) {
-        PHPhotoLibrary.requestAuthorization { status in
-            switch status {
-                /// Case that allows photo library access
-            case .authorized:
-                completion(true)
-                /// Case that restricts  photo library access when user did not give permission
-            case .denied, .restricted:
-                completion(false)
-                /// Case for undetermined permission
-            case .notDetermined:
-                completion(false)
-            default:
-                break
+        
+        viewModel.showAlertClosure = { [weak self] title, message in
+            self?.showAlert(title: title, message: message){
+                
             }
         }
     }
-    //camera permission
-    func requestCameraPermission(completion: @escaping (Bool)->Void) {
-        AVCaptureDevice.requestAccess(for: .video) { granted in
-            if granted {
-                print(" kamera erişim izni \(granted) ")
-                //self.checkPermissionStatus = true
-                completion(true)
-            } else {
-                print("Kullanıcı kamera erişim iznini reddetti.  \(granted)")
-               // self.checkPermissionStatus = false
-                completion(false)
-            }
-        }
+    @objc func changePhotoTapped(){
+        imagePicker()
     }
+    
     func initVM(){
-        viewModelProfile!.profileUpdateClosure = { [weak self] updatedProfile in
+        viewModelProfile.profileUpdateClosure = { [weak self] updatedProfile in
             self?.labelName.text = updatedProfile.full_name
             self?.labelDate.textLabel.text = updatedProfile.created_at.formatDate()
             self?.labelRole.textLabel.text = updatedProfile.role
@@ -256,7 +168,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             self?.viewModel.profile = updatedProfile
         }
         
-        viewModelProfile!.getProfileInfos(completion: {result in })
+        viewModelProfile.getProfileInfos(completion: {result in })
     }
     
     @objc func exitButtonTapped(){
@@ -264,18 +176,18 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     }
     
     @objc func saveEditProfile() {
+        
         guard let email = txtEmail.text,
-              let full_name = txtUsername.text,
-              let imageURL = viewModel.editProfile.pp_url as? String
-        else { return }
-        viewModel.editProfile = EditProfile(full_name: full_name, email: email, pp_url: imageURL)
-        
+              let full_name = txtUsername.text else { return }
+        viewModel.editProfile = EditProfile(full_name: full_name, email: email, pp_url: "")
         guard let image = imageView.image else { return }
-        viewModel.selectedImage = image
-        
-        viewModel.postData(completion: {
-            viewModelProfile!.getProfileInfos(completion: { _ in })
+
+        viewModel.editProfilePhotoUpload(photo: image)
+            self.showAlert(title: "Notification", message: "Updated Successfully", completion: {
+            self.dismiss(animated: true)
         })
+        viewModelProfile.getProfileInfos(completion: {result in})
+        
     }
     
     func setupViews() {
@@ -351,8 +263,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage{
             imageView.image = selectedImage
-            viewModel.selectedImage = selectedImage
-            viewModel.doUploadWork = true
+            viewModel.imagesDatas.append(selectedImage)
             dismiss(animated: true, completion: nil)
         }
     }

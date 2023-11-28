@@ -5,15 +5,18 @@
 //  Created by web3406 on 11/2/23.
 //
 
+
 import UIKit
 
 class SettingsVC: UIViewController {
     
+    
     let loginVM = LoginVM()
     let profileViewModel = ProfileVM()
-    let editProfileVC = EditProfileVC()
-    weak var editViewModel: EditProfileVM?
-    
+    let editViewModel = EditProfileVM()
+    let viewModelSeeAll = SeeAllVM()
+    let vc = EditProfileVC()
+
     let cellArray: [SettingsCell] = [
         SettingsCell(iconName: "profile", label: "Security Settings", iconArrow: "buttonArrow"),
         SettingsCell(iconName: "appDefault", label: "App Defaults", iconArrow: "buttonArrow"),
@@ -32,7 +35,6 @@ class SettingsVC: UIViewController {
         tableView.dataSource = self
         tableView.backgroundColor = UIColor(named: "viewBackgroundColor")
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .clear
         tableView.register(SettingsCollectionCell.self, forCellReuseIdentifier: "Cell")
         tableView.register(SpaceCell.self, forCellReuseIdentifier: "SpaceCell")
         
@@ -45,8 +47,8 @@ class SettingsVC: UIViewController {
         imageView.layer.cornerRadius = 60
         imageView.layer.masksToBounds = true
         return imageView
+        // burası değişecek güncellenecek
     }()
-    
     private lazy var label: UILabel = {
         let lbl = UILabel()
         lbl.text = ""
@@ -54,7 +56,7 @@ class SettingsVC: UIViewController {
         lbl.font = .Fonts.profileNameTitle.font
         return lbl
         // burası değişecek güncellenecek
-        
+
     }()
     private lazy var settingsLabel: UILabel = {
         let lbl = UILabel()
@@ -80,54 +82,9 @@ class SettingsVC: UIViewController {
         return btn
     }()
     
-    private lazy var contentViewBig: AppView = {
-        let view = AppView()
-        return view
-    }()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = false
-        initVM()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        editProfileVC.viewModelProfile = profileViewModel
-        editViewModel = editProfileVC.viewModel
-        
-        self.navigationController?.navigationBar.isHidden = true
-        
-        setupViews()
-        initVMFirstFetch()
-    }
-    
-    func initVM() {
-        editViewModel!.profileUpdateClosure = { [weak self] in
-            DispatchQueue.main.async {
-                self?.label.text = self?.profileViewModel.profile.full_name
-                self?.imageView.image = self?.editViewModel!.selectedImage
-                self?.editViewModel!.editProfile.pp_url = (self?.profileViewModel.profile.pp_url)!
-                ImageHelper().setImage(imageURL: URL(string: (self?.editViewModel!.editProfile.pp_url)!)!, imageView: self!.imageView)
-            }
-        }
-        self.profileViewModel.getProfileInfos(completion: {result in})
-    }
-    
-    func initVMFirstFetch(){
-        profileViewModel.profileUpdateClosure = { [weak self] profile in
-            self?.label.text = profile.full_name
-            guard let url = URL(string: profile.pp_url) else {return}
-            guard let img = self?.imageView else {return}
-            ImageHelper().setImage(imageURL: url, imageView: img)
-        }
-        profileViewModel.getProfileInfos(completion: {result in })
-    }
-    
     @objc func logOutButtonTapped() {
         //KeychainHelper.shared.delete("Travio", account: "asd")
-      //  navigationController?.pushViewController(LoginVC(), animated: true)
+        
         loginVM.logout { result in
             switch result {
             case .success:
@@ -139,26 +96,62 @@ class SettingsVC: UIViewController {
             case .failure(let error):
                 print("Logout Error: \(error)")
             }
+            //bir tane showAlert olabilir
         }
     }
     
     @objc func editProfileTapped() {
-        self.present(editProfileVC, animated: true)
+        self.present(vc, animated: true)
+    }
+
+    private lazy var contentViewBig: AppView = {
+        let view = AppView()
+        return view
+    }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+        initVM()
     }
     
+    func initVM() {
+        editViewModel.profileUpdateClosure = { [weak self] () in
+            DispatchQueue.main.async {
+                self?.label.text = self?.profileViewModel.profile.full_name
+                self?.imageView.image = self?.editViewModel.imagesDatas.first
+            }
+        }
+        profileViewModel.getProfileInfos(completion: {result in})
+        
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = true
+        setupViews()
+        initVMFirstFetch()
+    }
+    func initVMFirstFetch(){
+        profileViewModel.profileUpdateClosure = { [weak self] profile in
+            self?.label.text = profile.full_name
+            guard let url = URL(string: profile.pp_url) else {return}
+            guard let img = self?.imageView else {return}
+            ImageHelper().setImage(imageURL: url, imageView: img)
+
+        }
+
+        profileViewModel.getProfileInfos(completion: {result in })
+    }
+
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
-        self.view.bringSubviewToFront(logOutButton)
-        
         self.view.addSubviews(contentViewBig,tableView, settingsLabel, logOutButton)
-        
         contentViewBig.addSubviews(imageView, label,editProfileButton)
-        
         setupLayout()
     }
     
     func setupLayout() {
-        self.tableView.shadow()
+        
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(contentViewBig).offset(24)
             img.centerX.equalToSuperview()
@@ -184,6 +177,7 @@ class SettingsVC: UIViewController {
             btn.height.equalTo(30)
             btn.width.equalTo(30)
         })
+        self.view.bringSubviewToFront(logOutButton)
         
         contentViewBig.snp.makeConstraints ({ view in
             view.height.equalToSuperview().multipliedBy(0.8)
@@ -194,11 +188,12 @@ class SettingsVC: UIViewController {
         
         tableView.snp.makeConstraints ({ tableView in
             tableView.top.equalTo(imageView.snp.bottom).offset(74)
-            tableView.leading.equalTo(view).offset(16)
-            tableView.trailing.equalTo(view).offset(-16)
+            tableView.leading.equalTo(view)
+            tableView.trailing.equalTo(view)
             tableView.bottom.equalTo(view)
         })
     }
+    
 }
 
 extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
@@ -220,7 +215,8 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             cell.setupViews()
             cell.setupLayout()
             cell.selectionStyle = .none
-            cell.backgroundColor = .clear
+            cell.backgroundColor = UIColor(named: "viewBackgroundColor")
+            
             return cell
         } else {
             let spaceCell = tableView.dequeueReusableCell(withIdentifier: "SpaceCell", for: indexPath) as! SpaceCell
@@ -230,15 +226,14 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return 54
         } else {
-            /// Default height for spaceCell
-            return 8
+            return 8 // Boşluk hücresi yükseklik
         }
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedSection = indexPath.section
         switch selectedSection {
@@ -246,32 +241,26 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             let vc = SecuritySettingVC()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
-            
-        case 1:
-            showAlert(title: "", message: "Coming Soon", completion: {
-                
-            })
-            
+            //        case 1:
+            //            let appDefaultsVC = AppDefaultsVC()
+            //            navigationController?.pushViewController(appDefaultsVC, animated: true)
         case 2:
             let myAddedPlacesVC = SeeAllVC()
             myAddedPlacesVC.viewModel.allPlaceforUser()
-            myAddedPlacesVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(myAddedPlacesVC, animated: true)
-
-            
+            self.navigationController?.pushViewController(myAddedPlacesVC, animated: true)
+                        
         case 3:
             let vc = HelpAndSupportVC()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
-            
         case 4:
             let vc = AboutUsVC()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
-            
         case 5:
             let vc = TermsOfUseVC()
             vc.hidesBottomBarWhenPushed = true
+
             navigationController?.pushViewController(vc, animated: true)
             
         default:
@@ -279,7 +268,10 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
 }
+
+
 
 #if DEBUG
 import SwiftUI

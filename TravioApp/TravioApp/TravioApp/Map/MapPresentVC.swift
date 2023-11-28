@@ -1,4 +1,3 @@
-
 //
 //  MapPresentVC.swift
 //  TravioApp
@@ -14,14 +13,9 @@ protocol MapPresentControllerDelegate: AnyObject {
 
 class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
     
-<<<<<<< HEAD
     var viewModel = MapPresentVM()
     weak var delegate: MapPresentControllerDelegate?
     
-=======
-    let viewModel = MapPresentVM()
-
->>>>>>> development
     var latitude: Double?
     var longitude: Double?
     var localName: String?{
@@ -154,35 +148,14 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     private lazy var imagePicker:UIImagePickerController = {
         let picker = UIImagePickerController()
         picker.delegate = self
+        picker.sourceType = .photoLibrary
         return picker
     }()
     
-    func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
-            imagePicker.sourceType = sourceType
-            present(imagePicker, animated: true, completion: nil)
-        } else {
-            showAlert(title: "Error", message: "Selected source type is not available.", completion: {})
-        }
+    func initPicker (){
+        viewModel.picker = imagePicker
+        present(viewModel.picker!, animated: true)
     }
-
-    func showImagePicker(for indexPath: IndexPath) {
-        imagePicker.delegate = self
-        imagePicker.view.tag = indexPath.item
-
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
-            self?.presentImagePicker(sourceType: .camera)
-        }
-
-        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { [weak self] _ in
-            self?.presentImagePicker(sourceType: .photoLibrary)
-        }
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-        self.addActionSheet(title: "Added Photo", message: "Choose Your Way", actions: [cameraAction, galleryAction, cancelAction])
-    }
-
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
@@ -190,8 +163,6 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
             textView.textColor = UIColor.black
         }
     }
-    
-    
     
     func setupViews() {
         
@@ -248,24 +219,22 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapPresentCellVC.reuseIdentifier, for: indexPath) as? MapPresentCellVC else {fatalError("Cell is not found")}
+        
         return cell
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? MapPresentCellVC else {return}
         
         /// initiate picker view from viewModel
-        showImagePicker(for: indexPath)
+        self.initPicker()
         
         /// initiate reload CV closure in viewModel
-
         viewModel.reloadCollectionViewClosure = {
             DispatchQueue.main.async {
                 self.imageCollectionView.reloadData()
             }
-            
+            self.viewModel.fetchData(in: cell, with: indexPath)
         }
     }
 }
@@ -277,42 +246,15 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
         
-        guard let selectedImage = info[.originalImage] as? UIImage else {return}
-        let indexPath = IndexPath(item: picker.view.tag, section: 0)
-        
-        if let cell = imageCollectionView.cellForItem(at: indexPath) as? MapPresentCellVC {
-
-            cell.cellView.image = selectedImage
-
-            
-            if indexPath.item < viewModel.imageArray.count {
-
-                (viewModel.imageArray[indexPath.item] = selectedImage)
-                cell.addPhotoBtn.isHidden = true
-                cell.addPhotoIcon.isHidden = true
-            }
-            else {
-
-                viewModel.imageArray.append(selectedImage)
-                cell.addPhotoBtn.isHidden = true
-                cell.addPhotoIcon.isHidden = true
-
-            }
-            viewModel.reloadCollectionViewClosure = {
-                DispatchQueue.main.async {
-                    self.imageCollectionView.reloadData()
-                }
-            }
-            
-            
+        if let selectedImage = info[.originalImage] as? UIImage{
+            viewModel.imageArray.append(selectedImage)
+            viewModel.lastImage = selectedImage
+            pickerCloseEvents(picker)
+            viewModel.reloadCollectionViewClosure!()
         }
-
-        pickerCloseEvents(picker)
-        
-
     }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         pickerCloseEvents(picker)
     }
@@ -329,4 +271,3 @@ struct MapPresentVC_Preview: PreviewProvider {
     }
 }
 #endif
-

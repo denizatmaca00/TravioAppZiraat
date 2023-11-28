@@ -57,32 +57,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-<<<<<<< HEAD
         let navigationController = UINavigationController()
         coordinator = AppCoordinator(navigationController: navigationController)
         coordinator!.start()
         
-=======
-        let rootViewController = coordinateViewController()
-        window.rootViewController = rootViewController
-        window.makeKeyAndVisible()
->>>>>>> development
         self.window = window
         self.window?.rootViewController = navigationController // lets Coordinator managa launch
         self.window?.makeKeyAndVisible()
     }
 
-    private func coordinateViewController() -> UIViewController {
-        if KeychainHelper.shared.isTokenExpired(){
-            print("token expired, need login")
-            let loginVC = LoginVC()
-            return UINavigationController(rootViewController: loginVC)
-        }else{
-            print("token lives")
-            return TabBarVC()
-        }
-    }
-    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
@@ -103,7 +86,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        NotificationCenter.default.post(name: Notification.Name("appActive"), object: nil)
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
