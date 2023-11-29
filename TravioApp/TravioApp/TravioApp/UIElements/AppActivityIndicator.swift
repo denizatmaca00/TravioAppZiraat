@@ -100,7 +100,7 @@ extension UIViewController {
     ///  Meets the same requirements with toggle funcionality
     func toggleActivityIndicator(_ isEnable:Bool, message:String? = nil){
         if isEnable {
-            showIndicator()
+            showIndicator(with: message)
         }else{
             hideIndicator()
         }
