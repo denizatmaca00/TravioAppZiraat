@@ -23,16 +23,11 @@ class EditProfileVM {
     }
     
     // Flags
-    var isLoading:Bool = false {
-        didSet{
-            indicatorUpdateClosure?(self.isLoading)
-        }
-    }
     var doUploadWork:Bool = false
     
     // Closures
     var profileUpdateClosure: (() -> Void)?
-    var indicatorUpdateClosure:((Bool)->(Void))?
+    var indicatorUpdateClosure:((Bool, String?)->(Void))?
     var showAlertClosure: ((String, String) -> Void)?
     var reloadEditProfileClosure: (() -> ())?
     
@@ -44,10 +39,6 @@ class EditProfileVM {
     let dispatchGroup = DispatchGroup()
     
     // MARK: Public Functions
-    
-    func profileUpdated() {
-        profileUpdateClosure?()
-    }
     
     func postData() -> Void {
         /// initiate image upload if any image is given via imagePicker
@@ -63,7 +54,7 @@ class EditProfileVM {
     private func editProfilePhotoUpload() -> Void {
         
         if doUploadWork {
-            self.isLoading = true
+            self.indicatorUpdateClosure?(true, "Updating profile picture.")
             let params = ["pp_url": self.selectedImage]
             
             dispatchGroup.enter()
@@ -79,14 +70,14 @@ class EditProfileVM {
                     
                 }
                 self.dispatchGroup.leave()
-                self.isLoading = false
+                self.indicatorUpdateClosure?(false, nil)
             })
         }
     }
     
     private func putEditProfileInfos() -> Void {
         
-        self.isLoading = true
+        self.indicatorUpdateClosure?(true, "Updating user profile.")
         
         dispatchGroup.enter()
         let params = ["full_name": editProfile.full_name, "email": editProfile.email, "pp_url": editProfile.pp_url]
@@ -98,7 +89,7 @@ class EditProfileVM {
                 self.showAlertClosure?("Error", "Failed to update profile.")
             }
             self.dispatchGroup.leave()
-            self.isLoading = false
+            self.indicatorUpdateClosure?(false, nil)
         })
     }
 }

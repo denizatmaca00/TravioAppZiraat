@@ -164,15 +164,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         emailTextField.textField.autocapitalizationType = .none
         
         // Define closures
-        viewModel.indicatorUpdateClosure = { [weak self] isLoading in
-            DispatchQueue.main.async {
-                switch isLoading{
-                case true:
-                    self?.showIndicator()
-                case false:
-                    self?.hideIndicator()
-                }
-            }
+        viewModel.indicatorUpdateClosure = { [weak self] isLoading, message in
+            self?.toggleActivityIndicator(isLoading, message: message)
         }
         
         viewModel.showAlertClosure = { [weak self] title, message in
