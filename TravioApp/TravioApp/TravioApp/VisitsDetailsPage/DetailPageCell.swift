@@ -22,8 +22,8 @@ class DetailPageCell: UICollectionViewCell {
     }()
     private lazy var gradientLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
-        layer.colors = [UIColor.clear.cgColor, UIColor.white.withAlphaComponent(0.9).cgColor]
-        layer.locations = [0.2, 1.0]
+        layer.colors = [UIColor.clear.cgColor, UIColor.white.withAlphaComponent(1.9).cgColor]
+        layer.locations = [0.3, 1.0]
         return layer
     }()
     private func addGradientLayer() {

@@ -82,7 +82,7 @@ class DetailVC: UIViewController {
     private var dateText:UILabel = {
         let datetxt = UILabel()
         datetxt.text = "31.10.2023"
-        datetxt.textColor = .black
+        datetxt.textColor = .gray  
         datetxt.numberOfLines = 1
         datetxt.font = .Fonts.dateText.font
         return datetxt
@@ -317,7 +317,7 @@ class DetailVC: UIViewController {
                 a.width.equalTo(view.snp.width)
             }
             
-            centerText.topToSuperview()
+            centerText.topToSuperview(offset:24)
             centerText.leadingToSuperview(offset:20)
             centerText.snp.makeConstraints({s in
                 s.trailing.equalToSuperview().offset(-20)
