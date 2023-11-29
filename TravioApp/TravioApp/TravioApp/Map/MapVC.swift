@@ -145,9 +145,10 @@ extension MapVC: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotation = view.annotation as? CustomAnnotation,
-              let index = viewModel.places.firstIndex(where: { $0.title == annotation.title }) else {
+              let index = viewModel.places.firstIndex(where: { $0.latitude == annotation.coordinate.latitude && $0.longitude == annotation.coordinate.longitude}) else {
             return
         }
+        selectCollectionViewCell(at: index)
     }
     
     
