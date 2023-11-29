@@ -112,7 +112,7 @@ class SettingsVC: UIViewController {
                 ImageHelper().setImage(imageURL: URL(string: (self?.editViewModel!.editProfile.pp_url)!)!, imageView: self!.imageView)
             }
         }
-        self.profileViewModel.getProfileInfos(completion: {result in})
+        self.profileViewModel.getProfileInfos()
     }
     
     func initVMFirstFetch(){
@@ -122,7 +122,7 @@ class SettingsVC: UIViewController {
             guard let img = self?.imageView else {return}
             ImageHelper().setImage(imageURL: url, imageView: img)
         }
-        profileViewModel.getProfileInfos(completion: {result in })
+        profileViewModel.getProfileInfos()
     }
     
     @objc func logOutButtonTapped() {
