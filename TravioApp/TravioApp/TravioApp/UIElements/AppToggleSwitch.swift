@@ -42,7 +42,6 @@ class AppToggleSwitch: UIView{
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 180
         stackView.alignment = .center
         stackView.layer.cornerRadius = 16
         stackView.layer.borderColor = UIColor.black.cgColor
@@ -79,9 +78,8 @@ class AppToggleSwitch: UIView{
         stackView.height(74)
         
         titleLbl.height(21)
-        titleLbl.width(95)
         titleLbl.leadingToSuperview(offset:10)
         
-        toggleSwitch.leadingToTrailing(of: titleLbl, offset: 160)
+        toggleSwitch.width(61)
     }
 }
