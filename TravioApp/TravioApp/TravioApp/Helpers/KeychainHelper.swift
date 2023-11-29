@@ -47,7 +47,9 @@ final class KeychainHelper {
     }
     
     func isUserLoggedIn() -> Bool {
-        return !userToken.accessToken.isEmpty // Kullanıcı token'ı doluysa oturum açık kabul edilsin
+        // Kullanıcı token'ı doluysa oturum açık kabul edilsin
+        guard let token = getToken() else {return false}
+        return true
     }
     
     /// Method to decode accessToken and get token expiration time
