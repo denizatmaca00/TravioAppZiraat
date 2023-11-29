@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import UIKit
 
 enum Router {
     
@@ -28,8 +29,8 @@ enum Router {
     case getNewPlaces
     case getNewPlacesLimits(limit: Parameters)
     case getHomeAllPlacesForUser
-    case postGalleryImage(params: Parameters) // used to create place-image couples
-    case uploadAddPhoto(params: Parameters)
+    case postGalleryImage(params: Parameters)
+    case uploadAddPhoto(images: [UIImage])
     case postAddPlace(params: Parameters)
     case putPassword(params:Parameters)
     case deleteMyAddedPlaceById(id:String)
@@ -109,10 +110,13 @@ enum Router {
             baseHeaders["Authorization"] = "Bearer " + token
         }
         switch self {
-        case .register, .user, .getPlaceByID, .getAllGaleryByID, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits, .uploadAddPhoto:
+        case .register, .user, .getPlaceByID, .getAllGaleryByID, .getPopularPlaces, .getPopularPlacesLimits, .getNewPlaces, .getNewPlacesLimits:
             return [:]
         case  .places, .deleteVisit, .postVisit, .visits, .getAVisitByID, .checkVisitByID, .putEditProfile, .getProfile, .getHomeAllPlacesForUser, .postAddPlace, .postGalleryImage, .putPassword, .deleteMyAddedPlaceById :
             return baseHeaders
+            
+        case .uploadAddPhoto:
+            return ["Content-Type": "multipart/form-data"]
         }
     }
     
@@ -134,8 +138,8 @@ enum Router {
             return params
         case .getNewPlacesLimits(let params):
             return params
-        case .uploadAddPhoto(let params):
-            return params
+//        case .uploadAddPhoto(let params):
+//            return params
         case .postAddPlace(let params):
             return params
         case .postGalleryImage(let params):
@@ -144,6 +148,25 @@ enum Router {
             return params
         default: return [:]
         }
+    }
+    
+    var multiPartFromData: MultipartFormData{
+        let formData = MultipartFormData()
+        switch self{
+        case .uploadAddPhoto(let images):
+            var imageDatas: [Data] = []
+            for image in images{
+                guard let imageData = image.jpegData(compressionQuality: 1) else {continue}
+                imageDatas.append(imageData)
+            }
+            imageDatas.forEach({ image in
+                formData.append(image, withName: "file", fileName: "image.jpeg", mimeType: "image/jpeg")
+            })
+            return formData
+        default:
+            break
+        }
+        return formData
     }
 }
 

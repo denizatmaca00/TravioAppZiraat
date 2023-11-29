@@ -57,7 +57,7 @@ class MapPresentVM{
         
         let params = ["file": ""] as [String : Any]
         
-        NetworkingHelper.shared.uploadPhoto(images: imageArray, urlRequest: .uploadAddPhoto(params: params), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
+        NetworkingHelper.shared.uploadPhoto(images: imageArray, urlRequest: .uploadAddPhoto(images: imageArray), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
             
             switch result {
             case .success(let success):

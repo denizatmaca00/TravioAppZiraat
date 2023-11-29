@@ -58,7 +58,7 @@ class EditProfileVM {
             let params = ["pp_url": self.selectedImage]
             
             dispatchGroup.enter()
-            NetworkingHelper.shared.uploadPhoto(images: [self.selectedImage!], urlRequest: .uploadAddPhoto(params: params as Parameters), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
+            NetworkingHelper.shared.uploadPhoto(images: [self.selectedImage!], urlRequest: .uploadAddPhoto(images: [self.selectedImage!]), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
                 switch result {
                 case .success(let success):
                     self.imageURL = success.urls.first
