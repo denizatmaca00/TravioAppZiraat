@@ -7,7 +7,7 @@ class MapVC: UIViewController {
     var selectedAnnotation: MKAnnotation?
     var updateMapClosure: (() -> Void)?
     var addedPin: MKAnnotation?
-
+    
     private lazy var collectionView: UICollectionView = {
         let layout = MapPageLayout.shared.mapLayout()
         
@@ -16,7 +16,6 @@ class MapVC: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(MapPlacesCellVC.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.isScrollEnabled = true
         return collectionView
     }()
     
@@ -24,44 +23,45 @@ class MapVC: UIViewController {
         viewModel.fetchAndShowPlaces()
         setupTapGestureRecognizer()
         viewModel.map.delegate = self
-
         setupViews()
         super.viewDidLoad()
-
+        
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       initVM()
+        initVM()
         locationPermissionMap()
     }
- 
+    
     func locationPermissionMap(){
-            let locationManager = CLLocationManager()
-            let status = CLLocationManager.authorizationStatus()
-            switch status {
-            case .authorizedWhenInUse, .authorizedAlways:
-                print("Location access granted.")
-            default:
-                print("Location access denied.")
-                locationManager.requestWhenInUseAuthorization()
-            }
+        let locationManager = CLLocationManager()
+        let status = CLLocationManager.authorizationStatus()
+        switch status {
+        case .authorizedWhenInUse, .authorizedAlways:
+            print("Location access granted.")
+        default:
+            print("Location access denied.")
+            locationManager.requestWhenInUseAuthorization()
+        }
     }
-//duruma göre default locationa izin sonrası pin atabilir.
-//    func statusPermissionMap(){
-//            let locationManager = CLLocationManager()
-//            let status = CLLocationManager.authorizationStatus()
-//            switch status {
-//            case .authorizedWhenInUse, .authorizedAlways:
-//                print("Location access granted.")
-//            default:
-//                print("Location access denied.")
-//            }
-//    }
+    //duruma göre default locationa izin sonrası pin atabilir.
+    //    func statusPermissionMap(){
+    //            let locationManager = CLLocationManager()
+    //            let status = CLLocationManager.authorizationStatus()
+    //            switch status {
+    //            case .authorizedWhenInUse, .authorizedAlways:
+    //                print("Location access granted.")
+    //            default:
+    //                print("Location access denied.")
+    //            }
+    //    }
     func initVM() {
         viewModel.reloadCollectionViewClosure = { [weak self] () in
             DispatchQueue.main.async {
+                self?.addPinUpdate()
                 self?.collectionView.reloadData()
+                
             }
         }
         viewModel.fetchPlacesForCollectionCell()
@@ -74,10 +74,9 @@ class MapVC: UIViewController {
     
     func setupLayout() {
         collectionView.snp.makeConstraints { cv in
-            cv.leading.equalToSuperview()
-            cv.trailing.equalToSuperview()
-            cv.bottom.equalToSuperview().offset(-20)
-            cv.height.equalTo(178)
+            cv.top.equalToSuperview().offset(self.view.frame.height * 0.67)
+            cv.bottom.equalToSuperview().offset(self.view.frame.height * 0.75)
+            cv.left.right.equalToSuperview()
         }
         viewModel.map.frame = view.bounds
         viewModel.map.showsUserLocation = true
@@ -88,19 +87,22 @@ class MapVC: UIViewController {
         viewModel.map.addGestureRecognizer(longPressGesture)
     }
     
+    func addPinUpdate(){
+        viewModel.map.removeAnnotations(viewModel.map.annotations)
+        
+        for pin in viewModel.places{
+            if let latitude = pin.latitude, let longitude = pin.longitude{
+                let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                viewModel.addCustomAnnotation(title: "", subtitle: "", coordinate: coordinate, logoImage: UIImage(named: "pinLogo"))
+            }
+            
+        }
+    }
+    
     @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == .began {
             let touchPoint = gestureRecognizer.location(in: viewModel.map)
             let coordinate = viewModel.map.convert(touchPoint, toCoordinateFrom: viewModel.map)
-            
-            deselectSelectedAnnotation()
-            
-            // Check if a pin is already added
-            if let existingPin = addedPin {
-                viewModel.map.removeAnnotation(existingPin)
-            }
-            
-            viewModel.addCustomAnnotation(title: "Yeni Pin", subtitle: "Açıklama", coordinate: coordinate, logoImage: UIImage(named: "pinLogo"))
             
             addedPin = viewModel.map.annotations.last
             
@@ -108,10 +110,6 @@ class MapVC: UIViewController {
             vc.latitude = coordinate.latitude
             vc.longitude = coordinate.longitude
             
-            vc.viewModel.updateMapClosure = { [weak self] in
-                // When the presented VC is dismissed, update the map
-                self?.initVM()
-            }
             self.present(vc, animated: true, completion: nil)
         }
         
@@ -144,33 +142,20 @@ extension MapVC: MKMapViewDelegate {
         
         return nil
     }
-
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotation = view.annotation as? CustomAnnotation,
               let index = viewModel.places.firstIndex(where: { $0.title == annotation.title }) else {
             return
         }
-
-        selectCollectionViewCell(at: index)
-
-        if annotation === selectedAnnotation {
-            deselectSelectedAnnotation()
-        }
     }
-
-    func deselectSelectedAnnotation() {
-        if let selectedAnnotation = selectedAnnotation {
-            viewModel.map.removeAnnotation(selectedAnnotation)
-            self.selectedAnnotation = nil
-        }
-    }
-
-
+    
+    
     func selectCollectionViewCell(at index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
-
+    
 }
 
 extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -195,10 +180,10 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-            if scrollView.contentOffset.y != 0 {
-                scrollView.contentOffset.y = 0
-            }
+        if scrollView.contentOffset.y != 0 {
+            scrollView.contentOffset.y = 0
         }
+    }
 }
 
 
@@ -214,6 +199,6 @@ struct MapVC_Preview: PreviewProvider {
 }
 #endif
 
-    
 
-    
+
+

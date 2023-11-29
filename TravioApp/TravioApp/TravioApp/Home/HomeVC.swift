@@ -127,6 +127,18 @@ class HomeVC: UIViewController {
         setupLayout()
         
         viewModel.sectionsArray = [viewModel.popularPlaces, viewModel.newPlaces, viewModel.allPlaces]
+        
+        viewModel.updateLoadingStatus = { [weak self] (isLoading) in
+            DispatchQueue.main.async {
+                switch self!.viewModel.isLoading{
+                case true:
+                    self?.showIndicator(with: "Waiting for server's response ...")
+                case false:
+                    self?.hideIndicator()
+                }
+            }
+        }
+        
     }
     
     func setupLayout() {

@@ -23,17 +23,10 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     }
     
     var updateMapClosure: (() -> Void)?
+    
     private lazy var mapAddTitle = CustomTextField(title: "Place Name", placeholder: "Please write a place name", icon: nil, iconPosition: .none)
     private lazy var mapAddLocation = CustomTextField(title: "Country, City", placeholder: "France, Paris", icon: nil, iconPosition: .none)
-    
-    
-    
-    
-  //  private lazy var mapAddTitle = AppTextField(data: .presentMapTitle)
-  //  private lazy var mapAddLocation = AppTextField(data: .presentMapLocation)
-    
-//    private lazy var txtTitle = mapAddTitle.getTFAsObject()
-//    private lazy var txtLocation = mapAddLocation.getTFAsObject()
+
     
     private lazy var titleDescrpition: UILabel = {
         let lbl = UILabel()
@@ -137,6 +130,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         viewModel.placeInfo = placeInfo
         
         self.viewModel.savePlace()
+        
     }
     
     private lazy var imagePicker:UIImagePickerController = {
@@ -201,17 +195,20 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
             lbl.top.equalTo(stackView).offset(8)
             lbl.leading.equalToSuperview().offset(12)
         })
+
+        textFieldDescription.snp.makeConstraints ({ make in
+           // make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
+            make.leading.equalTo(view).offset(34.5)
+            make.bottom.equalTo(stackView).offset(-20)
+            make.trailing.equalToSuperview().offset(-15)
+           // make.bottom.equalTo(stackView).offset(50)
+        })
         
-        textFieldDescription.snp.makeConstraints { make in
-            make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
-            make.leading.equalTo(view).offset(30)
-        }
-        
-        stackViewMain.snp.makeConstraints { stack in
+        stackViewMain.snp.makeConstraints ({ stack in
             stack.leading.equalToSuperview().offset(24)
             stack.trailing.equalToSuperview().offset(-24)
             stack.top.equalToSuperview().offset(40)
-        }
+        })
         
         btnAddPlace.snp.makeConstraints({ btn in
             btn.bottom.equalTo(limits.bottom).offset(-23)
@@ -293,7 +290,6 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
                     self.imageCollectionView.reloadData()
                 }
             }
-            
             
         }
 

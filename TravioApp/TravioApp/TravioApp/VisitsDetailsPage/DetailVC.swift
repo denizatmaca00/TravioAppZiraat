@@ -240,7 +240,7 @@ class DetailVC: UIViewController {
         deleteCreator = place.creator
         byText.text = ("added by @\(place.creator)")
         descText.text = place.description
-        pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude, longitude: place.longitude)
+        pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude!, longitude: place.longitude!)
         
     }
     func configureImage(img:Image){

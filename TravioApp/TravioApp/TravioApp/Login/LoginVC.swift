@@ -6,12 +6,11 @@ import Network
 class LoginVC: UIViewController {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitor")
+    var viewModel = LoginVM()
+    
     private lazy var emailTextField = CustomTextField(title: "Email", placeholder: "developer@bilgeadam.com", icon: nil, iconPosition: .none)
     private lazy var passwordTextField = CustomTextField(title: "Password", placeholder: "***************", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
 
-
-    var viewModel = LoginVM()
-    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "AppLogo")

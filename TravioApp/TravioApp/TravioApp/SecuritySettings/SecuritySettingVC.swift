@@ -374,7 +374,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         scrollView.bottomToSuperview()
         
         //changed password title
-        changePasswordTitle.top(to: scrollView, offset: 10)
+        changePasswordTitle.top(to: scrollView, offset: 25)
         changePasswordTitle.height(20)
         changePasswordTitle.trailing(to: mainTitle, offset:-20)
         changePasswordTitle.leadingToSuperview(offset:20)
@@ -401,7 +401,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         signupButton.trailing(to: stackViewPrivacy)
         signupButton.leading(to: stackViewPrivacy)
         signupButton.snp.makeConstraints({s in
-            s.bottom.equalToSuperview().offset(-30)
+            s.bottom.equalToSuperview().offset(-60)
         })
     }
     

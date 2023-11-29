@@ -33,7 +33,7 @@ class MapVM {
                 self.places = places.data.places
                 
                 if let firstPlace = self.places.first {
-                    let coordinate = CLLocationCoordinate2D(latitude: firstPlace.latitude, longitude: firstPlace.longitude)
+                    let coordinate = CLLocationCoordinate2D(latitude: firstPlace.latitude!, longitude: firstPlace.longitude!)
                     let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
                      self.map.setRegion(region, animated: true)
                 }
@@ -77,7 +77,7 @@ class MapVM {
                     let description = place.description
                     let latitude = place.latitude
                     let longitude = place.longitude
-                    self.addCustomAnnotation(title: title, subtitle: description, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), logoImage:UIImage(named: "pinLogo"))
+                    self.addCustomAnnotation(title: title, subtitle: description, coordinate: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), logoImage:UIImage(named: "pinLogo"))
                 }
             case .failure(_):
                 break
@@ -111,7 +111,7 @@ class MapVM {
     func tappedCellMap(at indexPath:IndexPath){
         let latitude = places[indexPath.row].latitude
         let longitude = places[indexPath.row].longitude
-        let coordinate = MKCoordinateRegion.init(center: CLLocationCoordinate2D.init(latitude: latitude, longitude: longitude), span: MKCoordinateSpan.init())
+        let coordinate = MKCoordinateRegion.init(center: CLLocationCoordinate2D.init(latitude: latitude!, longitude: longitude!), span: MKCoordinateSpan.init())
         map.setRegion(coordinate, animated: true)
     }
 }

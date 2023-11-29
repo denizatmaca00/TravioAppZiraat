@@ -134,6 +134,14 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         let view = AppView()
         return view
     }()
+    private lazy var stackLabel: UIStackView = {
+        let sv = UIStackView()
+        sv.spacing = 180
+        sv.axis = .horizontal
+        sv.backgroundColor = .red
+//        sv.backgroundColor = UIColor(named: "viewBackgroundColor")
+        return sv
+    }()
     
     private lazy var stackViewMain: UIStackView = {
         let stackViews = UIStackView()
@@ -266,8 +274,9 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, exitButton)
-        contentViewBig.addSubviews(imageView, changePhotoButton, labelName,labelDate, labelRole, stackViewMain, saveButton)
+        contentViewBig.addSubviews(imageView, changePhotoButton, labelName,stackLabel, stackViewMain, saveButton)
         stackViewMain.addArrangedSubviews(fullNameTextField, emailTextField)
+        stackLabel.addArrangedSubviews(labelDate, labelRole)
         setupLayout()
     }
     
@@ -301,15 +310,13 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             lbl.centerX.equalToSuperview()
         })
         
-        labelDate.snp.makeConstraints({ lbl in
+        stackLabel.snp.makeConstraints({ lbl in
             lbl.top.equalTo(labelName.snp.bottom).offset(39)
             lbl.leading.equalToSuperview().offset(24)
+            lbl.trailing.equalToSuperview().offset(-24)
         })
         
-        labelRole.snp.makeConstraints({lbl in
-            lbl.top.equalTo(labelName.snp.bottom).offset(39)
-            lbl.leading.equalTo(labelDate.viewWithBorder.snp.trailing).offset(16)
-        })
+
         
         contentViewBig.snp.makeConstraints ({ view in
             view.height.equalToSuperview().multipliedBy(0.8)
