@@ -13,15 +13,16 @@ class ProfileVM {
     
     var profileUpdateClosure: ((Profile) -> Void)?
     
-    func getProfileInfos(completion: @escaping (Result<Profile, Error>) -> Void) {
+    func getProfileInfos(completion: ( (Result<Profile, Error>) -> Void)? = nil) {
+        
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getProfile) { (result: Result<Profile, Error>) in
             switch result {
             case .success(let profile):
                 self.profile = profile
                 self.profileUpdateClosure?(profile)
-                completion(.success(profile))
+                completion?(.success(profile))
             case .failure(let error):
-                completion(.failure(error))
+                completion?(.failure(error))
             }
         }
     }

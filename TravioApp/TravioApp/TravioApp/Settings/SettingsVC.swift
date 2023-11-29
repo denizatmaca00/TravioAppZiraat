@@ -21,10 +21,9 @@ class SettingsVC: UIViewController {
         SettingsCell(iconName: "helpAndSupport", label: "Help&Support", iconArrow: "buttonArrow"),
         SettingsCell(iconName: "about", label: "About", iconArrow: "buttonArrow"),
         SettingsCell(iconName: "termsOfUse", label: "Terms of Use", iconArrow: "buttonArrow")
-        
     ]
-    let cellSpacingHeight: CGFloat = 20
     
+    let cellSpacingHeight: CGFloat = 20
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -53,9 +52,8 @@ class SettingsVC: UIViewController {
         lbl.textColor = UIColor(named: "settingsLabelColor")
         lbl.font = .Fonts.profileNameTitle.font
         return lbl
-        // burası değişecek güncellenecek
-        
     }()
+    
     private lazy var settingsLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "Settings"
@@ -112,7 +110,7 @@ class SettingsVC: UIViewController {
                 ImageHelper().setImage(imageURL: URL(string: (self?.editViewModel!.editProfile.pp_url)!)!, imageView: self!.imageView)
             }
         }
-        self.profileViewModel.getProfileInfos(completion: {result in})
+        self.profileViewModel.getProfileInfos()
     }
     
     func initVMFirstFetch(){
@@ -122,10 +120,11 @@ class SettingsVC: UIViewController {
             guard let img = self?.imageView else {return}
             ImageHelper().setImage(imageURL: url, imageView: img)
         }
-        profileViewModel.getProfileInfos(completion: {result in })
+        profileViewModel.getProfileInfos()
     }
     
     @objc func logOutButtonTapped() {
+        
         loginVM.logout { result in
             switch result {
             case .success:
@@ -134,8 +133,9 @@ class SettingsVC: UIViewController {
                 if let window = UIApplication.shared.windows.first {
                     window.rootViewController = navigationController
                 }
-            case .failure(let error):
-                print("Logout Error: \(error)")
+                
+            case .failure(_):
+                return
             }
         }
     }
