@@ -12,7 +12,6 @@ import UIKit
 
 struct VisitCellViewModel{
     var image:URL
-   // var image:String
     var placeName:String
     var city:String
 }
@@ -58,8 +57,8 @@ struct Place: Codable {
     var title: String
     var description: String
     var cover_image_url: String
-    var latitude: Double
-    var longitude: Double
+    var latitude: Double?
+    var longitude: Double?
     var created_at: String
     var updated_at: String
 }

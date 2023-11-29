@@ -23,17 +23,10 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     }
     
     var updateMapClosure: (() -> Void)?
+    
     private lazy var mapAddTitle = CustomTextField(title: "Place Name", placeholder: "Please write a place name", icon: nil, iconPosition: .none)
     private lazy var mapAddLocation = CustomTextField(title: "Country, City", placeholder: "France, Paris", icon: nil, iconPosition: .none)
-    
-    
-    
-    
-  //  private lazy var mapAddTitle = AppTextField(data: .presentMapTitle)
-  //  private lazy var mapAddLocation = AppTextField(data: .presentMapLocation)
-    
-//    private lazy var txtTitle = mapAddTitle.getTFAsObject()
-//    private lazy var txtLocation = mapAddLocation.getTFAsObject()
+
     
     private lazy var titleDescrpition: UILabel = {
         let lbl = UILabel()
@@ -50,8 +43,6 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         textView.text = "Description"
         textView.textColor = UIColor.lightGray
         textView.delegate = self
-       // textView.backgroundColor = .cyan
-      //  textView.largeContentTitle = "Visit"
         return textView
     }()
     
@@ -139,6 +130,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         viewModel.placeInfo = placeInfo
         
         self.viewModel.savePlace()
+        
     }
     
     private lazy var imagePicker:UIImagePickerController = {
@@ -298,7 +290,6 @@ extension MapPresentVC: UIImagePickerControllerDelegate{
                     self.imageCollectionView.reloadData()
                 }
             }
-            
             
         }
 
