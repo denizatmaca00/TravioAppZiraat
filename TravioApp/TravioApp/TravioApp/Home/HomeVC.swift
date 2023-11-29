@@ -73,42 +73,39 @@ class HomeVC: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        initPopularVM()
-        initNewsVM()
-        initAllForUserVM()
+        initReload()
     }
 
     
     //MARK: -- Component Actions
     
     //MARK: -- Private Methods
-    
-    func initPopularVM() {
-        viewModel.reloadPopularClosure = { [weak self] () in
-            DispatchQueue.main.async {
+    func initReload(){
+        viewModel.reloadClosure = {
+            DispatchQueue.main.async {[weak self] () in
                 self?.collectionView.reloadData()
             }
         }
-        viewModel.initFetchPopularHomeLimits(limit: 10)
-    }
-    
-    func initNewsVM() {
-        viewModel.reloadNewPlacesClosure = { [weak self] () in
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-            }
+        viewModel.group.enter()
+        viewModel.initFetchPopularHomeLimits(limit: 10){
+            self.viewModel.group.leave()
         }
-        viewModel.initFetchNewHomeLimits(limit: 10)
-    }
-    
-    func initAllForUserVM() {
-        viewModel.reloadAllForUserPlacesClosure = { [weak self] () in
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-            }
+        viewModel.group.enter()
+        viewModel.initFetchNewHomeLimits(limit: 10){
+            self.viewModel.group.leave()
         }
-        viewModel.initFetchAllForUserHomeAll()
+        viewModel.group.enter()
+        viewModel.initFetchAllForUserHomeAll(){
+            self.viewModel.group.leave()
+        }
+        
+        viewModel.group.notify(queue: .main) {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                       }
+             }
     }
+
     
     //MARK: -- UI Methods
     

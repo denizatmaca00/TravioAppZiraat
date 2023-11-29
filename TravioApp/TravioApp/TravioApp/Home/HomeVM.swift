@@ -12,76 +12,81 @@ class HomeVM{
     var popularPlaces:[Place] = []
     var newPlaces:[Place] = []
     var allPlaces:[Place] = []
-    
+    var place:[VisitCellViewModel] = []
     var sectionsArray:[[Place]] = []
-   
-    var popularCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
-        didSet {
-            reloadPopularClosure?()
-        }
-    }
-    var newCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
-        didSet {
-            reloadNewPlacesClosure?()
-        }
-    }
-    
-    var allForUserCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
-        didSet {
-                reloadAllForUserPlacesClosure?()
-        }
-    }
+
+    var popularCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]()
+    var newCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]()
+    var allForUserCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]()
+
     
     var numberOfCells:Int
     {
         return popularCellViewModels.count
     }
-    
+    var reloadClosure: (()->())?
     var reloadPopularClosure: (()->())?
     var reloadNewPlacesClosure: (()->())?
     var reloadAllForUserPlacesClosure: (()->())?
+    var group = DispatchGroup()
+   
+
+    func initFetchPopularHomeLimits(limit: Int,complete: @escaping ()->()) {
+  
+            NetworkingHelper.shared.dataFromRemote(urlRequest: .getPopularPlacesLimits(limit: ["limit":"\(limit)"])) { [weak self] (result: Result<PlacesDataStatus, Error>) in
+
+                switch result {
+                case .success(let success):
+                    self?.fetchVisits(populars: success.data.places)
+                    complete()
+                case .failure(_):
+                    break
+                }
+
+                self?.sectionsArray[0] = self?.popularPlaces ?? []
+            }
+        }
     
-    func initFetchPopularHomeLimits(limit: Int) {
-        let params = ["limit":"\(limit)"]
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .getPopularPlacesLimits(limit: params)) {(result: Result<PlacesDataStatus, Error>) in
-            switch result {
-            case .success(let success):
-                self.fetchVisits(populars: success.data.places)
+
+    func initFetchNewHomeLimits(limit: Int,complete: @escaping ()->()) {
+//        DispatchQueue.main.async {
+            NetworkingHelper.shared.dataFromRemote(urlRequest: .getNewPlacesLimits(limit: ["limit":"\(limit)"])) { [weak self] (result: Result<PlacesDataStatus, Error>) in
                 
-            case .failure(_):
-                return
+
+                switch result {
+                case .success(let success):
+                    self?.fetchNewPlaces(news: success.data.places)
+                    complete()
+                case .failure(_):
+                    break
+                }
+
+                self?.sectionsArray[1] = self?.newPlaces ?? []
             }
-            self.sectionsArray[0] = self.popularPlaces
-        }
+//        }
     }
-     
-    func initFetchNewHomeLimits(limit: Int) {
-        let params = ["limit":"\(limit)"]
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .getNewPlacesLimits(limit: params)) {(result: Result<PlacesDataStatus, Error>) in
-            switch result {
-            case .success(let success):
-                self.fetchNewPlaces(news: success.data.places)
-                
-            case .failure(_):
-                break
-            }
-            self.sectionsArray[1] = self.newPlaces
-        }
-    }
+
     //failrire
-    func initFetchAllForUserHomeAll(){
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .getHomeAllPlacesForUser) {(result:Result<PlacesDataStatus, Error>) in
-            switch result {
-            case .success(let success):
-                self.fetchAllPlacesForUser(allForUsers: success.data.places)
+    func initFetchAllForUserHomeAll(complete: @escaping ()->()) {
+//        DispatchQueue.main.async {
+            NetworkingHelper.shared.dataFromRemote(urlRequest: .getHomeAllPlacesForUser) { [weak self] (result: Result<PlacesDataStatus, Error>) in
                 
-            case .failure(_):
-                break
+
+                switch result {
+                case .success(let success):
+                    self?.fetchAllPlacesForUser(allForUsers: success.data.places)
+                    complete()
+                case .failure(_):
+                    complete()
+                }
+
+                self?.sectionsArray[2] = self?.allPlaces ?? []
             }
-            self.sectionsArray[2] = self.allPlaces
         }
-    }
-     
+//    }
+
+
+    
     private func fetchVisits(populars:[Place]){
         self.popularPlaces = populars
         
@@ -117,7 +122,7 @@ class HomeVM{
         
         self.allForUserCellViewModels = viewModels
     }
-    private func createCellViewModel(cell:Place) -> VisitCellViewModel{
+     func createCellViewModel(cell:Place) -> VisitCellViewModel{
       //  guard let imageURL = URL(string: cell.cover_image_url) else { return  deneme }
         let cvm = VisitCellViewModel(image: URL(string: cell.cover_image_url)!,
                                      placeName: cell.title,
