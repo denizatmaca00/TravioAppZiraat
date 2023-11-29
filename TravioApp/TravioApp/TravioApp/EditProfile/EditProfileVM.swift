@@ -36,14 +36,12 @@ class EditProfileVM {
     var showAlertClosure: ((String, String) -> Void)?
     var reloadEditProfileClosure: (() -> ())?
     
-    // Struct and UI Properties
+    // UI Properties
     var selectedImage:UIImage?
-    var imageURL:String? {
-        didSet{
-            editProfile.pp_url = imageURL!
-            putEditProfileInfos()
-        }
-    }
+    var imageURL:String?
+    
+    // Dispatch Items
+    let dispatchGroup = DispatchGroup()
     
     // MARK: Public Functions
     
@@ -51,36 +49,46 @@ class EditProfileVM {
         profileUpdateClosure?()
     }
     
-    func postData(completion: (()->()) ) -> Void {
-        
-        if doUploadWork {
-            editProfilePhotoUpload()
+    func postData() -> Void {
+        /// initiate image upload if any image is given via imagePicker
+        self.editProfilePhotoUpload()
+        /// wait for imageURL to be filled
+        dispatchGroup.notify(queue: .main){
+            /// post profile data when previous tasks in group are completed.
+            self.putEditProfileInfos()
         }
-        
-        putEditProfileInfos()
     }
     
     // MARK: Private Functions
     private func editProfilePhotoUpload() -> Void {
         
-        self.isLoading = true
-        
-        let params = ["pp_url": selectedImage]
-        NetworkingHelper.shared.uploadPhoto(images: [selectedImage!], urlRequest: .uploadAddPhoto(params: params), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
-            switch result {
-            case .success(let success):
-                self.imageURL = success.urls.first
-                
-            case .failure(_):
-                self.doUploadWork = true
-            }
-            self.isLoading = false
-        })
+        if doUploadWork {
+            self.isLoading = true
+            let params = ["pp_url": self.selectedImage]
+            
+            dispatchGroup.enter()
+            NetworkingHelper.shared.uploadPhoto(images: [self.selectedImage!], urlRequest: .uploadAddPhoto(params: params as Parameters), callback: { (result: Result<AddPhotoUploadMultipartMessages, Error>) in
+                switch result {
+                case .success(let success):
+                    self.imageURL = success.urls.first
+                    self.editProfile.pp_url = self.imageURL!
+                    self.doUploadWork = false
+                    
+                case .failure(_):
+                    self.doUploadWork = true
+                    
+                }
+                self.dispatchGroup.leave()
+                self.isLoading = false
+            })
+        }
     }
     
     private func putEditProfileInfos() -> Void {
         
         self.isLoading = true
+        
+        dispatchGroup.enter()
         let params = ["full_name": editProfile.full_name, "email": editProfile.email, "pp_url": editProfile.pp_url]
         NetworkingHelper.shared.dataFromRemote(urlRequest: .putEditProfile(params: params), callback: {  (result: Result<Messages, Error>) in
             switch result {
@@ -89,6 +97,7 @@ class EditProfileVM {
             case .failure(_):
                 self.showAlertClosure?("Error", "Failed to update profile.")
             }
+            self.dispatchGroup.leave()
             self.isLoading = false
         })
     }

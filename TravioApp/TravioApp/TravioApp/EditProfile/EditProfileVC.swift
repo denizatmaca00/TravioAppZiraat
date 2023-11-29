@@ -191,24 +191,9 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         initVM()
     }
     
-    // photo library permission
-//    @objc func changePhotoTapped() {
-//        requestPhotoLibraryPermission { granted in
-//            DispatchQueue.main.async {
-//                if granted {
-//                    self.initPicker()
-//                } else {
-//                    self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
-//                        self.dismiss(animated: true)
-//                    })
-//                }
-//            }
-//        }
-//    }
     @objc func changePhotoTapped() {
         self.initPicker()
     }
-
     
     func requestPhotoLibraryPermission(completion: @escaping (Bool) -> Void) {
         PHPhotoLibrary.requestAuthorization { status in
@@ -227,6 +212,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             }
         }
     }
+    
     //camera permission
     func requestCameraPermission(completion: @escaping (Bool)->Void) {
         AVCaptureDevice.requestAccess(for: .video) { granted in
@@ -237,6 +223,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             }
         }
     }
+    
     func initVM(){
         viewModelProfile?.profileUpdateClosure = { [weak self] updatedProfile in
             self?.labelName.text = updatedProfile.full_name
@@ -248,8 +235,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             ImageHelper().setImage(imageURL: url, imageView: self!.imageView)
             self?.viewModel.profile = updatedProfile
         }
-        
-        viewModelProfile?.getProfileInfos(completion: {result in })
+        viewModelProfile?.getProfileInfos()
     }
     
     @objc func exitButtonTapped(){
@@ -266,9 +252,15 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         guard let image = imageView.image else { return }
         viewModel.selectedImage = image
         
-        viewModel.postData(completion: {
-            viewModelProfile!.getProfileInfos(completion: { _ in })
-        })
+        syncTasks()
+    }
+    
+    /// Contains funcions that posts new profile data
+    private func syncTasks() {
+        DispatchQueue.main.async {
+            self.viewModelProfile?.getProfileInfos()
+        }
+        self.viewModel.postData()
     }
     
     func setupViews() {
@@ -316,8 +308,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             lbl.trailing.equalToSuperview().offset(-24)
         })
         
-
-        
         contentViewBig.snp.makeConstraints ({ view in
             view.height.equalToSuperview().multipliedBy(0.8)
             view.leading.equalToSuperview()
@@ -336,7 +326,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
             btn.trailing.equalToSuperview().offset(-24)
             btn.leading.equalToSuperview().offset(24)
             btn.height.equalTo(54)
-            
         })
     }
     
