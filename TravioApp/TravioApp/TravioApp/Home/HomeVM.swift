@@ -14,7 +14,14 @@ class HomeVM{
     var allPlaces:[Place] = []
     
     var sectionsArray:[[Place]] = []
-   
+    var updateLoadingStatus: ( (Bool)->Void )?
+    
+    var isLoading:Bool = false {
+        didSet{
+            self.updateLoadingStatus?(isLoading)
+        }
+    }
+
     var popularCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
             reloadPopularClosure?()
@@ -42,6 +49,7 @@ class HomeVM{
     var reloadAllForUserPlacesClosure: (()->())?
     
     func initFetchPopularHomeLimits(limit: Int) {
+        self.isLoading = true
         let params = ["limit":"\(limit)"]
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getPopularPlacesLimits(limit: params)) {(result: Result<PlacesDataStatus, Error>) in
             switch result {
@@ -52,6 +60,7 @@ class HomeVM{
                 return
             }
             self.sectionsArray[0] = self.popularPlaces
+            self.isLoading = false
         }
     }
      
