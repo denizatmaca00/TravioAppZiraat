@@ -70,12 +70,12 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         setupViews()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         initReload()
     }
-
+    
     
     //MARK: -- Component Actions
     
@@ -102,10 +102,10 @@ class HomeVC: UIViewController {
         viewModel.group.notify(queue: .main) {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
-                       }
-             }
+            }
+        }
     }
-
+    
     
     //MARK: -- UI Methods
     
@@ -130,12 +130,12 @@ class HomeVC: UIViewController {
         let limits = self.view.safeAreaLayoutGuide.snp
         
         // Add here the setup for layout
-        stackViewLogo.snp.makeConstraints({sv in            
+        stackViewLogo.snp.makeConstraints({sv in
             sv.leading.equalToSuperview().offset(16)
             sv.top.equalTo(limits.top)
             
         })
-
+        
         contentViewBig.snp.makeConstraints({cv in
             cv.top.equalTo(stackViewLogo.snp.bottom).offset(35)
             cv.bottom.equalToSuperview()
@@ -262,7 +262,7 @@ extension HomeVC:UICollectionViewDataSource {
                 vc.titleLabel.text = title
                 vc.viewModel.getPopularPlace()
                 vc.hidesBottomBarWhenPushed = true
-
+                
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             header.isHidden = false
@@ -274,7 +274,7 @@ extension HomeVC:UICollectionViewDataSource {
                 vc.titleLabel.text = title
                 vc.viewModel.newPlace()
                 vc.hidesBottomBarWhenPushed = true
-
+                
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             header.isHidden = false
@@ -286,7 +286,7 @@ extension HomeVC:UICollectionViewDataSource {
                 vc.titleLabel.text = title
                 vc.viewModel.allPlaceforUser()
                 vc.hidesBottomBarWhenPushed = true
-
+                
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             header.isHidden = false
