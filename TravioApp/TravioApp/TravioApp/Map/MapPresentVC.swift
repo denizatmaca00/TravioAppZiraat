@@ -50,6 +50,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         textView.text = "Description"
         textView.textColor = UIColor.lightGray
         textView.delegate = self
+       // textView.backgroundColor = .cyan
+      //  textView.largeContentTitle = "Visit"
         return textView
     }()
     
@@ -201,17 +203,20 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
             lbl.top.equalTo(stackView).offset(8)
             lbl.leading.equalToSuperview().offset(12)
         })
+
+        textFieldDescription.snp.makeConstraints ({ make in
+           // make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
+            make.leading.equalTo(view).offset(34.5)
+            make.bottom.equalTo(stackView).offset(-20)
+            make.trailing.equalToSuperview().offset(-15)
+           // make.bottom.equalTo(stackView).offset(50)
+        })
         
-        textFieldDescription.snp.makeConstraints { make in
-            make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
-            make.leading.equalTo(view).offset(30)
-        }
-        
-        stackViewMain.snp.makeConstraints { stack in
+        stackViewMain.snp.makeConstraints ({ stack in
             stack.leading.equalToSuperview().offset(24)
             stack.trailing.equalToSuperview().offset(-24)
             stack.top.equalToSuperview().offset(40)
-        }
+        })
         
         btnAddPlace.snp.makeConstraints({ btn in
             btn.bottom.equalTo(limits.bottom).offset(-23)

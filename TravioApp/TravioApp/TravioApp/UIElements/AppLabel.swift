@@ -41,6 +41,7 @@ class AppLabel: UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
+        view.shadow()
         return view
     }()
     
