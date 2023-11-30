@@ -12,7 +12,7 @@ import UIKit
 class ImageHelper{
     
     // MARK: Properties
-    
+    var group = DispatchGroup()
     let imgPlaceholder:UIImage = (UIImage(systemName: "camera.metering.none")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemGray3))!
     
     // Processors
@@ -23,13 +23,12 @@ class ImageHelper{
     
     
     // MARK: KF-SetImage
-    
+
     func setImage(imageURL:URL, imageView:UIImageView){
         let imgDownsampler: KingfisherOptionsInfoItem = .processor(DownsamplingImageProcessor(size: imageView.bounds.size))
         let kfOptions: KingfisherOptionsInfo = [imgDownsampler, imgTransition, .cacheOriginalImage]
         
         imageView.kf.indicatorType = .activity
-
         imageView.kf.setImage(with: imageURL, placeholder: imgPlaceholder, options: kfOptions) { result in
             switch result{
             case .success(_):

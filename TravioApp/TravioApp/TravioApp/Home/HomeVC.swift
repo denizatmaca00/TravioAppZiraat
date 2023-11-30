@@ -10,13 +10,15 @@
 import UIKit
 import SnapKit
 import TinyConstraints
+import Foundation
+import Kingfisher
 
 class HomeVC: UIViewController {
     
     //MARK: -- Properties
     
     let viewModel:HomeVM = HomeVM()
-    
+    let viewModelImage = ImageHelper()
     //MARK: -- Views
     
     private lazy var stackViewLogo: UIStackView = {
@@ -64,7 +66,8 @@ class HomeVC: UIViewController {
     }()
     
     //MARK: -- Life Cycles
-    
+    let imgPlaceholder:UIImage = (UIImage(systemName: "camera.metering.none")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemGray3))!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
@@ -76,16 +79,11 @@ class HomeVC: UIViewController {
         initReload()
     }
     
-    
     //MARK: -- Component Actions
     
     //MARK: -- Private Methods
     func initReload(){
-        viewModel.reloadClosure = {
-            DispatchQueue.main.async {[weak self] () in
-                self?.collectionView.reloadData()
-            }
-        }
+
         viewModel.group.enter()
         viewModel.initFetchPopularHomeLimits(limit: 10){
             self.viewModel.group.leave()
