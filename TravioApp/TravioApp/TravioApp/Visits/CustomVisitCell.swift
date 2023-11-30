@@ -95,35 +95,34 @@ class CustomVisitCell: UITableViewCell {
     func setupLayout() {
         
         imageLocation.snp.makeConstraints({ img in
-            img.top.equalToSuperview().offset(8)
-            img.bottom.equalToSuperview().inset(8)
+            img.top.equalToSuperview().offset(16)
+            img.bottom.equalToSuperview().inset(0)
             img.leading.equalToSuperview().offset(24)
             img.trailing.equalToSuperview().inset(24)
-            
         })
         
-        placeName.leading(to: imageLocation, offset: 8)
-        placeName.trailing(to: imageLocation, offset: -5)
-        placeName.topToSuperview(offset:142)
-        placeName.height(45)
+        placeName.snp.makeConstraints({ lbl in
+            lbl.bottom.equalToSuperview().inset(32)
+            lbl.leading.equalToSuperview().offset(8)
+            lbl.trailing.equalToSuperview()
+        })
         
-        iconLocation.topToBottom(of: placeName, offset:2)
-        iconLocation.leading(to: placeName)
-        iconLocation.height(20)
-        iconLocation.width(15)
+        iconLocation.snp.makeConstraints({ icon in
+            icon.bottom.equalToSuperview().inset(10)
+            icon.leading.equalTo(placeName)
+            icon.height.equalTo(20)
+            icon.width.equalTo(15)
+        })
         
-        cityName.leadingToTrailing(of: iconLocation,offset:6)
-        cityName.centerY(to: iconLocation)
-        cityName.height(24)
-        
-        imageLocation.centerXToSuperview()
-        
+        cityName.snp.makeConstraints({ lbl in
+            lbl.centerY.equalTo(iconLocation)
+            lbl.leading.equalTo(iconLocation.snp.trailing).offset(6)
+        })
     }
 }
 
 #if DEBUG
 import SwiftUI
-import Kingfisher
 
 @available(iOS 13, *)
 struct CustomVisitCellVC_Preview: PreviewProvider {
