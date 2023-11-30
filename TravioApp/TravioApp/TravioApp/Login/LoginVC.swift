@@ -7,9 +7,10 @@ class LoginVC: UIViewController {
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitor")
     var viewModel = LoginVM()
-    
+    let eyeSlashIcon = UIImage(systemName: "eye.slash")?.withTintColor(UIColor.black)
+
     private lazy var emailTextField = AppTextField(title: "Email", placeholder: "developer@bilgeadam.com", icon: nil, iconPosition: .none)
-    private lazy var passwordTextField = AppTextField(title: "Password", placeholder: "***************", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    private lazy var passwordTextField = AppTextField(title: "Password", placeholder: "********", icon: eyeSlashIcon, iconPosition: .right)
 
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()

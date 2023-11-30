@@ -34,6 +34,7 @@ class AppTextField: UIView {
         tf.textColor = UIColor(named: "textColor")
         tf.placeholder = placeholder
         tf.leftViewMode = .always
+        tf.rightViewMode = .always
         tf.layer.cornerRadius = 16
         tf.layer.borderColor = UIColor.black.cgColor
         tf.layer.shadowRadius = 20
@@ -56,6 +57,7 @@ class AppTextField: UIView {
         stackView.layer.shadowRadius = 20
         stackView.layer.shadowOpacity = 0.15
         stackView.backgroundColor = .white
+        
         return stackView
     }()
 
@@ -73,39 +75,42 @@ class AppTextField: UIView {
     }
 
     private func setupViews() {
-        if iconPosition != .none {
-            if iconPosition == .left {
-                textField.leftView = iconImageView
-            } else {
-                textField.rightView = iconImageView
-            }
+        if iconPosition == .left {
+            iconImageView.contentMode = .center
+            textField.leftView = iconImageView
+        } else if iconPosition == .right {
+            iconImageView.contentMode = .center
+            textField.rightView = iconImageView
         }
 
-        stackView.addArrangedSubviews(titleLbl, textField)
         addSubview(stackView)
+        stackView.addArrangedSubviews(titleLbl, textField)
+
         setupLayout()
     }
 
     func setupLayout() {
-        stackView.snp.makeConstraints { make in
+        stackView.snp.makeConstraints ({ make in
             make.edges.equalToSuperview()
             make.height.equalTo(74)
-        }
+            make.trailing.equalToSuperview().inset(24)
+        })
 
-        titleLbl.snp.makeConstraints { lbl in
+        titleLbl.snp.makeConstraints ({ lbl in
             lbl.top.equalTo(stackView).offset(8)
             lbl.leading.equalToSuperview().offset(12)
-        }
+        })
 
-        textField.snp.makeConstraints { tf in
+        textField.snp.makeConstraints ({ tf in
             tf.top.equalTo(titleLbl.snp.bottom).offset(2)
-        }
+            tf.trailing.equalToSuperview().inset(15)
+        })
 
         if iconPosition != .none {
-            iconImageView.snp.makeConstraints { iv in
-                iv.width.equalTo(20)
-                iv.height.equalTo(20)
-            }
+            iconImageView.snp.makeConstraints ({ iv in
+                iv.width.equalTo(15)
+                iv.height.equalTo(15)
+            })
         }
     }
 }
