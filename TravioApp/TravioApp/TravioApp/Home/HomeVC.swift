@@ -65,6 +65,11 @@ class HomeVC: UIViewController {
     
     //MARK: -- Life Cycles
     
+    override func viewDidLayoutSubviews() {
+          super.viewDidLayoutSubviews()
+          self.collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
@@ -160,7 +165,7 @@ class HomeVC: UIViewController {
         })
         
         collectionView.snp.makeConstraints({ cv in
-            cv.top.equalTo(contentViewBig.snp.top).offset(-180)
+            cv.top.equalTo(contentViewBig.snp.top)
             cv.bottom.equalTo(contentViewBig.snp.bottom)
             cv.leading.equalTo(contentViewBig.snp.leading)
             cv.width.equalTo(contentViewBig.snp.width)
@@ -227,11 +232,11 @@ extension HomeVC:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         switch section {
-        case 1:
+        case 0:
             return viewModel.numberOfCells
-        case 2:
+        case 1:
             return viewModel.newPlaces.count
-        case 3:
+        case 2:
             return viewModel.allPlaces.count
         default:
             return 0
@@ -246,13 +251,13 @@ extension HomeVC:UICollectionViewDataSource {
         cell.contentView.isUserInteractionEnabled = false
         
         switch indexPath.section {
-        case 1:
+        case 0:
             let object = viewModel.popularPlaces[indexPath.row]
             cell.configure(object:object)
-        case 2:
+        case 1:
             let object = viewModel.newPlaces[indexPath.row]
             cell.configure(object:object)
-        case 3:
+        case 2:
             let object = viewModel.allPlaces[indexPath.row]
             cell.configure(object:object)
         default:
@@ -269,7 +274,7 @@ extension HomeVC:UICollectionViewDataSource {
         
         switch indexPath.section {
             
-        case 1:
+        case 0:
             let title = "Popular Places"
             header.setTitle(titleText: title)
             header.btnTapAction = {
@@ -281,7 +286,7 @@ extension HomeVC:UICollectionViewDataSource {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             header.isHidden = false
-        case 2:
+        case 1:
             let title = "New Places"
             header.setTitle(titleText: title)
             header.btnTapAction = {
@@ -293,7 +298,7 @@ extension HomeVC:UICollectionViewDataSource {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             header.isHidden = false
-        case 3:
+        case 2:
             let title = "My Added Places"
             header.setTitle(titleText: title)
             header.btnTapAction = {
@@ -315,7 +320,7 @@ extension HomeVC:UICollectionViewDataSource {
 extension HomeVC:UICollectionViewDelegate
 {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let placeId = viewModel.sectionsArray[indexPath.section-1][indexPath.row].id
+        let placeId = viewModel.sectionsArray[indexPath.section][indexPath.row].id
         let vc = DetailVC()
         vc.viewModel.placeId = placeId
         
