@@ -152,7 +152,7 @@ class DetailVC: UIViewController {
                     self.showAlert(title: "Error", message: "Only the person who added this content can delete it.", completion: {})
                 }
             case .failure(_):
-               break
+                break
             }
         }
     }
@@ -198,7 +198,7 @@ class DetailVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         let height = descText.frame.origin.y + descText.frame.height
-        scrollView.contentSize = CGSize(width: self.view.frame.width, height: height)
+        scrollView.contentSize = CGSize(width: self.view.frame.width, height: height + (self.tabBarController?.tabBar.frame.size.height ?? 83.0))
     }
     func createMapView() {
         if let pinCoordinate = pinCoordinate {

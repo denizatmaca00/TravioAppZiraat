@@ -54,8 +54,10 @@ class VisitsVC: UIViewController {
         
     }
     override func viewDidLayoutSubviews() {
-          super.viewDidLayoutSubviews()
-          self.tableView.contentInset = UIEdgeInsets(top: 45-16, left: 0, bottom: 0, right: 0)
+        super.viewDidLayoutSubviews()
+        
+        let spaceHeight = CGFloat(16)
+        self.tableView.contentInset = UIEdgeInsets(top: 45-spaceHeight, left: 0, bottom: spaceHeight, right: 0)
     }
     
     // fetch data and refresh tableView each time view appear
@@ -72,7 +74,7 @@ class VisitsVC: UIViewController {
     
     //MARK: -- Private Methods
     func initVM(){
-       
+        
         viewModel.reloadTableViewClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
@@ -130,7 +132,7 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-   
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomVisitCell.reuseIdentifier, for: indexPath) as? CustomVisitCell else {
@@ -139,7 +141,7 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
         
         let cellData = viewModel.cellViewModels[indexPath.section]
         cell.configure(data: cellData)
-     
+        
         return cell
     }
     
@@ -166,7 +168,8 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return self.tabBarController?.tabBar.frame.size.height ?? 83.0
+        guard let tabHeight = self.tabBarController?.tabBar.frame.size.height as? CGFloat else { return 83.0 }
+        return tabHeight
     }
 }
 
