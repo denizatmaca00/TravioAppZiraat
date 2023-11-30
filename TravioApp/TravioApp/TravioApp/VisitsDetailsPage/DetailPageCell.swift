@@ -6,16 +6,12 @@
 //
 
 import UIKit
-import TinyConstraints
-import SnapKit
 import Kingfisher
 
 class DetailPageCell: UICollectionViewCell {
   
     private lazy var image:UIImageView = {
         let i = UIImageView()
-        //i.layer.backgroundColor = UIColor.blue.cgColor
-        //i.clipsToBounds = true
         i.contentMode = .scaleAspectFill
         i.clipsToBounds = true
         return i

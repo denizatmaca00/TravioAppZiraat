@@ -15,10 +15,6 @@ class ImageHelper{
     
     let imgPlaceholder:UIImage = (UIImage(systemName: "camera.metering.none")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemGray3))!
     
-    // Processors
-    //private let imgProcessor: KingfisherOptionsInfoItem = .processor(RoundCornerImageProcessor(cornerRadius: 16)) // round image corners
-    //private let blurProcessor: KingfisherOptionsInfoItem = .processor(BlurImageProcessor(blurRadius: 4)) // blur image
-    
     private let imgTransition: KingfisherOptionsInfoItem = .transition(.fade(0.5)) // image loading animation
     
     

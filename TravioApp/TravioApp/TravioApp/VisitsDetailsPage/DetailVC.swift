@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import TinyConstraints
-import SnapKit
 import MapKit
 
 class DetailVC: UIViewController {
@@ -153,8 +151,8 @@ class DetailVC: UIViewController {
                 } else {
                     self.showAlert(title: "Error", message: "Only the person who added this content can delete it.", completion: {})
                 }
-            case .failure(let error):
-                print("Hata oluştu: \(error)")
+            case .failure(_):
+               break
             }
         }
     }
@@ -216,9 +214,6 @@ class DetailVC: UIViewController {
                         
                         if let annotationView = self.createPinImage() {
                             let pinPoint = snapshot.point(for: pinCoordinate)
-                            
-                            
-                                
                                 let renderer = UIGraphicsImageRenderer(size: image.size)
                                 let combinedImage = renderer.image { _ in
                                     image.draw(at: .zero)
@@ -243,22 +238,18 @@ class DetailVC: UIViewController {
         pinCoordinate = CLLocationCoordinate2D(latitude: place.latitude!, longitude: place.longitude!)
         
     }
-    func configureImage(img:Image){
-        let url = URL(string: img.image_url)
-    }
-       
-        func createPinImage() -> MKAnnotationView? {
-            let annotationView = MKAnnotationView(annotation: nil, reuseIdentifier: "pinAnnotation")
+    func createPinImage() -> MKAnnotationView? {
+        let annotationView = MKAnnotationView(annotation: nil, reuseIdentifier: "pinAnnotation")
             
-            let pinImage = UIImage(named: "pin")
-            annotationView.image = pinImage
+        let pinImage = UIImage(named: "pin")
+        annotationView.image = pinImage
             
-            let customImageView = UIImageView(image: UIImage(named: "pinLogo"))
-            customImageView.contentMode = .scaleAspectFill
-            customImageView.frame = CGRect(x: 0, y: 0, width: 26, height: 26)
-            annotationView.addSubview(customImageView)
+        let customImageView = UIImageView(image: UIImage(named: "pinLogo"))
+        customImageView.contentMode = .scaleAspectFill
+        customImageView.frame = CGRect(x: 0, y: 0, width: 23, height: 21)
+        annotationView.addSubview(customImageView)
             
-            annotationView.bounds = CGRect(x: -2, y: -2, width: customImageView.bounds.width, height: customImageView.bounds.height * 1.5)
+        annotationView.bounds = CGRect(x: -2, y: -2, width: customImageView.bounds.width, height: customImageView.bounds.height * 1.5)
             
             return annotationView
         }

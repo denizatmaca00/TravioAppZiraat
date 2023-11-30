@@ -43,12 +43,6 @@ class VisitsVM{
     func getaVisitbyID(){
         guard let idplace = id?.place_id  else {return}
         NetworkingHelper.shared.dataFromRemote(urlRequest: .getAVisitByID(id: idplace)){(result:Result<VisitsDataStatus,Error>) in
-            switch result{
-            case .success(_):
-                break
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
         }
     }
     

@@ -63,12 +63,3 @@ class AppButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-
-extension AppButton
-{
-    func showAlert()
-    {
-        
-    }
-}

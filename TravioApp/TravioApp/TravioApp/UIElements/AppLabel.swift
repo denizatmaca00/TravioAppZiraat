@@ -7,11 +7,6 @@
 
 import UIKit
 
-import SnapKit
-
-import UIKit
-import SnapKit
-
 enum IconAlignment {
     case left
     case right

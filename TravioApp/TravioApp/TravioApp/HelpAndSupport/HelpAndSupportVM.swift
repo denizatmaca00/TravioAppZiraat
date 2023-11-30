@@ -22,21 +22,13 @@ class HelpAndSupportVM: UIViewController {
         
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."]
     
-    var cellViewModels: [DropCellViewModel] = [DropCellViewModel]() {
-        didSet{
-//            reloadTableViewClosure?()
-        }
-    }
+    var cellViewModels: [DropCellViewModel] = [DropCellViewModel]()
     
     var reloadTableViewClosure: (()->())?
     
     var numberOfCells:Int{
         cellViewModels.count
     }
-    
-//    var cellHeight:CGFloat{
-//        DropCell().dropView.frame.height
-//    }
     
     //MARK: -- Views
     
@@ -74,11 +66,6 @@ class HelpAndSupportVM: UIViewController {
     }
 }
 
-struct DropCellViewModel {
-    var title:String
-    var description:String
-    var isExpanded:Bool = false
-}
 
 #if DEBUG
 import SwiftUI
