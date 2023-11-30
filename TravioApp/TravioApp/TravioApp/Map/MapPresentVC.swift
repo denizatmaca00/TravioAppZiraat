@@ -11,7 +11,7 @@ import CoreLocation
 class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextViewDelegate {
     
     let viewModel = MapPresentVM()
-
+    var mapReloadClosure: (()-> Void)?
     var latitude: Double?
     var longitude: Double?
     var localName: String?{
@@ -22,8 +22,7 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         }
     }
     
-    var updateMapClosure: (() -> Void)?
-    
+    var delegate: ReloadData?
     private lazy var mapAddTitle = CustomTextField(title: "Place Name", placeholder: "Please write a place name", icon: nil, iconPosition: .none)
     private lazy var mapAddLocation = CustomTextField(title: "Country, City", placeholder: "France, Paris", icon: nil, iconPosition: .none)
 
@@ -94,6 +93,9 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         //buraya unwarpp gerek
         self.getLocalName(latitude: self.latitude!, longitude: self.longitude!)
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        mapReloadClosure?()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,7 +103,9 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         
         /// Closure to dismiss PresentVC
         viewModel.dismissClosure = {
-            self.dismiss(animated: true)
+            self.dismiss(animated: true, completion: { [self] in
+                delegate?.reloadMapData()
+            })
         }
         
         /// Initiate alert closure to present alerts
@@ -258,6 +262,7 @@ extension MapPresentVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
 extension MapPresentVC: UIImagePickerControllerDelegate{
     
     func pickerCloseEvents(_ picker: UIImagePickerController){
+        
         picker.dismiss(animated: true)
     }
     

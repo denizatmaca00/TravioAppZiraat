@@ -29,7 +29,7 @@ import Kingfisher
 import Photos
 import AVFoundation
 
-class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+class EditProfileVC: UIViewController, UIImagePickerControllerDelegate {
     
     var viewModel = EditProfileVM()
     var viewModelProfile: ProfileVM?
@@ -322,6 +322,9 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate & UINavig
         })
     }
     
+   
+}
+extension EditProfileVC : UINavigationControllerDelegate{
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage{
             imageView.image = selectedImage

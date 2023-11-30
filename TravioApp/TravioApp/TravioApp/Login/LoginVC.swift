@@ -91,7 +91,7 @@ class LoginVC: UIViewController {
             DispatchQueue.main.async {
                 switch self!.viewModel.isLoading{
                 case true:
-                    self?.showIndicator(with: "Waiting for server's response to login request...")
+                    self?.showIndicator(with: "Waiting for server's response ...")
                 case false:
                     self?.hideIndicator()
                 }
