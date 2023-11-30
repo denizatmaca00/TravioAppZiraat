@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
@@ -19,7 +20,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private lazy var imgPlace:UIImageView = {
+     lazy var imgPlace:UIImageView = {
         var imageView = UIImageView()
         imageView.image = UIImage(named: "sultanahmet")
         /// round corners of the image
@@ -57,7 +58,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         img.contentMode = .scaleAspectFit
        return img
     }()
-    
+    var place:Place!
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -69,7 +70,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
 
     func configure(object:Place){
         let imageURL = URL(string: object.cover_image_url)!
-        ImageHelper().setImage(imageURL: imageURL, imageView: imgPlace)
+        imgPlace.kf.setImage(with: imageURL)
         lblPlace.text = object.title
         lblCity.text = object.place
     }

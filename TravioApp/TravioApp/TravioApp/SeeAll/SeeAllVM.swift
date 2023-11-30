@@ -79,7 +79,7 @@ class SeeAllVM{
         }
         self.popularCellViewModels = viewModels
     }
-     func cellVM(array:Place) -> VisitCellViewModel{
+    func cellVM(array:Place) -> VisitCellViewModel{
         let imgUrl = URL(string: array.cover_image_url)!
         let cvm = VisitCellViewModel(image:imgUrl,
                                      placeName: array.place,
@@ -96,7 +96,7 @@ class SeeAllVM{
             case .ZToA:
                 newSort.sort(by: { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedDescending })
                 self.popularArray = newSort
-
+                
             }
         }
     }

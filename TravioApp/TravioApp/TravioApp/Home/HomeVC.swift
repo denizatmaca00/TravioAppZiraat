@@ -10,13 +10,15 @@
 import UIKit
 import SnapKit
 import TinyConstraints
+import Foundation
+import Kingfisher
 
 class HomeVC: UIViewController {
     
     //MARK: -- Properties
     
     let viewModel:HomeVM = HomeVM()
-    
+    let viewModelImage = ImageHelper()
     //MARK: -- Views
     
     private lazy var stackViewLogo: UIStackView = {
@@ -75,45 +77,37 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         setupViews()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        initPopularVM()
-        initNewsVM()
-        initAllForUserVM()
+        initReload()
     }
-
     
     //MARK: -- Component Actions
     
     //MARK: -- Private Methods
-    
-    func initPopularVM() {
-        viewModel.reloadPopularClosure = { [weak self] () in
+    func initReload(){
+
+        viewModel.group.enter()
+        viewModel.initFetchPopularHomeLimits(limit: 10){
+            self.viewModel.group.leave()
+        }
+        viewModel.group.enter()
+        viewModel.initFetchNewHomeLimits(limit: 10){
+            self.viewModel.group.leave()
+        }
+        viewModel.group.enter()
+        viewModel.initFetchAllForUserHomeAll(){
+            self.viewModel.group.leave()
+        }
+        
+        viewModel.group.notify(queue: .main) {
             DispatchQueue.main.async {
-                self?.collectionView.reloadData()
+                self.collectionView.reloadData()
             }
         }
-        viewModel.initFetchPopularHomeLimits(limit: 10)
     }
     
-    func initNewsVM() {
-        viewModel.reloadNewPlacesClosure = { [weak self] () in
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-            }
-        }
-        viewModel.initFetchNewHomeLimits(limit: 10)
-    }
-    
-    func initAllForUserVM() {
-        viewModel.reloadAllForUserPlacesClosure = { [weak self] () in
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-            }
-        }
-        viewModel.initFetchAllForUserHomeAll()
-    }
     
     //MARK: -- UI Methods
     
@@ -150,12 +144,12 @@ class HomeVC: UIViewController {
         let limits = self.view.safeAreaLayoutGuide.snp
         
         // Add here the setup for layout
-        stackViewLogo.snp.makeConstraints({sv in            
+        stackViewLogo.snp.makeConstraints({sv in
             sv.leading.equalToSuperview().offset(16)
             sv.top.equalTo(limits.top)
             
         })
-
+        
         contentViewBig.snp.makeConstraints({cv in
             cv.top.equalTo(stackViewLogo.snp.bottom).offset(35)
             cv.bottom.equalToSuperview()
@@ -282,7 +276,7 @@ extension HomeVC:UICollectionViewDataSource {
                 vc.titleLabel.text = title
                 vc.viewModel.getPopularPlace()
                 vc.hidesBottomBarWhenPushed = true
-
+                
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             header.isHidden = false
@@ -294,7 +288,7 @@ extension HomeVC:UICollectionViewDataSource {
                 vc.titleLabel.text = title
                 vc.viewModel.newPlace()
                 vc.hidesBottomBarWhenPushed = true
-
+                
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             header.isHidden = false
@@ -306,7 +300,7 @@ extension HomeVC:UICollectionViewDataSource {
                 vc.titleLabel.text = title
                 vc.viewModel.allPlaceforUser()
                 vc.hidesBottomBarWhenPushed = true
-
+                
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             header.isHidden = false

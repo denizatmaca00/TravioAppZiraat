@@ -10,18 +10,12 @@ import UIKit
 import Alamofire
 
 class DetailVM{
-    //mapten gelen placeid olacak.
-    var id:String?
-    var placeId:String?{
-        didSet{
-        }
-    }
+    var placeId:String?
     var creator : Place?
-
     var checkSuccessID: (()->())?
     var checkErrorID: (()->())?
     var showAddActionClosure: ((String, String) -> Void)?
-
+    
     var successCheckIdResponse: String? {
         didSet{
             checkSuccessID?()
@@ -32,15 +26,15 @@ class DetailVM{
             checkErrorID?()
         }
     }
-
+    
     var reloadClosure: ((Place?)->(Void))?
     var galeryData: GalleryImage?
     var postData: Messages?
     
-   
-        func getAPlaceById(complete: @escaping (Place)->()) {
-            guard let placeId = placeId else { return }
-            DispatchQueue.global().async {
+    
+    func getAPlaceById(complete: @escaping (Place)->()) {
+        guard let placeId = placeId else { return }
+        DispatchQueue.global().async {
             NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getPlaceByID(id: placeId)){  (result:Result<PlaceIDDataStatus, Error>) in
                 switch result{
                 case .success(let result):
@@ -56,47 +50,35 @@ class DetailVM{
     func getAPlaceCreator(complete: @escaping (String)->()) {
         guard let placeId = placeId else { return }
         DispatchQueue.global().async {
-        NetworkingHelper.shared.dataFromRemote(urlRequest: .getPlaceByID(id: placeId)){  (result:Result<PlaceIDDataStatus, Error>) in
-            switch result{
-            case .success(let result):
-                DispatchQueue.main.async {
-                    complete(result.data.place.creator)
+            NetworkingHelper.shared.dataFromRemote(urlRequest: .getPlaceByID(id: placeId)){  (result:Result<PlaceIDDataStatus, Error>) in
+                switch result{
+                case .success(let result):
+                    DispatchQueue.main.async {
+                        complete(result.data.place.creator)
+                    }
+                case .failure(_):
+                    break
                 }
+            }
+        }
+    }
+    func getAllGaleryById(complete: @escaping ()->()){
+        guard let placeId = placeId else { return }
+        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getAllGaleryByID(id: placeId)) { [weak self] (result:Result<GalleryImage, Error>) in
+            switch result {
+            case .success(let result):
+                self?.galeryData = result
+                complete()
             case .failure(_):
                 break
             }
         }
     }
- }
-
-    func getAPlaceCreator2(completion: @escaping (Result<Place, Error>) -> Void) {
-            guard let placeId = placeId else { return }
-            NetworkingHelper.shared.dataFromRemote(urlRequest: .getPlaceByID(id: placeId)) { (result: Result<PlaceIDDataStatus, Error>) in
-                switch result {
-                case .success(let place):
-                    completion(.success(place.data.place))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-        }
-    func getAllGaleryById(complete: @escaping ()->()){
-         guard let placeId = placeId else { return }
-        NetworkingHelper.shared.dataFromRemote(urlRequest: Router.getAllGaleryByID(id: placeId)) { [weak self] (result:Result<GalleryImage, Error>) in
-                    switch result {
-                    case .success(let result):
-                        self?.galeryData = result
-                        complete()
-                    case .failure(_):
-                        break
-                    }
-                }
-    }
     func postVisit(){
         guard let placeid = placeId else {return }
         let params = ["place_id" : placeid, "visited_at" : dateFormatter()]
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.postVisit(params: params)){
-             (result:Result<Messages,Error>) in
+            (result:Result<Messages,Error>) in
             switch result {
             case .success(let result):
                 self.postData = result
@@ -120,9 +102,9 @@ class DetailVM{
     }
     
     
-     func deleteMyAdded(){
+    func deleteMyAdded(){
         guard let id = placeId  else {return}
-         NetworkingHelper.shared.dataFromRemote(urlRequest: .deleteMyAddedPlaceById(id: id)){
+        NetworkingHelper.shared.dataFromRemote(urlRequest: .deleteMyAddedPlaceById(id: id)){
             (result:Result<Messages,Error>) in
         }
     }
