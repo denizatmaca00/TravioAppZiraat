@@ -42,9 +42,8 @@ class MapVC: UIViewController {
         let status = CLLocationManager.authorizationStatus()
         switch status {
         case .authorizedWhenInUse, .authorizedAlways:
-            print("Location access granted.")
+            break
         default:
-            print("Location access denied.")
             locationManager.requestWhenInUseAuthorization()
         }
     }

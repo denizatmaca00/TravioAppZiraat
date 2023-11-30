@@ -116,3 +116,10 @@ struct AddPlace: Codable {
     var latitude: Double
     var longitude: Double
 }
+
+// MARK: Help and Support
+struct DropCellViewModel {
+    var title:String
+    var description:String
+    var isExpanded:Bool = false
+}

@@ -5,25 +5,6 @@
 //  Created by web3406 on 11/6/23.
 //
 
-// proje nasıl daha iyi hale gelir fikirleri
-// TODO: labelheader uılabel sınıfı
-// TODO: leftBarItem bir tane yazılıp her yerden çekilebilir
-// TODO: stackview eklenmeli cardların içine
-// TODO: dark mode hiç yok onu yapmak lazım
-
-
-//refactör
-
-// TODO: mapte pin kalkmıyor uzun basınca öncekini kladırıyor.
-// TODO: mapte editProfile dispacch
-
-// TODO: logoutta tokenı sil scene delegatte token kontrolü yap varsa tabbar yoksa login(aslında bunlara benzer şeyler var ama tam çalışmıyor.)
-// TODO: alertler eklenecek
-// TODO: indiciatorler eklenecek
-// TODO: TExtfield
-
-
-
 import UIKit
 import Kingfisher
 import Photos
@@ -35,8 +16,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate {
     var viewModelProfile: ProfileVM?
     
     
-    private lazy var fullNameTextField = CustomTextField(title: "Full Name", placeholder: "bilge_adam", icon: nil, iconPosition: .none)
-    private lazy var emailTextField = CustomTextField(title: "Email", placeholder: "bilgeadam@gmail.com", icon: nil, iconPosition: .none)
+    private lazy var fullNameTextField = AppTextField(title: "Full Name", placeholder: "bilge_adam", icon: nil, iconPosition: .none)
+    private lazy var emailTextField = AppTextField(title: "Email", placeholder: "bilgeadam@gmail.com", icon: nil, iconPosition: .none)
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()

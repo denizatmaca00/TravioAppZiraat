@@ -81,9 +81,9 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     }()
     
     
-    private lazy var passwordTextField = CustomTextField(title: "New Password", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    private lazy var passwordTextField = AppTextField(title: "New Password", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
     
-    private lazy var confirmPassword = CustomTextField(title: "New Password Confirm", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    private lazy var confirmPassword = AppTextField(title: "New Password Confirm", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
    
     
     private lazy var camera: AppToggleSwitch = {
@@ -157,20 +157,16 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     
     @objc private func switchValueChanged() {
         if camera.toggleSwitch.isOn {
-            print("Switch is ON")
             self.alertSettings(getTitle: "Camera Access Required", getmessage:  "To enable Camera access, please go to Settings and turn on Camera for this app.")
         } else {
             self.alertSettings(getTitle: "Camera Access Required", getmessage:  "To enable Camera access, please go to Settings and turn on Camera for this app.")
-            print("Switch is OFF")
         }
     }
     @objc private func switchLibrary(){
         if photoLibrary.toggleSwitch.isOn {
-            print("photo library on")
             //fonk çağır
             self.alertSettings(getTitle: "Photo Library Access Required", getmessage:  "To enable Photo Library access, please go to Settings and turn on Camera for this app.")
         }else {
-            print("photo library off")
             self.alertSettings(getTitle: "Photo Library Access Required", getmessage:  "To enable Photo Library access, please go to Settings and turn on Camera for this app.")
         }
     }
@@ -215,10 +211,8 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     func requestCameraPermission() {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             if granted {
-                print(" kamera erişim izni \(granted) ")
                 self.checkPermissionStatus = true
             } else {
-                print("Kullanıcı kamera erişim iznini reddetti.  \(granted)")
                 self.checkPermissionStatus = false
             }
         }
@@ -228,13 +222,10 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         PHPhotoLibrary.requestAuthorization { status in
             switch status {
             case .authorized:
-                print("Photo Library izni verildi.")
                 self.checkPermissionLibraryStatus = true
             case .denied, .restricted:
-                print("Kullanıcı Photo Library erişim iznini reddetti.")
                 self.checkPermissionLibraryStatus = false
             case .notDetermined:
-                print("Photo Library izni henüz belirlenmedi.")
                 self.checkPermissionLibraryStatus = false
             default:
                 self.checkPermissionLibraryStatus = false
@@ -276,10 +267,8 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         let status = CLLocationManager.authorizationStatus()
         switch status {
         case .authorizedWhenInUse, .authorizedAlways:
-            print("Location access granted.")
             self.checkPermissionLocationStatus = true
         default:
-            print("Location access denied.")
             self.checkPermissionLocationStatus = false
             locationPermission()
         }

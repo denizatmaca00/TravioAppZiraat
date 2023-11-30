@@ -5,7 +5,7 @@
 //  Created by Ece Poyraz on 30.10.2023.
 //
 //
-import Foundation
+
 import UIKit
 import Alamofire
 
@@ -128,7 +128,6 @@ class DetailVM{
     }
     func checkVisitbyPlaceID(){
         guard let id = placeId  else {return}
-        print(id)
         NetworkingHelper.shared.dataFromRemote(urlRequest: Router.checkVisitByID(id: id)){
             (result:Result<Messages,Error>) in
             switch result {

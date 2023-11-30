@@ -10,7 +10,7 @@
 		0F1182982B02068500225994 /* MapPresentVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1182972B02068500225994 /* MapPresentVM.swift */; };
 		0F11829B2B02398500225994 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0F11829A2B02398500225994 /* IQKeyboardManagerSwift */; };
 		0F15C9242AEBD09C00CE48CD /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F15C9232AEBD09C00CE48CD /* MapVC.swift */; };
-		0F27F2F22B16015600E5F4CF /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27F2F12B16015600E5F4CF /* CustomTextField.swift */; };
+		0F27F2F22B16015600E5F4CF /* AppTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F27F2F12B16015600E5F4CF /* AppTextField.swift */; };
 		0F7829682AE9113D00B2EBDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829672AE9113D00B2EBDE /* AppDelegate.swift */; };
 		0F78296A2AE9113D00B2EBDE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7829692AE9113D00B2EBDE /* SceneDelegate.swift */; };
 		0F7829712AE9113E00B2EBDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F7829702AE9113E00B2EBDE /* Assets.xcassets */; };
@@ -80,7 +80,7 @@
 /* Begin PBXFileReference section */
 		0F1182972B02068500225994 /* MapPresentVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPresentVM.swift; sourceTree = "<group>"; };
 		0F15C9232AEBD09C00CE48CD /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
-		0F27F2F12B16015600E5F4CF /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		0F27F2F12B16015600E5F4CF /* AppTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextField.swift; sourceTree = "<group>"; };
 		0F7829642AE9113D00B2EBDE /* TravioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F7829672AE9113D00B2EBDE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0F7829692AE9113D00B2EBDE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -377,7 +377,7 @@
 				EC00441B2AFA6CB9001540A5 /* AppFonts.swift */,
 				EC4023E32B0166020016FA3A /* AppActivityIndicator.swift */,
 				5E5EC5D62B036B34008697DA /* AppToggleSwitch.swift */,
-				0F27F2F12B16015600E5F4CF /* CustomTextField.swift */,
+				0F27F2F12B16015600E5F4CF /* AppTextField.swift */,
 			);
 			path = UIElements;
 			sourceTree = "<group>";
@@ -535,7 +535,7 @@
 				ECFFD1CC2AEBD5CB0066E75C /* VisitsVM.swift in Sources */,
 				0F9A80CA2AFA11B100B47142 /* EditProfileVM.swift in Sources */,
 				5EDD08242AF3BDCB002072BC /* SeeAllCellVC.swift in Sources */,
-				0F27F2F22B16015600E5F4CF /* CustomTextField.swift in Sources */,
+				0F27F2F22B16015600E5F4CF /* AppTextField.swift in Sources */,
 				EC00441C2AFA6CB9001540A5 /* AppFonts.swift in Sources */,
 				ECA5F9DE2AFBBB2700D8E80F /* HomeVM.swift in Sources */,
 				0FF6D4612AF114E200AA1339 /* MapVM.swift in Sources */,

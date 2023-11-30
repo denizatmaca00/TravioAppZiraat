@@ -127,7 +127,6 @@ class HomeVM{
         self.allForUserCellViewModels = viewModels
     }
     private func createCellViewModel(cell:Place) -> VisitCellViewModel{
-      //  guard let imageURL = URL(string: cell.cover_image_url) else { return  deneme }
         let cvm = VisitCellViewModel(image: URL(string: cell.cover_image_url)!,
                                      placeName: cell.title,
                                      city: cell.place)
