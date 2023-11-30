@@ -68,8 +68,8 @@ class HomeVC: UIViewController {
     //MARK: -- Life Cycles
     
     override func viewDidLayoutSubviews() {
-          super.viewDidLayoutSubviews()
-          self.collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
+        super.viewDidLayoutSubviews()
+        self.collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
     }
     
     override func viewDidLoad() {
@@ -87,7 +87,7 @@ class HomeVC: UIViewController {
     
     //MARK: -- Private Methods
     func initReload(){
-
+        
         viewModel.dispatchGroup.enter()
         viewModel.initFetchPopularHomeLimits(limit: 10){
             self.viewModel.dispatchGroup.leave()
