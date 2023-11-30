@@ -54,6 +54,10 @@ class VisitsVC: UIViewController {
         initVM()
         
     }
+    override func viewDidLayoutSubviews() {
+          super.viewDidLayoutSubviews()
+          self.tableView.contentInset = UIEdgeInsets(top: 45-16, left: 0, bottom: 0, right: 0)
+    }
     
     // fetch data and refresh tableView each time view appear
     override func viewDidAppear(_ animated: Bool) {
@@ -145,8 +149,8 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
         let imageHeight = CGFloat(219)
         let imageWidth = CGFloat(344)
         let imageRatio = CGFloat(imageHeight / imageWidth)
-        let cellSpacerHeight = CGFloat(16)
-        let horizontalPadding = CGFloat(24 * 2)
+        let cellSpacerHeight = CGFloat(0)
+        let horizontalPadding = CGFloat(16 * 1)
         
         let relativeWidth = CGFloat(CGFloat(baseWidth - horizontalPadding) * imageRatio) + cellSpacerHeight
         
@@ -160,20 +164,6 @@ extension VisitsVC:UITableViewDelegate, UITableViewDataSource, UIScrollViewDeleg
         viewModel.getaVisitbyID()
         
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = .clear
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        if (section == 0){
-            return 25-6
-        } else{
-            return 0
-        }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
