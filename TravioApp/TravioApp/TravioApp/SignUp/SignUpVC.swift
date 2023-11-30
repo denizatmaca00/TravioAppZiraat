@@ -16,10 +16,10 @@ class SignUpVC: UIViewController {
     var viewModel = SignUpVM()
     
     
-    private lazy var usernameTextField = CustomTextField(title: "Username", placeholder: "bilge_adam", icon: nil, iconPosition: .none)
-    private lazy var emailTextField = CustomTextField(title: "Email", placeholder: "bilgeadam@gmail.com", icon: nil, iconPosition: .none)
-    private lazy var passwordTextField = CustomTextField(title: "Password", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
-    private lazy var passwordConfirmTextField = CustomTextField(title: "Password Confirm", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    private lazy var usernameTextField = AppTextField(title: "Username", placeholder: "bilge_adam", icon: nil, iconPosition: .none)
+    private lazy var emailTextField = AppTextField(title: "Email", placeholder: "bilgeadam@gmail.com", icon: nil, iconPosition: .none)
+    private lazy var passwordTextField = AppTextField(title: "Password", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    private lazy var passwordConfirmTextField = AppTextField(title: "Password Confirm", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
     
     private lazy var signUpLabel: UILabel = {
         let lbl = UILabel()
@@ -165,7 +165,6 @@ class SignUpVC: UIViewController {
         })
         
         contentViewBig.snp.makeConstraints { view in
-         //   view.height.equalToSuperview().multipliedBy(0.8)
             view.top.equalToSuperview().offset(125)
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()

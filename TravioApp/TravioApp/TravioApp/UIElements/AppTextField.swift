@@ -7,7 +7,7 @@
 import UIKit
 import TinyConstraints
 
-class CustomTextField: UIView {
+class AppTextField: UIView {
 
     enum IconPosition {
         case left

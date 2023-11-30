@@ -23,8 +23,8 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     }
     
     var delegate: ReloadData?
-    private lazy var mapAddTitle = CustomTextField(title: "Place Name", placeholder: "Please write a place name", icon: nil, iconPosition: .none)
-    private lazy var mapAddLocation = CustomTextField(title: "Country, City", placeholder: "France, Paris", icon: nil, iconPosition: .none)
+    private lazy var mapAddTitle = AppTextField(title: "Place Name", placeholder: "Please write a place name", icon: nil, iconPosition: .none)
+    private lazy var mapAddLocation = AppTextField(title: "Country, City", placeholder: "France, Paris", icon: nil, iconPosition: .none)
 
     
     private lazy var titleDescrpition: UILabel = {
@@ -90,7 +90,6 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //buraya unwarpp gerek
         self.getLocalName(latitude: self.latitude!, longitude: self.longitude!)
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -201,11 +200,9 @@ class MapPresentVC: UIViewController, UINavigationControllerDelegate, UITextView
         })
 
         textFieldDescription.snp.makeConstraints ({ make in
-           // make.top.equalTo(titleDescrpition.snp.bottom).offset(8)
             make.leading.equalTo(view).offset(34.5)
             make.bottom.equalTo(stackView).offset(-20)
             make.trailing.equalToSuperview().offset(-15)
-           // make.bottom.equalTo(stackView).offset(50)
         })
         
         stackViewMain.snp.makeConstraints ({ stack in

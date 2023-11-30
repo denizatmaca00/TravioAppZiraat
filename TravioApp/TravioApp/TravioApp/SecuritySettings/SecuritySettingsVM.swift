@@ -17,10 +17,9 @@ class SecuritySettingsVM{
         NetworkingHelper.shared.dataFromRemote(urlRequest: .putPassword(params: passwordNew), callback:{(result:Result<Messages,Error>) in
             switch result{
             case .success(let params):
-                print(params)
                 self.passwordChangeAlertClosure?("Password Change", "Password Change Success")
-            case .failure(let failure):
-                print(failure.localizedDescription)
+            case .failure(_):
+               break
             }
         })
     }
