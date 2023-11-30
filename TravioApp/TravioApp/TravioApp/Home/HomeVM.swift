@@ -10,7 +10,7 @@ import UIKit
 class HomeVM{
     
     // MARK: Properties
-    
+    var dispatchGroup = DispatchGroup()
     var popularPlaces:[Place] = []
     var newPlaces:[Place] = []
     var allPlaces:[Place] = []
@@ -35,8 +35,6 @@ class HomeVM{
     var reloadPopularClosure: (()->())?
     var reloadNewPlacesClosure: (()->())?
     var reloadAllForUserPlacesClosure: (()->())?
-    
-    var dispatchGroup = DispatchGroup()
     
     // MARK: API Call Functions
     
