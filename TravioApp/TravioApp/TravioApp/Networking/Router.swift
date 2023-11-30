@@ -5,12 +5,10 @@
 //  Created by web3406 on 10/25/23.
 //
 
-import Foundation
 import Alamofire
 import UIKit
 
 enum Router {
-    
    
     case register(params:Parameters)
     case user(params: Parameters)
@@ -65,7 +63,6 @@ enum Router {
         // GALLERY
         case .postGalleryImage:
             return "/v1/galleries"
-            //get all galery by id
         case .getAllGaleryByID(let id):
             return "/v1/galleries/\(id)"
 
@@ -138,8 +135,6 @@ enum Router {
             return params
         case .getNewPlacesLimits(let params):
             return params
-//        case .uploadAddPhoto(let params):
-//            return params
         case .postAddPlace(let params):
             return params
         case .postGalleryImage(let params):
