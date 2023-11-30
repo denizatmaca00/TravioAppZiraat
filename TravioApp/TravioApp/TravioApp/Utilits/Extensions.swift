@@ -390,13 +390,18 @@ extension String {
         
         return nil
     }
+    
     func extractCityName() -> String {
-        let components = self.components(separatedBy: ",")
-        if let firstComponent = components.first?.trimmingCharacters(in: .whitespacesAndNewlines), !firstComponent.isEmpty {
-            return firstComponent
-        }
-        return self
+            let components = self.components(separatedBy: ",")
+            if components.count > 1 {
+                let secondComponent = components[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                if !secondComponent.isEmpty {
+                    return secondComponent
+                }
+            }
+            return self
     }
+    
     
     func extractDate() -> String? {
         let endIndex = self.index(self.startIndex, offsetBy: 10)

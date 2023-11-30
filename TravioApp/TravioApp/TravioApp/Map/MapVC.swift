@@ -1,13 +1,16 @@
 import UIKit
 import MapKit
+// protocol mapte
+
+protocol ReloadData{
+    func reloadMapData()
+}
 
 class MapVC: UIViewController {
     
     let viewModel = MapVM()
     var selectedAnnotation: MKAnnotation?
-    var updateMapClosure: (() -> Void)?
     var addedPin: MKAnnotation?
-    
     private lazy var collectionView: UICollectionView = {
         let layout = MapPageLayout.shared.mapLayout()
         
@@ -25,13 +28,13 @@ class MapVC: UIViewController {
         viewModel.map.delegate = self
         setupViews()
         super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         initVM()
         locationPermissionMap()
+        
     }
     
     func locationPermissionMap(){
@@ -45,23 +48,11 @@ class MapVC: UIViewController {
             locationManager.requestWhenInUseAuthorization()
         }
     }
-    //duruma göre default locationa izin sonrası pin atabilir.
-    //    func statusPermissionMap(){
-    //            let locationManager = CLLocationManager()
-    //            let status = CLLocationManager.authorizationStatus()
-    //            switch status {
-    //            case .authorizedWhenInUse, .authorizedAlways:
-    //                print("Location access granted.")
-    //            default:
-    //                print("Location access denied.")
-    //            }
-    //    }
     func initVM() {
         viewModel.reloadCollectionViewClosure = { [weak self] () in
             DispatchQueue.main.async {
                 self?.addPinUpdate()
                 self?.collectionView.reloadData()
-                
             }
         }
         viewModel.fetchPlacesForCollectionCell()
@@ -109,7 +100,7 @@ class MapVC: UIViewController {
             let vc = MapPresentVC()
             vc.latitude = coordinate.latitude
             vc.longitude = coordinate.longitude
-            
+            vc.delegate = self
             self.present(vc, animated: true, completion: nil)
         }
         
@@ -185,6 +176,13 @@ extension MapVC: UICollectionViewDataSource, UICollectionViewDelegate {
             scrollView.contentOffset.y = 0
         }
     }
+}
+extension MapVC : ReloadData{
+    func reloadMapData() {
+        initVM()
+    }
+    
+    
 }
 
 

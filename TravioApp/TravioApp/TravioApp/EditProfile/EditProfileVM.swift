@@ -29,7 +29,6 @@ class EditProfileVM {
     var profileUpdateClosure: (() -> Void)?
     var indicatorUpdateClosure:((Bool, String?)->(Void))?
     var showAlertClosure: ((String, String) -> Void)?
-    var reloadEditProfileClosure: (() -> ())?
     
     // UI Properties
     var selectedImage:UIImage?

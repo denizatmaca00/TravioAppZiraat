@@ -19,7 +19,7 @@ class MapVM {
     var showPinClosure: (() -> Void)?
     var showAlertClosure: ((String, String) -> Void)?
     var reloadCollectionViewClosure: (()->())?
-    
+
     private var cellViewModels: [VisitCellViewModel] = [VisitCellViewModel]() {
         didSet {
             reloadCollectionViewClosure?()
