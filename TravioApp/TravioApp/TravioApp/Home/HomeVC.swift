@@ -88,26 +88,25 @@ class HomeVC: UIViewController {
     //MARK: -- Private Methods
     func initReload(){
 
-        viewModel.group.enter()
+        viewModel.dispatchGroup.enter()
         viewModel.initFetchPopularHomeLimits(limit: 10){
-            self.viewModel.group.leave()
+            self.viewModel.dispatchGroup.leave()
         }
-        viewModel.group.enter()
+        viewModel.dispatchGroup.enter()
         viewModel.initFetchNewHomeLimits(limit: 10){
-            self.viewModel.group.leave()
+            self.viewModel.dispatchGroup.leave()
         }
-        viewModel.group.enter()
+        viewModel.dispatchGroup.enter()
         viewModel.initFetchAllForUserHomeAll(){
-            self.viewModel.group.leave()
+            self.viewModel.dispatchGroup.leave()
         }
         
-        viewModel.group.notify(queue: .main) {
+        viewModel.dispatchGroup.notify(queue: .main) {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
         }
     }
-    
     
     //MARK: -- UI Methods
     
@@ -127,17 +126,9 @@ class HomeVC: UIViewController {
         
         viewModel.sectionsArray = [viewModel.popularPlaces, viewModel.newPlaces, viewModel.allPlaces]
         
-        viewModel.updateLoadingStatus = { [weak self] (isLoading) in
-            DispatchQueue.main.async {
-                switch self!.viewModel.isLoading{
-                case true:
-                    self?.showIndicator(with: "Waiting for server's response ...")
-                case false:
-                    self?.hideIndicator()
-                }
-            }
+        viewModel.indicatorUpdateClosure = { [weak self] isLoading, message in
+            self?.toggleActivityIndicator(isLoading, message: message)
         }
-        
     }
     
     func setupLayout() {
@@ -168,7 +159,6 @@ class HomeVC: UIViewController {
     }
 }
 
-// TODO: Move this extension into a seperate Swift file
 extension HomeVC {
     
     func makeSliderLayoutSection() -> NSCollectionLayoutSection {
