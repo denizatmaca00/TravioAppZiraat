@@ -10,7 +10,9 @@ import UIKit
 class HomeVM{
     
     // MARK: Properties
+    
     var dispatchGroup = DispatchGroup()
+    
     var popularPlaces:[Place] = []
     var newPlaces:[Place] = []
     var allPlaces:[Place] = []
@@ -19,7 +21,6 @@ class HomeVM{
     var sectionsArray:[[Place]] = []
     
     // Cell Models
-    
     var popularCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]()
     var newCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]()
     var allForUserCellViewModels: [VisitCellViewModel] = [VisitCellViewModel]()
