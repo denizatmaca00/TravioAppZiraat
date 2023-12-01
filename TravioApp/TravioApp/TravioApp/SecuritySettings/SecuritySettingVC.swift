@@ -81,9 +81,9 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     }()
     
     
-    private lazy var passwordTextField = AppTextField(title: "New Password", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    private lazy var passwordTextField = AppTextField(title: "New Password", placeholder: "", icon: nil, iconPosition: .none)
     
-    private lazy var confirmPassword = AppTextField(title: "New Password Confirm", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    private lazy var confirmPassword = AppTextField(title: "New Password Confirm", placeholder: "", icon: nil, iconPosition: .none)
    
     
     private lazy var camera: AppToggleSwitch = {

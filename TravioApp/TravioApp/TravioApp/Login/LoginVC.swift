@@ -9,7 +9,7 @@ class LoginVC: UIViewController {
     var viewModel = LoginVM()
     
     private lazy var emailTextField = AppTextField(title: "Email", placeholder: "developer@bilgeadam.com", icon: nil, iconPosition: .none)
-    private lazy var passwordTextField = AppTextField(title: "Password", placeholder: "***************", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
+    private lazy var passwordTextField = AppTextField(title: "Password", placeholder: "***************", icon: nil, iconPosition: .none)
 
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
