@@ -8,23 +8,6 @@ import UIKit
 import TinyConstraints
 
 class AppToggleSwitch: UIView{
-//    enum PrivacyData {
-//        case camera
-//        case libraryPhoto
-//        case Location
-//
-//        var text: String {
-//            switch self {
-//            case .camera:
-//                return "Camera"
-//            case .libraryPhoto:
-//                return "Photo Library"
-//            case .Location:
-//                return "Location"
-//            }
-//        }
-//    }
-  // private var dataPrivacy: PrivacyData?
     private var data: String?
 
     private lazy var titleLbl: UILabel = {

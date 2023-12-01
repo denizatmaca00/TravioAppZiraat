@@ -85,22 +85,6 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     
     private lazy var confirmPassword = AppTextField(title: "New Password Confirm", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
     
-    
-    //    private lazy var camera: AppToggleSwitch = {
-    //        let toggleSwitch = AppToggleSwitch(data: .camera)
-    //        toggleSwitch.toggleSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
-    //        return toggleSwitch
-    //    }()
-    //    private lazy var photoLibrary: AppToggleSwitch = {
-    //        let ts = AppToggleSwitch(data: .libraryPhoto)
-    //        ts.toggleSwitch.addTarget(self, action: #selector(switchLibrary), for: .valueChanged)
-    //        return ts
-    //    }()
-    //    private lazy var location : AppToggleSwitch = {
-    //        let ts = AppToggleSwitch(data: .Location)
-    //        ts.toggleSwitch.addTarget(self, action: #selector(switchLocation), for: .valueChanged)
-    //        return ts
-    //    }()
     private lazy var camera: AppToggleSwitch = {
         let toggleSwitch = AppToggleSwitch(data: "Camera")
         toggleSwitch.toggleSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)

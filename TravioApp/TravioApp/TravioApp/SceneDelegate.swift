@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func coordinateViewController() -> UIViewController {
         if KeychainHelper.shared.isTokenExpired(){
-            let loginVC = SecuritySettingVC()
+            let loginVC = LoginVC()
             return UINavigationController(rootViewController: loginVC)
         }else{
             return TabBarVC()
