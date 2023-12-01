@@ -8,9 +8,6 @@
 //
 
 import UIKit
-import SnapKit
-import TinyConstraints
-import Foundation
 import Kingfisher
 
 class HomeVC: UIViewController {
@@ -18,6 +15,7 @@ class HomeVC: UIViewController {
     //MARK: -- Properties
     
     let viewModel:HomeVM = HomeVM()
+    
     //MARK: -- Views
     
     private lazy var stackViewLogo: UIStackView = {
@@ -82,9 +80,8 @@ class HomeVC: UIViewController {
         initReload()
     }
     
-    //MARK: -- Component Actions
-    
     //MARK: -- Private Methods
+    
     func initReload(){
         
         viewModel.dispatchGroup.enter()
@@ -121,13 +118,13 @@ class HomeVC: UIViewController {
         
         contentViewBig.addSubviews(collectionView)
         
-        setupLayout()
-        
         viewModel.sectionsArray = [viewModel.popularPlaces, viewModel.newPlaces, viewModel.allPlaces]
         
         viewModel.indicatorUpdateClosure = { [weak self] isLoading, message in
             self?.toggleActivityIndicator(isLoading, message: message)
         }
+        
+        setupLayout()
     }
     
     func setupLayout() {
@@ -201,7 +198,6 @@ extension HomeVC {
             [weak self] sectionIndex, environment in
             
             return self?.makeSliderLayoutSection()
-            
         }
     }
 }
@@ -226,12 +222,9 @@ extension HomeVC:UICollectionViewDataSource {
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else {fatalError("Cell not found")}
-        
-        cell.contentView.isUserInteractionEnabled = false
         
         switch indexPath.section {
         case 0:

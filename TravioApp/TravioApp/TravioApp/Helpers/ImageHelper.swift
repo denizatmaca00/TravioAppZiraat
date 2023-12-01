@@ -5,40 +5,35 @@
 //  Created by Aydın Erol on 12.11.2023.
 //
 
-import Foundation
-import Kingfisher
 import UIKit
+import Kingfisher
 
 class ImageHelper{
     
     // MARK: Properties
-    var group = DispatchGroup()
-    let imgPlaceholder:UIImage = (UIImage(systemName: "camera.metering.none")?.withRenderingMode(.alwaysOriginal).withTintColor(.systemGray3))!
+    
+    static let shared = ImageHelper()
+    
+    let imgPlaceholder:UIImage = (UIImage(systemName: "camera.metering.none")?
+        .withRenderingMode(.alwaysOriginal)
+        .withTintColor(.systemGray3))!
     
     private let imgTransition: KingfisherOptionsInfoItem = .transition(.fade(0.5)) // image loading animation
-    
     
     // MARK: KF-SetImage
 
     func setImage(imageURL:URL, imageView:UIImageView){
-        let imgDownsampler: KingfisherOptionsInfoItem = .processor(DownsamplingImageProcessor(size: imageView.bounds.size))
-        let kfOptions: KingfisherOptionsInfo = [imgDownsampler, imgTransition, .cacheOriginalImage]
         
-        imageView.kf.indicatorType = .activity
-        imageView.kf.setImage(with: imageURL, placeholder: imgPlaceholder, options: kfOptions) { result in
-            switch result{
-            case .success(_):
-                return
-            case .failure(_):
-                return
-            }
-        }
+        let kfOptions: KingfisherOptionsInfo = [imgTransition, .cacheOriginalImage] // options for kingfisher
+        
+        imageView.kf.indicatorType = .activity // set indicator when waiting for image response
+        
+        imageView.kf.setImage(with: imageURL, placeholder: imgPlaceholder, options: kfOptions) { _ in }
     }
-    
     
     // MARK: KF-RetrieveImage
     
-    func setImageCustom(imageURL:URL, imageView:UIImageView){
+    func setImageByRetrieve(imageURL:URL, imageView:UIImageView){
         
         let kfOptions:KingfisherOptionsInfo = [imgTransition]
         
@@ -55,8 +50,4 @@ class ImageHelper{
             }
         }
     }
-}
-
-extension ImageHelper{
-    
 }

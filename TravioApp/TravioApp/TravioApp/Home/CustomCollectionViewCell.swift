@@ -58,7 +58,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         img.contentMode = .scaleAspectFit
        return img
     }()
-    var place:Place!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -70,7 +70,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
 
     func configure(object:Place){
         let imageURL = URL(string: object.cover_image_url)!
-        imgPlace.kf.setImage(with: imageURL)
+        ImageHelper.shared.setImage(imageURL: imageURL, imageView: imgPlace)
         lblPlace.text = object.title
         lblCity.text = object.place
     }
@@ -88,30 +88,31 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     func setupLayout() {
         
-        imgPlace.snp.makeConstraints({img in
+        imgPlace.snp.makeConstraints({ img in
             img.center.equalToSuperview()
             img.height.equalTo(178)
             img.width.equalTo(278)
-        })
-        
-        lblPlace.snp.makeConstraints({ lbl in
-            lbl.bottom.equalTo(imgPlace.snp.bottom).offset(-26)
-            lbl.leading.equalTo(imgPlace.snp.leading).offset(16)
-            lbl.trailing.equalTo(imgPlace.snp.trailing).offset(-5)
             
         })
         
-        imgPinIcon.snp.makeConstraints({img in
+        lblPlace.snp.makeConstraints({ lbl in
+            lbl.bottom.equalTo(imgPlace.snp.bottom).inset(26)
+            lbl.leading.equalTo(imgPlace.snp.leading).offset(16)
+            lbl.trailing.equalTo(imgPlace.snp.trailing).inset(5)
+            
+        })
+        
+        imgPinIcon.snp.makeConstraints({ img in
+            img.top.equalTo(lblPlace.snp.bottom)
             img.leading.equalTo(lblPlace.snp.leading)
-            img.top.equalTo(lblPlace.snp.bottom).offset(3)
-            img.bottom.equalTo(imgPlace.snp.bottom).offset(-11)
+            img.height.equalTo(12)
+            img.width.equalTo(9)
             
         })
         
         lblCity.snp.makeConstraints({ lbl in
-            lbl.leading.equalTo(imgPlace.snp.leading).offset(31)
-            lbl.top.equalTo(lblPlace.snp.bottom)
-            lbl.bottom.equalTo(imgPlace.snp.bottom).offset(-5)
+            lbl.leading.equalTo(imgPinIcon.snp.trailing).offset(6)
+            lbl.bottom.equalTo(imgPinIcon.snp.bottom).offset(5.7)
             
         })
     }
