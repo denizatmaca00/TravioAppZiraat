@@ -26,8 +26,13 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     var checkPermissionStatus: Bool?
     var checkPermissionLocationStatus: Bool?
     var checkPermissionLibraryStatus: Bool?
+<<<<<<< HEAD
 
     private lazy var contentBigView: AppView = {
+=======
+    
+    private lazy var uıView: AppView = {
+>>>>>>> Sprint6/ToggleCustomClassRefactor
         let uv = AppView()
         return uv
     }()

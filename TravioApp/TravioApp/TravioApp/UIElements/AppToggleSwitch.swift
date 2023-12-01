@@ -8,27 +8,11 @@ import UIKit
 import TinyConstraints
 
 class AppToggleSwitch: UIView{
-    enum PrivacyData {
-        case camera
-        case libraryPhoto
-        case Location
-        
-        var text: String {
-            switch self {
-            case .camera:
-                return "Camera"
-            case .libraryPhoto:
-                return "Photo Library"
-            case .Location:
-                return "Location"
-            }
-        }
-    }
-    private var dataPrivacy: PrivacyData?
-    
+    private var data: String?
+
     private lazy var titleLbl: UILabel = {
         let loginTitleLbl = UILabel()
-        loginTitleLbl.text = dataPrivacy?.text
+        loginTitleLbl.text = data
         loginTitleLbl.textColor = .black
         loginTitleLbl.font = .Fonts.textFieldTitle.font
         return loginTitleLbl
@@ -52,9 +36,9 @@ class AppToggleSwitch: UIView{
         return stackView
     }()
 
-    init(data: PrivacyData) {
+    init(data: String) {
         super.init(frame: .zero)
-        self.dataPrivacy = data
+        self.titleLbl.text = data
         setupViews()
     }
     
