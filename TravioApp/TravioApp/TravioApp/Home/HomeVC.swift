@@ -18,7 +18,6 @@ class HomeVC: UIViewController {
     //MARK: -- Properties
     
     let viewModel:HomeVM = HomeVM()
-    let viewModelImage = ImageHelper()
     //MARK: -- Views
     
     private lazy var stackViewLogo: UIStackView = {
