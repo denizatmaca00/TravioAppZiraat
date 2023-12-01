@@ -50,22 +50,11 @@ class SeeAllVC: UIViewController {
         return up
     }()
     private var isAscending = true
-    @objc func sortButtonTapped() {
-            isAscending.toggle()
 
-            if isAscending {
-                viewModel.sortPlace(getSortType: .AToZ)
-            } else {
-                viewModel.sortPlace(getSortType: .ZToA)
-            }
-
-            collectionView.reloadData()
-            updateSortButton()
-        }
-        private func updateSortButton() {
-            let imageName = isAscending ? "sortAscending" : "sortDescending"
-            sortButton.setImage(UIImage(named: imageName), for: .normal)
-        }
+    private func updateSortButton() {
+        let imageName = isAscending ? "sortAscending" : "sortDescending"
+        sortButton.setImage(UIImage(named: imageName), for: .normal)
+    }
     private lazy var backButton:UIButton = {
         let bck = UIButton()
         bck.setImage(UIImage(named: "bckBtnSecuritySetting"), for: .normal)
@@ -93,6 +82,18 @@ class SeeAllVC: UIViewController {
     @objc func backPage(){
         navigationController?.popViewController(animated: true)
      }
+    @objc func sortButtonTapped() {
+            isAscending.toggle()
+
+            if isAscending {
+                viewModel.sortPlace(getSortType: .AToZ)
+            } else {
+                viewModel.sortPlace(getSortType: .ZToA)
+            }
+
+            collectionView.reloadData()
+            updateSortButton()
+        }
     override func viewDidLoad(){
         super.viewDidLoad()
         initAllForUserVM()

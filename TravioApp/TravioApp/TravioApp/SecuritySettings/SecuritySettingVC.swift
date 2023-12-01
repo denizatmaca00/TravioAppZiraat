@@ -19,19 +19,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         case camera, photoLibrary, location
     }
     
-    func getSwitchTypeFromAlert(title: String) -> SwitchType? {
-        switch title {
-        case "Camera Access Required":
-            return .camera
-        case "Photo Library Access Required":
-            return .photoLibrary
-        case "Location Access Required":
-            return .location
-        default:
-            return nil
-        }
-    }
-    
+       
     var viewModel = SecuritySettingsVM()
     let locationManager = CLLocationManager()
     var presentClosure: ((UIAlertController) -> Void)?
@@ -39,7 +27,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     var checkPermissionLocationStatus: Bool?
     var checkPermissionLibraryStatus: Bool?
 
-    private lazy var uıView: AppView = {
+    private lazy var contentBigView: AppView = {
         let uv = AppView()
         return uv
     }()
@@ -180,6 +168,18 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
             
         }
     }
+    func getSwitchTypeFromAlert(title: String) -> SwitchType? {
+        switch title {
+        case "Camera Access Required":
+            return .camera
+        case "Photo Library Access Required":
+            return .photoLibrary
+        case "Location Access Required":
+            return .location
+        default:
+            return nil
+        }
+    }
     
     func showAlert(title:String,message:String){
         
@@ -314,11 +314,11 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     }
     func setupViews() {
         self.view.addSubview(backgroundView)
-        self.view.addSubview(uıView)
+        self.view.addSubview(contentBigView)
         self.view.addSubview(mainTitle)
         self.view.addSubview(backButton)
         
-        uıView.addSubview(scrollView)
+        contentBigView.addSubview(scrollView)
         scrollView.addSubview(changePasswordTitle)
         scrollView.addSubview(stackViewPasswordChange)
         scrollView.addSubview(privacyTitle)
@@ -336,10 +336,10 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     
     func setupLayout() {
         backgroundView.edgesToSuperview()
-        uıView.top(to: backgroundView, offset: 150)
-        uıView.leadingToSuperview()
-        uıView.trailingToSuperview()
-        uıView.snp.makeConstraints({ uı in
+        contentBigView.top(to: backgroundView, offset: 150)
+        contentBigView.leadingToSuperview()
+        contentBigView.trailingToSuperview()
+        contentBigView.snp.makeConstraints({ uı in
             uı.bottom.equalToSuperview()
             
         })

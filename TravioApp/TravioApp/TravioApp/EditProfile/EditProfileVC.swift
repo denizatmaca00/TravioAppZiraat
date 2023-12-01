@@ -26,57 +26,6 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate {
         imageView.layer.masksToBounds = true
         return imageView
     }()
-    
-    func initPicker() {
-        
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [self] _ in
-            requestCameraPermission { granted in
-               DispatchQueue.main.async {
-                    if granted {
-                        self.presentImagePicker(sourceType: .camera)
-                    } else {
-                        self.showAlert(title: "Camera Permission", message: "Not Allowed", completion: {
-                            self.dismiss(animated: true)
-                        })
-                    }
-                }
-            }
-            
-        }
-
-        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { [self] _ in
-           
-            requestPhotoLibraryPermission { granted in
-                      DispatchQueue.main.async {
-                          if granted {
-                              self.presentImagePicker(sourceType: .photoLibrary)
-                          } else {
-                              self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
-                                  self.dismiss(animated: true)
-                              })
-                          }
-                      }
-                  }
-        }
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-        self.addActionSheet(title: "Added Photo", message: "Choose Your Way", actions: [cameraAction, galleryAction, cancelAction])
-
-    }
-
-    func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
-        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.sourceType = sourceType
-            present(picker, animated: true, completion: nil)
-        } else {
-            showAlert(title: "Error", message: "Selected source type is not available.", completion: {})
-        }
-    }
-
-    
     private lazy var changePhotoButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("Change Photo", for: .normal)
@@ -139,6 +88,59 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate {
         return signUpButton
     }()
     
+    
+    
+    func initPicker() {
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [self] _ in
+            requestCameraPermission { granted in
+               DispatchQueue.main.async {
+                    if granted {
+                        self.presentImagePicker(sourceType: .camera)
+                    } else {
+                        self.showAlert(title: "Camera Permission", message: "Not Allowed", completion: {
+                            self.dismiss(animated: true)
+                        })
+                    }
+                }
+            }
+            
+        }
+
+        let galleryAction = UIAlertAction(title: "Gallery", style: .default) { [self] _ in
+           
+            requestPhotoLibraryPermission { granted in
+                      DispatchQueue.main.async {
+                          if granted {
+                              self.presentImagePicker(sourceType: .photoLibrary)
+                          } else {
+                              self.showAlert(title: "Photo Library Permission", message: "Not Allowed", completion: {
+                                  self.dismiss(animated: true)
+                              })
+                          }
+                      }
+                  }
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        self.addActionSheet(title: "Added Photo", message: "Choose Your Way", actions: [cameraAction, galleryAction, cancelAction])
+
+    }
+
+    func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.sourceType = sourceType
+            present(picker, animated: true, completion: nil)
+        } else {
+            showAlert(title: "Error", message: "Selected source type is not available.", completion: {})
+        }
+    }
+
+    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
