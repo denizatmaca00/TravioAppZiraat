@@ -32,9 +32,7 @@ class SettingsVC: UIViewController {
         tableView.backgroundColor = UIColor(named: "viewBackgroundColor")
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
-        tableView.register(SettingsCollectionCell.self, forCellReuseIdentifier: "Cell")
-        tableView.register(SpaceCell.self, forCellReuseIdentifier: "SpaceCell")
-        
+        tableView.register(SettingsCollectionCell.self, forCellReuseIdentifier: "Cell")        
         return tableView
     }()
     
@@ -207,11 +205,19 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 1
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        1
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SettingsCollectionCell
             let cellData = cellArray[indexPath.section]
             cell.configure(data: cellData)
@@ -220,21 +226,11 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             cell.backgroundColor = .clear
             return cell
-        } else {
-            let spaceCell = tableView.dequeueReusableCell(withIdentifier: "SpaceCell", for: indexPath) as! SpaceCell
-            spaceCell.backgroundColor = .clear
-            spaceCell.selectionStyle = .none
-            return spaceCell
-        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 54
-        } else {
-            /// Default height for spaceCell
-            return 8
-        }
+        return UITableView.automaticDimension
+
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
