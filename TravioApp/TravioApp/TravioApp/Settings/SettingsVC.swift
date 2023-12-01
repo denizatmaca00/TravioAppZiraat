@@ -194,6 +194,7 @@ class SettingsVC: UIViewController {
             tableView.trailing.equalTo(view).offset(-16)
             tableView.bottom.equalTo(view)
         })
+        tableView.showsVerticalScrollIndicator = false
     }
 }
 
@@ -225,6 +226,7 @@ extension SettingsVC: UITableViewDelegate, UITableViewDataSource {
             cell.setupLayout()
             cell.selectionStyle = .none
             cell.backgroundColor = .clear
+        
             return cell
     }
     
