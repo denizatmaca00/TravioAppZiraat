@@ -68,8 +68,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate {
         let sv = UIStackView()
         sv.spacing = 180
         sv.axis = .horizontal
-        sv.backgroundColor = .red
-//        sv.backgroundColor = UIColor(named: "viewBackgroundColor")
+        sv.backgroundColor = UIColor(named: "viewBackgroundColor")
         return sv
     }()
     
@@ -78,6 +77,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate {
         stackViews.backgroundColor = UIColor(named: "viewBackgroundColor")
         stackViews.axis = .vertical
         stackViews.spacing = 24
+        stackViews.backgroundColor = .cyan
         return stackViews
     }()
     
@@ -87,7 +87,12 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate {
         signUpButton.addTarget(self, action: #selector(saveEditProfile), for: .touchUpInside)
         return signUpButton
     }()
-    
+    private lazy var scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.isScrollEnabled = true
+        sv.backgroundColor = .red
+        return sv
+    }()
     
     
     func initPicker() {
@@ -239,71 +244,98 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate {
         self.viewModel.postData()
     }
     
+//    func setupViews() {
+//        self.view.backgroundColor = UIColor(named: "backgroundColor")
+//        self.view.addSubviews(contentViewBig, titleLabel, exitButton)
+//        contentViewBig.addSubviews(imageView, changePhotoButton, labelName,stackLabel, stackViewMain, saveButton)
+//        stackViewMain.addArrangedSubviews(fullNameTextField, emailTextField)
+//        stackLabel.addArrangedSubviews(labelDate, labelRole)
+//        setupLayout()
+//    }
+    
     func setupViews() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.view.addSubviews(contentViewBig, titleLabel, exitButton)
-        contentViewBig.addSubviews(imageView, changePhotoButton, labelName,stackLabel, stackViewMain, saveButton)
+        contentViewBig.addSubviews(scrollView)
+//        scrollView.addSubviews(imageView, changePhotoButton, labelName, stackLabel, stackViewMain, saveButton)
+        scrollView.addSubview(imageView)
+        scrollView.addSubview(changePhotoButton)
+        scrollView.addSubview(labelName)
+        scrollView.addSubview(stackLabel)
+        scrollView.addSubview(stackViewMain)
+        scrollView.addSubview(saveButton)
+        stackLabel.addArrangedSubviews(labelDate,labelRole)
         stackViewMain.addArrangedSubviews(fullNameTextField, emailTextField)
-        stackLabel.addArrangedSubviews(labelDate, labelRole)
+        scrollView.addSubview(stackViewMain)
+        scrollView.addSubview(saveButton)
         setupLayout()
     }
     
+    
     func setupLayout() {
         let limits = self.view.safeAreaLayoutGuide.snp
-        
+
         titleLabel.snp.makeConstraints({ lbl in
             lbl.top.equalToSuperview().offset(30)
             lbl.leading.equalToSuperview().offset(20)
         })
-        
+
         exitButton.snp.makeConstraints({ btn in
             btn.centerY.equalTo(titleLabel)
             btn.trailing.equalToSuperview().offset(-24)
             btn.height.width.equalTo(20)
         })
-        
+
         imageView.snp.makeConstraints({ img in
             img.top.equalTo(contentViewBig).offset(24)
             img.centerX.equalToSuperview()
-            img.height.width.equalTo(120)
+            img.width.height.equalTo(120)
         })
-        
+
         changePhotoButton.snp.makeConstraints({ btn in
             btn.top.equalTo(imageView.snp.bottom).offset(7)
             btn.centerX.equalToSuperview()
         })
-        
+
         labelName.snp.makeConstraints({ lbl in
             lbl.top.equalTo(changePhotoButton.snp.bottom).offset(7)
             lbl.centerX.equalToSuperview()
         })
-        
+
         stackLabel.snp.makeConstraints({ lbl in
             lbl.top.equalTo(labelName.snp.bottom).offset(39)
             lbl.leading.equalToSuperview().offset(24)
             lbl.trailing.equalToSuperview().offset(-24)
         })
-        
+
         contentViewBig.snp.makeConstraints ({ view in
-            view.height.equalToSuperview().multipliedBy(0.8)
             view.leading.equalToSuperview()
             view.trailing.equalToSuperview()
             view.bottom.equalToSuperview()
         })
-        
-        stackViewMain.snp.makeConstraints ({ stack in
-            stack.leading.equalToSuperview().offset(24)
-            stack.trailing.equalToSuperview().offset(-24)
-            stack.top.equalTo(labelName.snp.bottom).offset(92)
+
+        scrollView.snp.makeConstraints({ sv in
+            sv.top.equalTo(titleLabel.snp.bottom).offset(10)
+            sv.leading.equalToSuperview()
+            sv.trailing.equalToSuperview()
+            sv.bottom.equalToSuperview()
         })
-        
+
+        stackViewMain.snp.makeConstraints ({ stack in
+            stack.leading.equalTo(contentViewBig).offset(24)
+            stack.trailing.equalTo(contentViewBig).offset(-24)
+            stack.top.equalTo(stackLabel.snp.bottom).offset(16)
+            stack.bottom.equalTo(saveButton.snp.top).offset(-16).priority(.low)
+        })
+
         saveButton.snp.makeConstraints({ btn in
-            btn.bottom.equalTo(limits.bottom).offset(-23)
-            btn.trailing.equalToSuperview().offset(-24)
-            btn.leading.equalToSuperview().offset(24)
             btn.height.equalTo(54)
+            btn.trailing.equalTo(contentViewBig).offset(-24)
+            btn.leading.equalTo(contentViewBig).offset(24)
+            btn.bottom.equalTo(contentViewBig).offset(-8)
         })
     }
+
     
    
 }

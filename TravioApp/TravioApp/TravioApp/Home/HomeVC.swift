@@ -66,7 +66,7 @@ class HomeVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: -55, right: 0)
+        self.collectionView.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: -180, right: 0)
     }
     
     override func viewDidLoad() {
