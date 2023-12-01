@@ -14,19 +14,19 @@ import Photos
 import CoreLocation
 
 class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
-    //Alert
+    //Permission Alert
     enum SwitchType {
         case camera, photoLibrary, location
     }
     
-       
+    
     var viewModel = SecuritySettingsVM()
     let locationManager = CLLocationManager()
     var presentClosure: ((UIAlertController) -> Void)?
     var checkPermissionStatus: Bool?
     var checkPermissionLocationStatus: Bool?
     var checkPermissionLibraryStatus: Bool?
-
+    
     private lazy var contentBigView: AppView = {
         let uv = AppView()
         return uv
@@ -126,22 +126,32 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         sp.distribution = .fill
         return sp
     }()
-    @objc func updatePassword(){
-        let passwordText = passwordTextField.textField.text
-        let confirmText = confirmPassword.textField.text
-        if passwordText == confirmText {
-            viewModel.putPassword(password: Password(new_password: passwordText))
-            viewModel.passwordChangeAlertClosure = {title, message in
-                self.showAlert(title: title, message: message)
-            }
-        }else {
-            viewModel.putPassword(password: Password(new_password: passwordText))
-            viewModel.passwordChangeAlertClosure = {title, message in
-                self.showAlert(title: "Error", message: "Password Not Matching")
-            }
+    @objc func updatePassword() {
+        guard let passwordText = passwordTextField.textField.text, !passwordText.isEmpty else {
+            showAlert(title: "Error", message: "Password is empty")
+            return
+        }
+        
+        guard passwordText.count >= 6 else {
+            showAlert(title: "Error", message: "Minimum 6 characters required")
+            return
+        }
+        
+        guard let confirmText = confirmPassword.textField.text, !confirmText.isEmpty else {
+            showAlert(title: "Error", message: "Confirm password is empty")
+            return
+        }
+        
+        guard passwordText == confirmText else {
+            showAlert(title: "Error", message: "Password and Confirm Password do not match")
+            return
+        }
+        
+        viewModel.putPassword(password: Password(new_password: passwordText))
+        viewModel.passwordChangeAlertClosure = { title, message in
+            self.showAlert(title: title, message: message)
         }
     }
-    
     @objc private func switchValueChanged() {
         if camera.toggleSwitch.isOn {
             self.alertSettings(getTitle: "Camera Access Required", getmessage:  "To enable Camera access, please go to Settings and turn on Camera for this app.")
@@ -151,7 +161,6 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     }
     @objc private func switchLibrary(){
         if photoLibrary.toggleSwitch.isOn {
-            //fonk çağır
             self.alertSettings(getTitle: "Photo Library Access Required", getmessage:  "To enable Photo Library access, please go to Settings and turn on Camera for this app.")
         }else {
             self.alertSettings(getTitle: "Photo Library Access Required", getmessage:  "To enable Photo Library access, please go to Settings and turn on Camera for this app.")
@@ -292,6 +301,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         presentClosure = { [weak self] alertController in
             self?.present(alertController, animated: true, completion: nil)
         }
+        //camera
         if checkPermissionStatus == true {
             self.camera.toggleSwitch.isOn = true
         }else {
