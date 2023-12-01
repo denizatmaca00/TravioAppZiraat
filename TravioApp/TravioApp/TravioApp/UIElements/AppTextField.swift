@@ -15,6 +15,8 @@ class AppTextField: UIView {
         case none
     }
 
+    private var isPasswordVisible = false
+
     private var title: String?
     private var placeholder: String?
     private var icon: UIImage?
@@ -34,6 +36,7 @@ class AppTextField: UIView {
         tf.textColor = UIColor(named: "textColor")
         tf.placeholder = placeholder
         tf.leftViewMode = .always
+        tf.rightViewMode = .always
         tf.layer.cornerRadius = 16
         tf.layer.borderColor = UIColor.black.cgColor
         tf.layer.shadowRadius = 20
@@ -44,8 +47,10 @@ class AppTextField: UIView {
     private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = icon
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(iconTapped)))
         return imageView
-    }()
+        }()
 
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -59,6 +64,16 @@ class AppTextField: UIView {
         return stackView
     }()
 
+    @objc private func iconTapped() {
+        if iconPosition != .none && (icon == UIImage(systemName: "eye.fill") || icon == UIImage(systemName: "eye.slash.fill")) {
+            isPasswordVisible.toggle()
+            textField.isSecureTextEntry = !isPasswordVisible
+            icon = isPasswordVisible ? UIImage(systemName: "eye.fill") : UIImage(systemName: "eye.slash.fill")
+            iconImageView.image = icon
+        }
+    }
+
+    
     init(title: String?, placeholder: String?, icon: UIImage?, iconPosition: IconPosition) {
         self.title = title
         self.placeholder = placeholder
@@ -99,6 +114,7 @@ class AppTextField: UIView {
 
         textField.snp.makeConstraints { tf in
             tf.top.equalTo(titleLbl.snp.bottom).offset(2)
+            tf.trailing.equalToSuperview().inset(10)
         }
 
         if iconPosition != .none {
