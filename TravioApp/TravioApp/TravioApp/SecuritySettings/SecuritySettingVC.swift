@@ -38,7 +38,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     var checkPermissionStatus: Bool?
     var checkPermissionLocationStatus: Bool?
     var checkPermissionLibraryStatus: Bool?
-
+    
     private lazy var uıView: AppView = {
         let uv = AppView()
         return uv
@@ -84,24 +84,39 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
     private lazy var passwordTextField = AppTextField(title: "New Password", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
     
     private lazy var confirmPassword = AppTextField(title: "New Password Confirm", placeholder: "", icon: UIImage(systemName: "eye.slash.fill"), iconPosition: .right)
-   
     
+    
+    //    private lazy var camera: AppToggleSwitch = {
+    //        let toggleSwitch = AppToggleSwitch(data: .camera)
+    //        toggleSwitch.toggleSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
+    //        return toggleSwitch
+    //    }()
+    //    private lazy var photoLibrary: AppToggleSwitch = {
+    //        let ts = AppToggleSwitch(data: .libraryPhoto)
+    //        ts.toggleSwitch.addTarget(self, action: #selector(switchLibrary), for: .valueChanged)
+    //        return ts
+    //    }()
+    //    private lazy var location : AppToggleSwitch = {
+    //        let ts = AppToggleSwitch(data: .Location)
+    //        ts.toggleSwitch.addTarget(self, action: #selector(switchLocation), for: .valueChanged)
+    //        return ts
+    //    }()
     private lazy var camera: AppToggleSwitch = {
-        let toggleSwitch = AppToggleSwitch(data: .camera)
+        let toggleSwitch = AppToggleSwitch(data: "Camera")
         toggleSwitch.toggleSwitch.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
         return toggleSwitch
+        
     }()
     private lazy var photoLibrary: AppToggleSwitch = {
-        let ts = AppToggleSwitch(data: .libraryPhoto)
+        let ts = AppToggleSwitch(data: "Photo Library")
         ts.toggleSwitch.addTarget(self, action: #selector(switchLibrary), for: .valueChanged)
         return ts
     }()
-    private lazy var location : AppToggleSwitch = {
-        let ts = AppToggleSwitch(data: .Location)
+    private lazy var location: AppToggleSwitch = {
+        let ts = AppToggleSwitch(data: "Location")
         ts.toggleSwitch.addTarget(self, action: #selector(switchLocation), for: .valueChanged)
         return ts
     }()
-    
     
     private lazy var signupButton: AppButton = {
         let s = AppButton()
@@ -110,7 +125,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         s.addTarget(self, action: #selector(updatePassword), for: .touchUpInside)
         return s
     }()
-  
+    
     private lazy var scrollView:UIScrollView = {
         let sw = UIScrollView()
         sw.isScrollEnabled = true
@@ -189,7 +204,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         present(alertController, animated: true)
     }
     
-
+    
     
     @objc func backPage(){
         navigationController?.popViewController(animated: true)
@@ -199,7 +214,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         passwordTextField.textField.isSecureTextEntry = true
         confirmPassword.textField.isSecureTextEntry = true
-
+        
         addNotificationObserver()
         refreshSettings()
         setupViews()
@@ -278,12 +293,12 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         locationManager.requestWhenInUseAuthorization()
         
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         refreshSettings()
     }
-
+    
     @objc func refreshSettings(){
         requestLocationPermission()
         locationPermission()
