@@ -11,12 +11,17 @@ class TabBarVC: UITabBarController {
     
     // MARK: Properties
     
+    private let queue = DispatchQueue(label: "TokenMonitor")
+    private var tokenExpirationTimer: Timer?
+    private var tokenExpirationTreshold: TimeInterval = 300
+    private let tokenCheckInterval:TimeInterval = 60 // 300 = 60sec * 5min
+    
     private lazy var AppButton:UIButton = {
         let b = UIButton()
         
         return b
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,7 +38,8 @@ class TabBarVC: UITabBarController {
         self.tabBar.backgroundColor = UIColor(named: "textColorReversed")
         // hide backButton
         self.navigationItem.setHidesBackButton(true, animated: false)
-
+        
+        startMonitoringToken()
     }
     
     // 4 buton olacak: Home, visits, map, menu
@@ -64,6 +70,59 @@ class TabBarVC: UITabBarController {
         menuVC.tabBarItem = UITabBarItem(title: "Menu", image: menuImage, selectedImage: menuSelectedImage)
         
         return [homeNC, visitsNC, mapNC, menuNC]
+    }
+}
+
+extension TabBarVC {
+    
+    func startMonitoringToken() {
+        
+        // Schedule the timer to check token expiry every 5 minutes (adjust the interval as needed)
+        tokenExpirationTimer = Timer.scheduledTimer(timeInterval: (tokenCheckInterval), target: self, selector: #selector(checkTokenExpire), userInfo: nil, repeats: true)
+    }
+    
+    @objc func checkTokenExpire(){
+        
+        if !KeychainHelper.shared.isTokenExpired(){
+            if KeychainHelper.shared.remainingSessionTime! < tokenExpirationTreshold {
+                // TODO: Show alert
+                
+                print("token is about to expire. Do you want to extend your session?")
+                showTokenAboutToExpireAlert(timeRemaining: KeychainHelper.shared.remainingSessionTime!)
+                // TODO: Refresh access token
+                KeychainHelper.shared.logout(completion: {_ in
+                    
+                    KeychainHelper.shared.logout { result in
+                        switch result {
+                        case .success:
+                            let loginVC = LoginVC()
+                            let navigationController = UINavigationController(rootViewController: loginVC)
+                            if let window = UIApplication.shared.windows.first {
+                                window.rootViewController = navigationController
+                            }
+                            
+                        case .failure(_):
+                            return
+                        }
+                    }
+                })
+                
+            } else {
+                print("Token expired. Proceeding to Login")
+            }
+        } else {
+            print("token is still valid. Time: \(tokenExpirationTimer!.timeInterval.stringFormatted())")
+        }
+    }
+    
+    func showTokenAboutToExpireAlert(timeRemaining: TimeInterval) {
+        // Show an alert to inform the user that the token is about to expire
+        let minutes = Int(timeRemaining) / 60
+        let seconds = Int(timeRemaining) % 60
+        
+        let alert = UIAlertController(title: "Token Expiring Soon", message: "Your session will expire in \(minutes) minutes and \(seconds) seconds. Please renew your token.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }
 
