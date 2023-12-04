@@ -13,6 +13,7 @@ final class KeychainHelper {
     
     private let service: String = "travio"
     private let account: String = "email"
+    var remainingSessionTime:TimeInterval?
     
     ///Store tokens obtained via LoginVC
     var userToken = Tokens(accessToken: "", refreshToken: "") // logindeki tokenleri tutuyor.
@@ -43,7 +44,13 @@ final class KeychainHelper {
         
         guard let exp = payload["exp"] as? TimeInterval else {return true}
         
-        return Date().timeIntervalSince1970 > exp
+        let currentTime = Date().timeIntervalSince1970
+        remainingSessionTime = exp - currentTime
+        
+        print("Remaining Time: \(remainingSessionTime!)")
+        print("String Remaining Time: \(remainingSessionTime!.stringFormatted())")
+        
+        return currentTime > exp
     }
     
     func isUserLoggedIn() -> Bool {
@@ -147,5 +154,29 @@ final class KeychainHelper {
             }
         }
         return values
+    }
+}
+
+extension KeychainHelper {
+    
+    func logout(completion: @escaping (Result<Void, Error>) -> Void) {
+        if isUserLoggedIn() {
+            deleteToken()
+            userToken = Tokens(accessToken: "", refreshToken: "")
+            completion(.success(()))
+        } else {
+            let error = NSError(domain: "Logout Error", code: 401, userInfo: nil)
+            completion(.failure(error))
+        }
+    }
+}
+
+extension TimeInterval {
+    func stringFormatted() -> String {
+        let interval = Int(self)
+        let seconds = interval % 60
+        let minutes = ( interval / 60 ) % 60
+        let hours = (interval / (60 * 60 )) % 60
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }
