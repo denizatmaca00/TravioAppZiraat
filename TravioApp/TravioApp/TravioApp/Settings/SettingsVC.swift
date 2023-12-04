@@ -173,7 +173,7 @@ class SettingsVC: UIViewController {
             btn.top.equalTo(label.snp.bottom)
             btn.centerX.equalTo(contentViewBig)
         })
-        
+        tableView.bringSubviewToFront(editProfileButton)
         logOutButton.snp.makeConstraints({ btn in
             btn.centerY.equalTo(settingsLabel)
             btn.trailing.equalToSuperview().offset(-24)
@@ -189,7 +189,7 @@ class SettingsVC: UIViewController {
         })
         
         tableView.snp.makeConstraints ({ tableView in
-            tableView.top.equalTo(imageView.snp.bottom).offset(55)
+            tableView.top.equalTo(imageView.snp.bottom).offset(50)
             tableView.leading.equalTo(view).offset(16)
             tableView.trailing.equalTo(view).offset(-16)
             tableView.bottom.equalTo(view)
