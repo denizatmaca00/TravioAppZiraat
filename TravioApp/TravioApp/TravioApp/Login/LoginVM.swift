@@ -39,16 +39,4 @@ class LoginVM{
             self.isLoading = false
         }
     }
-
-    func logout(completion: @escaping (Result<Void, Error>) -> Void) {
-        if KeychainHelper.shared.isUserLoggedIn() {
-            KeychainHelper.shared.deleteToken()
-            KeychainHelper.shared.userToken = Tokens(accessToken: "", refreshToken: "")
-            completion(.success(()))
-        } else {
-            let error = NSError(domain: "Logout Error", code: 401, userInfo: nil)
-            completion(.failure(error))
-        }
-    }
-    
 }
