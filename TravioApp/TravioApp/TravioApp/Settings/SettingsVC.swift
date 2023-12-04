@@ -189,7 +189,7 @@ class SettingsVC: UIViewController {
         })
         
         tableView.snp.makeConstraints ({ tableView in
-            tableView.top.equalTo(imageView.snp.bottom).offset(74)
+            tableView.top.equalTo(imageView.snp.bottom).offset(55)
             tableView.leading.equalTo(view).offset(16)
             tableView.trailing.equalTo(view).offset(-16)
             tableView.bottom.equalTo(view)
