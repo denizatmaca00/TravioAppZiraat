@@ -90,7 +90,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         return ts
     }()
     
-    private lazy var signupButton: AppButton = {
+    private lazy var saveButton: AppButton = {
         let s = AppButton()
         s.setTitle("Save", for: .normal)
         s.isEnabled = true
@@ -332,7 +332,7 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(stackViewPasswordChange)
         scrollView.addSubview(privacyTitle)
         scrollView.addSubview(stackViewPrivacy)
-        scrollView.addSubview(signupButton)
+        scrollView.addSubview(saveButton)
         
         stackViewPasswordChange.addArrangedSubview(passwordTextField)
         stackViewPasswordChange.addArrangedSubview(confirmPassword)
@@ -394,11 +394,11 @@ class SecuritySettingVC: UIViewController, UIScrollViewDelegate {
         stackViewPrivacy.leadingToSuperview(offset:20)
         stackViewPrivacy.trailing(to: changePasswordTitle)
         
-        signupButton.topToBottom(of: stackViewPrivacy, offset: 50)
-        signupButton.height(54)
-        signupButton.trailing(to: stackViewPrivacy)
-        signupButton.leading(to: stackViewPrivacy)
-        signupButton.snp.makeConstraints({s in
+        saveButton.topToBottom(of: stackViewPrivacy, offset: 50)
+        saveButton.height(54)
+        saveButton.trailing(to: stackViewPrivacy)
+        saveButton.leading(to: stackViewPrivacy)
+        saveButton.snp.makeConstraints({s in
             s.bottom.equalToSuperview().offset(-60)
         })
     }
