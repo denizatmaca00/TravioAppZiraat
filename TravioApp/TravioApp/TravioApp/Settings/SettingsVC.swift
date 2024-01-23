@@ -123,7 +123,7 @@ class SettingsVC: UIViewController {
     
     @objc func logOutButtonTapped() {
         
-        loginVM.logout { result in
+        KeychainHelper.shared.logout { result in
             switch result {
             case .success:
                 let loginVC = LoginVC()
